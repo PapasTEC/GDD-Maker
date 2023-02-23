@@ -1,0 +1,16 @@
+name: remote ssh command
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Executing SSH in remote instance
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: 150.136.169.6
+        username: ubuntu
+        key: ${{ secrets.KEY }}
+        port: 22
+        script: touch test.txt

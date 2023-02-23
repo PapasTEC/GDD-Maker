@@ -9,8 +9,8 @@ jobs:
     - name: Executing SSH in remote instance
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: 150.136.169.6
-        username: ubuntu
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
-        port: 22
+        port: ${{ secrets.SSH_PORT }}
         script: touch test.txt

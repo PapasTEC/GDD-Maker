@@ -9,8 +9,8 @@ jobs:
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: 150.136.169.6
-        username: ubuntu
-        key: MIIEogIBAAKCAQEAkRkpaX3uiqeLKUAlv9qMcVT9z7Ibb69kGeUvXl8gKCbBAinkFujKO3yslXhUEmVNQVNSdQ8S1pk+m42rMF6n0az6qVCRs0Rb4W37Wx/qy5Rfb5tVJRpVkm8GJtNzVci7Tv8fJAL8pmVH9A2v5gS+GbrUkHFb/bA3Y0BqBDQ8/FrNgTBiDbKAIrXDcGiuSfSnsJNkTAvWwKIJwUuCgbZTz5uqBpvvBzl758/stB9jFv/bECVdheYm27K7Y0fullGvZ4y6IcxPFQkU8LkE/8SZmKWLqnPcEyFkJmOLOE3rvAcEQSBLFtZppxofBnO5KEdWbjA7aWXCZp7hEstEyKn7fwIDAQABAoIBAD6YVMGyNqSxR7sZdc+Q6FKCAGbH5sclKnFzah5zuisoIM6epMvvTEMic0+eE+LFufDLEcD3KkDS5mvzz1y0EQDG93HwlJJ6FIspR6zVlZSSoyNCJxa1CCJ+a/B2+wQQbyHStKvz7+uWuNZDy1TXSe1OqKHRjYZhLVvPb4z1vjN9EErLZw/Z1s9HSEG32HnpDRjOlQnPamg6Hl0Ly/h3x58L4ICqklMsHA3euEL5uglWS58pUgLsfzuClDgiyJrxQChe3jebEPX69WApYRNCKLNG82xIRtsv11dUFwAwsdMQ2zXS+QdilBX0ks5kR8M3rEuy55YeXVp0Xpu1Uu9097ECgYEAyK6kKhNi3VthZj6neUbJk4j1glmR+dKRnHr1mqIkg10PyBLDhkwadMZkNn3rNvOQIV5xiGoYbj1lzXr2De+Oz/TLFVfOmDx0fOJQtUdlAIqME7xSRUMSjoqhG4z2GQ90qFu5dJxYdTLFoaLX9Jr+zRBNLauD86yE9G0guuEJetECgYEAuRgucKh61HvI+aIM9Q1LtkEAA8NXjqMKeiGH+Uh+W/3V3lEQLDrB4TbKvpqMaSO8nAf+n30g2xXMLGa99QuPUZ0h4ZQG3QsBynVYCty7CHAdmaOM0Y0WW8/IvD4fgcNesdZld6P2M7lcpU/OExHuZ9e+ZcRiQPQ+hegpBLmnBU8CgYBh7G3ophsI3m0xggMgd30nA56g42oKmEg7LfioYtQkUYXA3/8OihYiwyflOx5KayD6V2ZY5URUjpsdYBGujSWHrfBm0rjZqi5BPgGZ42OSlwhxHOScLXVhnp2snuT7J4KKIG/nSd8UGRk8nQR5tCP/FiRC072IardZueJNrj988QKBgHEajK481ann5jxcwMwxjrVU7Nxfzq4ThQByYvN6T/SInNqX8GkGkpi7cZKdP/WzZ7p0zCvLO3uEy1nKgoMtyCsX+K8uVC9YXYTIxb8FeKjEUeIjZZZbP3Fk/AXDdF9H8iJ7n09HetfKigleRc+zYlpEJE1tfpiwZ1BOOFpx09TTAoGALIqM85hodUr1WRGCl/19gdtUrlQ5VkdqQApNbltCrBoPViuhHaqg4qttZ2GoPe7kz1oYpHg+K/HmHGiJ8FFRnmcSzcYD9+BjTQus7vl1BR97M28oREuShdkXQu5TzATWcKpBYVT5yomALFwekeIece35IfRkSDsG85WEI+fQAmA=
-        port: 80
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
         script: whoami

@@ -9,8 +9,34 @@ jobs:
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
+        host: 150.136.169.6
+        username: ubuntu
+        key: "-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAkRkpaX3uiqeLKUAlv9qMcVT9z7Ibb69kGeUvXl8gKCbBAink
+FujKO3yslXhUEmVNQVNSdQ8S1pk+m42rMF6n0az6qVCRs0Rb4W37Wx/qy5Rfb5tV
+JRpVkm8GJtNzVci7Tv8fJAL8pmVH9A2v5gS+GbrUkHFb/bA3Y0BqBDQ8/FrNgTBi
+DbKAIrXDcGiuSfSnsJNkTAvWwKIJwUuCgbZTz5uqBpvvBzl758/stB9jFv/bECVd
+heYm27K7Y0fullGvZ4y6IcxPFQkU8LkE/8SZmKWLqnPcEyFkJmOLOE3rvAcEQSBL
+FtZppxofBnO5KEdWbjA7aWXCZp7hEstEyKn7fwIDAQABAoIBAD6YVMGyNqSxR7sZ
+dc+Q6FKCAGbH5sclKnFzah5zuisoIM6epMvvTEMic0+eE+LFufDLEcD3KkDS5mvz
+z1y0EQDG93HwlJJ6FIspR6zVlZSSoyNCJxa1CCJ+a/B2+wQQbyHStKvz7+uWuNZD
+y1TXSe1OqKHRjYZhLVvPb4z1vjN9EErLZw/Z1s9HSEG32HnpDRjOlQnPamg6Hl0L
+y/h3x58L4ICqklMsHA3euEL5uglWS58pUgLsfzuClDgiyJrxQChe3jebEPX69WAp
+YRNCKLNG82xIRtsv11dUFwAwsdMQ2zXS+QdilBX0ks5kR8M3rEuy55YeXVp0Xpu1
+Uu9097ECgYEAyK6kKhNi3VthZj6neUbJk4j1glmR+dKRnHr1mqIkg10PyBLDhkwa
+dMZkNn3rNvOQIV5xiGoYbj1lzXr2De+Oz/TLFVfOmDx0fOJQtUdlAIqME7xSRUMS
+joqhG4z2GQ90qFu5dJxYdTLFoaLX9Jr+zRBNLauD86yE9G0guuEJetECgYEAuRgu
+cKh61HvI+aIM9Q1LtkEAA8NXjqMKeiGH+Uh+W/3V3lEQLDrB4TbKvpqMaSO8nAf+
+n30g2xXMLGa99QuPUZ0h4ZQG3QsBynVYCty7CHAdmaOM0Y0WW8/IvD4fgcNesdZl
+d6P2M7lcpU/OExHuZ9e+ZcRiQPQ+hegpBLmnBU8CgYBh7G3ophsI3m0xggMgd30n
+A56g42oKmEg7LfioYtQkUYXA3/8OihYiwyflOx5KayD6V2ZY5URUjpsdYBGujSWH
+rfBm0rjZqi5BPgGZ42OSlwhxHOScLXVhnp2snuT7J4KKIG/nSd8UGRk8nQR5tCP/
+FiRC072IardZueJNrj988QKBgHEajK481ann5jxcwMwxjrVU7Nxfzq4ThQByYvN6
+T/SInNqX8GkGkpi7cZKdP/WzZ7p0zCvLO3uEy1nKgoMtyCsX+K8uVC9YXYTIxb8F
+eKjEUeIjZZZbP3Fk/AXDdF9H8iJ7n09HetfKigleRc+zYlpEJE1tfpiwZ1BOOFpx
+09TTAoGALIqM85hodUr1WRGCl/19gdtUrlQ5VkdqQApNbltCrBoPViuhHaqg4qtt
+Z2GoPe7kz1oYpHg+K/HmHGiJ8FFRnmcSzcYD9+BjTQus7vl1BR97M28oREuShdkX
+Qu5TzATWcKpBYVT5yomALFwekeIece35IfRkSDsG85WEI+fQAmA=
+-----END RSA PRIVATE KEY-----"
+        port: 22
         script: whoami

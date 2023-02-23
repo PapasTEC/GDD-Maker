@@ -6,11 +6,11 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands using password
+    - name: Executing SSH in remote instance
       uses: appleboy/ssh-action@v0.1.7
       with:
         host: 150.136.169.6
         username: ubuntu
         key: ${{ secrets.KEY }}
         port: 22
-        script: whoami
+        script: touch test.txt

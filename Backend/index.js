@@ -3,6 +3,8 @@ const morgan = require('morgan')
 
 const app = express()
 
+app.use(morgan('dev'))
+
 app.set("server-port", 3080)
 
 const port = app.get("server-port")

@@ -13,4 +13,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.SSH_PORT }}
-        script: touch test.txt
+        script: |
+          cd /proyecto/GDD-Maker
+          git pull

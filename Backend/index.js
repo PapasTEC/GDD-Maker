@@ -2,7 +2,10 @@ const express = require('express')
 const morgan = require('morgan')
 
 const app = express()
-const port = 3000
+
+app.set("server-port", 3080)
+
+const port = app.get("server-port")
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)

@@ -13,4 +13,11 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.SSH_PORT }}
-        script: touch test.txt
+        script: |
+          ls
+          cd proyecto/GDD-Maker
+          cd Backend
+          npm i
+          cd ..
+          git pull
+          

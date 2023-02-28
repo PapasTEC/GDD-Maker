@@ -1,15 +1,28 @@
+<!-- Sidenav -->
+<app-sidebar></app-sidebar>
 <div class="main-content">
+  <!-- Top navbar -->
+  <app-navbar></app-navbar>
+  <!-- Pages -->
+  <router-outlet></router-outlet>
+  <div class="container-fluid">
+    <app-footer></app-footer>
+  </div>
+</div>
+
+
+<!-- <div class="main-content">
   <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
     <div class="container px-4">
       <a class="navbar-brand" routerLinkActive="active" [routerLink]="['/dashboard']">
         <img src="assets/img/brand/argon-white.png" />
       </a>
       <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed"
-         aria-controls="sidenav-collapse-main">
+        aria-controls="sidenav-collapse-main">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse"  [ngbCollapse]="isCollapsed" id="sidenav-collapse-main">
-        <!-- Collapse header -->
+        Collapse header
         <div class="navbar-collapse-header d-md-none">
           <div class="row">
             <div class="col-6 collapse-brand">
@@ -25,7 +38,8 @@
             </div>
           </div>
         </div>
-        <!-- Navbar items -->
+        <app-navbar></app-navbar>
+        Navbar items
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link nav-link-icon" routerLinkActive="active" [routerLink]="['/dashboard']">
@@ -83,4 +97,5 @@
       </div>
     </div>
   </div>
-</footer>
+</footer> -->
+

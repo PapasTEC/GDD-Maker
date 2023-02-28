@@ -14,11 +14,10 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          ls
           cd proyecto/GDD-Maker
           git pull
           cd Backend
-          npm i
-          npm run dev
+          sudo npm i
+          sudo npm run start
           
           

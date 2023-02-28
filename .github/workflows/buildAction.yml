@@ -18,6 +18,5 @@ jobs:
           git pull
           cd Backend
           sudo npm i
-          sudo npm run start
           
           

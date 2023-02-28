@@ -16,8 +16,9 @@ jobs:
         script: |
           ls
           cd proyecto/GDD-Maker
+          git pull
           cd Backend
           npm i
-          cd ..
-          git pull
+          npm run dev
+          
           

@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-builders/custom-webpack": "^15.0.0",
     "@angular/animations": "^15.2.0",
     "@angular/cdk": "^15.2.0",
     "@angular/common": "^15.2.0",
@@ -26,10 +27,12 @@
     "bootstrap": "4.6.1",
     "chart.js": "2.9.4",
     "clipboard": "^2.0.11",
+    "crypto-browserify": "^3.12.0",
     "jquery": "^3.6.3",
     "ngx-clipboard": "^15.1.0",
     "ngx-editor": "^15.2.0",
     "ngx-toastr": "^16.0.2",
+    "nodemailer": "^6.9.1",
     "nouislider": "^15.7.0",
     "or": "^0.2.0",
     "rxjs": "~7.8.0",
@@ -51,5 +54,8 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.9.4"
+  },
+  "browser": {
+    "crypto": false
   }
 }

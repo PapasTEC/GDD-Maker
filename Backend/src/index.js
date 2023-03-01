@@ -1,6 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const path = require('path')
+const { generatePasswordCode, sendPasswordCode } = require('./functions/utils')
 
 const app = express()
 const db = require('./database')

@@ -782,6 +782,9 @@ $navbar-light-border-color: $border-color !default;
 $main-content-padding-y: 40px !default;
 $main-content-padding-x: 24px !default; // in px to combine with $grid-gutter-width
 
+$main-dashboard-padding-y: 40px !default;
+$main-dashboard-padding-x: 24px !default; // in px to combine with $grid-gutter-width
+
 
 // Alerts
 
@@ -988,7 +991,7 @@ $footer-padding-x:              0;
 
 
 $footer-link-font-size: .85rem !default;
-$footer-bg: theme-color("secondary") !default;
+$footer-bg: theme-color("background") !default;
 $footer-color: $gray-600 !default;
 $footer-link-color: $gray-600 !default;
 $footer-link-hover-color: $gray-700 !default;

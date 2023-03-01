@@ -10,8 +10,8 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
   imports: [
     CommonModule,
     RouterModule.forChild(DashboardLayoutRoutes),
-    FormsModule
-    // NgbModule
+    FormsModule,
+    NgbModule
   ],
   declarations: [
     DashboardComponent

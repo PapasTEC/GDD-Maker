@@ -16,7 +16,9 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
     var html = document.getElementsByTagName("html")[0];
     html.classList.add("dashboard-layout");
     var body = document.getElementsByTagName("body")[0];
-    body.classList.add("bg-default");
+    body.classList.add("bg-background");
+    var footer = document.getElementsByTagName("footer")[0];
+    footer.classList.add("bg-background");
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });
@@ -26,6 +28,8 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
     var html = document.getElementsByTagName("html")[0];
     html.classList.remove("dashboard-layout");
     var body = document.getElementsByTagName("body")[0];
-    body.classList.remove("bg-default");
+    body.classList.remove("bg-background");
+    var footer = document.getElementsByTagName("footer")[0];
+    footer.classList.remove("bg-background");
   }
 }

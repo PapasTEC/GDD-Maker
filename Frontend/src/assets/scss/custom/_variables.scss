@@ -28,6 +28,7 @@ $gray-700: #525f7f !default;   // Line p color
 $gray-800: #32325d !default;   // Line heading color
 $gray-900: #212529 !default;
 $black:    #000 !default;
+$background: #DAD7CD !default;
 
 $grays: () !default;
 $grays: map-merge((
@@ -72,9 +73,11 @@ $colors: map-merge((
   "gray-dark":  $gray-800
 ), $colors);
 
-$default:       #172b4d !default;
-$primary:       #5e72e4 !default;
-$secondary:     #f7fafc !default;
+// https://coolors.co/palette/dad7cd-a3b18a-588157-3a5a40-344e41
+$default:       #344E41 !default;
+$primary:       #3A5A40 !default;
+$secondary:     #f7fafc !default; // #DAD7CD
+$tertiary:      #A3B18A !default;
 $success:       $green !default;
 $info:          $teal !default;
 $warning:       $orange !default;
@@ -82,6 +85,18 @@ $danger:        $red !default;
 $light:         $gray-500 !default;
 $dark:          $gray-900 !default;
 $darker:        darken($gray-900, 15%) !default;
+
+// DEFAULT
+// $default:       #172b4d !default;
+// $primary:       #5e72e4 !default;
+// $secondary:     #f7fafc !default;
+// $success:       $green !default;
+// $info:          $teal !default;
+// $warning:       $orange !default;
+// $danger:        $red !default;
+// $light:         $gray-500 !default;
+// $dark:          $gray-900 !default;
+// $darker:        darken($gray-900, 15%) !default;
 
 $facebook:      #3b5999 !default;
 $twitter:       #1da1f2 !default;
@@ -98,6 +113,7 @@ $theme-colors: map-merge((
   "default":      $default,
   "primary":      $primary,
   "secondary":    $secondary,
+  "tertiary":     $tertiary,
   "success":      $success,
   "info":         $info,
   "warning":      $warning,
@@ -105,7 +121,8 @@ $theme-colors: map-merge((
   "white":        $white,
   "neutral":      $white,
   "dark":         $dark,
-  "darker":       $darker
+  "darker":       $darker,
+  "background":   $background
 ), $theme-colors);
 
 $brand-colors: () !default;
@@ -126,7 +143,7 @@ $shape-colors: map-merge((
   "default":      #32325d,
   "primary":      #5533ff,
   "secondary":    #24b47e,
-  "neutral":      #e9ecef,
+  "neutral":      #DAD7CD,
   "blue-gray":    #b2cbe1,
 
 ), $shape-colors);
@@ -765,6 +782,9 @@ $navbar-light-border-color: $border-color !default;
 $main-content-padding-y: 40px !default;
 $main-content-padding-x: 24px !default; // in px to combine with $grid-gutter-width
 
+$main-dashboard-padding-y: 40px !default;
+$main-dashboard-padding-x: 24px !default; // in px to combine with $grid-gutter-width
+
 
 // Alerts
 
@@ -971,7 +991,7 @@ $footer-padding-x:              0;
 
 
 $footer-link-font-size: .85rem !default;
-$footer-bg: theme-color("secondary") !default;
+$footer-bg: theme-color("background") !default;
 $footer-color: $gray-600 !default;
 $footer-link-color: $gray-600 !default;
 $footer-link-hover-color: $gray-700 !default;

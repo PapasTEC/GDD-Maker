@@ -21,7 +21,10 @@
     <div class="col-lg-6 col-md-8">
       <div class="card bg-secondary shadow border-0">
         <div class="card-body px-lg-5 py-lg-5">
-          <form class="needs-validation was-validated" [formGroup]="registerForm" (ngSubmit)="submit()">
+          <div class="text-center text-muted mb-4">
+            <small>Sign in with credentials</small>
+          </div>
+          <form class="needs-validation was-validated" [formGroup]="registerForm">
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
                 <div class="input-group-prepend">
@@ -46,9 +49,14 @@
               </div>
             </div>
             <div class="text-center">
-              <button type="submit" (click)="confirmRegister()" class="btn btn-primary mt-4">Create account</button>
+              <button (click)="confirmRegister()" class="btn btn-primary mt-4">Create account</button>
             </div>
           </form>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-6">
+          <a routerLink="/login" class="text-light"><small>Login</small></a>
         </div>
       </div>
     </div>

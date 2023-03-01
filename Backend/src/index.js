@@ -1,6 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const path = require('path')
+var cors = require("cors");
 const { generatePasswordCode, sendPasswordCode } = require('./functions/utils')
 
 const app = express()
@@ -8,6 +9,8 @@ const db = require('./database')
 
 app.use(morgan('dev'))
 app.use(express.json())
+
+app.use(cors({ origin: "*" }));
 
 app.set("server-port", 3080)
 app.set("frontend-port", 3090)

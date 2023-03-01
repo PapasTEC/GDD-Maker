@@ -1,0 +1,11 @@
+###
+GET http://localhost:3080/api/users/get HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://localhost:3080/api/users/get/mofixac660@vootin.com HTTP/1.1
+Content-Type: application/json
+
+###
+DELETE http://localhost:3080/api/users/delete/lanzerth13@gmail.com HTTP/1.1
+Content-Type: application/json

@@ -11,7 +11,7 @@
   </style>
 </head>
 
-<body>
+<body style="padding: 1%; background-color: #2F6690;">
 
   <div id="editor-container" class="editor-container-Class">
     <!-- Sidebar <app-sidebar></app-sidebar> -->
@@ -19,9 +19,9 @@
     <!-- Sidebar -->
     <link rel="stylesheet" href="admin-layout.component.scss" />
 
-    <div id="sidebar" class="sidebarClass">
+    <div id="sidebar" class="leftModuleClass">
       <!-- Esto esta aca para ver la barra -->
-      <div id="sidebar-top" class="sidebarTopClass">
+      <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
           <div>
             BackButton
@@ -33,7 +33,7 @@
           Share/Export
         </div>
       </div>
-      <div id="sidebar-bottom" class="sidebarBottomClass">
+      <div id="sidebar-bottom" class="leftModuleBottomClass">
         <div id="layout-text" class="layoutTextContainer">
           <div class="layoutText">
             Layout
@@ -75,7 +75,7 @@
             <button class="dropdown-btn">High Level Design
               <i class="fa fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
+            <div class="dropdown-container" style="display: none;">
               <a class="nActive" href="#/editor">Link 1</a>
               <a class="nActive" href="#/editor">Link 2</a>
               <a class="nActive" href="#/editor">Link 3</a>
@@ -88,13 +88,22 @@
 
         </div>
       </div>
-      <div class="collapseBar">
+      <div id="sidebar-top" class="leftModuleTopClass">
+        
+        <div id="backbutton-container" class="backButtonContainerClass">
+            Collaborators
+        </div>
+
+        <div id="share-export-buttons" class="shareButtonContainerClass">
+          Hide
+        </div>
 
       </div>
+      <!-- <div class="collapseBar"></div> -->
     </div>
 
     <div id="workspace" class="workspaceClass">
-      <div id="workspace-header" class="workspaceheaderClass">
+      <!-- <div id="workspace-header" class="workspaceheaderClass">
         
         <div id="document-title-text" class="docTitleText">
           {{documentTitle}}
@@ -103,9 +112,9 @@
         <div id="extra-info" class="extraInfoClass">
           
         </div>
-      </div>
+      </div> -->
 
-      <div id="markdown-editor">
+      <div id="markdown-editor" class="markdown-wrapper">
         <router-outlet></router-outlet>
       </div>
     </div>

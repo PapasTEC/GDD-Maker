@@ -1,26 +1,42 @@
+$r: 15px;
+
 .editor-container-Class {
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
-  padding: 5px;
 
-  padding: 2%;
+  border: #000000 solid 2px;
 
-  border-radius: 20px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+
+  border-top-right-radius: $r;
+  border-top-left-radius: $r;
+  border-bottom-left-radius: $r;
+  border-bottom-right-radius: $r;
+}
+
+.markdown-wrapper {
+  border: #00e6f7 solid 2px;
+  background-color: inherit;
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .workspaceClass {
   padding: 15px;
-  margin: 0px 0px 0px 0px;
-  height: 100%;
+
+  height: auto;
   width: 100%;
 
   border: solid 2px #691b1b;
 
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+  background-color: white;
 
-  border-radius: inherit;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+
   position: relative;
   overflow: hidden;
 }
@@ -42,19 +58,17 @@
 }
 
 .docTitleText {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-style: bold 100px;
   font-size: 50px;
   border: #24b388 solid 2px;
   width: 100%;
   background-color: #d15706;
-  
+
   align-content: center;
   color: rgb(0, 0, 0);
   //background-color: #24b388;
 }
-
-
 
 .extraInfoClass {
   padding: 0px 0px 0px 0px;
@@ -66,27 +80,24 @@
   overflow: hidden;
 }
 
-.sidebarClass {
+.leftModuleClass {
   padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
   height: 100%;
   width: 25%;
-  background-color: #050c4b;
+  background-color: #16425b;
 
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
 
   display: flex;
   flex-direction: column;
-  margin-right: 1%;
 
-  border-radius: inherit;
-
-  padding: 5px;
   position: relative;
   overflow: hidden;
 }
 
-.sidebarTopClass {
+.leftModuleTopClass {
   padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
   height: 10%;
@@ -95,7 +106,6 @@
   flex-direction: row;
   padding: 3%;
   border: solid 2px #b32424;
-  border-radius: inherit;
 
   position: relative;
   overflow: hidden;
@@ -106,7 +116,7 @@
   margin: 0px 0px 0px 0px;
   height: 100%;
   width: 100%;
-  
+
   border: solid 2px #24b388;
   position: relative;
   overflow: hidden;
@@ -114,56 +124,42 @@
 
 .shareButtonContainerClass {
   padding: 0px 0px 0px 0px;
-  margin: 0px 0px 0px 0px;
+
   height: 100%;
   width: 100%;
-  border: solid 2px #00920c;
+  border: solid 2px #81c3d7;
   position: relative;
   overflow: hidden;
 }
 
-.sidebarBottomClass {
-  padding: 0px 0px 0px 0px;
-  margin: 0px 0px 0px 0px;
+.leftModuleBottomClass {
   height: 100%;
   width: 100%;
   border: solid 2px #4c03f5;
 
-  padding: 3%;
-
   display: flex;
   flex-direction: column;
-
-  border-radius: inherit;
 
   position: relative;
   overflow: hidden;
 }
 
-
-
 .layoutTextContainer {
-
   width: 100%;
 
-  margin: auto;
-  padding: 10px;
+  padding: 3%;
 
-  //background-color: #570d41;
   position: relative;
   overflow: hidden;
 }
 
 .layoutText {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-style: bold 50px;
   font-size: 30px;
   text-align: left;
   color: white;
-  //background-color: #24b388;
 }
-
-
 
 .layoutContainerClass {
   padding: 0px 0px 0px 0px;
@@ -171,7 +167,7 @@
   height: 100%;
   width: 100%;
   border: solid 2px #f57003;
-  border-radius: inherit;
+  border-radius: none;
   position: relative;
   overflow: hidden;
 }
@@ -181,16 +177,16 @@
 .sidebar {
   margin: 0;
   padding: 0;
-  
 
   position: relative;
   height: 100%;
-  width: 75%;
+  width: 100%;
   overflow: auto;
 }
 
 /* Sidebar links */
-.sidebar a, .dropdown-btn {
+.sidebar a,
+.dropdown-btn {
   display: block;
   color: rgb(0, 0, 0);
   padding: 16px;
@@ -198,7 +194,12 @@
   text-decoration: none;
 }
 
-.dropdown-btn{
+$sideFontColor: rgb(0, 0, 0);
+$activeColor: #3a7ca5;
+$activeFontColor: white;
+$transistionTime: 100ms;
+
+.dropdown-btn {
   width: 100%;
   border: none;
   text-align: left;
@@ -210,42 +211,43 @@
 
 /* Active/current link */
 .sidebar a.active {
-  background-color: #04AA6D;
-  color: white;
+  background-color: $activeColor;
+  color: $activeFontColor;
+  transition: $transistionTime;
 }
 
-.sidebar a.nActive, .dropdown-btn {
-  background-color: #aa0f04;
-  color: white;
+.sidebar a.nActive,
+.dropdown-btn {
+  background-color: #d9dcd6;
+  color: $sideFontColor;
+  transition: $transistionTime;
 }
 
 /* Links on mouse-over */
-.sidebar a:hover:not(.active),.dropdown-btn:hover {
-  background-color: #555;
-  color: white;
+.sidebar a:hover:not(.active),
+.dropdown-btn:hover {
+  background-color: #bdbdbd;
+  transition: 150ms;
+  color: rgb(0, 0, 0);
 }
 
-
-
-/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
-div.content {
-  margin-left: 200px;
-  padding: 1px 16px;
-  height: 1000px;
-}
-
-
-.dropdown-container {
-  display: none;
+.dropdown-container a.nActive {
   font-size: small;
-  background-color: #000000;
-  padding-left: 12px;
+  background-color: #cfcfcf;
+}
+
+.dropdown-container a.active {
+  font-size: small;
+  color: $activeFontColor;
+  background-color: $activeColor;
 }
 
 /* Optional: Style the caret down icon */
 .fa-caret-down {
   float: right;
-  padding-right: 8px;
+  margin: auto;
+  margin-top: 3%;
+  width: fit-content;
 }
 
 /* On screens that are less than 700px wide, make the sidebar into a topbar */
@@ -273,11 +275,16 @@ div.content {
   }
 }
 
-.collapseBar{
-  position: absolute; right:0%; background-color: rgba(255, 0, 255, 0.247);; top:0%; width: 0.5vw; height: 100%;
+.collapseBar {
+  position: absolute;
+  right: 0%;
+  background-color: rgba(255, 0, 255, 0.247);
+  top: 0%;
+  width: 0.5vw;
+  height: 100%;
 }
 
-.collapseBar:hover{
+.collapseBar:hover {
   cursor: pointer;
   background-color: fuchsia;
 }

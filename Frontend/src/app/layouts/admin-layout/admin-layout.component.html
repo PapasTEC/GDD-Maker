@@ -1,11 +1,123 @@
 <!-- Sidenav -->
-<app-sidebar></app-sidebar>
-<div class="main-content">
-  <!-- Top navbar -->
-  <app-navbar></app-navbar>
-  <!-- Pages -->
-  <router-outlet></router-outlet>
-  <div class="container-fluid">
-    <app-footer></app-footer>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <style>
+    
+  </style>
+</head>
+
+<body>
+
+  <div id="editor-container" class="editor-container-Class">
+    <!-- Sidebar <app-sidebar></app-sidebar> -->
+
+    <!-- Sidebar -->
+    <link rel="stylesheet" href="admin-layout.component.scss" />
+
+    <div id="sidebar" class="sidebarClass">
+      <!-- Esto esta aca para ver la barra -->
+      <div id="sidebar-top" class="sidebarTopClass">
+        <div id="backbutton-container" class="backButtonContainerClass">
+          <div>
+            BackButton
+          </div>
+          
+        </div>
+
+        <div id="share-export-buttons" class="shareButtonContainerClass">
+          Share/Export
+        </div>
+      </div>
+      <div id="sidebar-bottom" class="sidebarBottomClass">
+        <div id="layout-text" class="layoutTextContainer">
+          <div class="layoutText">
+            Layout
+          </div>
+        </div>
+        <div id="layout-container" class="layoutContainerClass">
+
+          <!-- <div class="side-bar">
+          <div class="close-btn">
+            <i class="fas fa-times"></i>
+          </div>
+          <div class="menu">
+            <div class="item"><a href="#"><i class="fas fa-desktop"></i>Dashboard</a></div>
+            <div class="item">
+              <a class="sub-btn"><i class="fas fa-table"></i>Tables<i class="fas fa-angle-right dropdown"></i></a>
+              <div class="sub-menu">
+                <a href="#" class="sub-item">Sub Item 01</a>
+                <a href="#" class="sub-item">Sub Item 02</a>
+                <a href="#" class="sub-item">Sub Item 03</a>
+              </div>
+            </div>
+            <div class="item"><a href="#"><i class="fas fa-th"></i>Forms</a></div>
+            <div class="item">
+              <a class="sub-btn"><i class="fas fa-cogs"></i>Settings<i class="fas fa-angle-right dropdown"></i></a>
+              <div class="sub-menu">
+                <a href="#" class="sub-item">Sub Item 01</a>
+                <a href="#" class="sub-item">Sub Item 02</a>
+              </div>
+            </div>
+            <div class="item"><a href="#"><i class="fas fa-info-circle"></i>About</a></div>
+          </div>
+        </div> -->
+
+
+
+          <div class="sidebar">
+            <a class="nActive" href="#/editor">Tematica</a>
+          
+            <button class="dropdown-btn">High Level Design
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+              <a class="nActive" href="#/editor">Link 1</a>
+              <a class="nActive" href="#/editor">Link 2</a>
+              <a class="nActive" href="#/editor">Link 3</a>
+            </div>
+            <a class="nActive" href="#/editor">About</a>
+          </div>
+
+          
+
+
+        </div>
+      </div>
+      <div class="collapseBar">
+
+      </div>
+    </div>
+
+    <div id="workspace" class="workspaceClass">
+      <div id="workspace-header" class="workspaceheaderClass">
+        
+        <div id="document-title-text" class="docTitleText">
+          {{documentTitle}}
+        </div>
+        
+        <div id="extra-info" class="extraInfoClass">
+          
+        </div>
+      </div>
+
+      <div id="markdown-editor">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- Top navbar -->
+  <!-- <app-navbar></app-navbar> -->
+  <!-- Pages -->
+
+  <!-- <div class="container-fluid">
+    <app-footer></app-footer>
+  </div> -->
+</body>
+
+</html>

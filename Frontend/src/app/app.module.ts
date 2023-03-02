@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { GddEditorComponent } from './pages/gdd-editor/gdd-editor.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { ComponentsModule } from './components/components.module';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    DashboardLayoutComponent
+    DashboardLayoutComponent,
+    GddEditorComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

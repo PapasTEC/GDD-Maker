@@ -1,0 +1,283 @@
+.editor-container-Class {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+
+  padding: 2%;
+
+  border-radius: 20px;
+}
+
+.workspaceClass {
+  padding: 15px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 100%;
+
+  border: solid 2px #691b1b;
+
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+
+  border-radius: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.workspaceheaderClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 10%;
+  width: 100%;
+  border: solid 2px #ffee00;
+
+  display: flex;
+  flex-direction: row;
+
+  padding: 3px;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.docTitleText {
+  font-family: 'Roboto', sans-serif;
+  font-style: bold 100px;
+  font-size: 50px;
+  border: #24b388 solid 2px;
+  width: 100%;
+  background-color: #d15706;
+  
+  align-content: center;
+  color: rgb(0, 0, 0);
+  //background-color: #24b388;
+}
+
+
+
+.extraInfoClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 10%;
+  background-color: #2b3a09;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebarClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 25%;
+  background-color: #050c4b;
+
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+
+  display: flex;
+  flex-direction: column;
+  margin-right: 1%;
+
+  border-radius: inherit;
+
+  padding: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebarTopClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 10%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 3%;
+  border: solid 2px #b32424;
+  border-radius: inherit;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.backButtonContainerClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 100%;
+  
+  border: solid 2px #24b388;
+  position: relative;
+  overflow: hidden;
+}
+
+.shareButtonContainerClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 100%;
+  border: solid 2px #00920c;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebarBottomClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 100%;
+  border: solid 2px #4c03f5;
+
+  padding: 3%;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: inherit;
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.layoutTextContainer {
+
+  width: 100%;
+
+  margin: auto;
+  padding: 10px;
+
+  //background-color: #570d41;
+  position: relative;
+  overflow: hidden;
+}
+
+.layoutText {
+  font-family: 'Roboto', sans-serif;
+  font-style: bold 50px;
+  font-size: 30px;
+  text-align: left;
+  color: white;
+  //background-color: #24b388;
+}
+
+
+
+.layoutContainerClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 100%;
+  border: solid 2px #f57003;
+  border-radius: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+// DOCUMENT LAYOUT
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  
+
+  position: relative;
+  height: 100%;
+  width: 75%;
+  overflow: auto;
+}
+
+/* Sidebar links */
+.sidebar a, .dropdown-btn {
+  display: block;
+  color: rgb(0, 0, 0);
+  padding: 16px;
+  width: auto;
+  text-decoration: none;
+}
+
+.dropdown-btn{
+  width: 100%;
+  border: none;
+  text-align: left;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.sidebar a.nActive, .dropdown-btn {
+  background-color: #aa0f04;
+  color: white;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active),.dropdown-btn:hover {
+  background-color: #555;
+  color: white;
+}
+
+
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+
+.dropdown-container {
+  display: none;
+  font-size: small;
+  background-color: #000000;
+  padding-left: 12px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar a {
+    float: left;
+  }
+
+  div.content {
+    margin-left: 0;
+  }
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+
+.collapseBar{
+  position: absolute; right:0%; background-color: rgba(255, 0, 255, 0.247);; top:0%; width: 0.5vw; height: 100%;
+}
+
+.collapseBar:hover{
+  cursor: pointer;
+  background-color: fuchsia;
+}

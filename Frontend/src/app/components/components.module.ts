@@ -6,6 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { TogglebarComponent } from './togglebar/togglebar.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EditorWorkspaceComponent } from './editor-workspace/editor-workspace.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    TogglebarComponent
+    TogglebarComponent,
+    EditorWorkspaceComponent
   ],
   exports: [
     FooterComponent,

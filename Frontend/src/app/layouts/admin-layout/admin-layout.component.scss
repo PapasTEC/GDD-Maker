@@ -156,7 +156,7 @@ $r: 15px;
 .layoutText {
   font-family: "Roboto", sans-serif;
   font-style: bold 50px;
-  font-size: 30px;
+  font-size: 3vh;
   text-align: left;
   color: white;
 }
@@ -177,6 +177,8 @@ $r: 15px;
 .sidebar {
   margin: 0;
   padding: 0;
+
+  font-size: 2vh;
 
   position: relative;
   height: 100%;
@@ -231,13 +233,16 @@ $transistionTime: 100ms;
   color: rgb(0, 0, 0);
 }
 
+.dropdown-container{
+  font-size: 1.5vh;
+}
+
 .dropdown-container a.nActive {
-  font-size: small;
+
   background-color: #cfcfcf;
 }
 
 .dropdown-container a.active {
-  font-size: small;
   color: $activeFontColor;
   background-color: $activeColor;
 }

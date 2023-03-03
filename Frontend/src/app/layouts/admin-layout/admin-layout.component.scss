@@ -59,7 +59,7 @@ $subsection-color: #ece8e8;
   position: relative;
   overflow: hidden;
 
-  .open-sidebar-button {
+  .open-sidebarEditor-button {
     position: absolute;
     bottom: 10px;
     z-index: 100;
@@ -247,7 +247,7 @@ $subsection-color: #ece8e8;
   }
 }
 
-#sidebar {
+#sidebarEditor {
   // animation: slideaway 400ms;
   // display: none;
   // transition: opacity 2000ms, display 2000ms;
@@ -256,7 +256,7 @@ $subsection-color: #ece8e8;
   // display: none;
 }
 
-.sidebar {
+.sidebarEditor {
   margin: 0;
   padding: 0;
 
@@ -269,7 +269,7 @@ $subsection-color: #ece8e8;
 }
 
 /* Sidebar links */
-.sidebar a,
+.sidebarEditor a,
 .dropdown-btn {
   display: block;
   color: rgb(0, 0, 0);
@@ -294,13 +294,13 @@ $transistionTime: 100ms;
 }
 
 /* Active/current link */
-.sidebar a.active {
+.sidebarEditor a.active {
   background-color: $activeColor;
   color: $activeFontColor;
   transition: $transistionTime;
 }
 
-.sidebar a.nActive,
+.sidebarEditor a.nActive,
 .dropdown-btn {
   background-color: $section-color;
   color: $sideFontColor;
@@ -308,7 +308,7 @@ $transistionTime: 100ms;
 }
 
 /* Links on mouse-over */
-.sidebar a:hover:not(.active),
+.sidebarEditor a:hover:not(.active),
 .dropdown-btn:hover {
   background-color: #bdbdbd;
   transition: 150ms;
@@ -336,15 +336,15 @@ $transistionTime: 100ms;
   width: fit-content;
 }
 
-/* On screens that are less than 700px wide, make the sidebar into a topbar */
+/* On screens that are less than 700px wide, make the sidebarEditor into a topbar */
 @media screen and (max-width: 700px) {
-  .sidebar {
+  .sidebarEditor {
     width: 100%;
     height: auto;
     position: relative;
   }
 
-  .sidebar a {
+  .sidebarEditor a {
     float: left;
   }
 
@@ -355,7 +355,7 @@ $transistionTime: 100ms;
 
 /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
 @media screen and (max-width: 400px) {
-  .sidebar a {
+  .sidebarEditor a {
     text-align: center;
     float: none;
   }

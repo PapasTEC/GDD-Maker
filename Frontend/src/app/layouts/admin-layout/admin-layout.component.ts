@@ -88,7 +88,58 @@ export class AdminLayoutComponent implements OnInit {
       input: (value: string) => {
         console.log("input\n", value);
       },
-      theme: "dark"
+      theme: "dark",
     });
+
+    // sleep 3 seconds
+    // setTimeout(() => {
+    //   let fullScreenButton = document.querySelector(
+    //     "#vditor > div.vditor-toolbar > div:nth-child(28) > button"
+    //   );
+    //   if (fullScreenButton) {
+    //     fullScreenButton.addEventListener("click", () => {
+    //       alert("hola");
+    //     });
+    //   } else {
+    //     console.log("fullScreenButton is null");
+    //   }
+    // }, 1000);
+
+    // vditor handlers wait 500ms to the vditor is loaded
+    setTimeout(() => {
+      let fullScreenButton = document.querySelector(
+        "#vditor > div.vditor-toolbar > div:nth-child(28) > button"
+      );
+      let showSidebarButton = document.querySelector(
+        ".share-export-buttons__hide-icon"
+      );
+
+      if (!fullScreenButton || !showSidebarButton) {
+        console.log("fullScreenButton or showSidebarButton is null");
+        return;
+      }
+
+      fullScreenButton.addEventListener("click", () => {
+        console.log("fullScreenButton clicked");
+        let showSidebarButtonIsShowed =
+          !showSidebarButton.classList.contains("hide");
+        console.log("showSidebarButtonIsShowed: ", showSidebarButtonIsShowed);
+        if (showSidebarButtonIsShowed) {
+          showSidebarButton.classList.add("hide");
+        } else {
+          showSidebarButton.classList.remove("hide");
+        }
+      });
+    }, 500);
+  }
+
+  getValue() {
+    if (this.vditor) {
+      // alert(this.vditor.getValue());
+      console.log("vditor.getValue(): ", this.vditor.getValue());
+      console.log(this.vditor.exportJSON(this.vditor.getValue()));
+    } else {
+      console.log("vditor is null");
+    }
   }
 }

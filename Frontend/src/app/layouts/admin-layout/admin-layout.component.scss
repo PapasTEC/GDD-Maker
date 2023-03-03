@@ -16,14 +16,15 @@ $subsection-color: #ece8e8;
   height: 100%;
   width: 100%;
 
-  border: #000000 solid 2px;
+  // border: #000000 solid 2px;
 
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.541);
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.548);
 
-  border-top-right-radius: $r;
-  border-top-left-radius: $r;
-  border-bottom-left-radius: $r;
-  border-bottom-right-radius: $r;
+  // border-top-right-radius: $r;
+  // border-top-left-radius: $r;
+  // border-bottom-left-radius: $r;
+  // border-bottom-right-radius: $r;
+  border-radius: 5px;
 }
 
 .markdown-wrapper {
@@ -32,7 +33,6 @@ $subsection-color: #ece8e8;
   position: relative;
   height: 100%;
   width: 100%;
-
 }
 .hide-toolbar {
   // background-color: red;
@@ -41,7 +41,6 @@ $subsection-color: #ece8e8;
   top: 0;
   padding: 5px 0px;
   right: 50px;
-
 }
 
 .workspace-class {
@@ -374,4 +373,14 @@ $transistionTime: 100ms;
 .collapseBar:hover {
   cursor: pointer;
   background-color: fuchsia;
+}
+
+.hide {
+  display: none;
+  transition: 200ms;
+}
+
+.show-block {
+  display: block;
+  transition: 200ms;
 }

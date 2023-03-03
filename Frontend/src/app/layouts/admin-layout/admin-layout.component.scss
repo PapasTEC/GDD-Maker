@@ -1,5 +1,15 @@
 $r: 15px;
 
+$outer-text-color: #000000;
+$outer-font-size: 14px;
+
+$title-font-size: 20px;
+
+$inner-font-size: 14px;
+
+$section-color: #e1e1e1;
+$subsection-color: #ece8e8;
+
 .editor-container-Class {
   display: flex;
   flex-direction: row;
@@ -8,7 +18,7 @@ $r: 15px;
 
   border: #000000 solid 2px;
 
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.541);
 
   border-top-right-radius: $r;
   border-top-left-radius: $r;
@@ -17,20 +27,30 @@ $r: 15px;
 }
 
 .markdown-wrapper {
-  border: #00e6f7 solid 2px;
+  // border: #00e6f7 solid 2px;
   background-color: inherit;
   position: relative;
   height: 100%;
   width: 100%;
+
+}
+.hide-toolbar {
+  // background-color: red;
+  transform: rotate(90deg);
+  position: absolute;
+  top: 0;
+  padding: 5px 0px;
+  right: 50px;
+
 }
 
-.workspaceClass {
-  padding: 15px;
+.workspace-class {
+  padding: 30px 15px;
 
   height: auto;
   width: 100%;
 
-  border: solid 2px #691b1b;
+  // border: solid 2px #691b1b;
 
   background-color: white;
 
@@ -39,6 +59,16 @@ $r: 15px;
 
   position: relative;
   overflow: hidden;
+
+  .open-sidebar-button {
+    position: absolute;
+    bottom: 10px;
+    z-index: 100;
+    transform: rotate(180deg);
+
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .workspaceheaderClass {
@@ -57,7 +87,7 @@ $r: 15px;
   overflow: hidden;
 }
 
-.docTitleText {
+.docTitle-text {
   font-family: "Roboto", sans-serif;
   font-style: bold 100px;
   font-size: 50px;
@@ -85,7 +115,7 @@ $r: 15px;
   margin: 0px 0px 0px 0px;
   height: 100%;
   width: 25%;
-  background-color: #16425b;
+  background-color: #f6f3f3;
 
   border-top-left-radius: inherit;
   border-bottom-left-radius: inherit;
@@ -98,14 +128,16 @@ $r: 15px;
 }
 
 .leftModuleTopClass {
-  padding: 0px 0px 0px 0px;
+  // padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
   height: 10%;
   width: 100%;
   display: flex;
   flex-direction: row;
-  padding: 3%;
-  border: solid 2px #b32424;
+  padding: 4.5% 6%;
+  align-items: center;
+
+  // border: solid 2px #b32424;
 
   position: relative;
   overflow: hidden;
@@ -117,9 +149,30 @@ $r: 15px;
   height: 100%;
   width: 100%;
 
-  border: solid 2px #24b388;
+  // border: solid 2px #24b388;
   position: relative;
   overflow: hidden;
+
+  color: $outer-text-color;
+  font-size: $outer-font-size;
+
+  display: flex;
+  align-items: center;
+
+  img {
+    color: $outer-text-color;
+    width: 24px;
+    height: 24px;
+  }
+
+  .current-users {
+    display: flex;
+    align-items: center;
+
+    &__count {
+      margin-right: 10px;
+    }
+  }
 }
 
 .shareButtonContainerClass {
@@ -127,15 +180,25 @@ $r: 15px;
 
   height: 100%;
   width: 100%;
-  border: solid 2px #81c3d7;
+  // border: solid 2px #81c3d7;
   position: relative;
   overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  flex-wrap: wrap;
+
+  img {
+    color: $outer-text-color;
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .leftModuleBottomClass {
   height: 100%;
   width: 100%;
-  border: solid 2px #4c03f5;
+  // border: solid 2px #4c03f5;
 
   display: flex;
   flex-direction: column;
@@ -147,7 +210,8 @@ $r: 15px;
 .layoutTextContainer {
   width: 100%;
 
-  padding: 3%;
+  padding-left: 6%;
+  margin-bottom: 6%;
 
   position: relative;
   overflow: hidden;
@@ -158,7 +222,7 @@ $r: 15px;
   font-style: bold 50px;
   font-size: 3vh;
   text-align: left;
-  color: white;
+  color: $outer-text-color;
 }
 
 .layoutContainerClass {
@@ -166,13 +230,32 @@ $r: 15px;
   margin: 0px 0px 0px 0px;
   height: 100%;
   width: 100%;
-  border: solid 2px #f57003;
+  // border: solid 10px #f57003;
   border-radius: none;
   position: relative;
   overflow: hidden;
 }
 
 // DOCUMENT LAYOUT
+
+@keyframes slideaway {
+  from {
+    display: block;
+  }
+  to {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+}
+
+#sidebar {
+  // animation: slideaway 400ms;
+  // display: none;
+  // transition: opacity 2000ms, display 2000ms;
+  // display: none;
+  // opacity: 0;
+  // display: none;
+}
 
 .sidebar {
   margin: 0;
@@ -220,7 +303,7 @@ $transistionTime: 100ms;
 
 .sidebar a.nActive,
 .dropdown-btn {
-  background-color: #d9dcd6;
+  background-color: $section-color;
   color: $sideFontColor;
   transition: $transistionTime;
 }
@@ -238,7 +321,7 @@ $transistionTime: 100ms;
 }
 
 .dropdown-container a.nActive {
-  background-color: #cfcfcf;
+  background-color: $subsection-color;
 }
 
 .dropdown-container a.active {

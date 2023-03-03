@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import Vditor from "vditor";
 
 @Component({
   selector: "app-admin-layout",
@@ -8,6 +9,8 @@ import { Component, OnInit } from "@angular/core";
 export class AdminLayoutComponent implements OnInit {
   sections = [];
   documentTitle = "";
+  vditor: Vditor | null = null;
+
   constructor() {
     this.sections = [
       { sectionName: "High level design", sectionId: "hld" },
@@ -40,17 +43,52 @@ export class AdminLayoutComponent implements OnInit {
     var links = document.getElementsByTagName("a");
     for (i = 0; i < links.length; i++) {
       links[i].addEventListener("click", function () {
-        console.log(this.className)
-        if(this.className == "nActive"){
+        console.log(this.className);
+        if (this.className == "nActive") {
           var otherLinks = document.getElementsByClassName("active");
           for (var j = 0; j < otherLinks.length; j++) {
             otherLinks[j].className = "nActive";
           }
           this.className = "active";
         }
-        
-        
       });
     }
+
+    this.vditor = new Vditor("vditor", {
+      image: {
+        preview(bom: Element) {
+          console.log(bom);
+        },
+      },
+      upload: {
+        handler(files: File[]) {
+          console.log(files);
+          return "https://hacpai.com/images/2020/04/1586249606.png";
+        },
+      },
+      lang: "en_US",
+      mode: "ir",
+      // height: 1000,
+
+      toolbarConfig: {
+        // pin: false,
+        // hide
+      },
+      // toolbar: [{ name: 'record' }],
+      cache: {
+        enable: false,
+      },
+      after: () => {
+        if (this.vditor) {
+          this.vditor.setValue("Hello, Vditor + Angular!");
+        } else {
+          console.log("vditor is null");
+        }
+      },
+      input: (value: string) => {
+        console.log("input\n", value);
+      },
+      theme: "dark"
+    });
   }
 }

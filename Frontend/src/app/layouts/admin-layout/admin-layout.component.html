@@ -1,47 +1,43 @@
 <!-- Sidenav -->
 <html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style></style>
+  </head>
 
-  
-  <style>
-    
-  </style>
-</head>
+  <body style="padding: 1%; background-color: #2f6690">
+    <div id="editor-container" class="editor-container-Class">
+      <!-- Sidebar <app-sidebar></app-sidebar> -->
 
-<body style="padding: 1%; background-color: #2F6690;">
+      <!-- Sidebar -->
+      <link rel="stylesheet" href="admin-layout.component.scss" />
 
-  <div id="editor-container" class="editor-container-Class">
-    <!-- Sidebar <app-sidebar></app-sidebar> -->
-
-    <!-- Sidebar -->
-    <link rel="stylesheet" href="admin-layout.component.scss" />
-
-    <div id="sidebar" class="leftModuleClass">
-      <!-- Esto esta aca para ver la barra -->
-      <div id="sidebar-top" class="leftModuleTopClass">
-        <div id="backbutton-container" class="backButtonContainerClass">
-          <div>
-            BackButton
+      <div id="sidebar" class="leftModuleClass">
+        <!-- Esto esta aca para ver la barra -->
+        <div id="sidebar-top" class="leftModuleTopClass">
+          <div id="backbutton-container" class="backButtonContainerClass">
+            > Back
           </div>
-          
-        </div>
 
-        <div id="share-export-buttons" class="shareButtonContainerClass">
-          Share/Export
-        </div>
-      </div>
-      <div id="sidebar-bottom" class="leftModuleBottomClass">
-        <div id="layout-text" class="layoutTextContainer">
-          <div class="layoutText">
-            Layout
+          <div id="share-export-buttons" class="shareButtonContainerClass">
+            <img
+              class="share-export-buttons__share-icon"
+              src="assets/img/icons/common/share.svg"
+              alt="share"
+            />
           </div>
         </div>
-        <div id="layout-container" class="layoutContainerClass">
-
-          <!-- <div class="side-bar">
+        <div id="sidebar-bottom" class="leftModuleBottomClass">
+          <div id="layout-text" class="layoutTextContainer">
+            <div class="layoutText">Document Title</div>
+          </div>
+          <div id="layout-container" class="layoutContainerClass">
+            <!-- <div class="side-bar">
           <div class="close-btn">
             <i class="fas fa-times"></i>
           </div>
@@ -67,66 +63,81 @@
           </div>
         </div> -->
 
+            <div class="sidebar">
+              <a class="nActive" href="#/editor">Tematica</a>
 
-
-          <div class="sidebar">
-            <a class="nActive" href="#/editor">Tematica</a>
-          
-            <button class="dropdown-btn">High Level Design
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container" style="display: none;">
-              <a class="nActive" href="#/editor">Link 1</a>
-              <a class="nActive" href="#/editor">Link 2</a>
-              <a class="nActive" href="#/editor">Link 3</a>
+              <button class="dropdown-btn">
+                High Level Design
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-container" style="display: none">
+                <a class="nActive" href="#/editor">Link 1</a>
+                <a class="nActive" href="#/editor">Link 2</a>
+                <a class="nActive" href="#/editor">Link 3</a>
+              </div>
+              <a class="nActive" href="#/editor">About</a>
             </div>
-            <a class="nActive" href="#/editor">About</a>
+          </div>
+        </div>
+        <div id="sidebar-top" class="leftModuleTopClass">
+          <div id="backbutton-container" class="backButtonContainerClass">
+            <div class="current-users">
+              <div class="current-users__count">4</div>
+              <img
+                class="share-export-buttons__share-icon current-users__icon"
+                src="assets/img/icons/common/people.svg"
+                alt="share"
+              />
+            </div>
           </div>
 
-          
-
-
+          <div id="share-export-buttons" class="shareButtonContainerClass">
+            <img
+              class="share-export-buttons__hide-icon"
+              src="assets/img/icons/common/chevrons-left.svg"
+              alt="share"
+            />
+          </div>
         </div>
+        <!-- <div class="collapseBar"></div> -->
       </div>
-      <div id="sidebar-top" class="leftModuleTopClass">
-        
-        <div id="backbutton-container" class="backButtonContainerClass">
-            Collaborators
-        </div>
 
-        <div id="share-export-buttons" class="shareButtonContainerClass">
-          Hide
-        </div>
+      <div id="workspace" class="workspace-class">
+        <img
+          class="open-sidebar-button"
+          src="assets/img/icons/common/chevrons-left.svg"
+          alt="share"
+        />
+        <!-- <div id="workspace-header" class="workspaceheaderClass">
 
-      </div>
-      <!-- <div class="collapseBar"></div> -->
-    </div>
-
-    <div id="workspace" class="workspaceClass">
-      <!-- <div id="workspace-header" class="workspaceheaderClass">
-        
-        <div id="document-title-text" class="docTitleText">
+        <div id="document-title-text" class="docTitle-text">
           {{documentTitle}}
         </div>
-        
+
         <div id="extra-info" class="extraInfoClass">
-          
+
         </div>
       </div> -->
 
-      <div id="markdown-editor" class="markdown-wrapper">
-        <router-outlet></router-outlet>
+        <div id="markdown-editor" class="markdown-wrapper">
+          <router-outlet></router-outlet>
+          <div id="vditor"></div>
+          <img
+            class="hide-toolbar"
+            src="assets/img/icons/common/chevrons-left.svg"
+            alt="share"
+          />
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Top navbar -->
-  <!-- <app-navbar></app-navbar> -->
-  <!-- Pages -->
+    <!-- Top navbar -->
+    <!-- <app-navbar></app-navbar> -->
+    <!-- Pages -->
 
-  <!-- <div class="container-fluid">
+    <!-- <div class="container-fluid">
     <app-footer></app-footer>
   </div> -->
-</body>
-
+    <!-- <button (click)="getValue()">Get Content</button> -->
+  </body>
 </html>

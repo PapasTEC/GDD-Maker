@@ -2,3 +2,29 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.vditor-reset {
+  padding: 20px 30px 20px 30px !important;
+}
+
+.vditor-toolbar {
+  background-color: white !important;
+  padding-left: 30px !important;
+  padding-right: 0 !important;
+  border: none !important;
+}
+
+#vditor {
+  height: 100% !important;
+  border: none !important;
+}
+
+.vditor-reset, .vditor-preview {
+  background-color: white !important;
+}
+
+.vditor-tooltipped svg, .vditor-toolbar__divider {
+  // background-color: red;
+  color: black;
+}

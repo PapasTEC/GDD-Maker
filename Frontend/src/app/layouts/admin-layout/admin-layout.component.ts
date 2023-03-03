@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import Vditor from "vditor";
 
 @Component({
   selector: "app-admin-layout",
@@ -8,6 +9,8 @@ import { Component, OnInit } from "@angular/core";
 export class AdminLayoutComponent implements OnInit {
   sections = [];
   documentTitle = "";
+  vditor: Vditor | null = null;
+
   constructor() {
     this.sections = [
       { sectionName: "High level design", sectionId: "hld" },
@@ -40,17 +43,103 @@ export class AdminLayoutComponent implements OnInit {
     var links = document.getElementsByTagName("a");
     for (i = 0; i < links.length; i++) {
       links[i].addEventListener("click", function () {
-        console.log(this.className)
-        if(this.className == "nActive"){
+        console.log(this.className);
+        if (this.className == "nActive") {
           var otherLinks = document.getElementsByClassName("active");
           for (var j = 0; j < otherLinks.length; j++) {
             otherLinks[j].className = "nActive";
           }
           this.className = "active";
         }
-        
-        
       });
+    }
+
+    this.vditor = new Vditor("vditor", {
+      image: {
+        preview(bom: Element) {
+          console.log(bom);
+        },
+      },
+      upload: {
+        handler(files: File[]) {
+          console.log(files);
+          return "https://hacpai.com/images/2020/04/1586249606.png";
+        },
+      },
+      lang: "en_US",
+      mode: "ir",
+      // height: 1000,
+
+      toolbarConfig: {
+        // pin: false,
+        // hide
+      },
+      // toolbar: [{ name: 'record' }],
+      cache: {
+        enable: false,
+      },
+      after: () => {
+        if (this.vditor) {
+          this.vditor.setValue("Hello, Vditor + Angular!");
+        } else {
+          console.log("vditor is null");
+        }
+      },
+      input: (value: string) => {
+        console.log("input\n", value);
+      },
+      theme: "dark",
+    });
+
+    // sleep 3 seconds
+    // setTimeout(() => {
+    //   let fullScreenButton = document.querySelector(
+    //     "#vditor > div.vditor-toolbar > div:nth-child(28) > button"
+    //   );
+    //   if (fullScreenButton) {
+    //     fullScreenButton.addEventListener("click", () => {
+    //       alert("hola");
+    //     });
+    //   } else {
+    //     console.log("fullScreenButton is null");
+    //   }
+    // }, 1000);
+
+    // vditor handlers wait 500ms to the vditor is loaded
+    setTimeout(() => {
+      let fullScreenButton = document.querySelector(
+        "#vditor > div.vditor-toolbar > div:nth-child(28) > button"
+      );
+      let showSidebarButton = document.querySelector(
+        ".share-export-buttons__hide-icon"
+      );
+
+      if (!fullScreenButton || !showSidebarButton) {
+        console.log("fullScreenButton or showSidebarButton is null");
+        return;
+      }
+
+      fullScreenButton.addEventListener("click", () => {
+        console.log("fullScreenButton clicked");
+        let showSidebarButtonIsShowed =
+          !showSidebarButton.classList.contains("hide");
+        console.log("showSidebarButtonIsShowed: ", showSidebarButtonIsShowed);
+        if (showSidebarButtonIsShowed) {
+          showSidebarButton.classList.add("hide");
+        } else {
+          showSidebarButton.classList.remove("hide");
+        }
+      });
+    }, 500);
+  }
+
+  getValue() {
+    if (this.vditor) {
+      // alert(this.vditor.getValue());
+      console.log("vditor.getValue(): ", this.vditor.getValue());
+      console.log(this.vditor.exportJSON(this.vditor.getValue()));
+    } else {
+      console.log("vditor is null");
     }
   }
 }

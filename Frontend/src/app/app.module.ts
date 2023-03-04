@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { GddEditorComponent } from './pages/gdd-editor/gdd-editor.component';
+import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-layout.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { GddEditorComponent } from './pages/gdd-editor/gdd-editor.component';
     AdminLayoutComponent,
     AuthLayoutComponent,
     DashboardLayoutComponent,
-    GddEditorComponent
+    GddEditorComponent,
+    GddSetupLayoutComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

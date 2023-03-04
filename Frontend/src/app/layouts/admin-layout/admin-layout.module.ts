@@ -21,12 +21,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     NgbModule,
     ClipboardModule,
-  ],
-  declarations: [
-    UserProfileComponent,
-    TablesComponent,
-    IconsComponent,
-    MapsComponent
   ]
 })
 

@@ -6,6 +6,11 @@
             opacity: 0;
             pointer-events: none;
             margin: 0;
+
+            .dropdown-color {
+                background-color: black;
+            }
+
         }
 
         .dropdown-menu-arrow {
@@ -33,6 +38,7 @@
         }
 
         &:not(.navbar-nav-hover) {
+
             .dropdown-menu {
                 &.show {
                     opacity: 1;

@@ -7,11 +7,11 @@ GET http://localhost:3080/api/users/get/mofixac660@vootin.com HTTP/1.1
 Content-Type: application/json
 
 ###
-DELETE http://localhost:3080/api/users/delete/kalale8462@pubpng.com HTTP/1.1
+DELETE http://localhost:3080/api/users/delete/venosay270@pubpng.com HTTP/1.1
 Content-Type: application/json
 
 ###
-PUT http://localhost:3080/api/users/sendCode/lanzerth13@gmail.com HTTP/1.1
+PUT http://localhost:3080/api/users/sendCode/venosay270@pubpng.com HTTP/1.1
 Content-Type: application/json
 
 ###

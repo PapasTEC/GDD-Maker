@@ -92,7 +92,7 @@ userController.loginUser = async (req, res) => {
         const user = await Users.findOne({ email: req.params.email, password: req.params.password });
 
         if (!user) return res.status(200).json(false);
-        res.status(200).json(true);
+        res.status(200).json(user);
 
         try {
             let user = await Users.findOne({ email: req.params.email });

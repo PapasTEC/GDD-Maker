@@ -61,7 +61,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.http.get(`/api/users/login/${email}/${code}`).subscribe((response) => {
         if (response) {
           alert("You are logged in");
-          this.router.navigate(['/register']);
+          localStorage.setItem('currentUser', JSON.stringify(response));
+          this.router.navigate(['/register']);          
           return;
         }else{
           alert("Wrong code");

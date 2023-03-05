@@ -30,11 +30,8 @@ export class RegisterComponent implements OnInit {
           alert("This email is already registered");
           return;
         } else {
-          if (confirm(
-            "A code will be sent to your email address which will serve as your password to log in. Do you want to continue?"
-          )) {
-            this.submit();
-          }
+          alert("Your account has been created successfully")
+          this.submit();
         }
       });
     }

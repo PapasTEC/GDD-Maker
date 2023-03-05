@@ -14,7 +14,7 @@ export class CountryPipe implements PipeTransform {
 
     return values.filter((value: Project) => {
         const nameFound =
-            value.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+            value.title.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
         const lastUpdatedFound =
             value.lastUpdated.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
         const ownerFound =
@@ -22,7 +22,7 @@ export class CountryPipe implements PipeTransform {
 
         if (nameFound || lastUpdatedFound || ownerFound) {
             return value;
-         }
+        }
     });
   }
 }

@@ -25,20 +25,32 @@ GET http://localhost:3080/api/documents/getInfo/6403628088b81cec7c6fa27d HTTP/1.
 Content-Type: application/json
 
 ###
-PUT http://localhost:3080/api/documents/update/6403628088b81cec7c6fa27d HTTP/1.1
+PUT http://localhost:3080/api/documents/update/6403639b88b81cec7c6fa27f HTTP/1.1
 Content-Type: application/json
 
 {
-    "owner": "abiel8",
-    "lastUpdated": "Sat Mar 04 2023 09:26:45 GMT-0600",
-    "titleInfo": {
-        "title": "Game 8",
-        "imageUrl": "https://brandemia.org/contenido/subidas/2016/11/cabecera_nesquik2-960x640.jpg"
-    },
-    "docText": "Hola3"
+    "docText": [{
+        "title": "Portada",
+        "text": "holaaa"
+    }]
 }
-
 
 ###
 DELETE http://localhost:3080/api/documents/delete/64036ea188b81cec7c6fa289 HTTP/1.1
 Content-Type: application/json
+
+###
+GET http://localhost:3080/api/documents/getInfoByOwner/abiel HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:3080/api/documents/getInfoShared HTTP/1.1
+Content-Type: application/json
+
+{
+    "shared_with_me_documents": [
+        "6403628088b81cec7c6fa27d",
+        "6403639b88b81cec7c6fa27f",
+        "6403639e88b81cec7c6fa281"
+    ]  
+}

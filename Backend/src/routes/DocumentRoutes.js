@@ -8,5 +8,7 @@ router.get('/get/:id', documentController.getDocument);
 router.get('/getInfo/:id', documentController.getDocumentInfo);
 router.put('/update/:id', documentController.updateDocument);
 router.delete('/delete/:id', documentController.deleteDocument);
+router.get('/getInfoByOwner/:owner', documentController.getDocumentsByOwner);
+router.post('/getInfoShared', documentController.getSharedDocuments);
 
 module.exports = router;

@@ -8,7 +8,10 @@ const DocumentSchema = new Schema({
         "title": { type: String, required: true},
         "imageUrl": {type: String, required: true},
     },
-    "docText": {type: String, required: true},
+    "docText": [{
+        "title": {type: String, required: true},
+        "text": {type: String, required: true},
+    }],
 })
 
 module.exports = model('Documents', DocumentSchema);

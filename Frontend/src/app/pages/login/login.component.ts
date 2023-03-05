@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Query } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { Router } from '@angular/router';
@@ -61,7 +61,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.http.get(`/api/users/login/${email}/${code}`).subscribe((response) => {
         if (response) {
           alert("You are logged in");
-          localStorage.setItem('currentUser', JSON.stringify(response));
+          var localUser = JSON.stringify(response);
+          var localUserObj = JSON.parse(localUser);
+          delete localUserObj.password;
+          delete localUserObj.owned_documents;
+          delete localUserObj.shared_with_me_documents;
+          delete localUserObj._id;
+          delete localUserObj.__v;
+
+          localStorage.setItem('currentUser', JSON.stringify(localUserObj));
+          
           this.router.navigate(['/register']);          
           return;
         }else{

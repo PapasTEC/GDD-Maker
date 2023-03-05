@@ -22,7 +22,7 @@ async function sendEmail(to, code, type) {
   var msg = ["", "", "", "", ""];
   switch (type) {
     case "reset":
-      msg = ["Welcome back to GDD Maker!", "Thank you for being a part of the GDD Maker community. We're excited to see you again!", `Your one-time use code is: <strong>{${code}}</strong>`, "This one-time use code will expire immediately after use.", "If you have any questions or need any assistance, please don't hesitate to contact us."]
+      msg = ["Welcome back to GDD Maker!", "Thank you for being a part of the GDD Maker community. We're excited to see you again!", `Your one-time use code is: <strong>${code}</strong>`, "This one-time use code will expire immediately after use.", "If you have any questions or need any assistance, please don't hesitate to contact us."]
       break;
     case "welcome":
       msg = ["Welcome to GDD Maker!","Thank you for joining our community of game developers. We're excited to have you on board!", "Welcome to our website. We want to inform you that for your convenience, we do not use passwords on our platform. Instead, each time you log in, you will be sent a one-time use code.",  "This code will expire immediately after use.", "If you have any questions or need any assistance, please don't hesitate to contact us." ]

@@ -29,5 +29,6 @@ db.connectDB()
 // });
 
 app.use("/api/users", require("./routes/UserRoutes"))
+app.use("/api/documents", require("./routes/DocumentRoutes"))
 
 module.exports = app

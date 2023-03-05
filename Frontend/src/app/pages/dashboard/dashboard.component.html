@@ -41,7 +41,7 @@
             <table class="table align-items-center table-dark table-flush">
               <thead class="thead-dark" id="thead">
                 <tr>
-                  <th scope="col" sortable="name" (sort)="onSort($event)">Project</th>
+                  <th scope="col" sortable="title" (sort)="onSort($event)">Project</th>
                   <th scope="col" sortable="lastUpdated" (sort)="onSort($event)">Last Updated</th>
                   <th scope="col" *ngIf="tableMode == 'My Projects'"></th>
                   <th scope="col" *ngIf="tableMode == 'Shared Projects'" sortable="owner" (sort)="onSort($event)">Owner</th>
@@ -54,10 +54,10 @@
                     <th scope="row">
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
-                          <img alt="Image placeholder" src="assets/img/theme/bootstrap.jpg">
+                          <img alt="Image placeholder" src={{project.imageUrl}}>
                         </a>
                         <div class="media-body">
-                          <span class="mb-0 text-sm">{{project.name}}</span>
+                          <span class="mb-0 text-sm">{{project.title}}</span>
                         </div>
                       </div>
                     </th>
@@ -73,7 +73,7 @@
                           <i class="fas fa-ellipsis-v"></i>
                         </button>
                         <div class="dropdown-menu">
-                          <a class="dropdown-item bg-danger text-white pt-5" href="#">Delete</a>
+                          <a class="dropdown-item bg-danger text-white" (click)="tableMode == 'My Projects' ? deleteDocument(project._id) : deleteSharedDocument(project._id)">Delete</a>
                         </div>
                       </div>
                     </td>

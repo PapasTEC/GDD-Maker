@@ -22,7 +22,7 @@ import { GameGenreComponent } from './pages/gdd-setup-pages/game-genre/game-genr
 import { GamePlatformsComponent } from './pages/gdd-setup-pages/game-platforms/game-platforms.component';
 import { ElevatorPitchComponent } from './pages/gdd-setup-pages/elevator-pitch/elevator-pitch.component';
 import { HighLevelDesignComponent } from './pages/gdd-setup-pages/high-level-design/high-level-design.component';
-
+import { RegisterComponent } from './pages/register/register.component';
 
 @NgModule({
   imports: [

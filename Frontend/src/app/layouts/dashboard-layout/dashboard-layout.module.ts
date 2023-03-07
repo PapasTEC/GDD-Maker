@@ -15,6 +15,8 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
     CommonModule,
     RouterModule.forChild(DashboardLayoutRoutes),
     FormsModule,
+    ReactiveFormsModule,
+    FormsModule,
     NgbModule
   ],
   declarations: [

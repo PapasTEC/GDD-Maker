@@ -14,7 +14,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
     ReactiveFormsModule,
-    FormsModule,
     MatDialogModule
 
     // NgbModule

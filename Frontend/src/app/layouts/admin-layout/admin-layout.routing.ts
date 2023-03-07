@@ -7,7 +7,6 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { GddEditorComponent } from 'src/app/pages/gdd-editor/gdd-editor.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'user-profile',   component: UserProfileComponent },
     { path: 'tables',         component: TablesComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },

@@ -54,37 +54,7 @@ $contentPadding: 2%;
 
 $resizeFont: min(clamp(0.3em, 3vw, 3em), clamp(0.3em, 3vh, 3em));
 
-.subtitleContainer{
-    display: flex;
-    flex-direction: row;
-   
-    justify-content: left;
 
-    
-    width: 100%;
-
-    padding: $contentPadding;
-    margin: 0;
-    
-    border: $borderState 1px #eb05d0;
-
-    
-
-    .subtitle{
-        font-size: $resizeFont;
-        font-weight: 700;
-    
-        width: fit-content;
-        height: fit-content;
-        
-        color: #757575;
-        outline: none;
-        resize: none;
-        overflow: auto; 
-    
-        border: $borderState 1px #eb9b05;
-    }
-}
 
 .inputContainer{
     position: relative;

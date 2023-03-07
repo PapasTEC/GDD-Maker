@@ -78,3 +78,39 @@ $size: 100%;
     background-color: rgb(204, 204, 204);
     color:white;
  }
+
+ $resizeFont: min(clamp(0.3em, 3vw, 3em), clamp(0.3em, 3vh, 3em));
+
+ $borderState: solid;
+
+ .subtitleContainer{
+    display: flex;
+    flex-direction: row;
+   
+    justify-content: left;
+
+    
+    width: 100%;
+
+    padding: 5px;
+    margin: 0;
+    
+    border: $borderState 1px #eb05d0;
+
+    
+
+    .subtitle{
+        font-size: $resizeFont;
+        font-weight: 700;
+    
+        width: fit-content;
+        height: fit-content;
+        
+        color: #757575;
+        outline: none;
+        resize: none;
+        overflow: auto; 
+    
+        border: $borderState 1px #eb9b05;
+    }
+}

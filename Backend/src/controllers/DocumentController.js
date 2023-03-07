@@ -89,6 +89,17 @@ documentController.updateDocument = async (req, res) => {
     });
 };
 
+documentController.updateOwnerInDocuments = async (req, res) => {
+    Documents.find(req.params.owner, { ...req.body }).then((document) => {
+        if (!document) {
+            return res.status(404).json({ message: "Document not found" });
+        }
+        res.status(200).json(document);
+    }).catch((error) => {
+        res.status(500).json({ message: error });
+    });
+};
+
 documentController.deleteDocument = async (req, res) => {
     Documents.findByIdAndDelete(req.params.id).then((document) => {
         if (!document) {

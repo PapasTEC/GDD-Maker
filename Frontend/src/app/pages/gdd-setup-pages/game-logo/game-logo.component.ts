@@ -4,7 +4,7 @@ import { Route, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-game-logo',
   templateUrl: './game-logo.component.html',
-  styleUrls: ['./game-logo.component.scss']
+  styleUrls: ['./game-logo.component.scss', '../setupStyles.scss']
 })
 export class GameLogoComponent {
   constructor(private route: ActivatedRoute) { }

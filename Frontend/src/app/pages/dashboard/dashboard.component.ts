@@ -6,6 +6,7 @@ import {
 } from './sortable.header.directive';
 
 import { DocumentService } from '../../services/document.service';
+import { UserService } from '../../services/user.service';
 
 export interface Project {
   title: string;
@@ -22,7 +23,7 @@ export interface Project {
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private documentService: DocumentService) {}
+  constructor(private documentService: DocumentService, private userService: UserService) {}
 
   tableMode: string = 'My Projects';
   Projects: Project[];
@@ -33,38 +34,40 @@ export class DashboardComponent implements OnInit {
   
   SharedProjectsData: Project[] = []
 
-  email = "abiel";
-  sharedProjects = [
-    "6403639b88b81cec7c6fa27f",
-    "6403639e88b81cec7c6fa281"
-  ];
+  email: string;
+  sharedProjects: any;
 
   ngOnInit() {
     this.tableMode = 'My Projects';
 
-    this.documentService.getMyProjects(this.email).subscribe((data: any) => {
-      this.MyProjectsData = data.map((project: any) => {
-        return {
-          title: project.titleInfo.title,
-          imageUrl: project.titleInfo.imageUrl,
-          lastUpdated: new Date(project.lastUpdated).toLocaleDateString('es-ES'),
-          owner: "",
-          _id: project._id
-        }
-      });
-      this.Projects = this.MyProjectsData;
-      this.data = this.Projects;
-    });
+    this.email = JSON.parse(localStorage.getItem('currentUser')).email;
 
-    this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
-      this.SharedProjectsData = data.map((project: any) => {
-        return {
-          title: project.titleInfo.title,
-          imageUrl: project.titleInfo.imageUrl,
-          lastUpdated: new Date(project.lastUpdated).toLocaleDateString('es-ES'),
-          owner: project.owner,
-          _id: project._id
-        }
+    this.userService.getUser(this.email).subscribe((data: any) => {
+      this.sharedProjects = data.shared_with_me_documents;
+      this.documentService.getMyProjects(this.email).subscribe((data: any) => {
+        this.MyProjectsData = data.map((project: any) => {
+          return {
+            title: project.titleInfo.title,
+            imageUrl: project.titleInfo.imageUrl,
+            lastUpdated: new Date(project.lastUpdated).toLocaleDateString('es-ES'),
+            owner: "",
+            _id: project._id
+          }
+        });
+        this.Projects = this.MyProjectsData;
+        this.data = this.Projects;
+      });
+
+      this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
+        this.SharedProjectsData = data.map((project: any) => {
+          return {
+            title: project.titleInfo.title,
+            imageUrl: project.titleInfo.imageUrl,
+            lastUpdated: new Date(project.lastUpdated).toLocaleDateString('es-ES'),
+            owner: project.owner,
+            _id: project._id
+          }
+        });
       });
     });
   }
@@ -91,7 +94,7 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteSharedDocument(id: string) {
-    console.log("delete Shared", id);
+    alert("delete Shared" + id);
   }
 
   @ViewChildren(SortableHeaderDirective)

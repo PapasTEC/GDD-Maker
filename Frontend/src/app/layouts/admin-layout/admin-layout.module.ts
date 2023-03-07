@@ -21,6 +21,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     NgbModule,
     ClipboardModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     UserProfileComponent,

@@ -24,6 +24,11 @@ export class NavbarComponent implements OnInit {
     this.profileInfo = JSON.parse(localStorage.getItem('currentUser'));
   }
 
+  logout() {
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/login']);
+  }
+
 
 }
 

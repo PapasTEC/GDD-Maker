@@ -110,25 +110,66 @@ export class AdminLayoutComponent implements OnInit {
       let fullScreenButton = document.querySelector(
         "#vditor > div.vditor-toolbar > div:nth-child(28) > button"
       );
-      let showSidebarButton = document.querySelector(
+      let hideSidebarButton = document.querySelector(
         ".share-export-buttons__hide-icon"
       );
 
-      if (!fullScreenButton || !showSidebarButton) {
+      let showSidebarButton = document.querySelector(
+        ".open-sidebarEditor-button"
+      );
+
+      let sidebarEditor: HTMLElement = document.querySelector("#sidebarEditor");
+
+      let hideToolbarButton = document.querySelector(".hide-toolbar");
+
+      let showToolbarButton = document.querySelector(".show-toolbar");
+
+      let toolbar = document.querySelector(".vditor-toolbar");
+
+      if (!fullScreenButton || !showSidebarButton || !hideSidebarButton) {
         console.log("fullScreenButton or showSidebarButton is null");
         return;
       }
 
       fullScreenButton.addEventListener("click", () => {
-        console.log("fullScreenButton clicked");
-        let showSidebarButtonIsShowed =
-          !showSidebarButton.classList.contains("hide");
-        console.log("showSidebarButtonIsShowed: ", showSidebarButtonIsShowed);
-        if (showSidebarButtonIsShowed) {
-          showSidebarButton.classList.add("hide");
-        } else {
-          showSidebarButton.classList.remove("hide");
+        if (sidebarEditor.classList.contains("hide")) {
+          hideSidebarButton.classList.add("hide");
         }
+      });
+
+      hideSidebarButton.addEventListener("click", () => {
+        // showSidebarButton.classList.remove("hide");
+        // showSidebarButton.classList.add("show");
+        // sidebarEditor.classList.add("hide");
+        // sidebarEditor.classList.remove("show");
+
+        sidebarEditor.classList.remove("show-sidebarEditor");
+        sidebarEditor.classList.add("hide-sidebarEditor");
+
+        showSidebarButton.classList.remove("hide-showSidebarButton");
+        showSidebarButton.classList.add("show-showSidebarButton");
+      });
+
+      showSidebarButton.addEventListener("click", () => {
+        // showSidebarButton.classList.add("hide");
+        // // sidebarEditor.classList.add("show");
+        sidebarEditor.classList.remove("hide-sidebarEditor");
+        sidebarEditor.classList.add("show-sidebarEditor");
+
+        showSidebarButton.classList.remove("show-showSidebarButton");
+        showSidebarButton.classList.add("hide-showSidebarButton");
+      });
+
+      hideToolbarButton.addEventListener("click", () => {
+        toolbar.classList.add("hide");
+        showToolbarButton.classList.remove("hide");
+        hideToolbarButton.classList.add("hide");
+      });
+
+      showToolbarButton.addEventListener("click", () => {
+        toolbar.classList.remove("hide");
+        showToolbarButton.classList.add("hide");
+        hideToolbarButton.classList.remove("hide");
       });
     }, 500);
   }

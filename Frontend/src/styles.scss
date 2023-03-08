@@ -13,6 +13,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding-left: 30px !important;
   padding-right: 0 !important;
   border: none !important;
+
+  &.hide {
+    display: none;
+  }
 }
 
 #vditor {

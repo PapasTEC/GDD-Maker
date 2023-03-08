@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { UserProfileComponent } from 'src/app/pages/user-profile/user-profile.component';
 
+import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 
 export const DashboardLayoutRoutes: Routes = [

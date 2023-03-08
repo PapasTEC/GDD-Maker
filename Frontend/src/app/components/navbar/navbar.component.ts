@@ -22,6 +22,9 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     this.profileInfo = JSON.parse(localStorage.getItem('currentUser'));
+    if (!this.profileInfo) {
+      this.profileInfo = { name: 'Guest', image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' };
+    }
   }
 
   logout() {
@@ -29,19 +32,17 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  getTitle(){
+    var titlee = this.location.prepareExternalUrl(this.location.path());
+    if(titlee.charAt(0) === '#'){
+        titlee = titlee.slice( 1 );
+    }
 
+    for(var item = 0; item < this.listTitles.length; item++){
+        if(this.listTitles[item].path === titlee){
+            return this.listTitles[item].title;
+        }
+    }
+    return 'Dashboard';
+  }
 }
-
-  // getTitle(){
-  //   var titlee = this.location.prepareExternalUrl(this.location.path());
-  //   if(titlee.charAt(0) === '#'){
-  //       titlee = titlee.slice( 1 );
-  //   }
-
-  //   for(var item = 0; item < this.listTitles.length; item++){
-  //       if(this.listTitles[item].path === titlee){
-  //           return this.listTitles[item].title;
-  //       }
-  //   }
-  //   return 'Dashboard';
-  // }

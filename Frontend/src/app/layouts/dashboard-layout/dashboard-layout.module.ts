@@ -9,6 +9,7 @@ import { CountryPipe } from '../../pages/dashboard/project.pipe';
 import { SortableHeaderDirective } from '../../pages/dashboard/sortable.header.directive';
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
+import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
   ],
   declarations: [
     DashboardComponent,
+    UserProfileComponent,
     CountryPipe,
     SortableHeaderDirective
   ]

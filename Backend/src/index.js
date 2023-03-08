@@ -23,9 +23,9 @@ app.listen(process.env.PORT || port, () => {
 
 db.connectDB()
 
-app.use(express.static(path.join(__dirname, 'dist'), { type: 'application/javascript' }));
-app.use('/*', function(req, res) {
-  res.sendFile(path.join(__dirname,'dist/index.html'));
+app.use(express.static(path.join(__dirname, 'frontend'), { type: 'application/javascript' }));
+app.use('/app/*', function(req, res) {
+  res.sendFile(path.join(__dirname,'frontend/index.html'));
 });
 
 app.use("/api/users", require("./routes/UserRoutes"))

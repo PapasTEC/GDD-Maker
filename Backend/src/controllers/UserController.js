@@ -27,11 +27,23 @@ userController.createUser = async (req, res) => {
     }
 };
 
+userController.checkUser = async (req, res) => {
+    try {
+        const user = await Users.findOne({ email: req.params.email });
+
+        if (!user) return res.status(200).json(false);
+
+        res.status(200).json(true);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+};
+
 userController.getUser = async (req, res) => {
     try {
         const user = await Users.findOne({ email: req.params.email });
 
-        if (!user) return res.status(200).json(null);
+        if (!user) return res.status(200).json({ message: "User not found" });
 
         res.status(200).json(user);
     } catch (error) {

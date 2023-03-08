@@ -14,8 +14,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-import { GddEditorComponent } from './pages/gdd-editor/gdd-editor.component';
-import { RegisterComponent } from './pages/register/register.component';
 
 @NgModule({
   imports: [
@@ -33,8 +31,7 @@ import { RegisterComponent } from './pages/register/register.component';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    DashboardLayoutComponent,
-    GddEditorComponent
+    DashboardLayoutComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
 node_modules
 build
 dist
+frontend
 npm-debug.log
 .nyc
 .env

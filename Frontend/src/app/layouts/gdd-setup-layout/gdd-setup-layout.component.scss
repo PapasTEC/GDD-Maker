@@ -58,6 +58,7 @@ $borderState: none;
 }
 
 /* TitleBox */
+
 .cardRibbonTitle {
   position: relative;
   border: #01a2ff 2px $borderState;
@@ -67,7 +68,7 @@ $borderState: none;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
 
-  font-size: min(clamp(0.3em, 5vw, 3em), clamp(0.3em, 5vh, 3em));
+  font-size: min(5vw, 5vh);
 
   /* or 0% */
   display: flex;
@@ -147,8 +148,12 @@ $tertiary: #c7c7c7;
     border-color: rgb(235, 3, 204);
     
 }
+$lower: 30pt;
+$upper: 50pt;
+$relative: 3vw;
+$relative2: 3vh;
 
-$size : min(clamp(5px, 6vw, 70px), clamp(5px, 6vh, 70px));
+$size : min(5vw, 5vh);
 
 .arrows{
     position: relative;

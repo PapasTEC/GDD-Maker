@@ -5,91 +5,33 @@
     <div class="contentContainer">
         <div class="platformCanvas">
 
-            <div class="flexCont">
+            <div class="flexCont"  *ngFor="let platform of platforms;index as i">
                 <div class="platformContainer">
-                    <button class="btn">
+                    <button class="btn" (click) = "addOrRemove(i)">
                         <img class="platformImage"
-                            src="https://e7.pngegg.com/pngimages/24/817/png-clipart-playstation-4-raiders-of-the-broken-planet-playstation-network-playstation-plus-playstation-electronics-text.png"
+                            src={{platform.image}}
                             alt="">
-                        <div class="overlay">
-                            <img class="overlayImage"
-                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Check_mark_23x20_02.svg/1081px-Check_mark_23x20_02.svg.png"
-                                alt="">
+                        <div  class="overlay" styles="">
+                            <svg id=i class="overlayImage" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-3.2 -3.2 38.40 38.40" xml:space="preserve" fill="#000000" stroke="#000000">
+
+                                <g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(6.24,6.24), scale(0.61)">
+                                
+                                <rect x="-3.2" y="-3.2" width="38.40" height="38.40" rx="19.2" fill="#ffffff" strokewidth="0"/>
+                                
+                                </g>
+                                
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                
+                                <g id="SVGRepo_iconCarrier"> <g> <g id="check_x5F_alt"> <path style="fill:#030104;" d="M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M13.52,23.383 L6.158,16.02l2.828-2.828l4.533,4.535l9.617-9.617l2.828,2.828L13.52,23.383z"/> </g> </g> </g>
+                                
+                                </svg>
                         </div>
                     </button>
                     <div class="platformText">
-                        <span>Playstation</span>
+                        <span>{{platform.name}}</span>
                     </div>
                 </div>
             </div>
-
-            <div class="flexCont">
-                <div class="platformContainer">
-                    <div class="platformImage">
-
-                    </div>
-                    <div class="platformText">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="flexCont">
-                <div class="platformContainer">
-                    <div class="platformImage">
-
-                    </div>
-                    <div class="platformText">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="flexCont">
-                <div class="platformContainer">
-                    <div class="platformImage">
-
-                    </div>
-                    <div class="platformText">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="flexCont">
-                <div class="platformContainer">
-                    <div class="platformImage">
-
-                    </div>
-                    <div class="platformText">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="flexCont">
-                <div class="platformContainer">
-                    <div class="platformImage">
-
-                    </div>
-                    <div class="platformText">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="flexCont">
-                <div class="platformContainer">
-                    <div class="platformImage">
-
-                    </div>
-                    <div class="platformText">
-
-                    </div>
-                </div>
-            </div>
-
-
 
         </div>
 

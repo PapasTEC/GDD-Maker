@@ -41,7 +41,7 @@
 
     
     
-    font-size: min(clamp(0em, 3vw, 1em), clamp(0em, 3vh, 1em));
+    font-size: min(2.5vw, 2.5vh);
     font-weight: 500;
     color: #757575;
 
@@ -79,9 +79,9 @@ $size: 100%;
     color:white;
  }
 
- $resizeFont: min(clamp(0.3em, 3vw, 3em), clamp(0.3em, 3vh, 3em));
+ $resizeFont: min(3vw, 3vh);
 
- $borderState: solid;
+ $borderState: none;
 
  .subtitleContainer{
     display: flex;

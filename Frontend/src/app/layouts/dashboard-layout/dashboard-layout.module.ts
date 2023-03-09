@@ -5,16 +5,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardLayoutRoutes } from './dashboard-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { CountryPipe } from '../../pages/dashboard/project.pipe';
+import { SortableHeaderDirective } from '../../pages/dashboard/sortable.header.directive';
+
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
+import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(DashboardLayoutRoutes),
     FormsModule,
+    ReactiveFormsModule,
+    FormsModule,
     NgbModule
   ],
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    UserProfileComponent,
+    CountryPipe,
+    SortableHeaderDirective
   ]
 })
 export class DashboardLayoutModule { }

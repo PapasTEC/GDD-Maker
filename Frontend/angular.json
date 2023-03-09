@@ -17,13 +17,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "allowedCommonJsDependencies": [
-              "chart.js"
+              "veditor"
             ],
             "assets": [
               "src/favicon.ico",
@@ -35,7 +35,6 @@
               "node_modules/vditor/src/assets/less/index.less"
             ],
             "scripts": [
-              "node_modules/chart.js/dist/Chart.min.js",
               "node_modules/clipboard/dist/clipboard.min.js"
             ]
           },

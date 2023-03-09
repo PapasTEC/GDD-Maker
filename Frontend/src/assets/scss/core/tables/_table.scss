@@ -5,13 +5,36 @@
 
 // General styles
 
+$scrollbar-width: 6px;
+
+.table-wrapper {
+    width: 100%;
+    height: 78dvh;
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+    text-align: left;
+    border-collapse: separate; /* Don't collapse */
+    border-spacing: 0;
+}
+
+table thead th {
+    position: sticky;
+    top: 0;
+}
+
 .table {
+
     thead th {
+        z-index: 1;
         padding-top: $table-head-spacer-y;
         padding-bottom: $table-head-spacer-y;
         font-size: $table-head-font-size;
         text-transform: $table-head-text-transform;
         letter-spacing: $table-head-letter-spacing;
+        border-top: 10px $table-border-width solid $table-border-color;
         border-bottom: $table-border-width solid $table-border-color;
     }
 
@@ -47,12 +70,14 @@
    // Styles for dark table
 
    .thead-dark {
+        height: 10;
+
         th {
             background-color: $table-dark-head-bg;
             color: $table-dark-head-color;
+
         }
     }
-
 
     // Styles for light table
 
@@ -62,8 +87,34 @@
             color: $table-head-color;
         }
     }
-}
 
+    /* sortable header directive */
+    th[sortable] {
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    
+    th[sortable].desc:before,
+    th[sortable].asc:before {
+        content: "";
+        filter: invert(58%) sepia(57%) saturate(1540%) hue-rotate(173deg) brightness(83%) contrast(89%);
+        display: block;
+        background: url("../../../img/icons/common/arrow-up-solid.svg");
+        background-repeat: no-repeat;
+        background-size: 8px;
+        width: 8px;
+        height: 8px;
+        float: left;
+        // margin-left: -10px;
+        margin: 3px 4px 0 0;
+    }
+    
+    th[sortable].desc:before {
+        transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+    }
+}
 
 // Add transition for hover state
 
@@ -85,6 +136,7 @@
 
     tbody {
         tr {
+            
             &:first-child {
                 td,
                 th {
@@ -115,4 +167,142 @@
             padding-right: $card-spacer-x;
         }
     }
+
+    ::-webkit-scrollbar {
+        height: $scrollbar-width;
+        width: $scrollbar-width;
+        background-color: $default;
+        z-index: 2;
+    }
+
+    ::-webkit-scrollbar-corner { 
+        background: $default; 
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px $default; 
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        background-color: $tertiary;
+    }
+}
+
+.card-table {
+    height: 78dvh;
+
+    margin-bottom: 2%;
+
+    @include media-breakpoint-up(lg) {
+        margin-bottom: 5%;
+    }
+    
+    .button {
+        display: inline-block;
+        // margin: 2px 4px;
+        font-size: $input-btn-font-size-sm;
+        // padding-left: 2px;
+        // padding-right: 2px;
+        line-height: 30px;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        
+    }
+    
+    .button:hover {
+        transition-duration: 0.4s;
+        -moz-transition-duration: 0.4s;
+        -webkit-transition-duration: 0.4s;
+        -o-transition-duration: 0.4s;
+        background-color: $white;
+        color: black;
+    }
+    
+    .search-container {
+        position: relative;
+        display: inline-block;
+        height: 32px;
+        width: 2rem;
+        vertical-align: middle;
+    }
+    
+    .searchbutton {
+        position: absolute;
+        font-size: $input-btn-font-size-sm;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border-radius: 0 $border-radius $border-radius 0;
+    }
+    
+    .search:focus + .searchbutton {
+        transition-duration: 0.4s;
+        -moz-transition-duration: 0.4s;
+        -webkit-transition-duration: 0.4s;
+        -o-transition-duration: 0.4s;
+        background-color: $white;
+        color: black;
+    }
+    
+    .search {
+        position: absolute;
+        font-size: $input-btn-font-size-sm;
+        left: 49px; /* Button width-1px (Not 50px/100% because that will sometimes show a 1px line between the search box and button) */
+        background-color: $white;
+        outline: none;
+        border: 0;
+        border-radius: $border-radius 0 0 $border-radius;
+        padding: 0;
+        width: 0;
+        height: 30px;
+        z-index: 10;
+        transition-duration: 0.4s;
+        -moz-transition-duration: 0.4s;
+        -webkit-transition-duration: 0.4s;
+        -o-transition-duration: 0.4s;
+    }
+    
+    .search:focus {
+        width: 209px; /* Bar width+1px */
+        padding: 0 16px 0 0; /* a*/
+    }
+    
+    .expandright {
+        left: auto;
+        right: 30px; /* Button width-1px */
+        padding: 0;
+
+    }
+    
+    .expandright:focus {
+        padding: 0 0 0 10px;
+    }
+}
+
+.tr-item {
+
+    height: 80px;
+
+    cursor: pointer;
+    &:hover {
+        background-color: $table-dark-hover-bg;
+    }
+
+}
+
+.tr-padding {
+    background-color: $table-dark-head-bg;
+    // $table-dark-head-bg;
 }

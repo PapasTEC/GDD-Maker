@@ -39,6 +39,16 @@
         padding-right: 15 !important;
     }
 
+    // .footer {
+    //     position: absolute;
+    //     left: 0;
+    //     bottom: 0;
+    //     width: 100%;
+    //     background-color: transparent;
+    //     padding-left: 0 !important;
+    //     padding-right: 0 !important;
+    // }
+
     // Container
     .container-fluid {
         @include media-breakpoint-up(md) {

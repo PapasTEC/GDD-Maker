@@ -29,7 +29,7 @@ export class GameGenreComponent {
     this.getDataInJSONFormat();
   }
 
-  private deleteTags(id: number): void {
+  public deleteTag(id: number): void {
     // Delete at index 
     this.tags.splice(id, 1);
     console.log(this.tags);

@@ -28,7 +28,7 @@
             <div class="genresList" >
                 <div class="genreContainer" *ngFor=" let tag of tags; index as i ">
                     <span class="txt">{{tag}}</span>
-                    <button class="btn" (click)="deleteGenre(i)">
+                    <button class="btn" (click)="deleteTag(i)">
                         <svg class="icon" style="filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(247deg) brightness(110%) contrast(108%);" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg>
                     </button>
                 </div>

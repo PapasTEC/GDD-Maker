@@ -18,5 +18,17 @@ jobs:
           git pull
           cd Backend
           sudo npm i
+          cd src
+          if [ -d frontendBuild ]; then rm -r frontendBuild; fi
+          echo "DELETING OLD FRONTEND BUILD"
+          cd ../../Frontend
+          sudo npm i
+          echo "NPM i FRONTEND"
+          ng build
+          echo "NG BUILDING"
+          mv frontendBuild ../Backend/src/frontendBuild
+          echo "MOVING"  
+          echo "DEPLOYED"
+              
           
           

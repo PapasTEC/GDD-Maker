@@ -8,10 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ClipboardModule } from 'ngx-clipboard';
 import { GddSetupLayoutRoutes } from './gdd-setup-layout.routing';
-import { IconsComponent } from '../../pages/icons/icons.component';
-import { MapsComponent } from '../../pages/maps/maps.component';
-import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
-import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ElevatorPitchComponent } from "../../pages/gdd-setup-pages/elevator-pitch/elevator-pitch.component";
@@ -34,11 +30,12 @@ import { HighLevelDesignComponent} from "../../pages/gdd-setup-pages/high-level-
     ClipboardModule,
   ],
   declarations: [
-    UserProfileComponent,
-    TablesComponent,
-    IconsComponent,
-    MapsComponent,
-    
+    ElevatorPitchComponent,
+    GameGenreComponent,
+    GameLogoComponent,
+    GamePlatformsComponent,
+    GameTitleComponent,
+    HighLevelDesignComponent,
   ]
 })
 

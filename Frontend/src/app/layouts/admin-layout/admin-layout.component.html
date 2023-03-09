@@ -12,14 +12,14 @@
 
   <body style="padding: 1%; background-color: #2f6690">
     <div id="editor-container" class="editor-container-Class">
-      <!-- Sidebar <app-sidebarEditor></app-sidebarEditor> -->
+      <!-- Sidebar <app-sidebar></app-sidebar> -->
 
       <!-- Sidebar -->
       <link rel="stylesheet" href="admin-layout.component.scss" />
 
-      <div id="sidebarEditor" class="leftModuleClass">
+      <div id="sidebar" class="leftModuleClass">
         <!-- Esto esta aca para ver la barra -->
-        <div id="sidebarEditor-top" class="leftModuleTopClass">
+        <div id="sidebar-top" class="leftModuleTopClass">
           <div id="backbutton-container" class="backButtonContainerClass">
             > Back
           </div>
@@ -32,31 +32,54 @@
             />
           </div>
         </div>
-        <div id="sidebarEditor-bottom" class="leftModuleBottomClass">
+        <div id="sidebar-bottom" class="leftModuleBottomClass">
           <div id="layout-text" class="layoutTextContainer">
             <div class="layoutText">Document Title</div>
           </div>
           <div id="layout-container" class="layoutContainerClass">
-            <div class="sidebarEditor">
-              <!-- <a class="nActive" href="#/editor">Tematica</a> -->
-              <button class="dropdown-btn">
-                Tematica
-              </button>
+            <!-- <div class="side-bar">
+          <div class="close-btn">
+            <i class="fas fa-times"></i>
+          </div>
+          <div class="menu">
+            <div class="item"><a href="#"><i class="fas fa-desktop"></i>Dashboard</a></div>
+            <div class="item">
+              <a class="sub-btn"><i class="fas fa-table"></i>Tables<i class="fas fa-angle-right dropdown"></i></a>
+              <div class="sub-menu">
+                <a href="#" class="sub-item">Sub Item 01</a>
+                <a href="#" class="sub-item">Sub Item 02</a>
+                <a href="#" class="sub-item">Sub Item 03</a>
+              </div>
+            </div>
+            <div class="item"><a href="#"><i class="fas fa-th"></i>Forms</a></div>
+            <div class="item">
+              <a class="sub-btn"><i class="fas fa-cogs"></i>Settings<i class="fas fa-angle-right dropdown"></i></a>
+              <div class="sub-menu">
+                <a href="#" class="sub-item">Sub Item 01</a>
+                <a href="#" class="sub-item">Sub Item 02</a>
+              </div>
+            </div>
+            <div class="item"><a href="#"><i class="fas fa-info-circle"></i>About</a></div>
+          </div>
+        </div> -->
+
+            <div class="sidebar">
+              <a class="nActive" href="#/editor">Tematica</a>
+
               <button class="dropdown-btn">
                 High Level Design
-                <i class="fa fa-chevron-down"></i>
+                <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-container" style="display: none">
                 <a class="nActive" href="#/editor">Link 1</a>
                 <a class="nActive" href="#/editor">Link 2</a>
                 <a class="nActive" href="#/editor">Link 3</a>
               </div>
-              <!-- <a class="nActive" href="#/editor">About</a> -->
-              <button class="dropdown-btn">About</button>
+              <a class="nActive" href="#/editor">About</a>
             </div>
           </div>
         </div>
-        <div id="sidebarEditor-top" class="leftModuleTopClass">
+        <div id="sidebar-top" class="leftModuleTopClass">
           <div id="backbutton-container" class="backButtonContainerClass">
             <div class="current-users">
               <div class="current-users__count">4</div>
@@ -81,7 +104,7 @@
 
       <div id="workspace" class="workspace-class">
         <img
-          class="open-sidebarEditor-button"
+          class="open-sidebar-button"
           src="assets/img/icons/common/chevrons-left.svg"
           alt="share"
         />
@@ -99,12 +122,11 @@
         <div id="markdown-editor" class="markdown-wrapper">
           <router-outlet></router-outlet>
           <div id="vditor"></div>
-          <button class="clear hide-toolbar">
-            <img src="assets/img/icons/common/chevrons-left.svg" alt="share" />
-          </button>
-          <button class="clear show-toolbar hide">
-            <img src="assets/img/icons/common/tools-icon.svg" alt="share" />
-          </button>
+          <img
+            class="hide-toolbar"
+            src="assets/img/icons/common/chevrons-left.svg"
+            alt="share"
+          />
         </div>
       </div>
     </div>

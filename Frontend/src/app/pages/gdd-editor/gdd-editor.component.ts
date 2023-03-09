@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./gdd-editor.component.scss']
 })
 export class GddEditorComponent {
-
+  
+    constructor() { }
 }

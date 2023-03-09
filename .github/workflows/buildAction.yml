@@ -16,17 +16,6 @@ jobs:
         script: |
           cd proyecto/GDD-Maker
           git pull
-          cd Backend
-          sudo npm i
-          cd src
-          if [ -d frontendBuild ]; then rm -r frontendBuild; fi
-          ECHO "DELETING OLD FRONTEND BUILD"
-          cd ../../Frontend
-          sudo npm i
-          ECHO "NPM i FRONTEND"
-          ng build
-          ECHO "NG BUILDING"
-          mv frontendBuild ../Backend/src/frontendBuild
-          ECHO "MOVING"          
+              
           
           

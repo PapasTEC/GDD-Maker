@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./high-level-design.component.scss']
 })
 export class HighLevelDesignComponent {
-
+  
 }

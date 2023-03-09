@@ -30,7 +30,7 @@ export class GamePlatformsComponent {
       this.chosenPlatforms.push(platformID);
     }
     this.updatePlatformIndicator();
-    console.log(this.chosenPlatforms);
+    this.getDataInJSONFormat();
   }
 
   updatePlatformIndicator(){
@@ -48,6 +48,13 @@ export class GamePlatformsComponent {
   
   ngOnInit(){
     
+  }
+
+  private getDataInJSONFormat(){
+    let newJSON = {platforms:[]};
+    this.chosenPlatforms.forEach(index => newJSON.platforms.push(this.platforms[index].name));
+    console.log(newJSON);
+    return newJSON;
   }
 
 }

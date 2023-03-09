@@ -27,7 +27,8 @@ jobs:
           ng build
           echo "NG BUILDING"
           mv frontendBuild ../Backend/src/frontendBuild
-          echo "MOVING,"    
+          echo "MOVING"  
+          echo "DEPLOYED"
               
           
           

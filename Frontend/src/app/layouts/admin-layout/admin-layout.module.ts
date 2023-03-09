@@ -24,6 +24,7 @@ import { GddEditorComponent } from 'src/app/pages/gdd-editor/gdd-editor.componen
   ],
   declarations: [
     GddEditorComponent
+
   ]
 })
 

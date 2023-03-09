@@ -15,6 +15,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
+import { GddEditorComponent } from './pages/gdd-editor/gdd-editor.component';
+import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-layout.component';
+import { GameTitleComponent } from './pages/gdd-setup-pages/game-title/game-title.component';
+import { GameLogoComponent } from './pages/gdd-setup-pages/game-logo/game-logo.component';
+import { GameGenreComponent } from './pages/gdd-setup-pages/game-genre/game-genre.component';
+import { GamePlatformsComponent } from './pages/gdd-setup-pages/game-platforms/game-platforms.component';
+import { ElevatorPitchComponent } from './pages/gdd-setup-pages/elevator-pitch/elevator-pitch.component';
+import { HighLevelDesignComponent } from './pages/gdd-setup-pages/high-level-design/high-level-design.component';
+import { RegisterComponent } from './pages/register/register.component';
+
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -31,7 +42,16 @@ import { ComponentsModule } from './components/components.module';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    DashboardLayoutComponent
+    DashboardLayoutComponent,
+    GddEditorComponent,
+    GddSetupLayoutComponent,
+    GameTitleComponent,
+    GameLogoComponent,
+    GameGenreComponent,
+    GamePlatformsComponent,
+    ElevatorPitchComponent,
+    HighLevelDesignComponent
+
   ],
   providers: [],
   bootstrap: [AppComponent]

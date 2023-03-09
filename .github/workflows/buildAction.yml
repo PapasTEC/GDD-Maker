@@ -18,5 +18,15 @@ jobs:
           git pull
           cd Backend
           sudo npm i
+          cd src
+          if [ -d frontendBuild ]; then rm -r frontendBuild; fi
+          cd ..
+          cd ..
+          cd Frontend
+          sudo npm i
+          ng build
+          mv frontendBuild ../Backend/src/frontendBuild
+          cd ../Backend/
+          
           
           

@@ -54,3 +54,11 @@ Content-Type: application/json
         "6403639e88b81cec7c6fa281"
     ]  
 }
+
+###
+PUT http://localhost:3080/api/documents/updateOwner/abielAAA HTTP/1.1
+Content-Type: application/json
+
+{
+    "owner": "abielpg.juzo@gmail.com"
+}

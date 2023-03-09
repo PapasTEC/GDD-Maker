@@ -90,7 +90,7 @@ documentController.updateDocument = async (req, res) => {
 };
 
 documentController.updateOwnerInDocuments = async (req, res) => {
-    Documents.find(req.params.owner, { ...req.body }).then((document) => {
+    Documents.updateMany({ owner: req.params.owner }, { owner: req.body.owner }).then((document) => {
         if (!document) {
             return res.status(404).json({ message: "Document not found" });
         }

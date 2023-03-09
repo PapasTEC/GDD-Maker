@@ -37,4 +37,8 @@ export class DocumentService {
   getSharedProjects(ids: any) {
     return this.http.post<any>(this.API + 'getInfoShared/', ids);
   }
+
+  updateOwnerInDocuments(owner: string, newOwner: any) {
+    return this.http.put(this.API + 'updateOwner/' + owner, newOwner);
+  }
 }

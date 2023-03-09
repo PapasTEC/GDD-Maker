@@ -12,7 +12,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
-        port: ${{ secrets.SSH_PORT }}
+        port: 22
         script: |
           cd Backend
           sudo npm i

@@ -14,6 +14,8 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          cd proyecto/GDD-Maker
+          git pull
           cd Backend
           sudo npm i
           cd src
@@ -25,7 +27,7 @@ jobs:
           ng build
           ECHO "NG BUILDING"
           mv frontendBuild ../Backend/src/frontendBuild
-          ECHO "MOVING NOW "
+          ECHO "MOVING"    
               
           
           

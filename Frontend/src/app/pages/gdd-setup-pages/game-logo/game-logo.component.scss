@@ -16,9 +16,6 @@ $size: 30vh;
     display: none;
 }
 .icon{
-    width: $size*1/4;
-    height: $size*1/4;
- }
-
-
- 
+    width: calc($size * 1 / 4);
+    height: calc($size * 1 / 4);
+}

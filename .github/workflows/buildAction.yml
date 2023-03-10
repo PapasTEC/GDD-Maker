@@ -33,6 +33,7 @@ jobs:
           echo "STARTING SERVER"
           echo "SERVER RUNNING"
           echo "APP DEPLOYED"
+          
               
           
           

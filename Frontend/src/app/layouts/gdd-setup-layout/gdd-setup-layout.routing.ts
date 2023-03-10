@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
 
-
-import { LoginComponent } from '../../pages/login/login.component';
-import { RegisterComponent } from '../../pages/register/register.component';
-
 import { ElevatorPitchComponent } from "../../pages/gdd-setup-pages/elevator-pitch/elevator-pitch.component";
 import { GameGenreComponent } from "../../pages/gdd-setup-pages/game-genre/game-genre.component";
 import { GameLogoComponent} from "../../pages/gdd-setup-pages/game-logo/game-logo.component";

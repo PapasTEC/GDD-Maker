@@ -3,10 +3,10 @@ on: [push]
 jobs:
 
   buildDep:
-    name: Build and Deploy
+    name: CI/CD
     runs-on: ubuntu-latest
     steps:
-    - name: Running first set of commands
+    - name: Update app
       uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
@@ -31,12 +31,7 @@ jobs:
           echo "MOVING"  
           echo "APP UPDATED"
           
-  serve:
-    name: Serve
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Running second set of commands
+    - name: Start server
       uses: appleboy/ssh-action@v0.1.7
       timeout-minutes: 0.2
       with:
@@ -46,20 +41,16 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd proyecto/GDD-Maker/Backend
-          if pgrep -x "node" > /dev/null; then     echo "Running"; else    npm run dev echo "Stopped"; fi
           echo "STARTING SERVER"
-          echo "SERVER RUNNING"
-          echo "APP DEPLOYED"     
-    - name: Clean up
+          if pgrep -x "node" > /dev/null; then     echo "Running"; else    npm run dev echo "Stopped"; fi
+    - name: Finish up
       uses: appleboy/ssh-action@v0.1.7
-      timeout-minutes: 0.2
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          echo "STARTING SERVER"
           echo "SERVER RUNNING"
           echo "APP DEPLOYED" 
           

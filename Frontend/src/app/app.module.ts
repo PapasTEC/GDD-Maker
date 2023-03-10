@@ -23,7 +23,7 @@ import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-la
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   declarations: [
     AppComponent,

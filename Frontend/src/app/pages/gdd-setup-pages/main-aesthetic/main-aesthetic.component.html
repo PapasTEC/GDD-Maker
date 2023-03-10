@@ -1,17 +1,22 @@
 <div class="platformsBody">
     <div class="subtitleContainer">
         <span class="subtitle">Select your game's main aesthetic</span>
+        
     </div>
     <div class="contentContainer">
         <div class="platformCanvas">
             <div class="flexCont"  *ngFor="let aes of game_aesthetics;index as i">
                 <div class="platformContainer">
                     <button class="btn" (click) = "addOrRemove(i)">
-                        <img class="platformImage"
+                        <!-- <img class="platformImage"
                             src={{aes.img}}
-                            alt="">
+                            alt=""> -->
+                        <div class="platformImage">
+                            <fa-icon class="a" [icon]="aes.icon"></fa-icon>
+                        </div>
+                        
                         <div  class="overlay" styles="">
-                            <svg id=i class="overlayImage" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-3.2 -3.2 38.40 38.40" xml:space="preserve" fill="#000000" stroke="#000000">
+                            <svg [id]="i" class="overlayImage" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-3.2 -3.2 38.40 38.40" xml:space="preserve" fill="#000000" stroke="#000000">
                     
                                 <g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(6.24,6.24), scale(0.61)">
                                 

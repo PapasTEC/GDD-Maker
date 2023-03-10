@@ -13,6 +13,7 @@ import { GameTitleComponent } from "../../pages/gdd-setup-pages/game-title/game-
 import { HighLevelDesignComponent} from "../../pages/gdd-setup-pages/high-level-design/high-level-design.component";
 import { MainAestheticComponent } from "../../pages/gdd-setup-pages/main-aesthetic/main-aesthetic.component";
 import { CoreMechanicComponent } from "../../pages/gdd-setup-pages/core-mechanic/core-mechanic.component";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { CoreMechanicComponent } from "../../pages/gdd-setup-pages/core-mechanic
     HttpClientModule,
     NgbModule,
     ClipboardModule,
+    FontAwesomeModule,
   ],
   declarations: [
     ElevatorPitchComponent,
@@ -31,7 +33,8 @@ import { CoreMechanicComponent } from "../../pages/gdd-setup-pages/core-mechanic
     GameTitleComponent,
     HighLevelDesignComponent,
     MainAestheticComponent,
-    CoreMechanicComponent
+    CoreMechanicComponent,
+
   ]
 })
 

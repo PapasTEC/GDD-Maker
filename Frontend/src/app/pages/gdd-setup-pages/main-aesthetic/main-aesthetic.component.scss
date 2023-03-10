@@ -135,10 +135,17 @@ $size: min(clamp(20%, 10vw, 30%), clamp(20%, 10vh, 30%));
             width: inherit;
             border-radius: inherit;
             display: block;
-            border: $borderState 1px #ff002b;
 
-            
+            fa-icon.a {
+              fill: #ffffff;
+              stroke: #ff0000;
+              font-size: min(6vw, 6vh);
+              display: block;
+              color: black;
+            }
         }
+
+        
 
         .btn:hover .platformImage{
             filter: contrast(1.5);
@@ -163,3 +170,4 @@ $size: min(clamp(20%, 10vw, 30%), clamp(20%, 10vh, 30%));
         border: $borderState 1px #8b565f;
     }
 }
+

@@ -7,49 +7,63 @@ import { Route, ActivatedRoute } from '@angular/router';
   styleUrls: ['./game-logo.component.scss', '../setupStyles.scss']
 })
 export class GameLogoComponent {
+
   constructor(private route: ActivatedRoute) { }
 
   isCompanySetUp = false;	
 
   image?: HTMLImageElement;
 
-  uploadedImage = new Image();
+  uploadedImage: string;
   
   logoUploadComponent:HTMLElement;
- 
+
   ngOnInit() {
     this.route.data.subscribe(_value => this.isCompanySetUp = _value.type === "company" );
     this.logoUploadComponent = document.getElementById('logo');
-    this.logoUploadComponent.addEventListener('change', this.handleFileSelect, false);
+
+    if (localStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+      if (this.isCompanySetUp) {
+        this.uploadedImage = currentSetup.companyLogo;
+      } else {
+        this.uploadedImage = currentSetup.gameLogo;
+      }
+      
+      if (this.uploadedImage != "") {
+        this.updateLogo();
+      }
+    }
   }
 
-  handleFileSelect = (evt: any) => {
-
-    const files = evt.target.files; 
-    const file = files[0];
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
 
     if(file){
-      let newImage = URL.createObjectURL(file);
+      this.uploadedImage = URL.createObjectURL(file);
     
-      let uploadButton = document.getElementById('upButton');
-      uploadButton.style.backgroundImage = `url(${newImage})`;
-      uploadButton.style.backgroundSize = "100% 100%";
-      uploadButton.style.backgroundRepeat = "no-repeat";
+      this.updateLogo();
 
-      //Get child element of upload button
-      let uploadButtonChild = uploadButton.children[1] as HTMLElement;
-      uploadButtonChild.style.display = 'none';
-
-      this.uploadedImage.src = newImage;
+      if (localStorage.getItem('currentSetup') !== null) {
+        let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+        if (this.isCompanySetUp) {
+          currentSetup.companyLogo = this.uploadedImage;
+        } else {
+          currentSetup.gameLogo = this.uploadedImage;
+        }
+        localStorage.setItem('currentSetup', JSON.stringify(currentSetup));
+      }
     }
+  }
 
-    console.log(this.uploadedImage);
-    
-    
-    
-    }
+  updateLogo() {
+    let uploadButton = document.getElementById('upButton');
+    uploadButton.style.backgroundImage = `url(${this.uploadedImage})`;
+    uploadButton.style.backgroundSize = "100% 100%";
+    uploadButton.style.backgroundRepeat = "no-repeat";
 
-  
-
-  
+    //Get child element of upload button
+    let uploadButtonChild = uploadButton.children[1] as HTMLElement;
+    uploadButtonChild.style.display = 'none';
+  }
 }

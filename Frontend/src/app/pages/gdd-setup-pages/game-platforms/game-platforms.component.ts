@@ -8,15 +8,16 @@ import { Component } from '@angular/core';
 export class GamePlatformsComponent {
 
   platforms = [
-    {"name":"Playstation", "image":"../../assets/img/platformIcons/playstation.png"}, 
-    {"name":"Xbox", "image":"../../assets/img/platformIcons/xbox.png"}, 
-    {"name":"Windows", "image":"../../assets/img/platformIcons/windows.png"}, 
-    {"name":"Nintendo Switch", "image":"../../assets/img/platformIcons/switch.png"},
-    {"name":"Linux", "image":"../../assets/img/platformIcons/linux.png"},
-    {"name":"MacOS", "image":"../../assets/img/platformIcons/mac.png"},
     {"name":"Android", "image":"../../assets/img/platformIcons/android.png"},
     {"name":"iOS", "image":"../../assets/img/platformIcons/ios.png"},
-    {"name":"Web", "image":"../../assets/img/platformIcons/web.png"},];
+    {"name":"Web", "image":"../../assets/img/platformIcons/web.png"},
+    {"name":"Linux", "image":"../../assets/img/platformIcons/linux.png"},
+    {"name":"MacOS", "image":"../../assets/img/platformIcons/mac.png"},
+    {"name":"Windows", "image":"../../assets/img/platformIcons/windows.png"},
+    {"name":"Playstation", "image":"../../assets/img/platformIcons/playstation.png"}, 
+    {"name":"Xbox", "image":"../../assets/img/platformIcons/xbox.png"}, 
+    {"name":"Nintendo Switch", "image":"../../assets/img/platformIcons/switch.png"},
+  ];
 
   //create onginit function to get platforms from database
   chosenPlatforms = [];

@@ -1,6 +1,6 @@
 
     <!-- <div class="textBoxContainer"></div> -->
 <div class="centeredContainer">
-    <textarea id="txtArea" class="textArea" placeholder={{textBoxDefault}}></textarea>
+    <textarea id="txtArea" class="textArea" [value]="currentTextInBox" (input)="onTextChange($event.target.value)" placeholder={{textBoxDefault}}></textarea>
 </div>
 

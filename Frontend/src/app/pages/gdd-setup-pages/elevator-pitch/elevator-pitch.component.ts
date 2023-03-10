@@ -6,17 +6,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./elevator-pitch.component.scss', '../setupStyles.scss']
 })
 export class ElevatorPitchComponent {
-  textBoxComponent: HTMLInputElement;
   currentTextInBox: string;
 
+  constructor() { }
+
   ngOnInit() {
-    this.textBoxComponent = document.getElementById('txtArea') as HTMLInputElement;
-    this.textBoxComponent.addEventListener('input', this.handleTextChange, false);
+    if (localStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+      this.currentTextInBox = currentSetup.elevatorPitch;
+    }
   }
 
-  public handleTextChange(evt: Event): void {
-    this.currentTextInBox = (evt.target as HTMLInputElement).value;
-    console.log(this.currentTextInBox)
+  onTextChange(text: string) {
+    this.currentTextInBox = text;
+    
+    let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+    currentSetup.elevatorPitch = this.currentTextInBox;
+    localStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 
   private getDataInJSONFormat(): Object {

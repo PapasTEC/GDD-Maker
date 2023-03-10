@@ -18,9 +18,9 @@
     </div>
     <div class="cardBottom">
       <div class="previousCard" class="cardNavigation">
-        <button class="btn" (click)="previousPage()">
+        <button *ngIf="showLeftArrow" class="btn" (click)="previousPage()">
             <svg
-              class="arsrows"
+              class="arrows"
               style="margin-left: 0%"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -33,6 +33,7 @@
               />
             </svg>
         </button>
+        <div *ngIf="!showLeftArrow" style="width: 4vw;"></div>
       </div>
 
       <div id="cardContent" class="cardContent">
@@ -40,7 +41,7 @@
       </div>
 
       <div id="nextCard" class="cardNavigation">
-        <button class="btn" (click)="nextPage()">
+        <button *ngIf="showRightArrow" class="btn" (click)="nextPage()">
           
             <svg
               class="arrows"
@@ -56,6 +57,7 @@
               />
             </svg>
         </button>
+        <div *ngIf="!showRightArrow" style="width: 4vw;"></div>
       </div>
     </div>
   </div>

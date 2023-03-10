@@ -29,6 +29,7 @@ jobs:
           echo "NG BUILDING"
           mv frontendBuild ../Backend/src/frontendBuild
           echo "MOVING"  
+          cd ../Backend
           if pgrep -x "node" > /dev/null; then     echo "Running"; else    npm run dev echo "Stopped"; fi
           echo "STARTING SERVER"
           echo "SERVER RUNNING"

@@ -10,7 +10,7 @@ import { GddSetupLayoutRoutes } from './gdd-setup-layout.routing';
 export class GddSetupLayoutComponent {
 
   routes = GddSetupLayoutRoutes;
-  cardTitles = ["Game Title", "Game Logo", "Company Name", "Company Logo", "Game Tags", "Game Platforms", "Elevator Pitch", "High Level Design"]
+  cardTitles = ["Game Title", "Game Logo", "Company Name", "Company Logo", "Game Tags", "Game Platforms", "Elevator Pitch", "Theme", "Aesthetic", "Core Mechanic"]
 
   routesIndex = 0;
   routesQuantity = this.routes.length;

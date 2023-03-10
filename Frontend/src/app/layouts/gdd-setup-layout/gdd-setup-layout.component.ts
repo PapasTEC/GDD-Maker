@@ -25,6 +25,8 @@ export class GddSetupLayoutComponent {
 
   ngOnInit() {
     this.changePath();
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.add("bg-background");
   }
 
   changePath(){
@@ -52,5 +54,10 @@ export class GddSetupLayoutComponent {
     this.path = this.routes[this.routesIndex].path;
     this.changePath();
     
+  }
+
+  ngOnDestroy() {
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.remove("bg-background");
   }
 }

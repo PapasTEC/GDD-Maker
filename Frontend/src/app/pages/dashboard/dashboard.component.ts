@@ -9,8 +9,8 @@ import { DocumentService } from '../../services/document.service';
 import { UserService } from '../../services/user.service';
 
 export interface Project {
-  title: string;
-  imageUrl: string;
+  documentTitle: string;
+  documentLogo: string;
   lastUpdated: string;
   owner: string;
   _id: string;
@@ -47,9 +47,9 @@ export class DashboardComponent implements OnInit {
       this.documentService.getMyProjects(this.email).subscribe((data: any) => {
         this.MyProjectsData = data.map((project: any) => {
           return {
-            title: project.titleInfo.title,
-            imageUrl: project.titleInfo.imageUrl,
-            lastUpdated: new Date(project.lastUpdated).toLocaleDateString('es-ES'),
+            documentTitle: project.frontPage.documentTitle,
+            documentLogo: project.frontPage.documentLogo,
+            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleDateString('es-ES'),
             owner: "",
             _id: project._id
           }
@@ -61,9 +61,9 @@ export class DashboardComponent implements OnInit {
       this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
         this.SharedProjectsData = data.map((project: any) => {
           return {
-            title: project.titleInfo.title,
-            imageUrl: project.titleInfo.imageUrl,
-            lastUpdated: new Date(project.lastUpdated).toLocaleDateString('es-ES'),
+            documentTitle: project.frontPage.documentTitle,
+            documentLogo: project.frontPage.documentLogo,
+            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleDateString('es-ES'),
             owner: project.owner,
             _id: project._id
           }

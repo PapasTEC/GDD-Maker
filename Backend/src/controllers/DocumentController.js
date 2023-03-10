@@ -10,13 +10,16 @@ documentController.getDocuments = async (req, res) => {
 
 documentController.createDocument = async (req, res) => {
     try {
-        const { owner, lastUpdated, titleInfo, docText } =
+        const { owner, frontPage, documentContent } =
             req.body;
+
+        console.log("Creating document: " + owner);
+        console.log("Creating document: " + frontPage);
+        console.log("Creating document: " + documentContent);
         const newDocument = new Documents({
             owner,
-            lastUpdated,
-            titleInfo,
-            docText
+            frontPage,
+            documentContent
         });
         console.log("Inserting document: " + newDocument);
         await newDocument.save();
@@ -38,7 +41,7 @@ documentController.getDocument = async (req, res) => {
 };
 
 documentController.getDocumentsByOwner = async (req, res) => {
-    Documents.find({ owner: req.params.owner }, { titleInfo: 1, lastUpdated: 1, owner: 1 }).then((documents) => {
+    Documents.find({ owner: req.params.owner }, { owner: 1, frontPage: 1 }).then((documents) => {
         if (!documents) {
             return res.status(404).json({ message: "Document not found" });
         }
@@ -57,7 +60,7 @@ documentController.getSharedDocuments = async (req, res) => {
     console.log(req.body);
     const _idList = await convertIdList(req.body);
 
-    Documents.find({_id: { $in: _idList }}, { titleInfo: 1, lastUpdated: 1, owner: 1 }).then((documents) => {
+    Documents.find({_id: { $in: _idList }}, { owner: 1, frontPage: 1 }).then((documents) => {
         if (!documents) {
             return res.status(404).json({ message: "Document not found" });
         }
@@ -68,7 +71,7 @@ documentController.getSharedDocuments = async (req, res) => {
 };
 
 documentController.getDocumentInfo = async (req, res) => {
-    Documents.findById(req.params.id, { titleInfo: 1, lastUpdated: 1, owner: 1 }).then((document) => {
+    Documents.findById(req.params.id, { owner: 1, frontPage: 1 }).then((document) => {
         if (!document) {
             return res.status(404).json({ message: "Document not found" });
         }

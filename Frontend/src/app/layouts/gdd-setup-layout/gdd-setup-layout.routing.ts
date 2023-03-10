@@ -6,22 +6,18 @@ import { GameLogoComponent} from "../../pages/gdd-setup-pages/game-logo/game-log
 import { GamePlatformsComponent } from "../../pages/gdd-setup-pages/game-platforms/game-platforms.component";
 import { GameTitleComponent } from "../../pages/gdd-setup-pages/game-title/game-title.component";
 import { HighLevelDesignComponent} from "../../pages/gdd-setup-pages/high-level-design/high-level-design.component";
+import { MainAestheticComponent } from "../../pages/gdd-setup-pages/main-aesthetic/main-aesthetic.component";
+import { CoreMechanicComponent } from "../../pages/gdd-setup-pages/core-mechanic/core-mechanic.component";
 
 export const GddSetupLayoutRoutes: Routes = [
     { path: 'title',      component: GameTitleComponent },
     { path: 'logo',      component: GameLogoComponent },
-
-    { path: 'comp-name',      component: GameTitleComponent, data: {type: "company"} },
-    { path: 'comp-logo',      component: GameLogoComponent, data: {type: "company"} },
-    
-    { path: 'genre',      component: GameGenreComponent },
+    { path: 'company-name',      component: GameTitleComponent, data: {type: "company"} },
+    { path: 'company-logo',      component: GameLogoComponent, data: {type: "company"} },
+    { path: 'tags',      component: GameGenreComponent },
     { path: 'platforms',      component: GamePlatformsComponent },
-    { path: 'elev',      component: ElevatorPitchComponent },
-    { path: 'design',      component: HighLevelDesignComponent },
-
+    { path: 'elevator-pitch',      component: ElevatorPitchComponent },
+    { path: 'game-theme',      component: HighLevelDesignComponent },
+    { path: 'main-aesthetic',      component: MainAestheticComponent },
+    { path: 'main-mechanic',      component: CoreMechanicComponent },
 ];
-
-// 
-
-
-

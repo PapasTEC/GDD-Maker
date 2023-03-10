@@ -28,6 +28,10 @@ jobs:
           echo "NG BUILDING"
           mv frontendBuild ../Backend/src/frontendBuild
           echo "MOVING"  
+          sudo pkill -f 'node'
+          echo "KILLING SERVER"
+          sudo npm run dev
+          echo "SERVER RUNNING"
           echo "APP DEPLOYED"
               
           

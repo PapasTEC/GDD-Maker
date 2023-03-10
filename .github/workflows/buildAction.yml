@@ -29,9 +29,8 @@ jobs:
           echo "NG BUILDING"
           mv frontendBuild ../Backend/src/frontendBuild
           echo "MOVING"  
-          sudo pkill -f 'npm'
-          echo "KILLING SERVER"
-          sudo npm run dev
+          if pgrep -x "node" > /dev/null; then     echo "Running"; else    npm run dev echo "Stopped"; fi
+          echo "STARTING SERVER"
           echo "SERVER RUNNING"
           echo "APP DEPLOYED"
               

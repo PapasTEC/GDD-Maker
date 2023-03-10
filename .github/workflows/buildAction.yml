@@ -15,6 +15,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd proyecto/GDD-Maker
+          git stash
           git pull
           cd Backend
           sudo npm i

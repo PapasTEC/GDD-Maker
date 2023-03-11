@@ -41,8 +41,16 @@ export class FinishSetupComponent {
   ];
 
   finishSetup() {
-    let user = JSON.parse(sessionStorage.getItem('user'));
+    let user = JSON.parse(localStorage.getItem('currentUser'));
     let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+
+    const myPlatforms = currentSetup.gamePlatforms.map(platform => {
+      return this.platforms[platform];
+    });
+
+    console.log("user: ", user);
+    console.log("currentSetup: ", currentSetup);
+    console.log("myPlatforms: ", myPlatforms);
 
     const document = {
       owner: user.email,
@@ -83,7 +91,7 @@ export class FinishSetupComponent {
           subSections: [{
             subSectionTitle: "Platforms",
             subSectionContent: {
-              platforms: currentSetup.gamePlatforms
+              platforms: myPlatforms
             }
           }]
         }
@@ -99,7 +107,7 @@ export class FinishSetupComponent {
           }, {
             subSectionTitle: "Aesthetic",
             subSectionContent: {
-              aesthetic: currentSetup.aesthetic
+              aesthetic: this.aesthetics[currentSetup.aesthetic[0]]
             }
           }, {
             subSectionTitle: "Core Mechanic",
@@ -111,9 +119,11 @@ export class FinishSetupComponent {
       }]
     }
 
-    this.documentService.updateDocument(currentSetup._id, currentSetup).subscribe((data: any) => {
-      console.log(data);
-    });
+    console.log("document:", document);
+
+    // this.documentService.updateDocument(currentSetup._id, currentSetup).subscribe((data: any) => {
+    //   console.log(data);
+    // });
   }
 
   // Me lo llevo

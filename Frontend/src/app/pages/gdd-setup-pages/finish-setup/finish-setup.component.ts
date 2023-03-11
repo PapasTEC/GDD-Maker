@@ -11,8 +11,6 @@ export class FinishSetupComponent {
   currentTextInBox: string;
 
 
-  // Me lo llevo (No copie lo que hay entre los dos comentarios)
-
   constructor(private documentService: DocumentService) { }
 
   platforms = [
@@ -133,13 +131,5 @@ export class FinishSetupComponent {
       let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
       this.currentTextInBox = currentSetup.coreMechanic;
     }
-  }
-
-  onTextChange(text: string) {
-    this.currentTextInBox = text;
-    
-    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
-    currentSetup.coreMechanic = this.currentTextInBox;
-    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 }

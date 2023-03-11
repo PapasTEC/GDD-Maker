@@ -148,3 +148,18 @@ $borderState: none;
         border: $borderState 1px #eb9b05;
     }
 }
+
+.subtitle {
+    font-size: $resizeFont;
+    font-weight: 700;
+
+    width: fit-content;
+    height: fit-content;
+
+    color: #757575;
+    outline: none;
+    resize: none;
+    overflow: auto;
+
+    border: $borderState 1px #eb9b05;
+}

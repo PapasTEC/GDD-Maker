@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { DocumentService } from '../../../services/document.service';
 
@@ -8,10 +9,9 @@ import { DocumentService } from '../../../services/document.service';
   styleUrls: ['./finish-setup.component.scss', '../setupStyles.scss']
 })
 export class FinishSetupComponent {
-  currentTextInBox: string;
+  tempImage: string;
 
-
-  constructor(private documentService: DocumentService) { }
+  constructor(private documentService: DocumentService, private router: Router) { }
 
   platforms = [
     "Android",
@@ -38,7 +38,7 @@ export class FinishSetupComponent {
     "Submission"
   ];
 
-  finishSetup() {
+  async finishSetup() {
     let user = JSON.parse(localStorage.getItem('currentUser'));
     let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
 
@@ -46,17 +46,22 @@ export class FinishSetupComponent {
       return this.platforms[platform];
     });
 
+    const myGameLogo = await this.convertTempUrlToBase64(currentSetup.gameLogo);
+    const myCompanyLogo = await this.convertTempUrlToBase64(currentSetup.companyLogo);
+
     console.log("user: ", user);
     console.log("currentSetup: ", currentSetup);
     console.log("myPlatforms: ", myPlatforms);
+    console.log("myGameLogo: ", myGameLogo);
+    console.log("myCompanyLogo: ", myCompanyLogo);
 
     const document = {
       owner: user.email,
       frontPage: {
         documentTitle: currentSetup.gameTitle,
-        documentLogo: currentSetup.gameLogo,
+        documentLogo: myGameLogo,
         companyName: currentSetup.companyName,
-        companyLogo: currentSetup.companyLogo,
+        companyLogo: myCompanyLogo,
         collaborators: [user.name],
         lastUpdated: new Date()
       },
@@ -85,13 +90,10 @@ export class FinishSetupComponent {
       }, {
         sectionTitle: "Technical Information",
         content: {
-          selfContent: {},
-          subSections: [{
-            subSectionTitle: "Platforms",
-            subSectionContent: {
-              platforms: myPlatforms
-            }
-          }]
+          selfContent: {
+            platforms: myPlatforms
+          },
+          subSections: []
         }
       }, {
         sectionTitle: "High Level Design",
@@ -119,17 +121,46 @@ export class FinishSetupComponent {
 
     console.log("document:", document);
 
-    // this.documentService.updateDocument(currentSetup._id, currentSetup).subscribe((data: any) => {
-    //   console.log(data);
-    // });
+    this.documentService.addDocument(document).subscribe(
+      res => {
+        console.log(res);
+        alert("Document added successfully!");
+        this.router.navigate(['/dashboard']);
+      },
+      err => {
+        console.log(err);
+        alert("Error adding document");
+      }
+    );
   }
 
-  // Me lo llevo
+  async convertTempUrlToBase64(url: any) {
+    const base64 = await this.scaleAndEncodeImage(url);
+    return base64;
+  }
 
-  ngOnInit() {
-    if (sessionStorage.getItem('currentSetup') !== null) {
-      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
-      this.currentTextInBox = currentSetup.coreMechanic;
-    }
+  async scaleAndEncodeImage(url: any): Promise<string> {
+    const width = 256;
+    const height = 256;
+    const img = new Image();
+    const reader = new FileReader();
+    reader.readAsDataURL(await fetch(url).then(r => r.blob()));
+    const base64 = await new Promise<string>((resolve, reject) => {
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error);
+    });
+    return new Promise<string>((resolve, reject) => {
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const scaledBase64 = canvas.toDataURL();
+        resolve(scaledBase64);
+      };
+      img.onerror = () => reject(new Error('Failed to load image'));
+      img.src = base64;
+    });
   }
 }

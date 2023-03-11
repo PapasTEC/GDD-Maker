@@ -25,11 +25,11 @@ export class GameTitleComponent {
 
   private setSubtitle(route: string): string {
     if (route === "game") {
-      return "Please enter the name of your game.";
+      return "Please enter the name of your game";
     } else if (route === "company") {
-      return "Please enter the name of your company.";
+      return "Please enter the name of your company";
     } else if (route === "core") {
-      return "Please enter your core mechanic.";
+      return "Please enter your core mechanic";
     }
   }
 

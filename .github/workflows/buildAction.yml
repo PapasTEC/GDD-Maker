@@ -55,6 +55,6 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           echo "SERVER RUNNING"
-          echo "APP DEPLOYED" 
+          echo "APP DEPLOYED"
           
           

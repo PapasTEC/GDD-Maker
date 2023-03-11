@@ -1,13 +1,45 @@
+.bodyClass{
+    width: 100%;
+    height: 100%;
+    
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
 
+.textAreaContainer{
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    margin: 0;
+    border: solid 1px #29f800;
+}
 
-.centeredContainer{
+.contentContainer{
+    position: relative;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 0;
     margin: 0;
     border: none 1px #29f800;
-    position: relative;
+}
+
+.centeredContainer2{
+    padding: 0;
+    margin: 0;
+    border: none 1px #29f800;
+    position: absolute;
     top: 50%;
     left: 50%;
     width: 75%;
     transform: translate(-50%, -50%);
 }
-

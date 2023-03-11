@@ -33,7 +33,8 @@ jobs:
           echo "APP UPDATED"
           
     - name: Start server
-      timeout-minutes: 1
+      timeout-minutes: 0.5
+      continue-on-error: true
       uses: appleboy/ssh-action@v0.1.7
       
       with:

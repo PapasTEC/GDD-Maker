@@ -5,7 +5,6 @@ import { GameGenreComponent } from "../../pages/gdd-setup-pages/game-genre/game-
 import { GameLogoComponent} from "../../pages/gdd-setup-pages/game-logo/game-logo.component";
 import { GamePlatformsComponent } from "../../pages/gdd-setup-pages/game-platforms/game-platforms.component";
 import { GameTitleComponent } from "../../pages/gdd-setup-pages/game-title/game-title.component";
-import { HighLevelDesignComponent} from "../../pages/gdd-setup-pages/high-level-design/high-level-design.component";
 import { MainAestheticComponent } from "../../pages/gdd-setup-pages/main-aesthetic/main-aesthetic.component";
 import { FinishSetupComponent } from "../../pages/gdd-setup-pages/finish-setup/finish-setup.component";
 

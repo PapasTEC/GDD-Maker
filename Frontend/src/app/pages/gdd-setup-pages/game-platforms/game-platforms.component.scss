@@ -15,7 +15,7 @@ $borderState: none;
 
 
 
-$resizeFont: min(clamp(0.6em, 1vw, 3em), clamp(0.6em, 1vh, 3em));
+$resizeFont: min(clamp(0.6em, 1.1vw, 3em), clamp(0.6em, 1.1vh, 3em));
 
 .platformCanvas{
     width: 100%;

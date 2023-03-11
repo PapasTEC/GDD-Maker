@@ -51,10 +51,16 @@ export class GddSetupLayoutComponent {
     this.router.navigate([this.path], {relativeTo: this.route});
     this.currentTitle = this.cardTitles[this.routesIndex];
 
-    if (this.currentTitle == "Game Title"){
+    if (this.routesIndex == 0){
       this.showLeftArrow = false;
     } else {
       this.showLeftArrow = true;
+    }
+
+    if(this.routesIndex == this.routesQuantity - 1){
+      this.showRightArrow = false;
+    } else {
+      this.showRightArrow = true;
     }
   }
 

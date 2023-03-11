@@ -34,16 +34,18 @@ jobs:
           
     - name: Start server
       uses: appleboy/ssh-action@v0.1.7
+      
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         port: ${{ secrets.SSH_PORT }}
+        timeout: 10s
         script: |
           cd proyecto/GDD-Maker/Backend
           echo "STARTING SERVER"
           if pgrep -x "node" > /dev/null; then     echo "Running"; else    npm run dev echo "Stopped"; fi
-        timeout-minutes: 0.1
+
     - name: Finish up
       uses: appleboy/ssh-action@v0.1.7
       with:

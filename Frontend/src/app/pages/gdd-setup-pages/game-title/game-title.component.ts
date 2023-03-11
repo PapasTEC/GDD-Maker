@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Route, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,30 +8,41 @@ import { Route, ActivatedRoute } from '@angular/router';
 })
 
 export class GameTitleComponent {
-
+  currentTextInBox: string;
   isCompanySetUp: boolean = false;
   textBoxDefault: string = "Please enter the name of your game."
-  textBoxComponent: HTMLInputElement;
-  currentTextInBox: string;
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe(_value => this.isCompanySetUp = _value.type === "company");
 
-    console.log(this.isCompanySetUp)
+    console.log("isCompanySetup:", this.isCompanySetUp)
 
     if (this.isCompanySetUp) {
       this.textBoxDefault = "Please enter the name of your company."
     }
 
-    this.textBoxComponent = document.getElementById('txtArea') as HTMLInputElement;
-    this.textBoxComponent.addEventListener('input', this.handleTextChange, false);
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+      if (this.isCompanySetUp) {
+        this.currentTextInBox = currentSetup.companyName;
+      } else {
+        this.currentTextInBox = currentSetup.gameTitle;
+      }
+    }
   }
 
-  public handleTextChange(evt: Event): void {
-    this.currentTextInBox = (evt.target as HTMLInputElement).value;
-    console.log(this.currentTextInBox)
+  onTextChange(text: string) {
+    this.currentTextInBox = text;
+
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+    if (this.isCompanySetUp) {
+      currentSetup.companyName = this.currentTextInBox;
+    } else {
+      currentSetup.gameTitle = this.currentTextInBox;
+    }
+    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 
   private getDataInJSONFormat(): Object {
@@ -40,7 +51,4 @@ export class GameTitleComponent {
     console.log(newJSON);
     return newJSON;
   }
-
-  
-
 }

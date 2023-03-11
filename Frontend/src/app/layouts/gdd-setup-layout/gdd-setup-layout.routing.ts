@@ -16,9 +16,10 @@ export const GddSetupLayoutRoutes: Routes = [
     { path: 'company-logo',      component: GameLogoComponent, data: {type: "company"} },
     { path: 'tags',      component: GameGenreComponent },
     { path: 'platforms',      component: GamePlatformsComponent },
-    { path: 'elevator-pitch',      component: ElevatorPitchComponent },
-    { path: 'game-theme',      component: HighLevelDesignComponent },
+    { path: 'elevator-pitch',      component: ElevatorPitchComponent, data: {type: "elevator"} },
+    { path: 'game-theme',      component: ElevatorPitchComponent, data: {type: "theme"} },
     { path: 'main-aesthetic',      component: MainAestheticComponent },
+    { path: 'core-mechanic',      component: GameTitleComponent, data: {type: "core"} },
     { path: 'finish-setup',      component: FinishSetupComponent },
-    { path: 'main-mechanic',      component: GameTitleComponent, data: {type: "core"} },
+    
 ];

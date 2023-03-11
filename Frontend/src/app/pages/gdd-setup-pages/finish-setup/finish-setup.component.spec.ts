@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoreMechanicComponent } from './core-mechanic.component';
+import { FinishSetupComponent } from './finish-setup.component';
 
-describe('CoreMechanicComponent', () => {
-  let component: CoreMechanicComponent;
-  let fixture: ComponentFixture<CoreMechanicComponent>;
+describe('FinishSetupComponent', () => {
+  let component: FinishSetupComponent;
+  let fixture: ComponentFixture<FinishSetupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CoreMechanicComponent ]
+      declarations: [ FinishSetupComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CoreMechanicComponent);
+    fixture = TestBed.createComponent(FinishSetupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

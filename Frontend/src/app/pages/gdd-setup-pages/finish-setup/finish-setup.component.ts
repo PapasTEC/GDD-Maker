@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { DocumentService } from '../../../services/document.service';
 
 @Component({
-  selector: 'app-core-mechanic',
-  templateUrl: './core-mechanic.component.html',
-  styleUrls: ['./core-mechanic.component.scss', '../setupStyles.scss']
+  selector: 'app-finish-setup',
+  templateUrl: './finish-setup.component.html',
+  styleUrls: ['./finish-setup.component.scss', '../setupStyles.scss']
 })
-export class CoreMechanicComponent {
+export class FinishSetupComponent {
   currentTextInBox: string;
 
 

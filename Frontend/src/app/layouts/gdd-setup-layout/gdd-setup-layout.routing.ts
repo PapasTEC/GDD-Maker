@@ -7,7 +7,7 @@ import { GamePlatformsComponent } from "../../pages/gdd-setup-pages/game-platfor
 import { GameTitleComponent } from "../../pages/gdd-setup-pages/game-title/game-title.component";
 import { HighLevelDesignComponent} from "../../pages/gdd-setup-pages/high-level-design/high-level-design.component";
 import { MainAestheticComponent } from "../../pages/gdd-setup-pages/main-aesthetic/main-aesthetic.component";
-import { CoreMechanicComponent } from "../../pages/gdd-setup-pages/core-mechanic/core-mechanic.component";
+import { FinishSetupComponent } from "../../pages/gdd-setup-pages/finish-setup/finish-setup.component";
 
 export const GddSetupLayoutRoutes: Routes = [
     { path: 'title',      component: GameTitleComponent, data: {type: "game"} },
@@ -19,5 +19,6 @@ export const GddSetupLayoutRoutes: Routes = [
     { path: 'elevator-pitch',      component: ElevatorPitchComponent },
     { path: 'game-theme',      component: HighLevelDesignComponent },
     { path: 'main-aesthetic',      component: MainAestheticComponent },
+    { path: 'finish-setup',      component: FinishSetupComponent },
     { path: 'main-mechanic',      component: GameTitleComponent, data: {type: "core"} },
 ];

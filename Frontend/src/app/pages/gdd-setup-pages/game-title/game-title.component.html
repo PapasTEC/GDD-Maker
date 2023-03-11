@@ -4,7 +4,7 @@
             <span class="subtitle">{{textBoxDefault}}</span>  
         </div>
         <div class="textAreaContainer">
-            <textarea id="txtArea" class="textArea" style="height: fit-content;"></textarea>
+            <textarea id="txtArea" class="textArea" [value]="currentTextInBox" (input)="onTextChange($event.target.value)"></textarea>
         </div>
     </div>
 </div>

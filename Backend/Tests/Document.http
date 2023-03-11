@@ -15,7 +15,7 @@ Content-Type: application/json
     "documentContent": [{
         "sectionTitle": "Titulo Uno3",
         "content": {
-            "selfContent": "markdown",
+            "selfContent": {},
             "subSections": [{
                 "subSectionTitle": "Subtitulo Uno3",
                 "subSectionContent": {}

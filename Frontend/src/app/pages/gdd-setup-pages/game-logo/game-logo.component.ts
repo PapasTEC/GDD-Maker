@@ -22,8 +22,8 @@ export class GameLogoComponent {
     this.route.data.subscribe(_value => this.isCompanySetUp = _value.type === "company" );
     this.logoUploadComponent = document.getElementById('logo');
 
-    if (localStorage.getItem('currentSetup') !== null) {
-      let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
       if (this.isCompanySetUp) {
         this.uploadedImage = currentSetup.companyLogo;
       } else {
@@ -44,14 +44,14 @@ export class GameLogoComponent {
     
       this.updateLogo();
 
-      if (localStorage.getItem('currentSetup') !== null) {
-        let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+      if (sessionStorage.getItem('currentSetup') !== null) {
+        let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
         if (this.isCompanySetUp) {
           currentSetup.companyLogo = this.uploadedImage;
         } else {
           currentSetup.gameLogo = this.uploadedImage;
         }
-        localStorage.setItem('currentSetup', JSON.stringify(currentSetup));
+        sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
       }
     }
   }

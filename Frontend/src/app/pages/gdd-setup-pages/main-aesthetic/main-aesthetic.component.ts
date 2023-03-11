@@ -8,7 +8,7 @@ import {
   faUserFriends,
   faCompass,
   faPaintBrush,
-  faDice,
+  faDice
 } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -80,6 +80,22 @@ export class MainAestheticComponent {
 
   constructor() {}
 
+  ngOnInit() {
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+      this.selected_aesthetics = currentSetup.aesthetic;
+
+      const getOverlays = new Promise((resolve, reject) => {
+        resolve(document.getElementsByClassName("overlayImage") as HTMLCollectionOf<HTMLElement>);
+      });
+
+      getOverlays.then((aestheticsIndicators) => {
+        this.selected_aesthetics.forEach(index => aestheticsIndicators[index].style.display = "block");
+      });
+    }
+  }
+
+
   addOrRemove(aesthetic: number) {
     let aestheticsIndicators = document.getElementsByClassName(
       "overlayImage"
@@ -109,13 +125,12 @@ export class MainAestheticComponent {
       }
     }
 
-    this.getDataInJSONFormat();
+    this.updateStorage();
   }
 
-  private getDataInJSONFormat(){
-    let newJSON = {aesthetics:[]};
-    this.selected_aesthetics.forEach(index => newJSON.aesthetics.push(this.game_aesthetics[index].name));
-    console.log(newJSON);
-    return newJSON;
+  updateStorage(){
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+    currentSetup.aesthetic = this.selected_aesthetics;
+    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 }

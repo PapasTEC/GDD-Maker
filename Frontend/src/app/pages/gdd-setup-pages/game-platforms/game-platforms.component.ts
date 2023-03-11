@@ -23,6 +23,21 @@ export class GamePlatformsComponent {
   chosenPlatforms = [];
   multipleAllowed = true;
   //create function to add platform to list
+
+  ngOnInit(){
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+      this.chosenPlatforms = currentSetup.gamePlatforms;
+
+      const getOverlays = new Promise((resolve, reject) => {
+        resolve(document.getElementsByClassName("overlayImage") as HTMLCollectionOf<HTMLElement>);
+      });
+
+      getOverlays.then((aestheticsIndicators) => {
+        this.chosenPlatforms.forEach(index => aestheticsIndicators[index].style.display = "block");
+      });
+    }
+  }
   
   public addOrRemove(platformID:number){
 
@@ -55,21 +70,13 @@ export class GamePlatformsComponent {
     }
 
     console.log(this.chosenPlatforms);
-    this.getDataInJSONFormat();
+    this.updateStorage();
   }
 
-  
-
-  
-  ngOnInit(){
-    
-  }
-
-  private getDataInJSONFormat(){
-    let newJSON = {platforms:[]};
-    this.chosenPlatforms.forEach(index => newJSON.platforms.push(this.platforms[index].name));
-    console.log(newJSON);
-    return newJSON;
+  updateStorage(){
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+    currentSetup.gamePlatforms = this.chosenPlatforms;
+    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 
 }

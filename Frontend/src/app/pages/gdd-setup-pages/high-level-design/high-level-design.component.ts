@@ -9,8 +9,8 @@ export class HighLevelDesignComponent {
   currentTextInBox: string;
 
   ngOnInit() {
-    if (localStorage.getItem('currentSetup') !== null) {
-      let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
       this.currentTextInBox = currentSetup.theme;
     }
   }
@@ -18,9 +18,9 @@ export class HighLevelDesignComponent {
   onTextChange(text: string) {
     this.currentTextInBox = text;
 
-    let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
     currentSetup.theme = this.currentTextInBox;
-    localStorage.setItem('currentSetup', JSON.stringify(currentSetup));
+    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 
   private getDataInJSONFormat(): Object {

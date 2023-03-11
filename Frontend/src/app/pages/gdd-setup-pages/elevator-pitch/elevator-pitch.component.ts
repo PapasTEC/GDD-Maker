@@ -11,8 +11,8 @@ export class ElevatorPitchComponent {
   constructor() { }
 
   ngOnInit() {
-    if (localStorage.getItem('currentSetup') !== null) {
-      let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
       this.currentTextInBox = currentSetup.elevatorPitch;
     }
   }
@@ -20,9 +20,9 @@ export class ElevatorPitchComponent {
   onTextChange(text: string) {
     this.currentTextInBox = text;
     
-    let currentSetup = JSON.parse(localStorage.getItem('currentSetup'));
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
     currentSetup.elevatorPitch = this.currentTextInBox;
-    localStorage.setItem('currentSetup', JSON.stringify(currentSetup));
+    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 
   private getDataInJSONFormat(): Object {

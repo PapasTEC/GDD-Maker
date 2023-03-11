@@ -141,7 +141,8 @@ $size: min(clamp(20%, 10vw, 30%), clamp(20%, 10vh, 30%));
               stroke: #ff0000;
               font-size: min(6vw, 6vh);
               display: block;
-              color: black;
+              color: #2F6690;
+              // background: linear-gradient(87deg, blue 0, adjust-hue(blue, 25deg) 100%) !important;
             }
         }
 

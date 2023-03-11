@@ -10,8 +10,8 @@ import { MainAestheticComponent } from "../../pages/gdd-setup-pages/main-aesthet
 import { FinishSetupComponent } from "../../pages/gdd-setup-pages/finish-setup/finish-setup.component";
 
 export const GddSetupLayoutRoutes: Routes = [
-    { path: 'title',      component: GameTitleComponent },
-    { path: 'logo',      component: GameLogoComponent },
+    { path: 'title',      component: GameTitleComponent, data: {type: "game"} },
+    { path: 'logo',      component: GameLogoComponent, data: {type: "game"} },
     { path: 'company-name',      component: GameTitleComponent, data: {type: "company"} },
     { path: 'company-logo',      component: GameLogoComponent, data: {type: "company"} },
     { path: 'tags',      component: GameGenreComponent },
@@ -20,4 +20,5 @@ export const GddSetupLayoutRoutes: Routes = [
     { path: 'game-theme',      component: HighLevelDesignComponent },
     { path: 'main-aesthetic',      component: MainAestheticComponent },
     { path: 'finish-setup',      component: FinishSetupComponent },
+    { path: 'main-mechanic',      component: GameTitleComponent, data: {type: "core"} },
 ];

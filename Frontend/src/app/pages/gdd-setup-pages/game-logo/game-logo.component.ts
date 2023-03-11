@@ -1,69 +1,83 @@
-import { Component } from '@angular/core';
-import { Route, ActivatedRoute } from '@angular/router';
+import { Component } from "@angular/core";
+import { Route, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-game-logo',
-  templateUrl: './game-logo.component.html',
-  styleUrls: ['./game-logo.component.scss', '../setupStyles.scss']
+  selector: "app-game-logo",
+  templateUrl: "./game-logo.component.html",
+  styleUrls: ["./game-logo.component.scss", "../setupStyles.scss"],
 })
 export class GameLogoComponent {
-
   constructor(private route: ActivatedRoute) { }
 
-  isCompanySetUp = false;	
-
-  image?: HTMLImageElement;
-
   uploadedImage: string;
-  
-  logoUploadComponent:HTMLElement;
+  routeUsingComponent: string;
+  subtitle: string;
 
   ngOnInit() {
-    this.route.data.subscribe(_value => this.isCompanySetUp = _value.type === "company" );
-    this.logoUploadComponent = document.getElementById('logo');
+    this.route.data.subscribe(
+      (_value) => (this.routeUsingComponent = _value.type)
+    );
 
-    if (sessionStorage.getItem('currentSetup') !== null) {
-      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
-      if (this.isCompanySetUp) {
-        this.uploadedImage = currentSetup.companyLogo;
-      } else {
-        this.uploadedImage = currentSetup.gameLogo;
-      }
-      
+    this.subtitle = this.setSubtitle(this.routeUsingComponent);
+
+    if (sessionStorage.getItem("currentSetup") !== null) {
+      this.getSessionStorageContent(this.routeUsingComponent);
+
       if (this.uploadedImage != "") {
         this.updateLogo();
       }
     }
   }
 
-  onFileSelected(event: any) {
+  private setSessionStorageContent(route: string): void {
+    let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
+    if (route === "game") {
+      currentSetup.gameLogo = this.uploadedImage;
+    } else if (route === "company") {
+      currentSetup.companyLogo = this.uploadedImage;
+    }
+    sessionStorage.setItem("currentSetup", JSON.stringify(currentSetup));
+  }
+
+  private getSessionStorageContent(route: string): void {
+    let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
+    if (route === "game") {
+      this.uploadedImage = currentSetup.gameLogo;
+    } else if (route === "company") {
+      this.uploadedImage = currentSetup.companyLogo;
+    }
+  }
+
+  private setSubtitle(route: string): string {
+    if (route === "game") {
+      return "Upload your game logo here";
+    } else if (route === "company") {
+      return "Upload your company logo here";
+    }
+  }
+
+  public onFileSelected(event: any): void {
     const file = event.target.files[0];
 
-    if(file){
+    if (file) {
       this.uploadedImage = URL.createObjectURL(file);
-    
+
       this.updateLogo();
 
-      if (sessionStorage.getItem('currentSetup') !== null) {
-        let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
-        if (this.isCompanySetUp) {
-          currentSetup.companyLogo = this.uploadedImage;
-        } else {
-          currentSetup.gameLogo = this.uploadedImage;
-        }
-        sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
+      if (sessionStorage.getItem("currentSetup") !== null) {
+        this.setSessionStorageContent(this.routeUsingComponent);
       }
     }
   }
 
-  updateLogo() {
-    let uploadButton = document.getElementById('upButton');
+  private updateLogo(): void {
+    let uploadButton = document.getElementById("upButton");
     uploadButton.style.backgroundImage = `url(${this.uploadedImage})`;
     uploadButton.style.backgroundSize = "100% 100%";
     uploadButton.style.backgroundRepeat = "no-repeat";
 
     //Get child element of upload button
     let uploadButtonChild = uploadButton.children[1] as HTMLElement;
-    uploadButtonChild.style.display = 'none';
+    uploadButtonChild.style.display = "none";
   }
 }

@@ -1,12 +1,13 @@
-name: remote ssh command
+name: Build, Deploy, Serve
 on: [push]
-jobs:
 
-  build:
-    name: Build
+jobs:
+  
+  buildDep:
+    name: CI/CD
     runs-on: ubuntu-latest
     steps:
-    - name: Executing SSH in remote instance
+    - name: Update app
       uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
@@ -15,8 +16,46 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd proyecto/GDD-Maker
+          git stash
           git pull
           cd Backend
           sudo npm i
+          cd src
+          if [ -d frontendBuild ]; then rm -r frontendBuild; fi
+          echo "DELETING OLD FRONTEND BUILD"
+          cd ../../Frontend
+          sudo npm i
+          echo "UPDATING FRONTEND DEPENDENCIES"
+          ng build
+          echo "NEW APP BUILT"
+          mv frontendBuild ../Backend/src/frontendBuild
+          echo "MOVING"  
+          echo "APP UPDATED"
+          
+    - name: Start server
+      timeout-minutes: 1
+      continue-on-error: true
+      uses: appleboy/ssh-action@v0.1.7
+      
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd proyecto/GDD-Maker/Backend
+          echo "STARTING SERVER"
+          if pgrep -x "node" > /dev/null; then     echo "Running"; else    npm run dev echo "Stopped"; fi
+
+    - name: Finish up
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          echo "SERVER RUNNING"
+          echo "APP DEPLOYED"
           
           

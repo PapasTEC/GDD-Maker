@@ -7,7 +7,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { GddEditorComponent } from 'src/app/pages/gdd-editor/gdd-editor.component';
+import { GddEditorComponent } from "../../pages/gdd-editor/gdd-editor.component";
 // import { ToastrModule } from 'ngx-toastr';
 
 
@@ -24,7 +24,6 @@ import { GddEditorComponent } from 'src/app/pages/gdd-editor/gdd-editor.componen
   ],
   declarations: [
     GddEditorComponent
-
   ]
 })
 

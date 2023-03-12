@@ -25,7 +25,6 @@ $subsection-color: #ece8e8;
   // border-bottom-left-radius: $r;
   // border-bottom-right-radius: $r;
   border-radius: 5px;
-
 }
 
 .markdown-wrapper {
@@ -35,34 +34,13 @@ $subsection-color: #ece8e8;
   height: 100%;
   width: 100%;
 }
-.hide-toolbar,
-.show-toolbar {
+.hide-toolbar {
   // background-color: red;
   transform: rotate(90deg);
   position: absolute;
   top: 0;
+  padding: 5px 0px;
   right: 50px;
-}
-
-button.clear {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
-
-.hide-toolbar {
-  img {
-    width: 38px;
-    height: 38px;
-  }
-}
-
-.show-toolbar {
-  img {
-    width: 34px;
-    height: 34px;
-  }
 }
 
 .workspace-class {
@@ -81,27 +59,14 @@ button.clear {
   position: relative;
   overflow: hidden;
 
-  .open-sidebarEditor-button {
+  .open-sidebar-button {
     position: absolute;
     bottom: 10px;
-    left: 30px;
     z-index: 100;
     transform: rotate(180deg);
 
     width: 30px;
     height: 30px;
-
-    // &.show {
-    //   display: block;
-    // }
-
-    &.show-showSidebarButton {
-      display: flex;
-    }
-
-    &.hide-showSidebarButton {
-      display: none;
-    }
   }
 }
 
@@ -148,7 +113,7 @@ button.clear {
   padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
   height: 100%;
-  width: max(550px, 25%);
+  width: 25%;
   background-color: #f6f3f3;
 
   border-top-left-radius: inherit;
@@ -159,21 +124,6 @@ button.clear {
 
   position: relative;
   overflow: hidden;
-
-  transition: width 0.3s ease;
-
-  &.show-sidebarEditor {
-    width: max(500px, 25%);
-    display: flex;
-  }
-
-  &.hide-sidebarEditor {
-    width: 0;
-  }
-
-  &.show {
-    display: flex;
-  }
 }
 
 .leftModuleTopClass {
@@ -259,7 +209,7 @@ button.clear {
 .layoutTextContainer {
   width: 100%;
 
-  padding-left: 16px;
+  padding-left: 6%;
   margin-bottom: 6%;
 
   position: relative;
@@ -297,7 +247,7 @@ button.clear {
   }
 }
 
-#sidebarEditor {
+#sidebar {
   // animation: slideaway 400ms;
   // display: none;
   // transition: opacity 2000ms, display 2000ms;
@@ -306,7 +256,7 @@ button.clear {
   // display: none;
 }
 
-.sidebarEditor {
+.sidebar {
   margin: 0;
   padding: 0;
 
@@ -319,7 +269,7 @@ button.clear {
 }
 
 /* Sidebar links */
-.sidebarEditor a,
+.sidebar a,
 .dropdown-btn {
   display: block;
   color: rgb(0, 0, 0);
@@ -344,17 +294,13 @@ $transistionTime: 100ms;
 }
 
 /* Active/current link */
-.sidebarEditor a.active {
+.sidebar a.active {
   background-color: $activeColor;
   color: $activeFontColor;
   transition: $transistionTime;
 }
 
-.sidebarEditor .dropdown-container a {
-  padding-left: 40px;
-}
-
-.sidebarEditor a.nActive,
+.sidebar a.nActive,
 .dropdown-btn {
   background-color: $section-color;
   color: $sideFontColor;
@@ -362,7 +308,7 @@ $transistionTime: 100ms;
 }
 
 /* Links on mouse-over */
-.sidebarEditor a:hover:not(.active),
+.sidebar a:hover:not(.active),
 .dropdown-btn:hover {
   background-color: #bdbdbd;
   transition: 150ms;
@@ -383,45 +329,33 @@ $transistionTime: 100ms;
 }
 
 /* Optional: Style the caret down icon */
-.dropdown-btn i {
+.fa-caret-down {
   float: right;
   margin: auto;
   margin-top: 3%;
   width: fit-content;
 }
 
-/* On screens that are less than 700px wide, make the sidebarEditor into a topbar */
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
 @media screen and (max-width: 700px) {
-  .sidebarEditor {
+  .sidebar {
     width: 100%;
     height: auto;
     position: relative;
   }
 
+  .sidebar a {
+    float: left;
+  }
+
   div.content {
     margin-left: 0;
-  }
-
-  .leftModuleClass {
-    display: none;
-  }
-
-
-  img.open-sidebarEditor-button {
-    display: block;
-  }
-
-}
-
-@media screen and (min-width: 700px) {
-  img.open-sidebarEditor-button {
-    display: none;
   }
 }
 
 /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
 @media screen and (max-width: 400px) {
-  .sidebarEditor a {
+  .sidebar a {
     text-align: center;
     float: none;
   }

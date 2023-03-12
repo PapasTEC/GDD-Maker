@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 
+import { DocumentService } from "../../services/document.service";
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -9,7 +11,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private documentService: DocumentService) { }
 
   @ViewChild('fileInput') fileInput;
   profileImage: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -55,8 +57,11 @@ export class UserProfileComponent implements OnInit {
     console.log("Formulario enviado:", updateUser);
     this.http.put(`/api/users/update/${this.localUser.email}`, updateUser).subscribe((response) => {
       console.log("Usuario actualizado:", response);
-      localStorage.setItem('currentUser', JSON.stringify(updateUser));
-      location.reload();
+      this.documentService.updateOwnerInDocuments(this.localUser.email, { owner: updateUser.email }).subscribe((response) => {
+        console.log("Documentos actualizados:", response);
+        localStorage.setItem('currentUser', JSON.stringify(updateUser));
+        location.reload();
+      });
     });
   }
 
@@ -67,8 +72,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   async scaleAndEncodeImage(file: File): Promise<string> {
-    const width = 128;
-    const height = 128;
+    const width = 256;
+    const height = 256;
     const img = new Image();
     const reader = new FileReader();
     reader.readAsDataURL(file);

@@ -1,6 +1,10 @@
-
-    <!-- <div class="textBoxContainer"></div> -->
-<div class="centeredContainer">
-    <textarea id="txtArea" class="textArea" placeholder={{textBoxDefault}}></textarea>
+<div class="bodyClass">
+    <div class="contentContainer">
+        <div class="subtitleContainer" style="justify-content: center; height: 10%;">
+            <span class="subtitle">{{textBoxDefault}}</span>  
+        </div>
+        <div class="lowerContainer">
+            <textarea id="txtArea" class="textArea" [value]="currentTextInBox" (input)="onTextChange($event.target.value)" placeholder="Write Here"></textarea>
+        </div>
+    </div>
 </div>
-

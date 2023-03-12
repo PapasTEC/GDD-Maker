@@ -9,8 +9,8 @@ import { DocumentService } from '../../services/document.service';
 import { UserService } from '../../services/user.service';
 
 export interface Project {
-  title: string;
-  imageUrl: string;
+  documentTitle: string;
+  documentLogo: string;
   lastUpdated: string;
   owner: string;
   _id: string;
@@ -47,9 +47,9 @@ export class DashboardComponent implements OnInit {
       this.documentService.getMyProjects(this.email).subscribe((data: any) => {
         this.MyProjectsData = data.map((project: any) => {
           return {
-            title: project.titleInfo.title,
-            imageUrl: project.titleInfo.imageUrl,
-            lastUpdated: new Date(project.lastUpdated).toLocaleDateString('es-ES'),
+            documentTitle: project.frontPage.documentTitle,
+            documentLogo: project.frontPage.documentLogo,
+            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}),
             owner: "",
             _id: project._id
           }
@@ -61,9 +61,9 @@ export class DashboardComponent implements OnInit {
       this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
         this.SharedProjectsData = data.map((project: any) => {
           return {
-            title: project.titleInfo.title,
-            imageUrl: project.titleInfo.imageUrl,
-            lastUpdated: new Date(project.lastUpdated).toLocaleDateString('es-ES'),
+            documentTitle: project.frontPage.documentTitle,
+            documentLogo: project.frontPage.documentLogo,
+            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}),
             owner: project.owner,
             _id: project._id
           }
@@ -119,46 +119,3 @@ export class DashboardComponent implements OnInit {
     }
   }
 }
-
-
-// MyProjectsData: Project[] = [
-//   {
-//     name: "Argon 4",
-//     lastUpdated: "2020-01-03",
-//     owner: ""
-//   },
-//   {
-//     name: "Argon 1",
-//     lastUpdated: "2020-01-01",
-//     owner: ""
-//   },
-//   {
-//     name: "Argon 2",
-//     lastUpdated: "2020-01-02",
-//     owner: ""
-//   },
-//   {
-//     name: "Argon 3",
-//     lastUpdated: "2020-01-03",
-//     owner: ""
-//   },
-// ]
-
-// SharedProjectsData: Project[] = [
-//   {
-//     name: "Argon 4",
-//     lastUpdated: "2020-01-04",
-//     owner: "abiasdsasdelpg1@gmail.com"
-//   },
-//   {
-//     name: "Argon 5",
-//     lastUpdated: "2020-01-05",
-//     owner: "abiasdsasdelpg2@gmail.com"
-//   },
-//   {
-//     name: "Argon 6",
-//     lastUpdated: "2020-01-06",
-//     owner: "abiasdsasdelpg3@gmail.com"
-//   }
-// ]
-

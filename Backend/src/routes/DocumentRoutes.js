@@ -10,5 +10,6 @@ router.put('/update/:id', documentController.updateDocument);
 router.delete('/delete/:id', documentController.deleteDocument);
 router.get('/getInfoByOwner/:owner', documentController.getDocumentsByOwner);
 router.post('/getInfoShared', documentController.getSharedDocuments);
+router.put('/updateOwner/:owner', documentController.updateOwnerInDocuments);
 
 module.exports = router;

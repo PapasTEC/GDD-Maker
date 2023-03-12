@@ -1,5 +1,5 @@
 # GDD-Maker
-Creador de GDD
+Creador de GDD.
 
 
 # Credenciales correo electronico

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const URI = 'mongodb://admin-proyectois:proyectoi5@150.136.169.6:27017?tls=false';
+const URI = 'mongodb://admin-proyectois:proyectoi5@150.136.84.139:27017?tls=false';
 
 function connectDB() {
     mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true, dbName: "GDD" } )

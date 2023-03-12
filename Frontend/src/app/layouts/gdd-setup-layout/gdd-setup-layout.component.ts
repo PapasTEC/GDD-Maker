@@ -10,10 +10,26 @@ import { GddSetupLayoutRoutes } from './gdd-setup-layout.routing';
 export class GddSetupLayoutComponent {
 
   routes = GddSetupLayoutRoutes;
-  cardTitles = ["Game Title", "Game Logo", "Company Name", "Company Logo", "Game Tags", "Game Platforms", "Elevator Pitch", "High Level Design"]
+  cardTitles = ["Game Title", "Game Logo", "Company Name", "Company Logo", "Game Tags", "Game Platforms", "Elevator Pitch", "Theme", "Aesthetic", "Core Mechanic", "Finish Setup"]
+
+  cardsData = {
+    gameTitle: "",
+    gameLogo: "",
+    companyName: "",
+    companyLogo: "",
+    gameTags: [],
+    gamePlatforms: [],
+    elevatorPitch: "",
+    theme: "",
+    aesthetic: [],
+    coreMechanic: ""
+  }
 
   routesIndex = 0;
   routesQuantity = this.routes.length;
+
+  showLeftArrow = false;
+  showRightArrow = true;
 
   path = "";
 
@@ -25,12 +41,27 @@ export class GddSetupLayoutComponent {
 
   ngOnInit() {
     this.changePath();
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.add("bg-background");
+
+    sessionStorage.setItem('currentSetup', JSON.stringify(this.cardsData));
   }
 
   changePath(){
     this.router.navigate([this.path], {relativeTo: this.route});
     this.currentTitle = this.cardTitles[this.routesIndex];
 
+    if (this.routesIndex == 0){
+      this.showLeftArrow = false;
+    } else {
+      this.showLeftArrow = true;
+    }
+
+    if(this.routesIndex == this.routesQuantity - 1){
+      this.showRightArrow = false;
+    } else {
+      this.showRightArrow = true;
+    }
   }
 
   previousPage(){
@@ -41,6 +72,7 @@ export class GddSetupLayoutComponent {
 
     this.path = this.routes[this.routesIndex].path;
     this.changePath();
+
   }
 
   nextPage(){
@@ -52,5 +84,12 @@ export class GddSetupLayoutComponent {
     this.path = this.routes[this.routesIndex].path;
     this.changePath();
     
+  }
+
+  ngOnDestroy() {
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.remove("bg-background");
+
+    sessionStorage.removeItem('currentSetup');
   }
 }

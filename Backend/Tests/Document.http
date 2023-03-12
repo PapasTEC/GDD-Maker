@@ -3,13 +3,25 @@ POST http://localhost:3080/api/documents/add HTTP/1.1
 Content-Type: application/json
 
 {
-    "owner": "abiel3",
-    "lastUpdated": "Sat Mar 04 2023 09:26:45 GMT-0600",
-    "titleInfo": {
-        "title": "Game 5",
-        "imageUrl": "https://brandemia.org/contenido/subidas/2016/11/cabecera_nesquik2-960x640.jpg"
+    "owner": "nomote8754@vootin.com",
+    "frontPage": {
+        "documentTitle": "Roy Juego 2",
+        "documentLogo": "https://inaturalist-open-data.s3.amazonaws.com/photos/75868387/large.jpg",
+        "companyName": "Roy Games",
+        "companyLogo": "https://inaturalist-open-data.s3.amazonaws.com/photos/75868387/large.jpg",
+        "collaborators": ["Roy", "Fabri", "Eli"],
+        "lastUpdated": "Sat Mar 07 2023 10:26:45 GMT-0600"
     },
-    "docText": "holaaa"
+    "documentContent": [{
+        "sectionTitle": "Titulo Uno3",
+        "content": {
+            "selfContent": {},
+            "subSections": [{
+                "subSectionTitle": "Subtitulo Uno3",
+                "subSectionContent": {}
+            }]
+        }
+    }]
 }
 
 ###
@@ -17,40 +29,49 @@ GET http://localhost:3080/api/documents/get HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://localhost:3080/api/documents/get/6403628088b81cec7c6fa27d HTTP/1.1
+GET http://localhost:3080/api/documents/get/640a5e66d315c056fd32867f HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://localhost:3080/api/documents/getInfo/6403628088b81cec7c6fa27d HTTP/1.1
+GET http://localhost:3080/api/documents/getInfo/640a5e66d315c056fd32867f HTTP/1.1
 Content-Type: application/json
 
 ###
-PUT http://localhost:3080/api/documents/update/6403639b88b81cec7c6fa27f HTTP/1.1
+PUT http://localhost:3080/api/documents/update/640a5e66d315c056fd32867f HTTP/1.1
 Content-Type: application/json
 
 {
-    "docText": [{
-        "title": "Portada",
-        "text": "holaaa"
-    }]
+    "frontPage": {
+        "documentTitle": "El juego de la muerte",
+        "documentLogo": "https://brandemia.org/contenido/subidas/2016/11/cabecera_nesquik2-960x640.jpg",
+        "companyName": "OG Games",
+        "companyLogo": "https://brandemia.org/contenido/subidas/2016/11/cabecera_nesquik2-960x640.jpg",
+        "collaborators": ["Abiel", "Juzo", "Pablo", "Gonzalo", "Julio"],
+        "lastUpdated": "Sat Feb 02 2023 11:26:45 GMT-0600"
+    }
 }
 
 ###
-DELETE http://localhost:3080/api/documents/delete/64036ea188b81cec7c6fa289 HTTP/1.1
+DELETE http://localhost:3080/api/documents/delete/640a5f04d315c056fd328683 HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://localhost:3080/api/documents/getInfoByOwner/abiel HTTP/1.1
+GET http://localhost:3080/api/documents/getInfoByOwner/abielpg.juzo@gmail.com HTTP/1.1
 Content-Type: application/json
 
 ###
 POST http://localhost:3080/api/documents/getInfoShared HTTP/1.1
 Content-Type: application/json
 
+[
+    "640a5fd3d315c056fd328687",
+    "640a5ffbd315c056fd32868b"
+]
+
+###
+PUT http://localhost:3080/api/documents/updateOwner/nomote8754@vootin.com HTTP/1.1
+Content-Type: application/json
+
 {
-    "shared_with_me_documents": [
-        "6403628088b81cec7c6fa27d",
-        "6403639b88b81cec7c6fa27f",
-        "6403639e88b81cec7c6fa281"
-    ]  
+    "owner": "yoseleh299@maazios.com"
 }

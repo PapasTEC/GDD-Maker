@@ -2,10 +2,15 @@ const express = require('express')
 const morgan = require('morgan')
 const path = require('path')
 var cors = require("cors");
+var bodyParser = require('body-parser');
+
 const { generatePasswordCode, sendEmail } = require('./functions/utils')
 
 const app = express()
 const db = require('./database')
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(morgan('dev'))
 app.use(express.json())
@@ -23,9 +28,9 @@ app.listen(process.env.PORT || port, () => {
 
 db.connectDB()
 
-app.use(express.static(path.join(__dirname, 'frontend'), { type: 'application/javascript' }));
+app.use(express.static(path.join(__dirname, 'frontendBuild'), { type: 'application/javascript' }));
 app.use('/app/*', function(req, res) {
-  res.sendFile(path.join(__dirname,'frontend/index.html'));
+  res.sendFile(path.join(__dirname,'frontendBuild/index.html'));
 });
 
 app.use("/api/users", require("./routes/UserRoutes"))

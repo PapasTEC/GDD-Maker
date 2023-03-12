@@ -23,7 +23,30 @@ export class AdminLayoutComponent implements OnInit {
     this.documentTitle = "DOCUMENT TITLE GOES HERE";
   }
 
+  openSidebar() {
+    document.getElementById("sidebar").focus();
+  }
+
+  keepSidebarOpen() {
+    document.getElementById("sidebar").focus();
+  }
+
+  toggleKeepSidebarOpen() {
+    const sidebar = document.getElementById("sidebar");
+
+    if (sidebar.classList.contains("sidebarHide")) {
+      sidebar.classList.replace("sidebarHide", "sidebarShow");
+      document.getElementById("pin").style.filter = " invert(26%) sepia(98%) saturate(1435%) hue-rotate(92deg) brightness(97%) contrast(107%)";
+    } else if (sidebar.classList.contains("sidebarShow")) {
+      sidebar.classList.replace("sidebarShow", "sidebarHide");
+      document.getElementById("pin").style.filter = "";
+    }
+  }
+
   ngOnInit() {
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.add("bg-background");
+
     var dropdown = document.getElementsByClassName("dropdown-btn");
     var i;
     console.log("hola");
@@ -141,5 +164,10 @@ export class AdminLayoutComponent implements OnInit {
     } else {
       console.log("vditor is null");
     }
+  }
+
+  ngOnDestroy() {
+    var body = document.getElementsByTagName("body")[0];
+    body.classList.remove("bg-background");
   }
 }

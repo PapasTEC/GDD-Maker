@@ -10,7 +10,36 @@ $inner-font-size: 14px;
 $section-color: #e1e1e1;
 $subsection-color: #ece8e8;
 
+$borderState: none 2px;
+
+$icon-size: min(4vh, 4vw);
+
+$icon-container-size: min(2vh, 2vw);
+
+.header-margin {
+  margin-top: -19vh;
+}
+
+img {
+  color: $outer-text-color;
+  width: $icon-size;
+  height: $icon-size;
+}
+
+.icon-size {
+  width: $icon-size;
+  height: $icon-size;
+}
+
+.bodyContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 1%;
+}
+
 .editor-container-Class {
+  
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -25,29 +54,35 @@ $subsection-color: #ece8e8;
   // border-bottom-left-radius: $r;
   // border-bottom-right-radius: $r;
   border-radius: 5px;
+
+  // border: red $borderState;
 }
 
 .markdown-wrapper {
-  // border: #00e6f7 solid 2px;
   background-color: inherit;
   position: relative;
   height: 100%;
   width: 100%;
+  border: blue $borderState;
 }
 .hide-toolbar {
-  // background-color: red;
   transform: rotate(90deg);
   position: absolute;
-  top: 0;
-  padding: 5px 0px;
-  right: 50px;
+  top: 0.2vh;
+  right: 2vw;
+
+  width: $icon-size;
+  height: $icon-size;
+
+  border: slateblue $borderState;
 }
 
 .workspace-class {
-  padding: 30px 15px;
 
   height: auto;
   width: 100%;
+
+  padding-left: 1%;
 
   // border: solid 2px #691b1b;
 
@@ -59,15 +94,68 @@ $subsection-color: #ece8e8;
   position: relative;
   overflow: hidden;
 
+  border: green $borderState;
+
   .open-sidebar-button {
     position: absolute;
-    bottom: 10px;
+    margin-left: -1vw;
+    bottom: 1.4vh;
     z-index: 100;
     transform: rotate(180deg);
 
-    width: 30px;
-    height: 30px;
+    width: $icon-size;
+    height: $icon-size;
+
+    border: royalblue $borderState;
+
+    cursor: pointer;
+
+    // color : #bebebe;
+
+    filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
   }
+
+  .open-sidebar-button:hover {
+    filter: none;
+  }
+}
+
+.leftModuleClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  background-color: #f6f3f3;
+
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  overflow: hidden;
+
+  border: black $borderState;
+
+  transition: 0.4s;
+}
+
+.sidebarHide {
+  width: 0px;
+}
+
+.sidebarShow {
+  width: 25%;
+}
+
+.leftModuleClass:focus {
+  width: 25%;
+  outline: none;
+}
+
+.leftModuleClass:hover {
+  width: 25%;
+  outline: none;
 }
 
 .workspaceheaderClass {
@@ -109,37 +197,22 @@ $subsection-color: #ece8e8;
   overflow: hidden;
 }
 
-.leftModuleClass {
-  padding: 0px 0px 0px 0px;
-  margin: 0px 0px 0px 0px;
-  height: 100%;
-  width: 25%;
-  background-color: #f6f3f3;
-
-  border-top-left-radius: inherit;
-  border-bottom-left-radius: inherit;
-
-  display: flex;
-  flex-direction: column;
-
-  position: relative;
-  overflow: hidden;
-}
-
 .leftModuleTopClass {
   // padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
-  height: 10%;
+  height: 8%;
   width: 100%;
   display: flex;
   flex-direction: row;
-  padding: 4.5% 6%;
+  padding: 2% 6%;
   align-items: center;
 
   // border: solid 2px #b32424;
 
   position: relative;
   overflow: hidden;
+
+  border: #3a7ca5 $borderState;
 }
 
 .backButtonContainerClass {
@@ -158,11 +231,7 @@ $subsection-color: #ece8e8;
   display: flex;
   align-items: center;
 
-  img {
-    color: $outer-text-color;
-    width: 24px;
-    height: 24px;
-  }
+  border: fuchsia $borderState;
 
   .current-users {
     display: flex;
@@ -187,10 +256,18 @@ $subsection-color: #ece8e8;
   align-content: center;
   flex-wrap: wrap;
 
-  img {
-    color: $outer-text-color;
-    width: 24px;
-    height: 24px;
+  border: salmon $borderState;
+
+  .icon-container {
+    height: 80%;
+    cursor: pointer;
+
+    border: saddlebrown $borderState;;
+
+    img {
+      height: 2.5vh;
+      width: 1.5vw;
+    }
   }
 }
 
@@ -204,16 +281,19 @@ $subsection-color: #ece8e8;
 
   position: relative;
   overflow: hidden;
+
+  border: #d15706 $borderState;
 }
 
 .layoutTextContainer {
   width: 100%;
 
-  padding-left: 6%;
-  margin-bottom: 6%;
+  padding: 3% 6%;
 
   position: relative;
   overflow: hidden;
+
+  border: rebeccapurple $borderState;
 }
 
 .layoutText {
@@ -229,10 +309,11 @@ $subsection-color: #ece8e8;
   margin: 0px 0px 0px 0px;
   height: 100%;
   width: 100%;
-  // border: solid 10px #f57003;
   border-radius: none;
   position: relative;
   overflow: hidden;
+
+  border: greenyellow $borderState;
 }
 
 // DOCUMENT LAYOUT

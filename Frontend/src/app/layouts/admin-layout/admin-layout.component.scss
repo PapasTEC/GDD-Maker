@@ -5,7 +5,7 @@ $outer-font-size: 14px;
 
 $title-font-size: min(3vh, 3vw);
 $middle-font-size: min(2vh, 2vw);
-$inner-font-size: min(1vh, 1vw);
+$inner-font-size: min(1.2vh, 1.2vw);
 
 $section-color: #e1e1e1;
 $subsection-color: #ece8e8;
@@ -22,7 +22,7 @@ $icon-container-size: min(2vh, 2vw);
 
 .midTextFont {
   font-size: $middle-font-size;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 img {
@@ -270,26 +270,28 @@ $resizeTitleFont: min(3vw, 3vh);
     border: fuchsia $borderState;
 
     div {
-
       position: relative;
-
-
       align-self: center;
+      text-align: center;
+
+      display: flex;
+      justify-content: center;
 
       border: green $borderState;
-
 
     }
 
     .exit-button {
-      margin-right: 0.4vw;
+      margin-right: 0.3vw;
     }
 
     img {
+
       transform: rotate(180deg);
-      
       height: 2.5vh;
       width: 2vw;
+
+
     }
   }
 
@@ -362,10 +364,12 @@ $resizeTitleFont: min(3vw, 3vh);
   border: rebeccapurple $borderState;
 }
 
+$resizeFontSize: min(2.5vw, 2.5vh);
+
 .layoutText {
   font-family: "Roboto", sans-serif;
   font-style: bold 50px;
-  font-size: 3vh;
+  font-size: $resizeFontSize;
   text-align: left;
   color: $outer-text-color;
 }
@@ -463,11 +467,15 @@ $transistionTime: 100ms;
 }
 
 .dropdown-container {
-  font-size: 1.5vh;
+  font-size: 1.8vh;
 }
 
 .dropdown-container a.nActive {
   background-color: $subsection-color;
+  transition: 0.3s;
+  span {
+    padding-left: 1vw;
+  }
 }
 
 .dropdown-container a.active {

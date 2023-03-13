@@ -67,55 +67,49 @@ export class FinishSetupComponent {
       },
       documentContent: [{
         sectionTitle: "Basic Information",
-        content: {
-          selfContent: {},
-          subSections: [{
-            subSectionTitle: "Elevator Pitch",
-            subSectionContent: {
-              text: currentSetup.elevatorPitch
-            }
-          }, {
-            subSectionTitle: "Tagline",
-            subSectionContent: {},
-          } , {
-            subSectionTitle: "Genre",
-            subSectionContent: {},
-          }, {
-            subSectionTitle: "Keywords and Tags",
-            subSectionContent: {
-              tags: currentSetup.gameTags
-            },
-          }]
-        }
+        subSections: [{
+          subSectionTitle: "Elevator Pitch",
+          subSectionContent: {
+            text: currentSetup.elevatorPitch
+          }
+        }, {
+          subSectionTitle: "Tagline",
+          subSectionContent: {}
+        } , {
+          subSectionTitle: "Genre",
+          subSectionContent: {}
+        }, {
+          subSectionTitle: "Keywords and Tags",
+          subSectionContent: {
+            tags: currentSetup.gameTags
+          }
+        }]
       }, {
         sectionTitle: "Technical Information",
-        content: {
-          selfContent: {
+        subSections: [{
+          subSectionTitle: "self",
+          subSectionContent: {
             platforms: myPlatforms
-          },
-          subSections: []
-        }
+          }
+        }]
       }, {
         sectionTitle: "High Level Design",
-        content: {
-          selfContent: {},
-          subSections: [{
-            subSectionTitle: "Theme",
-            subSectionContent: {
-              text: currentSetup.theme
-            }
-          }, {
-            subSectionTitle: "Aesthetic",
-            subSectionContent: {
-              aesthetic: this.aesthetics[currentSetup.aesthetic[0]]
-            }
-          }, {
-            subSectionTitle: "Core Mechanic",
-            subSectionContent: {
-              text: currentSetup.coreMechanic
-            }
-          }]
-        }
+        subSections: [{
+          subSectionTitle: "Theme",
+          subSectionContent: {
+            text: currentSetup.theme
+          }
+        }, {
+          subSectionTitle: "Aesthetic",
+          subSectionContent: {
+            aesthetic: this.aesthetics[currentSetup.aesthetic[0]]
+          }
+        }, {
+          subSectionTitle: "Core Mechanic",
+          subSectionContent: {
+            text: currentSetup.coreMechanic
+          }
+        }]
       }]
     }
 

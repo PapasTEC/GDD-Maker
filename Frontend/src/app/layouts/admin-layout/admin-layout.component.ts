@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
-import { retry } from "rxjs";
+import { DocumentService } from "src/app/services/document.service";
 import Vditor from "vditor";
 import { changeVditorConfig } from "./veditorConfig";
 
@@ -16,7 +16,7 @@ export class AdminLayoutComponent implements OnInit {
   showToolbar = false;
   documentId = "";
 
-  constructor(private location: Location) {
+  constructor(private location: Location, private documentService: DocumentService) {
     this.sections = [
       { sectionName: "High level design", sectionId: "hld" },
       { sectionName: "Low level design", sectionId: "lld" },
@@ -25,7 +25,7 @@ export class AdminLayoutComponent implements OnInit {
       { sectionName: "Test results", sectionId: "tr" },
       { sectionName: "Test summary", sectionId: "ts" },
     ];
-    this.documentTitle = "DOCUMENT TITLE GOES HERE";
+    this.documentTitle = "DOCUMENT TITLE GOES HERE DOCUMENT TITLE GOES HERE";
   }
 
   openSidebar() {
@@ -63,8 +63,17 @@ export class AdminLayoutComponent implements OnInit {
     // this.vditor.setValue(content);
   }
 
+  setDocumentData() {
+    this.documentService.getDocument(this.documentId).subscribe((data) => {
+      console.log("data:", data);
+      this.documentTitle = data['frontPage']['documentTitle'];
+    });
+  }
+
   ngOnInit() {
     this.documentId = this.location.getState()['id']
+
+    this.setDocumentData();
 
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-background");

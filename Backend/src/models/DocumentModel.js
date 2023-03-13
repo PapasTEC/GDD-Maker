@@ -13,13 +13,10 @@ const DocumentSchema = new Schema({
     },
     "documentContent": [{
         "sectionTitle": {type: String, required: true},
-        "content": {
-            "selfContent": {type: Object, required: true},
-            "subSections": [{
-                "subSectionTitle": {type: String, required: true},
-                "subSectionContent": {type: Object, required: true},
-            }],
-        },
+        "subSections": [{
+            "subSectionTitle": {type: String, required: true},
+            "subSectionContent": {type: Object, required: true},
+        }],
     }],
 })
 

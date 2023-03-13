@@ -8,27 +8,49 @@ import { Component } from '@angular/core';
 export class GameGenreComponent {
 
   genreName: string;
-  genres: string[] = [];
+  tags: string[] = [];
 
-  addGenre() {
+  constructor() { }
+
+  ngOnInit() {
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+      this.tags = currentSetup.gameTags;
+    }
+  }
+
+  public addTag(): void {
     var genreTextBox = document.getElementById("genreText") as HTMLInputElement;
 
     if(genreTextBox.value == ""){
       return;
     }
 
-    const repeated = this.genres.find( val => val == genreTextBox.value);
+    const repeated = this.tags.find( val => val == genreTextBox.value);
 
     if(repeated){
       return;
     }
 
-    this.genres.push(genreTextBox.value);
+    this.tags.push(genreTextBox.value);
     genreTextBox.value = "";
+
+    console.log("tags:", this.tags);
+
+    this.updateStorage();
   }
 
-  deleteGenre(id: number) {
+  public deleteTag(id: number): void {
     // Delete at index 
-    this.genres.splice(id, 1);
+    this.tags.splice(id, 1);
+    console.log(this.tags);
+
+    this.updateStorage();
+  }
+
+  updateStorage(){
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+    currentSetup.gameTags = this.tags;
+    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 }

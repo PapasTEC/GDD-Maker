@@ -1,126 +1,113 @@
-<!-- Sidenav -->
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+  <link rel="stylesheet" href="admin-layout.component.scss" />
+</head>
 
-    <style></style>
-  </head>
+<div class="header bg-gradient-tertiary" style="height: 19vh;"></div>
 
-  <body style="padding: 1%; background-color: #2f6690">
-    <div id="editor-container" class="editor-container-Class">
-      <!-- Sidebar <app-sidebarEditor></app-sidebarEditor> -->
-
-      <!-- Sidebar -->
-      <link rel="stylesheet" href="admin-layout.component.scss" />
-
-      <div id="sidebarEditor" class="leftModuleClass">
-        <!-- Esto esta aca para ver la barra -->
-        <div id="sidebarEditor-top" class="leftModuleTopClass">
-          <div id="backbutton-container" class="backButtonContainerClass">
-            > Back
-          </div>
-
-          <!-- <div id="share-export-buttons" class="shareButtonContainerClass">
-            <img
-              class="share-export-buttons__share-icon"
-              src="assets/img/icons/common/share.svg"
-              alt="share"
-            />
-          </div> -->
-        </div>
-        <div id="sidebarEditor-bottom" class="leftModuleBottomClass">
-          <div id="layout-text" class="layoutTextContainer">
-            <div class="layoutText">Document Title</div>
-          </div>
-          <div id="layout-container" class="layoutContainerClass">
-            <div class="sidebarEditor">
-              <!-- <a class="nActive" href="#/editor">Tematica</a> -->
-              <button class="section">Tematica</button>
-              <button class="section dropdown-btn">
-                High Level Design
-                <i class="fa fa-chevron-down"></i>
-              </button>
-              <div class="dropdown-container" style="display: none">
-                <a class="nActive" href="#/editor">Link 1</a>
-                <a class="nActive" href="#/editor">Link 2</a>
-                <a class="nActive" href="#/editor">Link 3</a>
-              </div>
-              <!-- <a class="nActive" href="#/editor">About</a> -->
-              <button class="section">About</button>
+<div class="bodyContainer header-margin">
+  <div id="editor-container" class="editor-container-Class">
+    <div id="sidebar" class="leftModuleClass sidebarHide" tabindex="0" (click)="keepSidebarOpen()">
+      <div id="sidebar-top" class="leftModuleTopClass">
+        <div id="backbutton-container" class="backButtonContainerClass">
+          <div class="icon-container" [routerLink]="['/dashboard']">
+            <div>
+              <img
+                class="exit-button"
+                src="assets/img/icons/common/arrow-right-from-bracket-solid.svg"
+                alt="share"
+              />
+              <!-- <span class="midTextFont">Back 2</span> -->
+            </div>
+            <div>
+              <span class="midTextFont">Back</span>
             </div>
           </div>
         </div>
-        <div id="sidebarEditor-top" class="leftModuleTopClass">
-          <!-- <div id="backbutton-container" class="backButtonContainerClass">
-            <div class="current-users">
-              <div class="current-users__count">4</div>
-              <img
-                class="share-export-buttons__share-icon current-users__icon"
-                src="assets/img/icons/common/people.svg"
-                alt="share"
-              />
-            </div>
-          </div> -->
-
-          <div id="share-export-buttons" class="shareButtonContainerClass">
-            <button class="share-export-buttons__hide-icon clear">
-              <img
-                src="assets/img/icons/common/chevrons-left.svg"
-                alt="share"
-              />
-            </button>
-          </div>
+        <div id="share-export-buttons" class="shareButtonContainerClass">
+          <!-- <img
+            class="share-export-buttons__share-icon"
+            src="assets/img/icons/common/share.svg"
+            alt="share"
+          /> -->
         </div>
-        <!-- <div class="collapseBar"></div> -->
       </div>
-
-      <div id="workspace" class="workspace-class">
-        <button class="open-sidebarEditor-button clear">
-          <img src="assets/img/icons/common/chevrons-left.svg" alt="share" />
-        </button>
-        <!-- <div id="workspace-header" class="workspaceheaderClass">
-
-        <div id="document-title-text" class="docTitle-text">
-          {{documentTitle}}
+      <div id="sidebar-bottom" class="leftModuleBottomClass">
+        <div id="layout-text" class="layoutTextContainer">
+          <div class="layoutText"><span>{{this.documentTitle}}</span></div>
         </div>
+        <div id="layout-container" class="layoutContainerClass">
 
-        <div id="extra-info" class="extraInfoClass">
+          <div class="sidebar">
+            <!-- <button class="dropdown-btn">
+              Tematica
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container" style="display: none">
+              <a class="nActive" href="#/editor">Link 1</a>
+              <a class="nActive" href="#/editor">Link 2</a>
+              <a class="nActive" href="#/editor">Link 3</a>
+            </div> -->
+            <!-- <a class="nActive" href="#/editor">Tematica</a> -->
 
+            <button class="dropdown-btn">
+              High Level Design
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container" style="display: none">
+              <a class="nActive" href="#/editor"><span>Theme</span></a>
+              <a class="nActive" href="#/editor"><span>Aesthetics</span></a>
+              <a class="nActive" href="#/editor"><span>Core Mechanic</span></a>
+            </div>
+            <!-- <a class="nActive" href="#/editor">About</a> -->
+          </div>
         </div>
-      </div> -->
-
-        <div id="markdown-editor" class="markdown-wrapper">
-          <router-outlet></router-outlet>
-          <div id="vditor"></div>
-          <button class="clear hide-toolbar">
+      </div>
+      <div id="sidebar-top" class="leftModuleTopClass">
+        <div id="backbutton-container" class="backButtonContainerClass">
+          <!-- <div class="current-users">
+            <div class="current-users__count">4</div>
             <img
-              src="assets/img/icons/common/chevrons-left.svg"
-              class="icon"
+              class="share-export-buttons__share-icon current-users__icon"
+              src="assets/img/icons/common/people.svg"
               alt="share"
             />
-          </button>
-          <button class="clear show-toolbar hide">
+          </div> -->
+        </div>
+
+        <div id="share-export-buttons" class="shareButtonContainerClass">
+          <div class="icon-container" (click)="toggleKeepSidebarOpen()">
             <img
-              src="assets/img/icons/common/tools-icon.svg"
-              class="icon"
-              alt="share"
+            id = "pin"
+            src="assets/img/icons/common/thumbtack-solid.svg"
+            alt="share"
             />
-          </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Top navbar -->
-    <!-- <app-navbar></app-navbar> -->
-    <!-- Pages -->
-
-    <!-- <div class="container-fluid">
-    <app-footer></app-footer>
-  </div> -->
-    <!-- <button (click)="getValue()">Get Content</button> -->
-  </body>
-</html>
+    <div id="workspace" class="workspace-class">
+      <img
+        (click)="openSidebar()"
+        class="open-sidebar-button"
+        src="assets/img/icons/common/chevrons-left.svg"
+        alt="share"
+      />
+      <div id="markdown-editor" class="markdown-wrapper">
+        <router-outlet></router-outlet>
+        <div id="vditor"></div>
+        <img
+          id="toolbar-toggle-button"
+          (click)="toggleToolbar()"
+          class="hide-toolbar"
+          src="assets/img/icons/common/chevrons-left.svg"
+          alt="share"
+        />
+      </div>
+    </div>
+  </div>
+</div>

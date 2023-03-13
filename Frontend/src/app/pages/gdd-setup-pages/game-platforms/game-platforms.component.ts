@@ -8,46 +8,75 @@ import { Component } from '@angular/core';
 export class GamePlatformsComponent {
 
   platforms = [
-    {"name":"Playstation", "image":"../../assets/img/platformIcons/playstation.png"}, 
-    {"name":"Xbox", "image":"../../assets/img/platformIcons/xbox.png"}, 
-    {"name":"Windows", "image":"../../assets/img/platformIcons/windows.png"}, 
-    {"name":"Nintendo Switch", "image":"../../assets/img/platformIcons/switch.png"},
-    {"name":"Linux", "image":"../../assets/img/platformIcons/linux.png"},
-    {"name":"MacOS", "image":"../../assets/img/platformIcons/mac.png"},
     {"name":"Android", "image":"../../assets/img/platformIcons/android.png"},
     {"name":"iOS", "image":"../../assets/img/platformIcons/ios.png"},
-    {"name":"Web", "image":"../../assets/img/platformIcons/web.png"},];
+    {"name":"Web", "image":"../../assets/img/platformIcons/web.png"},
+    {"name":"Linux", "image":"../../assets/img/platformIcons/linux.png"},
+    {"name":"MacOS", "image":"../../assets/img/platformIcons/mac.png"},
+    {"name":"Windows", "image":"../../assets/img/platformIcons/windows.png"},
+    {"name":"Playstation", "image":"../../assets/img/platformIcons/playstation.png"}, 
+    {"name":"Xbox", "image":"../../assets/img/platformIcons/xbox.png"}, 
+    {"name":"Nintendo Switch", "image":"../../assets/img/platformIcons/switch.png"},
+  ];
 
   //create onginit function to get platforms from database
   chosenPlatforms = [];
+  multipleAllowed = true;
   //create function to add platform to list
+
+  ngOnInit(){
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+      this.chosenPlatforms = currentSetup.gamePlatforms;
+
+      const getOverlays = new Promise((resolve, reject) => {
+        resolve(document.getElementsByClassName("overlayImage") as HTMLCollectionOf<HTMLElement>);
+      });
+
+      getOverlays.then((aestheticsIndicators) => {
+        this.chosenPlatforms.forEach(index => aestheticsIndicators[index].style.display = "block");
+      });
+    }
+  }
   
   public addOrRemove(platformID:number){
-    console.log("Platform ID: " + platformID);
-    if(this.chosenPlatforms.includes(platformID)){
-      this.chosenPlatforms.splice(this.chosenPlatforms.indexOf(platformID), 1);
-    }else{
-      this.chosenPlatforms.push(platformID);
+
+    let aestheticsIndicators = document.getElementsByClassName(
+      "overlayImage"
+    ) as HTMLCollectionOf<HTMLElement>;
+    let currentAestheticIndicator = aestheticsIndicators[platformID];
+
+    if (this.multipleAllowed) {
+      if (this.chosenPlatforms.includes(platformID)) {
+        this.chosenPlatforms.splice(
+          this.chosenPlatforms.indexOf(platformID),
+          1
+        );
+        currentAestheticIndicator.style.display = "none";
+      } else {
+        this.chosenPlatforms.push(platformID);
+        currentAestheticIndicator.style.display = "block";
+      }
+    } else {
+      if (!this.chosenPlatforms.includes(platformID)) {
+        for (let i = 0; i < aestheticsIndicators.length; i++) {
+          if (i != platformID) {
+            aestheticsIndicators[i].style.display = "none";
+          }
+        }
+        currentAestheticIndicator.style.display = "block";
+        this.chosenPlatforms = [platformID];
+      }
     }
-    this.updatePlatformIndicator();
+
     console.log(this.chosenPlatforms);
+    this.updateStorage();
   }
 
-  updatePlatformIndicator(){
-    var platformsInDocToActivate = document.getElementsByClassName("overlayImage");
-    for(var i = 0; i < platformsInDocToActivate.length; i++){
-      if(this.chosenPlatforms.includes(i)){
-        platformsInDocToActivate[i].setAttribute("style", "display: block;");
-      }else{
-        platformsInDocToActivate[i].setAttribute("style", "display: none;");
-      }
-    
-      }
-  }
-
-  
-  ngOnInit(){
-    
+  updateStorage(){
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+    currentSetup.gamePlatforms = this.chosenPlatforms;
+    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
 
 }

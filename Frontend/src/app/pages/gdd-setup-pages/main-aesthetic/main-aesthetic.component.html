@@ -1,0 +1,67 @@
+<div class="platformsBody">
+    <div class="subtitleContainer">
+        <span class="subtitle">Select your game's main aesthetic</span>
+        
+    </div>
+    <div class="contentContainer">
+        <div class="platformCanvas">
+            <div class="flexCont"  *ngFor="let aes of game_aesthetics;index as i">
+                <div class="platformContainer">
+                    <button class="btn" (click) = "addOrRemove(i)">
+                        <!-- <img class="platformImage"
+                            src={{aes.img}}
+                            alt=""> -->
+                        <div class="platformImage">
+                            <fa-icon class="a" [icon]="aes.icon"></fa-icon>
+                        </div>
+                        
+                        <div  class="overlay" styles="">
+                            <svg [id]="i" class="overlayImage" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-3.2 -3.2 38.40 38.40" xml:space="preserve" fill="#000000" stroke="#000000">
+                    
+                                <g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(6.24,6.24), scale(0.61)">
+                                
+                                <rect x="-3.2" y="-3.2" width="38.40" height="38.40" rx="19.2" fill="#ffffff" strokewidth="0"/>
+                                
+                                </g>
+                                
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                
+                                <g id="SVGRepo_iconCarrier"> <g> <g id="check_x5F_alt"> <path style="fill:#030104;" d="M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M13.52,23.383 L6.158,16.02l2.828-2.828l4.533,4.535l9.617-9.617l2.828,2.828L13.52,23.383z"/> </g> </g> </g>
+                                
+                                </svg>
+                        </div>
+                    </button>
+                    <div class="platformText">
+                        <span>{{aes.name}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- <button class="btn" (click) = "addOrRemove(i)">
+    <img class="platformImage"
+        src={{aes.img}}
+        alt="">
+    <div  class="overlay" styles="">
+        <svg id=i class="overlayImage" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-3.2 -3.2 38.40 38.40" xml:space="preserve" fill="#000000" stroke="#000000">
+
+            <g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(6.24,6.24), scale(0.61)">
+            
+            <rect x="-3.2" y="-3.2" width="38.40" height="38.40" rx="19.2" fill="#ffffff" strokewidth="0"/>
+            
+            </g>
+            
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+            
+            <g id="SVGRepo_iconCarrier"> <g> <g id="check_x5F_alt"> <path style="fill:#030104;" d="M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M13.52,23.383 L6.158,16.02l2.828-2.828l4.533,4.535l9.617-9.617l2.828,2.828L13.52,23.383z"/> </g> </g> </g>
+            
+            </svg>
+    </div>
+</button>
+<div class="platformText">
+    <span>{{aes.name}}</span>
+</div> -->

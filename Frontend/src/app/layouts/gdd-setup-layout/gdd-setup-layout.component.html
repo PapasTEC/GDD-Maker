@@ -1,60 +1,64 @@
+<div class="header bg-gradient-tertiary" style="height: 19vh;">
+</div>
+
 <head>
   <link rel="stylesheet" href="gdd-setup-layout.component.scss" />
 </head>
-<body>
-  <div class="setupBodyClass">
-    <div class="cardClass">
-      <div class="cardRibbon">
-        <div class="cardRibbonTitle">
-          <span> {{currentTitle}} </span>
-        </div>
-        <div class="cardRibbonTitle">
-          <span>  </span>
-        </div>
+<!-- <body class="bg-background">
+</body> -->
+<div class="setupBodyClass bg-transparent header-margin">
+  <div class="cardClass bg-secondary">
+    <div class="cardRibbon bg-default">
+      <div class="cardRibbonTitle">
+        <span> {{currentTitle}} </span>
       </div>
-      <div class="cardBottom">
-        <div class="previousCard" class="cardNavigation">
-          <button class="btn" (click)="previousPage()">
-              <svg
-                class="arrows"
-                style="margin-left: 0%"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <polygon
-                  fill-rule="evenodd"
-                  points="9.414 12 16.707 19.293 15.293 20.707 6.586 12 15.293 3.293 16.707 4.707"
-                />
-              </svg>
-          </button>
-        </div>
+      <div class="cardRibbonTitle">
+        <span>  </span>
+      </div>
+    </div>
+    <div class="cardBottom">
+      <div class="previousCard" class="cardNavigation">
+        <button *ngIf="showLeftArrow" class="btn" (click)="previousPage()">
+            <svg
+              class="arrows"
+              style="margin-left: 0%"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <polygon
+                fill-rule="evenodd"
+                points="9.414 12 16.707 19.293 15.293 20.707 6.586 12 15.293 3.293 16.707 4.707"
+              />
+            </svg>
+        </button>
+        <div *ngIf="!showLeftArrow" style="width: 4vw;"></div>
+      </div>
 
-        <div id="cardContent" class="cardContent">
-          <!-- Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam non quasi officia perspiciatis accusantium aperiam quidem perferendis unde praesentium autem laudantium consectetur maiores, molestiae commodi consequatur earum qui ipsa porro ea? Itaque laboriosam ipsa consequuntur quis assumenda voluptatem debitis laudantium fugiat aliquam accusamus est labore, aperiam autem blanditiis. Debitis cupiditate ab corporis tenetur voluptatem ad. Odit totam, ea, cumque repudiandae ducimus illo distinctio nam quidem ratione vitae recusandae ipsa cum, consequatur quis ab aperiam deleniti veritatis consequuntur. Vel, tempora delectus ratione quo blanditiis reprehenderit quisquam esse quasi beatae molestias, quam voluptatem iste, temporibus minima. Perspiciatis commodi eius fugiat laboriosam suscipit molestiae placeat maxime ducimus facere quis a ex ut, sed rerum provident facilis error corrupti beatae aliquam rem vitae inventore ratione assumenda consectetur. Praesentium ea quisquam dolorum, fugit libero, perferendis eum fugiat repellendus quae tempora voluptatibus excepturi deleniti recusandae ex. Voluptas, modi. Amet illo unde, nobis exercitationem delectus id eos in minus numquam facere obcaecati voluptas ex similique culpa sequi aliquam! Minima exercitationem ut dolore eligendi eos. Aperiam, quam non minus fugiat alias rem quisquam dolorem consequuntur recusandae incidunt vel quos excepturi eaque ipsum quas natus, quaerat earum a, inventore beatae doloribus. Dolor nihil harum doloremque magnam, quis cumque quia sapiente consequatur voluptate totam maiores rerum corrupti. Vitae repudiandae veniam nihil corrupti suscipit rem asperiores animi nemo, quisquam quaerat illum autem maxime odit officia! Placeat autem sit tempore vel dicta ipsa. A ipsam error sunt similique repudiandae hic libero cum, quo corporis exercitationem modi sed molestiae, est voluptatibus, molestias quis. Maxime eius nihil eos deserunt rerum commodi! Vitae sunt omnis dicta, suscipit exercitationem repudiandae, iste hic eos magnam facere tempora laboriosam quod corrupti velit et eaque veniam nisi. Sint dolorem autem cum repellat maiores numquam placeat voluptate iusto. Commodi ipsam ut iusto quo officiis enim eaque, voluptatibus sapiente ad dignissimos, fugiat quia maxime sit? Porro accusantium corrupti voluptatibus officiis, blanditiis culpa quaerat perspiciatis voluptates dicta provident! Aspernatur fuga incidunt possimus nisi tempora veniam, quibusdam corporis deleniti ad dolorum iure placeat odio saepe illum voluptatibus quod, voluptates voluptate nemo a dicta fugit! Consequatur vitae voluptas consectetur explicabo at assumenda numquam odio autem? Voluptate numquam aut excepturi quasi incidunt dolore officia provident alias doloremque, praesentium illo assumenda, minus, accusamus eum tempora inventore quam. Nisi, animi repellat eveniet incidunt eius possimus nostrum laudantium quos ex assumenda corporis tempore nulla error sit explicabo voluptatem aliquid natus vero consequatur atque, distinctio unde labore amet exercitationem. Quo odio natus nisi dolore vero ipsa impedit. At tenetur distinctio veritatis ipsam voluptatum! Architecto voluptate sed eius facere a vero, mollitia perspiciatis consequatur laborum repellat deserunt facilis eligendi modi cumque ea magnam incidunt cum! Suscipit ullam explicabo doloremque sequi aspernatur similique, harum illo qui natus quasi quos quaerat excepturi, obcaecati eum. Blanditiis porro rerum eos alias minima officia labore optio non quasi enim! Corporis ut nulla nam debitis veniam, aut laborum saepe cupiditate unde incidunt, illo eaque! Magni placeat et maiores fugiat quia eius quo vitae vel molestiae accusantium eaque repellendus qui, autem expedita illo. Sed, ducimus in, perferendis at aliquid voluptatibus alias sequi praesentium ipsam officia omnis nesciunt quas? Provident, aliquid velit. Omnis quis accusantium, consectetur rem corporis delectus dicta, quos doloremque fugit ab, excepturi ratione maiores recusandae expedita? Sit delectus repudiandae eligendi vero. Fugiat autem provident, reprehenderit earum quaerat vel vero eveniet. Modi rem officia incidunt quisquam voluptatum perferendis voluptate facilis ut odio labore corporis, eos, quam ad asperiores aliquid a! Ad adipisci placeat expedita dolore laboriosam fugit ipsa provident laudantium odit fuga, vero velit ducimus atque et repellat quasi nam totam. Quis velit iure blanditiis non eveniet praesentium ullam itaque inventore aliquam, voluptas, aperiam, perferendis aliquid unde id saepe ratione voluptatum minus culpa vitae! Nemo praesentium, hic illum eum enim, recusandae facilis esse suscipit, ex laboriosam a deleniti. Debitis id numquam sed, beatae commodi impedit, inventore accusamus veritatis repellat eveniet sequi aperiam! Nesciunt recusandae nemo nulla molestias incidunt illum ipsam id. Neque aliquam nam facere tempore consequuntur rem assumenda odit repellat quas sapiente id magni magnam culpa, libero eius ut incidunt omnis! Eius quasi, fugit necessitatibus consequatur sit, laboriosam exercitationem libero nesciunt cum nemo assumenda accusamus voluptas facere accusantium maxime dolorem, excepturi rem suscipit nobis porro reprehenderit reiciendis consectetur placeat. Ex vero, asperiores autem doloribus obcaecati dicta voluptates in nulla at, unde praesentium sapiente eaque nesciunt architecto adipisci libero, doloremque amet voluptatem pariatur natus odio fuga excepturi labore necessitatibus. Harum, obcaecati assumenda. Quisquam ipsum hic dicta unde harum? Fugiat molestiae laudantium tenetur minima enim eaque necessitatibus debitis. Nesciunt sint nulla labore quaerat vitae numquam omnis laborum iusto tenetur quae, animi, culpa voluptatum, quasi ratione voluptate doloribus excepturi quibusdam odit et inventore quis libero facilis. Quo hic porro eaque quasi accusamus similique harum. Veniam magnam voluptas earum enim est? Quibusdam molestias enim vel repellendus, assumenda quam debitis, error dolore nisi voluptatem cumque nihil nostrum aliquid dolores sapiente? Fugit perspiciatis voluptates sunt. Suscipit eos aperiam quisquam odit laborum nostrum voluptatibus? Repellat sit ea dignissimos dolorem doloremque, asperiores architecto ducimus earum quo facere tenetur consequatur facilis mollitia adipisci molestias quaerat voluptas culpa. Dolor animi sit cum assumenda inventore officia fugiat accusantium! Aspernatur corporis distinctio vitae alias, maxime sapiente itaque reiciendis. Rem eius aut aspernatur dicta totam nihil nam dignissimos architecto atque! Inventore facilis aperiam unde error magni ad laudantium, illo, voluptatibus tenetur aliquam quis eligendi quas in at ut veritatis quia ducimus modi! Ullam atque recusandae hic, quibusdam harum laudantium dignissimos corrupti. Assumenda, voluptas? Sint doloribus animi vitae laboriosam veniam. Natus non enim atque quasi voluptatem quaerat distinctio qui. Itaque cumque officia excepturi nemo, sint inventore at neque soluta corporis ut minus impedit unde voluptatem vitae quisquam est autem totam dolore fugit architecto modi. Provident hic velit facere esse ratione quam illo quod ipsam doloribus maxime dolores repellendus sunt, officiis corrupti consectetur eum minus error! Itaque aut nesciunt hic, animi iure in esse odio est eaque corrupti dolore temporibus neque quod necessitatibus cupiditate sint quibusdam dolorum? Aliquam ipsum tempora, veritatis at, itaque magnam doloremque inventore quaerat unde reiciendis quia doloribus? Ducimus alias harum consectetur possimus animi, dolorum doloribus optio. -->
-          <router-outlet></router-outlet>
-        </div>
+      <div id="cardContent" class="cardContent">
+        <router-outlet></router-outlet>
+      </div>
 
-        <div id="nextCard" class="cardNavigation">
-          <button class="btn" (click)="nextPage()">
-            
-              <svg
-                class="arrows"
-                style="margin-left: auto"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <polygon
-                  fill-rule="evenodd"
-                  points="14.586 12 7.293 4.707 8.707 3.293 17.414 12 8.707 20.707 7.293 19.293"
-                />
-              </svg>
-          </button>
-        </div>
+      <div id="nextCard" class="cardNavigation">
+        <button *ngIf="showRightArrow" class="btn" (click)="nextPage()">
+          
+            <svg
+              class="arrows"
+              style="margin-left: auto"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <polygon
+                fill-rule="evenodd"
+                points="14.586 12 7.293 4.707 8.707 3.293 17.414 12 8.707 20.707 7.293 19.293"
+              />
+            </svg>
+        </button>
+        <div *ngIf="!showRightArrow" style="width: 4vw;"></div>
       </div>
     </div>
   </div>
-</body>
+</div>

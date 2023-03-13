@@ -3,21 +3,48 @@ $r: 15px;
 $outer-text-color: #000000;
 $outer-font-size: 14px;
 
-$title-font-size: 20px;
-
-$inner-font-size: 14px;
+$title-font-size: min(3vh, 3vw);
+$middle-font-size: min(2vh, 2vw);
+$inner-font-size: min(1.2vh, 1.2vw);
 
 $section-color: #e1e1e1;
 $subsection-color: #ece8e8;
 
-$mobile-width: 700px;
-@mixin mobile {
-  @media (max-width: #{$mobile-width}) {
-    @content;
-  }
+$borderState: none 2px;
+
+$icon-size: min(4vh, 4vw);
+
+$icon-container-size: min(2vh, 2vw);
+
+.header-margin {
+  margin-top: -19vh;
+}
+
+.midTextFont {
+  font-size: $middle-font-size;
+  font-weight: 600;
+}
+
+img {
+  color: $outer-text-color;
+  width: $icon-size;
+  height: $icon-size;
+}
+
+.icon-size {
+  width: $icon-size;
+  height: $icon-size;
+}
+
+.bodyContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 1%;
 }
 
 .editor-container-Class {
+
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -34,71 +61,53 @@ $mobile-width: 700px;
   // border-bottom-left-radius: $r;
   // border-bottom-right-radius: $r;
   border-radius: 5px;
+
+  // border: red $borderState;
 }
 
 .markdown-wrapper {
-  // border: #00e6f7 solid 2px;
   background-color: inherit;
   position: relative;
   height: 100%;
   width: 100%;
-}
-.hide-toolbar,
-.show-toolbar {
-  // background-color: red;
-  transform: rotate(90deg);
-  position: absolute;
-  top: 0;
-  right: 25px;
-
-  @include mobile {
-    right: 10px;
-    top: 3px;
-
-    & img.icon {
-      height: 30px;
-      width: 30px;
-    }
-  }
-}
-
-.show-toolbar {
-  @include mobile {
-    top: 0;
-
-    & img.icon {
-      height: 24px;
-      width: 24px;
-    }
-  }
-}
-
-button.clear {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
+  border: blue $borderState;
 }
 
 .hide-toolbar {
-  img {
-    width: 38px;
-    height: 38px;
-  }
+  transform: rotate(-90deg);
+  transition: 0.3s;
+
+  position: absolute;
+  top: -0.2vh;
+  right: 2vw;
+
+  z-index: 100;
+
+  width: $icon-size;
+  height: $icon-size;
+
+  cursor: pointer;
+
+  border: slateblue $borderState;
+
+  filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
 }
 
-.show-toolbar {
-  img {
-    width: 34px;
-    height: 34px;
-  }
+.hide-toolbar:hover {
+  filter: none;
+}
+
+.open-sidebar-button:hover {
+  filter: none;
 }
 
 .workspace-class {
-  padding: 30px 15px;
 
   height: auto;
   width: 100%;
+
+  padding-left: 1%;
+  padding-top: 1%;
 
   // border: solid 2px #691b1b;
 
@@ -110,28 +119,69 @@ button.clear {
   position: relative;
   overflow: hidden;
 
-  .open-sidebarEditor-button {
+  border: green $borderState;
+
+  .open-sidebar-button {
     position: absolute;
-    bottom: 10px;
-    left: 30px;
+    margin-left: -0.8vw;
+    bottom: 1.6vh;
     z-index: 100;
     transform: rotate(180deg);
+    transition: 0.3s;
 
-    width: 30px;
-    height: 30px;
+    width: $icon-size;
+    height: $icon-size;
 
-    // &.show {
-    //   display: block;
-    // }
+    border: royalblue $borderState;
 
-    &.show-showSidebarButton {
-      display: flex;
-    }
+    cursor: pointer;
 
-    &.hide-showSidebarButton {
-      display: none;
-    }
+    // color : #bebebe;
+
+    filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
   }
+
+  .open-sidebar-button:hover {
+    filter: none;
+  }
+}
+
+.leftModuleClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  background-color: #f6f3f3;
+
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  overflow: hidden;
+
+  border: black $borderState;
+
+  transition: 0.4s;
+}
+
+.sidebarHide {
+  width: 0px;
+}
+
+.sidebarShow {
+  width: 25%;
+}
+
+.leftModuleClass:focus {
+  width: 25%;
+  outline: none;
+}
+
+.leftModuleClass:hover {
+  width: 25%;
+  outline: none;
 }
 
 .workspaceheaderClass {
@@ -150,10 +200,12 @@ button.clear {
   overflow: hidden;
 }
 
+$resizeTitleFont: min(3vw, 3vh);
+
 .docTitle-text {
   font-family: "Roboto", sans-serif;
   font-style: bold 100px;
-  font-size: 50px;
+  font-size: $resizeTitleFont;
   border: #24b388 solid 2px;
   width: 100%;
   background-color: #d15706;
@@ -173,52 +225,22 @@ button.clear {
   overflow: hidden;
 }
 
-.leftModuleClass {
-  padding: 0px 0px 0px 0px;
-  margin: 0px 0px 0px 0px;
-  height: 100%;
-  width: max(550px, 25%);
-  background-color: #f6f3f3;
-
-  border-top-left-radius: inherit;
-  border-bottom-left-radius: inherit;
-
-  display: flex;
-  flex-direction: column;
-
-  position: relative;
-  overflow: hidden;
-
-  transition: width 0.3s ease;
-
-  &.show-sidebarEditor {
-    width: max(550px, 25%);
-    display: flex;
-  }
-
-  &.hide-sidebarEditor {
-    width: 0;
-  }
-
-  &.show {
-    display: flex;
-  }
-}
-
 .leftModuleTopClass {
   // padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
-  height: 10%;
+  height: 8%;
   width: 100%;
   display: flex;
   flex-direction: row;
-  padding: 4.5% 6%;
+  padding: 2% 6%;
   align-items: center;
 
   // border: solid 2px #b32424;
 
   position: relative;
   overflow: hidden;
+
+  border: #3a7ca5 $borderState;
 }
 
 .backButtonContainerClass {
@@ -227,7 +249,6 @@ button.clear {
   height: 100%;
   width: 100%;
 
-  // border: solid 2px #24b388;
   position: relative;
   overflow: hidden;
 
@@ -236,11 +257,50 @@ button.clear {
 
   display: flex;
   align-items: center;
+  text-align: center;
 
-  img {
-    color: $outer-text-color;
-    width: 24px;
-    height: 24px;
+  // border: fuchsia $borderState;
+
+  .icon-container {
+    height: 80%;
+    width: 90%;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+
+    border: fuchsia $borderState;
+
+    div {
+      position: relative;
+      align-self: center;
+      text-align: center;
+
+      display: flex;
+      justify-content: center;
+
+      border: green $borderState;
+
+    }
+
+    .exit-button {
+      margin-right: 0.3vw;
+    }
+
+    img {
+
+      transform: rotate(180deg);
+      height: 2.5vh;
+      width: 2vw;
+
+
+    }
+  }
+
+  .icon-container:hover {
+    .exit-button {
+      filter: invert(38%) sepia(99%) saturate(3773%) hue-rotate(329deg) brightness(98%) contrast(97%);
+    }
   }
 
   .current-users {
@@ -266,10 +326,18 @@ button.clear {
   align-content: center;
   flex-wrap: wrap;
 
-  img {
-    color: $outer-text-color;
-    width: 24px;
-    height: 24px;
+  border: salmon $borderState;
+
+  .icon-container {
+    height: 80%;
+    cursor: pointer;
+
+    border: saddlebrown $borderState;;
+
+    img {
+      height: 2.5vh;
+      width: 1.5vw;
+    }
   }
 }
 
@@ -283,22 +351,27 @@ button.clear {
 
   position: relative;
   overflow: hidden;
+
+  border: #d15706 $borderState;
 }
 
 .layoutTextContainer {
   width: 100%;
 
-  padding-left: 16px;
-  margin-bottom: 30px;
+  padding: 3% 6%;
 
   position: relative;
   overflow: hidden;
+
+  border: rebeccapurple $borderState;
 }
+
+$resizeFontSize: min(2.5vw, 2.5vh);
 
 .layoutText {
   font-family: "Roboto", sans-serif;
   font-style: bold 50px;
-  font-size: 3vh;
+  font-size: $resizeFontSize;
   text-align: left;
   color: $outer-text-color;
 }
@@ -308,10 +381,11 @@ button.clear {
   margin: 0px 0px 0px 0px;
   height: 100%;
   width: 100%;
-  // border: solid 10px #f57003;
   border-radius: none;
   position: relative;
   overflow: hidden;
+
+  border: greenyellow $borderState;
 }
 
 // DOCUMENT LAYOUT
@@ -326,7 +400,7 @@ button.clear {
   }
 }
 
-#sidebarEditor {
+#sidebar {
   // animation: slideaway 400ms;
   // display: none;
   // transition: opacity 2000ms, display 2000ms;
@@ -335,7 +409,7 @@ button.clear {
   // display: none;
 }
 
-.sidebarEditor {
+.sidebar {
   margin: 0;
   padding: 0;
 
@@ -348,8 +422,8 @@ button.clear {
 }
 
 /* Sidebar links */
-.sidebarEditor a,
-.section {
+.sidebar a,
+.dropdown-btn {
   display: block;
   color: rgb(0, 0, 0);
   padding: 16px;
@@ -373,37 +447,37 @@ $transistionTime: 100ms;
 }
 
 /* Active/current link */
-.sidebarEditor a.active {
+.sidebar a.active {
   background-color: $activeColor;
   color: $activeFontColor;
   transition: $transistionTime;
 }
 
-.sidebarEditor .dropdown-container a {
-  padding-left: 40px;
-}
-
-.sidebarEditor a.nActive,
-.section {
+.sidebar a.nActive,
+.dropdown-btn {
   background-color: $section-color;
   color: $sideFontColor;
   transition: $transistionTime;
 }
 
 /* Links on mouse-over */
-.sidebarEditor a:hover:not(.active),
-.section:hover {
+.sidebar a:hover:not(.active),
+.dropdown-btn:hover {
   background-color: #bdbdbd;
   transition: 150ms;
   color: rgb(0, 0, 0);
 }
 
 .dropdown-container {
-  font-size: 1.5vh;
+  font-size: 1.8vh;
 }
 
 .dropdown-container a.nActive {
   background-color: $subsection-color;
+  transition: 0.3s;
+  span {
+    padding-left: 1vw;
+  }
 }
 
 .dropdown-container a.active {
@@ -412,56 +486,33 @@ $transistionTime: 100ms;
 }
 
 /* Optional: Style the caret down icon */
-.section i {
+.fa-caret-down {
   float: right;
   margin: auto;
   margin-top: 3%;
   width: fit-content;
 }
 
-/* On screens that are less than 700px wide, make the sidebarEditor into a topbar */
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
 @media screen and (max-width: 700px) {
-  .sidebarEditor {
+  .sidebar {
     width: 100%;
     height: auto;
     position: relative;
   }
 
+  .sidebar a {
+    float: left;
+  }
+
   div.content {
     margin-left: 0;
-  }
-
-  .leftModuleClass {
-    display: none;
-    width: 0;
-    transition: width 0.3s ease;
-
-    &.show-sidebarEditor {
-      width: max(550px, 25%);
-      display: flex;
-
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      z-index: 10;
-      top: 0;
-    }
-  }
-
-  img.open-sidebarEditor-button {
-    display: block;
-  }
-}
-
-@media screen and (min-width: 700px) {
-  img.open-sidebarEditor-button {
-    display: none;
   }
 }
 
 /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
 @media screen and (max-width: 400px) {
-  .sidebarEditor a {
+  .sidebar a {
     text-align: center;
     float: none;
   }

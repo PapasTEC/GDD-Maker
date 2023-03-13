@@ -1,16 +1,44 @@
-.centeredContainer{
+.bodyClass{
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    
+}
+.lowerContainer{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 1vh;
+}
+.contentContainer{
+    position: relative;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: none 1px #29f800;
 }
 
 $size: 30vh;
 
-
+.uploadedImg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
 .icon{
-    width: $size*1/4;
-    height: $size*1/4;
- }
- 
- 
+    width: calc($size * 1 / 4);
+    height: calc($size * 1 / 4);
+}

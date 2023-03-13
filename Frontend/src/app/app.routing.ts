@@ -18,7 +18,7 @@ const routes: Routes =[
     component: AdminLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'editor',
         loadChildren: () => import('src/app/layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
       }
     ]

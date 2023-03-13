@@ -1,0 +1,23 @@
+###
+GET http://localhost:3080/api/users/get HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://localhost:3080/api/users/check/abielpg.juzo@gmail.com HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://localhost:3080/api/users/get/nomote8754@vootin.com HTTP/1.1
+Content-Type: application/json
+
+###
+DELETE http://localhost:3080/api/users/delete/nomote8754@vootin.com HTTP/1.1
+Content-Type: application/json
+
+###
+PUT http://localhost:3080/api/users/sendCode/venosay270@pubpng.com HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://localhost:3080/api/users/login/poyohoh755@v2ssr.com/5L0hZSKZt HTTP/1.1
+Content-Type: application/json

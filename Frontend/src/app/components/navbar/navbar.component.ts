@@ -12,13 +12,26 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
+
+  profileInfo: any;
+
   constructor(location: Location,  private element: ElementRef, private router: Router) {
     this.location = location;
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.profileInfo = JSON.parse(localStorage.getItem('currentUser'));
+    if (!this.profileInfo) {
+      this.profileInfo = { name: 'Guest', image: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' };
+    }
   }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/login']);
+  }
+
   getTitle(){
     var titlee = this.location.prepareExternalUrl(this.location.path());
     if(titlee.charAt(0) === '#'){
@@ -32,5 +45,4 @@ export class NavbarComponent implements OnInit {
     }
     return 'Dashboard';
   }
-
 }

@@ -1,10 +1,9 @@
-<div class="platformsBody">
+<div class="bodyClass">
     <div class="subtitleContainer">
         <span class="subtitle">Select the platforms on which your game will run</span>
     </div>
     <div class="contentContainer">
         <div class="platformCanvas">
-
             <div class="flexCont"  *ngFor="let platform of platforms;index as i">
                 <div class="platformContainer">
                     <button class="btn" (click) = "addOrRemove(i)">

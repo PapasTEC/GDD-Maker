@@ -1,5 +1,7 @@
 node_modules
 build
+dist
+frontendBuild
 npm-debug.log
 .nyc
 .env

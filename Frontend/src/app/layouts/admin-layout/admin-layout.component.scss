@@ -171,16 +171,16 @@ img {
 }
 
 .sidebarShow {
-  width: 25%;
+  width: max(550px, 25%);
 }
 
 .leftModuleClass:focus {
-  width: 25%;
+  width: max(550px, 25%);
   outline: none;
 }
 
 .leftModuleClass:hover {
-  width: 25%;
+  width: max(550px, 25%);
   outline: none;
 }
 
@@ -358,7 +358,10 @@ $resizeTitleFont: min(3vw, 3vh);
 .layoutTextContainer {
   width: 100%;
 
-  padding: 3% 6%;
+  // padding: 3% 6%;
+  margin-bottom: 5%;
+  margin-top: 3%;
+  padding-left: max(16px, 6%);
 
   position: relative;
   overflow: hidden;
@@ -371,7 +374,7 @@ $resizeFontSize: min(2.5vw, 2.5vh);
 .layoutText {
   font-family: "Roboto", sans-serif;
   font-style: bold 50px;
-  font-size: $resizeFontSize;
+  font-size: max(25px, $resizeFontSize);
   text-align: left;
   color: $outer-text-color;
 }
@@ -427,8 +430,19 @@ $resizeFontSize: min(2.5vw, 2.5vh);
   display: block;
   color: rgb(0, 0, 0);
   padding: 16px;
-  width: auto;
+  padding-left: max(16px, 6%);
+  width: 100%;
   text-decoration: none;
+
+  display: flex;
+  align-items: center;
+
+  border: 0;
+
+  i {
+    margin-left: auto;
+  }
+
 }
 
 $sideFontColor: rgb(0, 0, 0);
@@ -488,8 +502,8 @@ $transistionTime: 100ms;
 /* Optional: Style the caret down icon */
 .fa-caret-down {
   float: right;
-  margin: auto;
-  margin-top: 3%;
+  // margin: auto;
+  // margin-top: 3%;
   width: fit-content;
 }
 

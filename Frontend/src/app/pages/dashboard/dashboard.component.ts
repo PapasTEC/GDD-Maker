@@ -4,6 +4,7 @@ import {
   SortEvent,
   compare,
 } from './sortable.header.directive';
+import { Router } from '@angular/router';
 
 import { DocumentService } from '../../services/document.service';
 import { UserService } from '../../services/user.service';
@@ -23,7 +24,7 @@ export interface Project {
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private documentService: DocumentService, private userService: UserService) {}
+  constructor(private documentService: DocumentService, private userService: UserService, private router: Router) {}
 
   tableMode: string = 'My Projects';
   Projects: Project[];
@@ -70,6 +71,12 @@ export class DashboardComponent implements OnInit {
         });
       });
     });
+  }
+
+  goToEditor(idProject: string) {
+    console.log(idProject);
+    //this.router.navigateByUrl('/editor', { state: { id: idProject } })
+    this.router.navigate(['/editor'], { state: { id: idProject } });
   }
 
   toggleTable() {

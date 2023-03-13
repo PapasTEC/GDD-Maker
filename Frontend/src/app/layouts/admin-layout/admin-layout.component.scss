@@ -3,9 +3,9 @@ $r: 15px;
 $outer-text-color: #000000;
 $outer-font-size: 14px;
 
-$title-font-size: 20px;
-
-$inner-font-size: 14px;
+$title-font-size: min(3vh, 3vw);
+$middle-font-size: min(2vh, 2vw);
+$inner-font-size: min(1vh, 1vw);
 
 $section-color: #e1e1e1;
 $subsection-color: #ece8e8;
@@ -18,6 +18,11 @@ $icon-container-size: min(2vh, 2vw);
 
 .header-margin {
   margin-top: -19vh;
+}
+
+.midTextFont {
+  font-size: $middle-font-size;
+  font-weight: 700;
 }
 
 img {
@@ -65,16 +70,33 @@ img {
   width: 100%;
   border: blue $borderState;
 }
+
 .hide-toolbar {
-  transform: rotate(90deg);
+  transform: rotate(-90deg);
+  transition: 0.3s;
+  
   position: absolute;
-  top: 0.2vh;
+  top: -0.2vh;
   right: 2vw;
+
+  z-index: 100;
 
   width: $icon-size;
   height: $icon-size;
 
+  cursor: pointer;
+
   border: slateblue $borderState;
+
+  filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
+}
+
+.hide-toolbar:hover {
+  filter: none;
+}
+
+.open-sidebar-button:hover {
+  filter: none;
 }
 
 .workspace-class {
@@ -83,6 +105,7 @@ img {
   width: 100%;
 
   padding-left: 1%;
+  padding-top: 1%;
 
   // border: solid 2px #691b1b;
 
@@ -98,10 +121,11 @@ img {
 
   .open-sidebar-button {
     position: absolute;
-    margin-left: -1vw;
-    bottom: 1.4vh;
+    margin-left: -0.8vw;
+    bottom: 1.6vh;
     z-index: 100;
     transform: rotate(180deg);
+    transition: 0.3s;
 
     width: $icon-size;
     height: $icon-size;
@@ -174,10 +198,12 @@ img {
   overflow: hidden;
 }
 
+$resizeTitleFont: min(3vw, 3vh);
+
 .docTitle-text {
   font-family: "Roboto", sans-serif;
   font-style: bold 100px;
-  font-size: 50px;
+  font-size: $resizeTitleFont;
   border: #24b388 solid 2px;
   width: 100%;
   background-color: #d15706;
@@ -221,7 +247,6 @@ img {
   height: 100%;
   width: 100%;
 
-  // border: solid 2px #24b388;
   position: relative;
   overflow: hidden;
 
@@ -230,8 +255,49 @@ img {
 
   display: flex;
   align-items: center;
+  text-align: center;
 
-  border: fuchsia $borderState;
+  // border: fuchsia $borderState;
+
+  .icon-container {
+    height: 80%;
+    width: 90%;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+
+    border: fuchsia $borderState;
+
+    div {
+
+      position: relative;
+
+
+      align-self: center;
+
+      border: green $borderState;
+
+
+    }
+
+    .exit-button {
+      margin-right: 0.4vw;
+    }
+
+    img {
+      transform: rotate(180deg);
+      
+      height: 2.5vh;
+      width: 2vw;
+    }
+  }
+
+  .icon-container:hover {
+    .exit-button {
+      filter: invert(38%) sepia(99%) saturate(3773%) hue-rotate(329deg) brightness(98%) contrast(97%);
+    }
+  }
 
   .current-users {
     display: flex;

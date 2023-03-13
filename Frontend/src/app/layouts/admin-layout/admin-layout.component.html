@@ -13,9 +13,20 @@
     <div id="sidebar" class="leftModuleClass sidebarHide" tabindex="0" (click)="keepSidebarOpen()">
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
-          > Back
+          <div class="icon-container" [routerLink]="['/dashboard']">
+            <div>
+              <img
+                class="exit-button"
+                src="assets/img/icons/common/arrow-right-from-bracket-solid.svg"
+                alt="share"
+              /> 
+              <!-- <span class="midTextFont">Back 2</span> -->
+            </div>
+            <div>
+              <span class="midTextFont">Back</span>
+            </div>
+          </div>
         </div>
-  
         <div id="share-export-buttons" class="shareButtonContainerClass">
           <!-- <img
             class="share-export-buttons__share-icon"
@@ -81,6 +92,8 @@
         <router-outlet></router-outlet>
         <div id="vditor"></div>
         <img
+          id="toolbar-toggle-button"
+          (click)="toggleToolbar()"
           class="hide-toolbar"
           src="assets/img/icons/common/chevrons-left.svg"
           alt="share"

@@ -3,7 +3,7 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
   />
-  <link rel="stylesheet" href="admin-layout.component.scss" />
+  <link rel="stylesheet" href="editor-layout.component.scss" />
 </head>
 
 <div class="header bg-gradient-tertiary" style="height: 19vh;"></div>
@@ -58,9 +58,9 @@
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container" style="display: none">
-              <a class="nActive" href="#/editor"><span>Theme</span></a>
-              <a class="nActive" href="#/editor"><span>Aesthetics</span></a>
-              <a class="nActive" href="#/editor"><span>Core Mechanic</span></a>
+              <a class="nActive" [routerLink]="['/editor/theme']"><span>Theme</span></a>
+              <a class="nActive" [routerLink]="['/editor/aesthetics']"><span>Aesthetics</span></a>
+              <a class="nActive" [routerLink]="['/editor/coreMechanic']"><span>Core Mechanic</span></a>
             </div>
             <!-- <a class="nActive" href="#/editor">About</a> -->
           </div>
@@ -91,13 +91,14 @@
     </div>
 
     <div id="workspace" class="workspace-class">
+      <router-outlet></router-outlet>
       <img
         (click)="openSidebar()"
         class="open-sidebar-button"
         src="assets/img/icons/common/chevrons-left.svg"
         alt="share"
       />
-      <div id="markdown-editor" class="markdown-wrapper">
+      <!-- <div id="markdown-editor" class="markdown-wrapper">
         <router-outlet></router-outlet>
         <div id="vditor"></div>
         <img
@@ -107,7 +108,7 @@
           src="assets/img/icons/common/chevrons-left.svg"
           alt="share"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

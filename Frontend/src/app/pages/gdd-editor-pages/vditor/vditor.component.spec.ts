@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GddEditorComponent } from './gdd-editor.component';
+import { VditorComponent } from './vditor.component';
 
-describe('GddEditorComponent', () => {
-  let component: GddEditorComponent;
-  let fixture: ComponentFixture<GddEditorComponent>;
+describe('VditorComponent', () => {
+  let component: VditorComponent;
+  let fixture: ComponentFixture<VditorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GddEditorComponent ]
+      declarations: [ VditorComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GddEditorComponent);
+    fixture = TestBed.createComponent(VditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

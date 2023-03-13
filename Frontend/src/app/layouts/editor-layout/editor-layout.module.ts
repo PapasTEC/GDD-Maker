@@ -4,17 +4,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ClipboardModule } from 'ngx-clipboard';
-import { AdminLayoutRoutes } from './admin-layout.routing';
+import { EditorLayoutRoutes } from './editor-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { GddEditorComponent } from "../../pages/gdd-editor/gdd-editor.component";
-// import { ToastrModule } from 'ngx-toastr';
-
+import { VditorComponent } from "../../pages/gdd-editor-pages/vditor/vditor.component";
+import { AestheticsComponent } from 'src/app/pages/gdd-editor-pages/aesthetics/aesthetics.component';
+import { CoreMechanicComponent } from 'src/app/pages/gdd-editor-pages/coreMechanic/coreMechanic.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
+    RouterModule.forChild(EditorLayoutRoutes),
     FormsModule,
     HttpClientModule,
     NgbModule,
@@ -23,8 +23,10 @@ import { GddEditorComponent } from "../../pages/gdd-editor/gdd-editor.component"
     ReactiveFormsModule,
   ],
   declarations: [
-    GddEditorComponent
+    VditorComponent,
+    AestheticsComponent,
+    CoreMechanicComponent,
   ]
 })
 
-export class AdminLayoutModule {}
+export class EditorLayoutModule {}

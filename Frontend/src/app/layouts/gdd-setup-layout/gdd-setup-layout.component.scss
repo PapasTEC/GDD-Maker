@@ -49,8 +49,11 @@ header {
   align-items: center;
   justify-content: space-between;
 
+  padding: 0px 3vh;
+
   display: flex;
 }
+
 
 /* TitleBox */
 
@@ -67,8 +70,6 @@ header {
 
   /* or 0% */
   display: flex;
-
-  margin-left: 3%;
 
   color: #ffffff;
 }
@@ -168,5 +169,43 @@ $size : min(4vw, 4vh);
     background-color: #e4e4e4;
 
   }
+
+}
+
+.fa-home{
+  transition: background-color 0.2s ease-in-out;
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: $size;
+
+}
+
+.btn-icon-only{
+  transition: background-color 0.2s ease-in-out;
+  width: calc($size * 1.5);
+  height: calc($size * 1.5);
+  align-items: center;
+
+  &:hover {
+    
+    background-color: #ffffff;
+  }
+
+  &:not(hover){
+    background: none;
+  }
+
+  &:hover .fa-home{
+    color: #16425B;
+  }
+
+  &:not(hover) .fa-home{
+    color: #e0e0e0;
+  }
+  
 
 }

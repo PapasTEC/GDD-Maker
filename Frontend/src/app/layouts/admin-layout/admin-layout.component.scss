@@ -10,11 +10,20 @@ $inner-font-size: 14px;
 $section-color: #e1e1e1;
 $subsection-color: #ece8e8;
 
+$mobile-width: 700px;
+@mixin mobile {
+  @media (max-width: #{$mobile-width}) {
+    @content;
+  }
+}
+
 .editor-container-Class {
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
+  position: relative;
+  overflow: hidden;
 
   // border: #000000 solid 2px;
 
@@ -25,7 +34,6 @@ $subsection-color: #ece8e8;
   // border-bottom-left-radius: $r;
   // border-bottom-right-radius: $r;
   border-radius: 5px;
-
 }
 
 .markdown-wrapper {
@@ -41,7 +49,28 @@ $subsection-color: #ece8e8;
   transform: rotate(90deg);
   position: absolute;
   top: 0;
-  right: 50px;
+  right: 25px;
+
+  @include mobile {
+    right: 10px;
+    top: 3px;
+
+    & img.icon {
+      height: 30px;
+      width: 30px;
+    }
+  }
+}
+
+.show-toolbar {
+  @include mobile {
+    top: 0;
+
+    & img.icon {
+      height: 24px;
+      width: 24px;
+    }
+  }
 }
 
 button.clear {
@@ -163,7 +192,7 @@ button.clear {
   transition: width 0.3s ease;
 
   &.show-sidebarEditor {
-    width: max(500px, 25%);
+    width: max(550px, 25%);
     display: flex;
   }
 
@@ -260,7 +289,7 @@ button.clear {
   width: 100%;
 
   padding-left: 16px;
-  margin-bottom: 6%;
+  margin-bottom: 30px;
 
   position: relative;
   overflow: hidden;
@@ -320,7 +349,7 @@ button.clear {
 
 /* Sidebar links */
 .sidebarEditor a,
-.dropdown-btn {
+.section {
   display: block;
   color: rgb(0, 0, 0);
   padding: 16px;
@@ -333,7 +362,7 @@ $activeColor: #3a7ca5;
 $activeFontColor: white;
 $transistionTime: 100ms;
 
-.dropdown-btn {
+.section {
   width: 100%;
   border: none;
   text-align: left;
@@ -355,7 +384,7 @@ $transistionTime: 100ms;
 }
 
 .sidebarEditor a.nActive,
-.dropdown-btn {
+.section {
   background-color: $section-color;
   color: $sideFontColor;
   transition: $transistionTime;
@@ -363,7 +392,7 @@ $transistionTime: 100ms;
 
 /* Links on mouse-over */
 .sidebarEditor a:hover:not(.active),
-.dropdown-btn:hover {
+.section:hover {
   background-color: #bdbdbd;
   transition: 150ms;
   color: rgb(0, 0, 0);
@@ -383,7 +412,7 @@ $transistionTime: 100ms;
 }
 
 /* Optional: Style the caret down icon */
-.dropdown-btn i {
+.section i {
   float: right;
   margin: auto;
   margin-top: 3%;
@@ -404,13 +433,24 @@ $transistionTime: 100ms;
 
   .leftModuleClass {
     display: none;
-  }
+    width: 0;
+    transition: width 0.3s ease;
 
+    &.show-sidebarEditor {
+      width: max(550px, 25%);
+      display: flex;
+
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: 10;
+      top: 0;
+    }
+  }
 
   img.open-sidebarEditor-button {
     display: block;
   }
-
 }
 
 @media screen and (min-width: 700px) {

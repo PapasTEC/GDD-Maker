@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DocumentService } from '../../../services/document.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-finish-setup',
@@ -11,7 +12,8 @@ import { DocumentService } from '../../../services/document.service';
 export class FinishSetupComponent {
   tempImage: string;
 
-  constructor(private documentService: DocumentService, private router: Router) { }
+  constructor(private documentService: DocumentService, private userService: UserService,
+    private router: Router) { }
 
   platforms = [
     "Android",
@@ -46,8 +48,16 @@ export class FinishSetupComponent {
       return this.platforms[platform];
     });
 
-    const myGameLogo = await this.convertTempUrlToBase64(currentSetup.gameLogo);
-    const myCompanyLogo = await this.convertTempUrlToBase64(currentSetup.companyLogo);
+    let myGameLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+    let myCompanyLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+
+    if (currentSetup.gameLogo !== "") {
+      myGameLogo = await this.convertTempUrlToBase64(currentSetup.gameLogo);
+    }
+
+    if (currentSetup.companyLogo !== "") {
+      myCompanyLogo = await this.convertTempUrlToBase64(currentSetup.companyLogo);
+    }
 
     console.log("user: ", user);
     console.log("currentSetup: ", currentSetup);
@@ -70,7 +80,8 @@ export class FinishSetupComponent {
         subSections: [{
           subSectionTitle: "Elevator Pitch",
           subSectionContent: {
-            text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+            text: currentSetup.elevatorPitch
           }
         }, {
           subSectionTitle: "Tagline",
@@ -97,7 +108,8 @@ export class FinishSetupComponent {
         subSections: [{
           subSectionTitle: "Theme",
           subSectionContent: {
-            text: "## Theme\n" + currentSetup.theme
+            // text: "## Theme\n" + currentSetup.theme
+            text: currentSetup.theme
           }
         }, {
           subSectionTitle: "Aesthetic",
@@ -117,9 +129,17 @@ export class FinishSetupComponent {
 
     this.documentService.addDocument(document).subscribe(
       res => {
-        console.log(res);
+        console.log("addDocument res:", res);
         alert("Document added successfully!");
-        this.router.navigate(['/dashboard']);
+        this.userService.addOwnProject(user.email, res['id']).subscribe(
+          res2 => {
+            console.log("addOwnDocument res:", res2);
+            this.router.navigate(['/dashboard']);
+          err2 => {
+            console.log(err2);
+            alert("Error adding document to user");
+          }
+        });
       },
       err => {
         console.log(err);

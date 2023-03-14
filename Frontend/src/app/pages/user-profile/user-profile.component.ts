@@ -18,6 +18,7 @@ export class UserProfileComponent implements OnInit {
 
   formSubmitted: boolean = false;
   localUser = JSON.parse(localStorage.getItem('currentUser'));
+  userID: string = "";
 
   editUserForm = new FormGroup({
     name: new FormControl("", [Validators.required]),
@@ -25,8 +26,9 @@ export class UserProfileComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.http.get(`/api/users/get/${this.localUser.email}`).subscribe((response) => {
+    this.http.get(`/api/users/get/${this.localUser.email}`).subscribe((response:any) => {
       Object.assign(this.localUser, response);
+      this.userID = response._id;
     });
     this.editUserForm = this.formBuilder.group({
       name: [this.localUser.name, Validators.required],
@@ -46,7 +48,15 @@ export class UserProfileComponent implements OnInit {
     this.formSubmitted = true;
     if (this.editUserForm.valid) {
       if (confirm("Do you want to update your profile?")) {
-        this.submit();
+        this.http.get(`/api/users/get/${this.editUserForm.value.email}/`).subscribe((response: any) => {
+          if (response && response._id != this.userID ) {
+            alert("This email is already registered in another account");
+            return;
+          } else {
+            alert("Your account has been updated successfully")
+            this.submit();
+          }
+        });
       }
     }
   }

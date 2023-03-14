@@ -43,7 +43,7 @@ userController.getUser = async (req, res) => {
     try {
         const user = await Users.findOne({ email: req.params.email });
 
-        if (!user) return res.status(200).json({ message: "User not found" });
+        if (!user) return res.status(200).json(null);
 
         res.status(200).json(user);
     } catch (error) {

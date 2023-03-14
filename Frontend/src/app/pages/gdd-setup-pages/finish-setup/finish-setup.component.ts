@@ -119,7 +119,10 @@ export class FinishSetupComponent {
         }, {
           subSectionTitle: "Core Mechanic",
           subSectionContent: {
-            text: currentSetup.coreMechanic
+            "coreMechanic": currentSetup.coreMechanic,
+            "secondary": "",
+            "progression": "",
+            "metaphore": ""
           }
         }]
       }]

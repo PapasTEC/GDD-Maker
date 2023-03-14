@@ -78,10 +78,10 @@
           </div> -->
           <div class="icon-container">
             <div>
-              <a class="save-button">Save</a>
+              <a class="save-button" (click)="manualSave()">{{this.saveButtonText}}</a>
             </div>
             <div>
-              <span class="littleTextFont">Last Updated: 0m</span>
+              <span class="littleTextFont">Last Updated: {{this.lastManualSaveTimeInMinutes}}m ago</span>
             </div>
           </div>
         </div>

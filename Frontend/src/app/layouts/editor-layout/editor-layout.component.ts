@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { DocumentService } from "src/app/services/document.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: "app-editor-layout",
@@ -13,18 +14,20 @@ export class EditorLayoutComponent implements OnInit {
   sections = [];
   documentTitle = "";
   documentId = "";
+  document: any;
+  isDocumentEdited = false;
 
-  constructor(private location: Location, private route: ActivatedRoute, private documentService: DocumentService, private editingDocumentService: EditingDocumentService) {
-    this.sections = [
-      { sectionName: "High level design", sectionId: "hld" },
-      { sectionName: "Low level design", sectionId: "lld" },
-      { sectionName: "Test plan", sectionId: "tp" },
-      { sectionName: "Test cases", sectionId: "tc" },
-      { sectionName: "Test results", sectionId: "tr" },
-      { sectionName: "Test summary", sectionId: "ts" },
-    ];
-    this.documentTitle = "";
-  }
+  autoSaveTimer: any;
+  autoSaveIntervalInMinutes = 5;
+
+  lastManualSaveTimer: any;
+  lastManualSaveTimeInMinutes = 0;
+
+  saveButtonText = "Save";
+
+  constructor(private location: Location, private route: ActivatedRoute,
+    private documentService: DocumentService,
+    private editingDocumentService: EditingDocumentService) {}
 
   openSidebar() {
     document.getElementById("sidebar").focus();
@@ -46,11 +49,76 @@ export class EditorLayoutComponent implements OnInit {
     }
   }
 
+  async changeButtonText() {
+    this.saveButtonText = "Saved";
+    setTimeout(() => {
+      this.saveButtonText = "Save";
+    }, 10 * 1000);
+  }
+
+  async updateLastManualSaveTime() {
+    this.lastManualSaveTimer = setInterval(() => {
+      this.lastManualSaveTimeInMinutes++;
+    }, 60 * 1000); // Establecemos el intervalo para que se ejecute cada minuto
+  }
+  
+  startAutoSaveTimer() {
+    this.autoSaveTimer = setInterval(() => {
+      console.log('Auto save..');
+      if (this.isDocumentEdited) {
+        if (this.saveDocument()) {
+          this.isDocumentEdited = false;
+        } else {
+          alert("Error auto-updating document");
+        }
+      }
+      this.startAutoSaveTimer();
+    }, this.autoSaveIntervalInMinutes * 60 * 1000);
+  }
+
+  resetAutoSaveTimer() {
+    clearInterval(this.autoSaveTimer);
+    this.startAutoSaveTimer();
+  }
+  
+  saveDocument(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.documentService.updateDocument(this.documentId, this.document).subscribe(
+        res => {
+          console.log("Update res: ", res);
+          resolve(true);
+        err => {
+          console.log("Update err: ", err);
+          reject(false);
+        }
+      });
+    });
+  }
+
+  manualSave() {
+    console.log('Manual save..');
+    if (this.isDocumentEdited) {
+      if (this.saveDocument()) {
+        this.isDocumentEdited = false;
+        this.lastManualSaveTimeInMinutes = 0;
+        this.resetAutoSaveTimer();
+        this.changeButtonText();
+      } else {
+        alert("Error updating document");
+      }
+    } else {
+      this.lastManualSaveTimeInMinutes = 0;
+      this.resetAutoSaveTimer();
+      this.changeButtonText();
+    }
+  }
+
   setDocumentData() {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
       console.log("data:", data);
       this.editingDocumentService.changeDocument(data);
       this.documentTitle = data['frontPage']['documentTitle'];
+      this.document = data;
     });
   }
 
@@ -60,6 +128,17 @@ export class EditorLayoutComponent implements OnInit {
     });
 
     this.setDocumentData();
+
+    this.updateLastManualSaveTime();
+    this.startAutoSaveTimer();
+
+    this.editingDocumentService.document$.pipe(
+      filter(document => document !== null),
+    ).subscribe((document) => {
+      console.log("documentEditado");
+      this.isDocumentEdited = true;
+      this.document = document;
+    });
 
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-background");
@@ -93,51 +172,13 @@ export class EditorLayoutComponent implements OnInit {
         }
       });
     }
-
-    // sleep 3 seconds
-    // setTimeout(() => {
-    //   let fullScreenButton = document.querySelector(
-    //     "#vditor > div.vditor-toolbar > div:nth-child(28) > button"
-    //   );
-    //   if (fullScreenButton) {
-    //     fullScreenButton.addEventListener("click", () => {
-    //       alert("hola");
-    //     });
-    //   } else {
-    //     console.log("fullScreenButton is null");
-    //   }
-    // }, 1000);
-
-    // vditor handlers wait 500ms to the vditor is loaded
-    // setTimeout(() => {
-    //   let fullScreenButton = document.querySelector(
-    //     "#vditor > div.vditor-toolbar > div:nth-child(28) > button"
-    //   );
-    //   let showSidebarButton = document.querySelector(
-    //     ".share-export-buttons__hide-icon"
-    //   );
-
-    //   if (!fullScreenButton || !showSidebarButton) {
-    //     console.log("fullScreenButton or showSidebarButton is null");
-    //     return;
-    //   }
-
-    //   fullScreenButton.addEventListener("click", () => {
-    //     console.log("fullScreenButton clicked");
-    //     let showSidebarButtonIsShowed =
-    //       !showSidebarButton.classList.contains("hide");
-    //     console.log("showSidebarButtonIsShowed: ", showSidebarButtonIsShowed);
-    //     if (showSidebarButtonIsShowed) {
-    //       showSidebarButton.classList.add("hide");
-    //     } else {
-    //       showSidebarButton.classList.remove("hide");
-    //     }
-    //   });
-    // }, 500);
   }
 
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("bg-background");
+
+    clearInterval(this.autoSaveTimer);
+    clearInterval(this.lastManualSaveTimer);
   }
 }

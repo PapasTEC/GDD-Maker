@@ -86,6 +86,16 @@ export class GddSetupLayoutComponent {
     
   }
 
+  backHome(){
+    let decision= confirm("Are you sure you want to leave the setup? All progress will be lost.");
+
+    if(decision){
+      this.router.navigateByUrl('/dashboard');
+    }
+
+    
+  }
+
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("bg-background");

@@ -84,7 +84,7 @@ $resizeFont: min(clamp(0.6em, 1.1vw, 3em), clamp(0.6em, 1.1vh, 3em));
   
 
   .btn:active .overlay {
-    background-color: #0f249c7a;
+    background-color: #16425b57;
     transition: 0.1s ease;
   }
 
@@ -126,6 +126,7 @@ $size: max(6vw, 7vh);
         margin: 0;
         padding: 0;
         border-radius: 10px;
+        border: none;
 
         
     
@@ -140,7 +141,7 @@ $size: max(6vw, 7vh);
               position: relative;
               fill: #ffffff;
               stroke: #ff0000;
-              font-size: min(7vw, 7vh);
+              font-size: calc($size *0.5);
               border: #5f8b56 none 2px;
               display: inline-block;
               color: #2F6690;
@@ -166,7 +167,7 @@ $size: max(6vw, 7vh);
         height: fit-content;
 
         color: black;
-        font-size: $resizeFont;
+        font-size: calc($size *0.1);
         font-weight: 700;
         text-align: center;
 

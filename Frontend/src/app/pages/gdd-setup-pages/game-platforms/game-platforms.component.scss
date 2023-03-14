@@ -72,7 +72,7 @@ $resizeFont: min(clamp(0.6em, 1.1vw, 3em), clamp(0.6em, 1.1vh, 3em));
   
 
   .btn:active .overlay {
-    background-color: #0f249c7a;
+    background-color: #16425b57;
     transition: 0.1s ease;
   }
 
@@ -110,6 +110,7 @@ $size: min(clamp(20%, 10vw, 60%), clamp(20%, 10vh, 60%));
         margin: 0;
         padding: 0;
         border-radius: 10px;
+        border: none;
 
         
     

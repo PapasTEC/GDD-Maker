@@ -5,7 +5,7 @@ $outer-font-size: 14px;
 
 $title-font-size: min(3vh, 3vw);
 $middle-font-size: min(2vh, 2vw);
-$inner-font-size: min(1.2vh, 1.2vw);
+$inner-font-size: min(1.5vh, 1.5vw);
 
 $section-color: #e1e1e1;
 $subsection-color: #ece8e8;
@@ -25,6 +25,12 @@ $icon-container-size: min(2vh, 2vw);
   font-weight: 600;
 }
 
+.littleTextFont {
+  font-size: $inner-font-size;
+  font-weight: 400;
+  margin-left: .4vw;
+}
+
 img {
   color: $outer-text-color;
   width: $icon-size;
@@ -42,6 +48,96 @@ img {
   height: 100%;
   padding: 1%;
 }
+
+.save-button {
+  position: relative;
+  z-index: 100;
+  transition: 0.2s;
+
+  width: 3.5vw;
+  height: 3.7vh;
+
+  font-size: min(1.8vh, 1.8vw);
+  line-height: 200%;
+  border-radius: .8vh;
+
+  color: #f6f3f3;
+  background-color: #16425B;
+
+  cursor: pointer;
+
+  // border: red $borderState;
+}
+
+.save-button:hover {
+  background-color: #0f2d3d;
+  transform: translateY(-1px);
+}
+
+.backButtonContainerClass {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  height: 100%;
+  width: 100%;
+
+  position: relative;
+  overflow: hidden;
+
+  color: $outer-text-color;
+  font-size: $outer-font-size;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  .icon-container {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+
+    border: fuchsia $borderState;
+
+    div {
+      position: relative;
+      align-self: center;
+      text-align: center;
+
+      display: flex;
+      justify-content: center;
+
+      //border: green $borderState;
+    }
+
+    .exit-button {
+      margin-right: 0.3vw;
+    }
+
+    img {
+      transform: rotate(180deg);
+      height: 2.5vh;
+      width: 2vw;
+    }
+  }
+
+  .icon-container:hover {
+    .exit-button {
+      filter: invert(38%) sepia(99%) saturate(3773%) hue-rotate(329deg) brightness(98%) contrast(97%);
+    }
+  }
+
+  .current-users {
+    display: flex;
+    align-items: center;
+
+    &__count {
+      margin-right: 10px;
+    }
+  }
+}
+
 
 .editor-container-Class {
 
@@ -72,6 +168,7 @@ img {
   width: 100%;
   border: blue $borderState;
 }
+
 
 .hide-toolbar {
   transform: rotate(-90deg);
@@ -170,16 +267,16 @@ img {
 }
 
 .sidebarShow {
-  width: max(550px, 25%);
+  width: max(400px, 25%);
 }
 
 .leftModuleClass:focus {
-  width: max(550px, 25%);
+  width: max(400px, 25%);
   outline: none;
 }
 
 .leftModuleClass:hover {
-  width: max(550px, 25%);
+  width: max(400px, 25%);
   outline: none;
 }
 
@@ -242,81 +339,27 @@ $resizeTitleFont: min(3vw, 3vh);
   border: #3a7ca5 $borderState;
 }
 
-.backButtonContainerClass {
-  padding: 0px 0px 0px 0px;
-  margin: 0px 0px 0px 0px;
-  height: 100%;
-  width: 100%;
-
-  position: relative;
-  overflow: hidden;
-
-  color: $outer-text-color;
-  font-size: $outer-font-size;
-
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  // border: fuchsia $borderState;
-
-  .icon-container {
-    height: 80%;
-    width: 90%;
-    cursor: pointer;
-
-    display: flex;
-    flex-direction: row;
-
-    border: fuchsia $borderState;
-
-    div {
-      position: relative;
-      align-self: center;
-      text-align: center;
-
-      display: flex;
-      justify-content: center;
-
-      border: green $borderState;
-
-    }
-
-    .exit-button {
-      margin-right: 0.3vw;
-    }
-
-    img {
-
-      transform: rotate(180deg);
-      height: 2.5vh;
-      width: 2vw;
-
-
-    }
-  }
-
-  .icon-container:hover {
-    .exit-button {
-      filter: invert(38%) sepia(99%) saturate(3773%) hue-rotate(329deg) brightness(98%) contrast(97%);
-    }
-  }
-
-  .current-users {
-    display: flex;
-    align-items: center;
-
-    &__count {
-      margin-right: 10px;
-    }
-  }
-}
-
 .shareButtonContainerClass {
   padding: 0px 0px 0px 0px;
 
   height: 100%;
   width: 100%;
+  // border: solid 2px #81c3d7;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  flex-wrap: wrap;
+
+  border: salmon $borderState;
+}
+
+.pinButtonContainerClass {
+  padding: 0px 0px 0px 0px;
+
+  height: 100%;
+  width: 25%;
   // border: solid 2px #81c3d7;
   position: relative;
   overflow: hidden;

@@ -14,11 +14,11 @@ const routes: Routes =[
     redirectTo: 'dashboard',
     pathMatch: 'full',
   }, {
-    path: '',
+    path: 'editor',
     component: EditorLayoutComponent,
     children: [
       {
-        path: 'editor',
+        path: '',
         loadChildren: () => import('src/app/layouts/editor-layout/editor-layout.module').then(m => m.EditorLayoutModule)
       }
     ]

@@ -1,4 +1,4 @@
-export function changeVditorConfig(toolbar: boolean, content: string) : IOptions {
+export function changeVditorConfig(toolbar: boolean, content: string, inputFunc: Function) : IOptions {
     return {
         value: content,
         image: {
@@ -240,7 +240,7 @@ export function changeVditorConfig(toolbar: boolean, content: string) : IOptions
     },
     after: () => {},
     input: (value: string) => {
-        // console.log("input\n", value);
+        console.log("input: ", value);
     },
     theme: "dark",
     }

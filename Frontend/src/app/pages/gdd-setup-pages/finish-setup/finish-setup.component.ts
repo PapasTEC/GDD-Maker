@@ -70,7 +70,7 @@ export class FinishSetupComponent {
         subSections: [{
           subSectionTitle: "Elevator Pitch",
           subSectionContent: {
-            text: currentSetup.elevatorPitch
+            text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
           }
         }, {
           subSectionTitle: "Tagline",
@@ -97,7 +97,7 @@ export class FinishSetupComponent {
         subSections: [{
           subSectionTitle: "Theme",
           subSectionContent: {
-            text: currentSetup.theme
+            text: "## Theme\n" + currentSetup.theme
           }
         }, {
           subSectionTitle: "Aesthetic",

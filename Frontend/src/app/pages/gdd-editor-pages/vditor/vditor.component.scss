@@ -1,0 +1,34 @@
+$borderState: none 2px;
+$icon-size: min(4vh, 4vw);
+
+.markdown-wrapper {
+    background-color: inherit;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border: blue $borderState;
+}
+
+.hide-toolbar {
+    transform: rotate(-90deg);
+    transition: 0.3s;
+
+    position: absolute;
+    top: -0.2vh;
+    right: 2vw;
+
+    z-index: 100;
+
+    width: $icon-size;
+    height: $icon-size;
+
+    cursor: pointer;
+
+    // border: slateblue $borderState;
+
+    filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
+}
+
+.hide-toolbar:hover {
+    filter: none;
+}

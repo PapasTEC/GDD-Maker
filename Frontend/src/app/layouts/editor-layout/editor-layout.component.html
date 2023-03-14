@@ -58,9 +58,9 @@
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container" style="display: none">
-              <a class="nActive" [routerLink]="['/editor/theme']"><span>Theme</span></a>
-              <a class="nActive" [routerLink]="['/editor/aesthetics']"><span>Aesthetics</span></a>
-              <a class="nActive" [routerLink]="['/editor/coreMechanic']"><span>Core Mechanic</span></a>
+              <a class="nActive" [routerLink]="['/editor/theme']" queryParamsHandling="merge"><span>Theme</span></a>
+              <a class="nActive" [routerLink]="['/editor/aesthetics']" queryParamsHandling="merge"><span>Aesthetics</span></a>
+              <a class="nActive" [routerLink]="['/editor/coreMechanic']" queryParamsHandling="merge"><span>Core Mechanic</span></a>
             </div>
             <!-- <a class="nActive" href="#/editor">About</a> -->
           </div>
@@ -76,9 +76,16 @@
               alt="share"
             />
           </div> -->
+          <div class="icon-container">
+            <div>
+              <a class="save-button" (click)="manualSave()">{{this.saveButtonText}}</a>
+            </div>
+            <div>
+              <span class="littleTextFont">Last Updated: {{this.lastManualSaveTimeInMinutes}}m ago</span>
+            </div>
+          </div>
         </div>
-
-        <div id="share-export-buttons" class="shareButtonContainerClass">
+        <div id="share-export-buttons" class="pinButtonContainerClass">
           <div class="icon-container" (click)="toggleKeepSidebarOpen()">
             <img
             id = "pin"
@@ -89,7 +96,6 @@
         </div>
       </div>
     </div>
-
     <div id="workspace" class="workspace-class">
       <router-outlet></router-outlet>
       <img
@@ -98,17 +104,6 @@
         src="assets/img/icons/common/chevrons-left.svg"
         alt="share"
       />
-      <!-- <div id="markdown-editor" class="markdown-wrapper">
-        <router-outlet></router-outlet>
-        <div id="vditor"></div>
-        <img
-          id="toolbar-toggle-button"
-          (click)="toggleToolbar()"
-          class="hide-toolbar"
-          src="assets/img/icons/common/chevrons-left.svg"
-          alt="share"
-        />
-      </div> -->
     </div>
   </div>
 </div>

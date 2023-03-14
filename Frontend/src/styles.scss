@@ -53,3 +53,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   // background-color: red;
   color: black;
 }
+
+.core-diagram {
+  &__vditor1, &__vditor2, &__vditor3, &__vditor4 {
+    height: 100% !important;
+    border: none !important;
+  }
+}

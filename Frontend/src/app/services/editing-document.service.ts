@@ -6,15 +6,12 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class EditingDocumentService {
 
-  private document = new BehaviorSubject<any>({});
-  currentDocument = this.document.asObservable();
+  private document = new BehaviorSubject<any>(null);
+  document$ = this.document.asObservable();
 
   constructor() { }
 
   changeDocument(document: any) {
-    console.log("old document:", document);
     this.document.next(document)
-    console.log("new document:", document);
   }
-
 }

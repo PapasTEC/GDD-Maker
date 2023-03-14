@@ -50,8 +50,8 @@
               </thead>
               <tbody class="tbody-dark" id="tbody">
                 <ng-container *ngFor="let project of Projects | project:tableFilter">
-                  <tr class="tr-item" (click)="goToEditor(project._id)">
-                    <th scope="row">
+                  <tr class="tr-item">
+                    <th scope="row" (click)="goToEditor(project._id)">
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">
                           <img alt="Image placeholder" src={{project.documentLogo}}>

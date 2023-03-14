@@ -21,3 +21,15 @@ Content-Type: application/json
 ###
 GET http://localhost:3080/api/users/login/poyohoh755@v2ssr.com/5L0hZSKZt HTTP/1.1
 Content-Type: application/json
+
+###
+PUT http://localhost:3080/api/users/addOwnProject/abielpg.juzo@gmail.com HTTP/1.1
+Content-Type: application/json
+
+{"id": "5e9b9b0b0f1c9c0010a5e1b5"}
+
+###
+PUT http://localhost:3080/api/users/deleteOwnProject/abielpg.juzo@gmail.com HTTP/1.1
+Content-Type: application/json
+
+{"id": "5e9b9b0b0f1c9c0014a5e1b5"}

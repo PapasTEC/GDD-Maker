@@ -103,6 +103,44 @@ documentController.updateOwnerInDocuments = async (req, res) => {
     });
 };
 
+documentController.updateOnlySubSectionByTitles = async (req, res) => {
+
+    const { id, sectionTitle, subSectionTitle } = req.params;
+    console.log("Updating document: " + id);
+    console.log("Updating section: " + sectionTitle);
+    console.log("Updating subSection: " + subSectionTitle);
+
+    Documents.updateOne({ _id: new ObjectId(id) },
+        { $set: { "documentContent.$[section].subSections.$[subSection].subSectionContent": req.body }},
+        { arrayFilters: [ { "section.sectionTitle": sectionTitle }, { "subSection.subSectionTitle": subSectionTitle } ] }).then((document) => {
+            if (!document) {
+                return res.status(404).json({ message: "Document not found" });
+            }
+            res.status(200).json(document);
+        }).catch((error) => {
+            res.status(500).json({ message: error });
+        });
+};
+
+documentController.updateOnlySubSectionByIds = async (req, res) => {
+
+    const { id, sectionId, subSectionId } = req.params;
+    console.log("Updating document: " + id);
+    console.log("Updating section: " + sectionId);
+    console.log("Updating subSection: " + subSectionId);
+
+    Documents.updateOne({ _id: new ObjectId(id) },
+        { $set: { "documentContent.$[section].subSections.$[subSection].subSectionContent": req.body }},
+        { arrayFilters: [ { "section._id": sectionId }, { "subSection._id": subSectionId } ] }).then((document) => {
+            if (!document) {
+                return res.status(404).json({ message: "Document not found" });
+            }
+            res.status(200).json(document);
+        }).catch((error) => {
+            res.status(500).json({ message: error });
+        });
+};
+
 documentController.deleteDocument = async (req, res) => {
     Documents.findByIdAndDelete(req.params.id).then((document) => {
         if (!document) {

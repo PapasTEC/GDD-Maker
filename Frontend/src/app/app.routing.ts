@@ -3,7 +3,7 @@ import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { EditorLayoutComponent } from './layouts/editor-layout/editor-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { GddSetupLayoutComponent } from 'src/app/layouts/gdd-setup-layout/gdd-setup-layout.component';
@@ -14,12 +14,12 @@ const routes: Routes =[
     redirectTo: 'dashboard',
     pathMatch: 'full',
   }, {
-    path: '',
-    component: AdminLayoutComponent,
+    path: 'editor',
+    component: EditorLayoutComponent,
     children: [
       {
         path: '',
-        loadChildren: () => import('src/app/layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
+        loadChildren: () => import('src/app/layouts/editor-layout/editor-layout.module').then(m => m.EditorLayoutModule)
       }
     ]
   }, {

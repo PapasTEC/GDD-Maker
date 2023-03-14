@@ -10,7 +10,7 @@ import { GddSetupLayoutRoutes } from './gdd-setup-layout.routing';
 export class GddSetupLayoutComponent {
 
   routes = GddSetupLayoutRoutes;
-  cardTitles = ["Game Title", "Game Logo", "Company Name", "Company Logo", "Game Tags", "Game Platforms", "Elevator Pitch", "Theme", "Aesthetic", "Core Mechanic"]
+  cardTitles = ["Game Title", "Game Logo", "Company Name", "Company Logo", "Game Tags", "Game Platforms", "Elevator Pitch", "Theme", "Aesthetic", "Core Mechanic", "Finish Setup"]
 
   cardsData = {
     gameTitle: "",
@@ -51,10 +51,16 @@ export class GddSetupLayoutComponent {
     this.router.navigate([this.path], {relativeTo: this.route});
     this.currentTitle = this.cardTitles[this.routesIndex];
 
-    if (this.currentTitle == "Game Title"){
+    if (this.routesIndex == 0){
       this.showLeftArrow = false;
     } else {
       this.showLeftArrow = true;
+    }
+
+    if(this.routesIndex == this.routesQuantity - 1){
+      this.showRightArrow = false;
+    } else {
+      this.showRightArrow = true;
     }
   }
 
@@ -77,6 +83,16 @@ export class GddSetupLayoutComponent {
 
     this.path = this.routes[this.routesIndex].path;
     this.changePath();
+    
+  }
+
+  backHome(){
+    let decision= confirm("Are you sure you want to leave the setup? All progress will be lost.");
+
+    if(decision){
+      this.router.navigateByUrl('/dashboard');
+    }
+
     
   }
 

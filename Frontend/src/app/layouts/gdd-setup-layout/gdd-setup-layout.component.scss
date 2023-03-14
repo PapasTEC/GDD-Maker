@@ -5,7 +5,6 @@ $borderState: none;
   border: lime $borderState 3px;
 }
 
-
 .setupBodyClass {
   position: relative;
   width: 100%;
@@ -23,7 +22,7 @@ $borderState: none;
   width: 100%;
   height: 100%;
 
-  
+
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.548);
 
   // border-top-right-radius: $r;
@@ -46,8 +45,11 @@ $borderState: none;
   align-items: center;
   justify-content: space-between;
 
+  padding: 0px 3vh;
+
   display: flex;
 }
+
 
 /* TitleBox */
 
@@ -64,8 +66,6 @@ $borderState: none;
 
   /* or 0% */
   display: flex;
-
-  margin-left: 3%;
 
   color: #ffffff;
 }
@@ -85,7 +85,7 @@ $borderState: none;
   max-height: 100%;
 
   overflow: hidden;
-  
+
   padding: 3% 0px;
 }
 
@@ -103,7 +103,7 @@ $tertiary: #c7c7c7;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border: solid rgb(252, 0, 0) 3px;
+  border: none rgb(252, 0, 0) 3px;
   padding: 3%;
 
 }
@@ -116,30 +116,29 @@ $tertiary: #c7c7c7;
 
 /* Track */
 .cardContent::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px $default; 
+  box-shadow: inset 0 0 5px $default;
 }
 
 /* Handle */
 .cardContent::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-color: $tertiary;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: $tertiary;
 }
 
-.cardNavigation{
-    position: relative;
-    width: fit-content;
-    height: fit-content;
-    bottom: 0%;
-    
-    display: flex;
-    align-items: center;
+.cardNavigation {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  bottom: 0%;
 
-    
-    
-    border-color: rgb(235, 3, 204);
-    
+  display: flex;
+  align-items: center;
+
+  border-color: rgb(235, 3, 204);
+
 }
+
 $lower: 30pt;
 $upper: 50pt;
 $relative: 3vw;
@@ -147,23 +146,62 @@ $relative2: 3vh;
 
 $size : min(4vw, 4vh);
 
-.arrows{
-    position: relative;
-    
-    
-    width: $size;
-    height: $size;
+.arrows {
+  position: relative;
 
-    border-color: rgb(0, 252, 0);
+
+  width: $size;
+  height: $size;
+
+  border-color: rgb(0, 252, 0);
 }
 
-.btn{
-  &:not(:hover){
+.btn {
+  &:not(:hover) {
     box-shadow: none;
   }
-  &:hover{
+
+  &:hover {
     background-color: #e4e4e4;
 
   }
+
+}
+
+.fa-home{
+  transition: background-color 0.2s ease-in-out;
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: $size;
+
+}
+
+.btn-icon-only{
+  transition: background-color 0.2s ease-in-out;
+  width: calc($size * 1.5);
+  height: calc($size * 1.5);
+  align-items: center;
+
+  &:hover {
+    
+    background-color: #ffffff;
+  }
+
+  &:not(hover){
+    background: none;
+  }
+
+  &:hover .fa-home{
+    color: #16425B;
+  }
+
+  &:not(hover) .fa-home{
+    color: #e0e0e0;
+  }
+  
 
 }

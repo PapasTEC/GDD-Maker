@@ -3,24 +3,21 @@ POST http://localhost:3080/api/documents/add HTTP/1.1
 Content-Type: application/json
 
 {
-    "owner": "nomote8754@vootin.com",
+    "owner": "abielpg.juzo@gmail.com",
     "frontPage": {
-        "documentTitle": "Roy Juego 2",
+        "documentTitle": "Prueba 2",
         "documentLogo": "https://inaturalist-open-data.s3.amazonaws.com/photos/75868387/large.jpg",
-        "companyName": "Roy Games",
+        "companyName": "Company name",
         "companyLogo": "https://inaturalist-open-data.s3.amazonaws.com/photos/75868387/large.jpg",
         "collaborators": ["Roy", "Fabri", "Eli"],
         "lastUpdated": "Sat Mar 07 2023 10:26:45 GMT-0600"
     },
     "documentContent": [{
-        "sectionTitle": "Titulo Uno3",
-        "content": {
-            "selfContent": "markdown",
-            "subSections": [{
-                "subSectionTitle": "Subtitulo Uno3",
-                "subSectionContent": {}
-            }]
-        }
+        "sectionTitle": "Titulo 23",
+        "subSections": [{
+            "subSectionTitle": "Subtitulo Uno3",
+            "subSectionContent": {}
+        }]
     }]
 }
 
@@ -75,3 +72,28 @@ Content-Type: application/json
 {
     "owner": "yoseleh299@maazios.com"
 }
+
+###
+PUT http://localhost:3080/api/documents/updateOnlySubSectionByIds/640f6502caf1011d0b97573d/640f6502caf1011d0b975743/640f6502caf1011d0b975744 HTTP/1.1
+Content-Type: application/json
+
+{
+    "platforms": [
+        "Windows",
+        "Playstation",
+        "Nintento2"
+    ]
+}
+
+###
+PUT http://localhost:3080/api/documents/updateOnlySubSectionByTitles/640f6502caf1011d0b97573d/Technical Information/Tech HTTP/1.1
+Content-Type: application/json
+
+{
+    "platforms": [
+        "Windows",
+        "Playstation",
+        "Nintento3"
+    ]
+}
+

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoreMechanicComponent } from './core-mechanic.component';
+import { VditorComponent } from './vditor.component';
 
-describe('CoreMechanicComponent', () => {
-  let component: CoreMechanicComponent;
-  let fixture: ComponentFixture<CoreMechanicComponent>;
+describe('VditorComponent', () => {
+  let component: VditorComponent;
+  let fixture: ComponentFixture<VditorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CoreMechanicComponent ]
+      declarations: [ VditorComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CoreMechanicComponent);
+    fixture = TestBed.createComponent(VditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

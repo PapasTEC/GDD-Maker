@@ -31,7 +31,7 @@
                     </div>
                   </li>
                   <li class="nav-item">
-                    <a class="btn btn-sm btn-secondary">New</a>
+                    <a [routerLink]="['/setup']" class="btn btn-sm btn-secondary">New</a>
                   </li>
                 </ul>
               </div>
@@ -50,7 +50,7 @@
               </thead>
               <tbody class="tbody-dark" id="tbody">
                 <ng-container *ngFor="let project of Projects | project:tableFilter">
-                  <tr class="tr-item">
+                  <tr class="tr-item" (click)="goToEditor(project._id)">
                     <th scope="row">
                       <div class="media align-items-center">
                         <a href="#" class="avatar rounded-circle mr-3">

@@ -5,14 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
-import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { EditorLayoutComponent } from './layouts/editor-layout/editor-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-layout.component';
-
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -27,7 +26,7 @@ import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-la
   ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
+    EditorLayoutComponent,
     AuthLayoutComponent,
     DashboardLayoutComponent,
     GddSetupLayoutComponent,

@@ -1,4 +1,4 @@
-<div class="header bg-gradient-tertiary pb-7 pt-5">
+<div class="header bg-gradient-tertiary" style="height: 19vh;">
 </div>
 
 <head>
@@ -6,15 +6,15 @@
 </head>
 <!-- <body class="bg-background">
 </body> -->
-<div class="setupBodyClass bg-transparent mt--8">
+<div class="setupBodyClass bg-transparent header-margin">
   <div class="cardClass bg-secondary">
     <div class="cardRibbon bg-default">
       <div class="cardRibbonTitle">
         <span> {{currentTitle}} </span>
       </div>
-      <div class="cardRibbonTitle">
-        <span>  </span>
-      </div>
+      <button type="button" (click)="backHome()" class="btn btn-icon-only">
+        <i class="fas fa-home"></i>
+      </button>
     </div>
     <div class="cardBottom">
       <div class="previousCard" class="cardNavigation">

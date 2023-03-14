@@ -10,6 +10,15 @@ export class GameGenreComponent {
   genreName: string;
   tags: string[] = [];
 
+  constructor() { }
+
+  ngOnInit() {
+    if (sessionStorage.getItem('currentSetup') !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+      this.tags = currentSetup.gameTags;
+    }
+  }
+
   public addTag(): void {
     var genreTextBox = document.getElementById("genreText") as HTMLInputElement;
 
@@ -26,21 +35,22 @@ export class GameGenreComponent {
     this.tags.push(genreTextBox.value);
     genreTextBox.value = "";
 
-    this.getDataInJSONFormat();
+    console.log("tags:", this.tags);
+
+    this.updateStorage();
   }
 
   public deleteTag(id: number): void {
     // Delete at index 
     this.tags.splice(id, 1);
     console.log(this.tags);
+
+    this.updateStorage();
   }
 
-  private getDataInJSONFormat(): Object{
-    let newJSON = {tags:[]};
-    this.tags.forEach(userTag => newJSON.tags.push(userTag));
-    console.log(newJSON);
-    return newJSON;
+  updateStorage(){
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+    currentSetup.gameTags = this.tags;
+    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
   }
-
-  
 }

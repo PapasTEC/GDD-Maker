@@ -13,20 +13,9 @@ $borderState: none;
 }
 
 
-.contentContainer{
-    width: 100%;
-    height: 90%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    border: $borderState 1px #8b565f;
-    background-color: transparent;
-}
 
-$resizeFont: min(clamp(0.6em, 1vw, 3em), clamp(0.6em, 1vh, 3em));
+
+$resizeFont: min(clamp(0.6em, 1.1vw, 3em), clamp(0.6em, 1.1vh, 3em));
 
 .platformCanvas{
     width: 100%;
@@ -83,7 +72,7 @@ $resizeFont: min(clamp(0.6em, 1vw, 3em), clamp(0.6em, 1vh, 3em));
   
 
   .btn:active .overlay {
-    background-color: #0f249c7a;
+    background-color: #16425b57;
     transition: 0.1s ease;
   }
 
@@ -121,6 +110,7 @@ $size: min(clamp(20%, 10vw, 60%), clamp(20%, 10vh, 60%));
         margin: 0;
         padding: 0;
         border-radius: 10px;
+        border: none;
 
         
     

@@ -1,0 +1,109 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+  <link rel="stylesheet" href="editor-layout.component.scss" />
+</head>
+
+<div class="header bg-gradient-tertiary" style="height: 19vh;"></div>
+
+<div class="bodyContainer header-margin">
+  <div id="editor-container" class="editor-container-Class">
+    <div id="sidebar" class="leftModuleClass sidebarHide" tabindex="0" (click)="keepSidebarOpen()">
+      <div id="sidebar-top" class="leftModuleTopClass">
+        <div id="backbutton-container" class="backButtonContainerClass">
+          <div class="icon-container" [routerLink]="['/dashboard']">
+            <div>
+              <img
+                class="exit-button"
+                src="assets/img/icons/common/arrow-right-from-bracket-solid.svg"
+                alt="share"
+              />
+              <!-- <span class="midTextFont">Back 2</span> -->
+            </div>
+            <div>
+              <span class="midTextFont">Back</span>
+            </div>
+          </div>
+        </div>
+        <div id="share-export-buttons" class="shareButtonContainerClass">
+          <!-- <img
+            class="share-export-buttons__share-icon"
+            src="assets/img/icons/common/share.svg"
+            alt="share"
+          /> -->
+        </div>
+      </div>
+      <div id="sidebar-bottom" class="leftModuleBottomClass">
+        <div id="layout-text" class="layoutTextContainer">
+          <div class="layoutText"><span>{{this.documentTitle}}</span></div>
+        </div>
+        <div id="layout-container" class="layoutContainerClass">
+
+          <div class="sidebar">
+            <!-- <button class="dropdown-btn">
+              Tematica
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container" style="display: none">
+              <a class="nActive" href="#/editor">Link 1</a>
+              <a class="nActive" href="#/editor">Link 2</a>
+              <a class="nActive" href="#/editor">Link 3</a>
+            </div> -->
+            <!-- <a class="nActive" href="#/editor">Tematica</a> -->
+
+            <button class="dropdown-btn">
+              High Level Design
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container" style="display: none">
+              <a class="nActive" [routerLink]="['/editor/theme']" queryParamsHandling="merge"><span>Theme</span></a>
+              <a class="nActive" [routerLink]="['/editor/aesthetics']" queryParamsHandling="merge"><span>Aesthetics</span></a>
+              <a class="nActive" [routerLink]="['/editor/coreMechanic']" queryParamsHandling="merge"><span>Core Mechanic</span></a>
+            </div>
+            <!-- <a class="nActive" href="#/editor">About</a> -->
+          </div>
+        </div>
+      </div>
+      <div id="sidebar-top" class="leftModuleTopClass">
+        <div id="backbutton-container" class="backButtonContainerClass">
+          <!-- <div class="current-users">
+            <div class="current-users__count">4</div>
+            <img
+              class="share-export-buttons__share-icon current-users__icon"
+              src="assets/img/icons/common/people.svg"
+              alt="share"
+            />
+          </div> -->
+          <div class="icon-container">
+            <div>
+              <a class="save-button" (click)="manualSave()">{{this.saveButtonText}}</a>
+            </div>
+            <div>
+              <span class="littleTextFont">Last Updated: {{this.lastManualSaveTimeInMinutes}}m ago</span>
+            </div>
+          </div>
+        </div>
+        <div id="share-export-buttons" class="pinButtonContainerClass">
+          <div class="icon-container" (click)="toggleKeepSidebarOpen()">
+            <img
+            id = "pin"
+            src="assets/img/icons/common/thumbtack-solid.svg"
+            alt="share"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="workspace" class="workspace-class">
+      <router-outlet></router-outlet>
+      <img
+        (click)="openSidebar()"
+        class="open-sidebar-button"
+        src="assets/img/icons/common/chevrons-left.svg"
+        alt="share"
+      />
+    </div>
+  </div>
+</div>

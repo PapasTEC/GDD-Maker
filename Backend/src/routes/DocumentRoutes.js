@@ -11,5 +11,7 @@ router.delete('/delete/:id', documentController.deleteDocument);
 router.get('/getInfoByOwner/:owner', documentController.getDocumentsByOwner);
 router.post('/getInfoShared', documentController.getSharedDocuments);
 router.put('/updateOwner/:owner', documentController.updateOwnerInDocuments);
+router.put('/updateOnlySubSectionByIds/:id/:sectionId/:subSectionId', documentController.updateOnlySubSectionByIds);
+router.put('/updateOnlySubSectionByTitles/:id/:sectionTitle/:subSectionTitle', documentController.updateOnlySubSectionByTitles);
 
 module.exports = router;

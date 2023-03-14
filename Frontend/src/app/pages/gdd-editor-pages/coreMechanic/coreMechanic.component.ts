@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 import Vditor from "vditor";
+import { EditingDocumentService } from 'src/app/services/editing-document.service';
+import { filter, map, take } from 'rxjs/operators';
 
 @Component({
   selector: "app-coreMechanic",
@@ -18,7 +20,32 @@ export class CoreMechanicComponent {
     metaphore: "",
   };
 
+  section = "High Level Design";
+  subSection = "Core Mechanic";
+  documentSubSection: any;
+
+  constructor(private editingDocumentService: EditingDocumentService) {}
+
+  updateDocument(coreMechanicContent: any) {
+    console.log("coreMechanicContent: ", coreMechanicContent);
+    this.documentSubSection.subSectionContent = coreMechanicContent;
+    this.editingDocumentService.updateDocumentSubSection(this.section, this.subSection, this.documentSubSection);
+  }
+
   ngOnInit() {
+
+    this.editingDocumentService.document$.pipe(
+      filter(document => document !== null),
+      map(document => document.documentContent.find(section => 
+        section.sectionTitle === this.section).subSections.find(subsection => 
+          subsection.subSectionTitle === this.subSection)),
+      take(1)
+    ).subscribe((document) => {
+      this.documentSubSection = document;
+      this.coreMechanicContent = this.documentSubSection.subSectionContent;
+      console.log("coreMechanicContent:", this.coreMechanicContent);
+    });
+
     (this.vditor1 = new Vditor(
       "vditor1",
       this.changeVditorConfig(

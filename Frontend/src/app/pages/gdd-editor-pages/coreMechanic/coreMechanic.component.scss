@@ -1,88 +1,72 @@
-.circle1 {
-  all: initial;
-  position: absolute;
-  width: 340px;
-  height: 340px;
-  border-radius: 170px;
-  border: 1px solid #4e82bc;
-  background-color: #4e82bc;
+// $svg-height: max(800px, 80vh);
+// $text-box-height: max(220px, 22vh);
+// $empty-box-height: max(63px, 6.3vh);
+// $primary-color: #17415b;
+// $text-box-width: max(800px, 50vw);
+// $box-border: max(5px, 0.5vh);
+$svg-height: 800px;
+$text-box-height: 158px;
+$empty-box-height: 46px;
+$primary-color: #17415b;
+$text-box-width: 800px;
+$box-border: 5px;
+
+h1 {
+  margin-bottom: max(10px, 2vh);
+}
+.diagram-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
 }
 
-.circle2 {
-  all: initial;
-  position: absolute;
-  top: 110px;
-  left: 60px;
-  width: 220px;
-  height: 220px;
-  border-radius: 110px;
-  border: 2px solid #FFFFFF;
-  background-color: #4e82bc;
+.svg-diagram {
+  height: $svg-height;
+  // width: calc($svg-height/2);
 }
 
-.circle3 {
-  all: initial;
-  position: absolute;
-  top: 212px;
-  left: 120px;
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-  border: 2px solid #FFFFFF;
-  background-color: #4e82bc;
+.diagram {
+  // display: flex;
+  // flex-wrap: nowrap;
+  display: flex;
+  grid-template-columns: 800px 600px;
+
+  &__text-container {
+    border-right: $box-border solid $primary-color;
+    display: flex;
+    flex-direction: column;
+    &__text {
+      height: $text-box-height;
+      background-color: white;
+      width: $text-box-width;
+
+      border-top: $box-border solid $primary-color;
+
+      &:not(.empty) {
+        height: calc($text-box-height + $box-border);
+      }
+
+      &.fourth {
+        height: calc($text-box-height + $box-border + $box-border);
+
+      }
+
+      &.empty {
+        height: $empty-box-height;
+
+        &:last-of-type {
+          height: calc($empty-box-height + $box-border);
+          border-bottom: $box-border solid $primary-color;
+        }
+      }
+    }
+  }
 }
 
-.textArea1 {
-  all: initial;
-  position: absolute;
-  width: 500px;
-  height: 100px;
-  top: 8px;
-  left: 170px;
-  background-color: #FFFFFF;
-  border: 2px solid #4e82bc;
-}
-
-.textArea2 {
-  all: initial;
-  position: absolute;
-  width: 500px;
-  height: 100px;
-  top: 110px;
-  left: 170px;
-  background-color: #FFFFFF;
-  border: 2px solid #4e82bc;
-}
-
-.textArea3 {
-  all: initial;
-  position: absolute;
-  width: 500px;
-  height: 100px;
-  top: 212px;
-  left: 170px;
-  background-color: #FFFFFF;
-  border: 2px solid #4e82bc;
-}
-
-.textArea4 {
-  all: initial;
-  position: absolute;
-  width: 500px;
-  height: 16px;
-  top: 314px;
-  left: 170px;
-  background-color: #FFFFFF;
-  border: 2px solid #4e82bc;
-}
-
-.textArea5 {
-  all: initial;
-  position: absolute;
-  width: 500px;
-  height: 14px;
-  top: 332px;
-  left: 170px;
-  background-color: #FFFFFF;
-  border: 2px solid #4e82bc;
+@media (max-width: 800px) {
+  $svg-height: 400px;
 }

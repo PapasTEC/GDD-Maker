@@ -1,0 +1,117 @@
+// $svg-height: max(800px, 80vh);
+// $text-box-height: max(220px, 22vh);
+// $empty-box-height: max(63px, 6.3vh);
+// $primary-color: #17415b;
+// $text-box-width: max(800px, 50vw);
+// $box-border: max(5px, 0.5vh);
+$svg-height: var(--svg-height);
+$text-box-height: var(--text-box-height);
+$empty-box-height: var(--empty-box-height);
+$primary-color: var(--primary-color);
+$text-box-width: var(--text-box-width);
+$box-border: var(--box-border);
+
+h1 {
+  margin-bottom: max(10px, 2vh);
+}
+
+.diagram-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  --svg-height: max(800px, 80vh);
+  --text-box-height: max(158px, 15.8vh);
+  --empty-box-height: max(46px, 4.6vh);
+  --primary-color: #17415b;
+  --text-box-width: 100%;
+  --box-border: max(5px, 0.5vh);
+  // padding: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+  div.diagram-screen {
+  }
+
+  div.diagram {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  div.diagram-screen {
+    --svg-height: max(550px, 55vh);
+    --text-box-height: max(108.625px, 10.8625vh);
+    --empty-box-height: max(31.625px, 3.1625vh);
+    --box-border: max(3.4375px, 0.34375vh);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  div.diagram-screen {
+    --svg-height: max(600px, 60vh);
+    --text-box-height: max(118px, 11.8vh);
+    --empty-box-height: max(35px, 3.5vh);
+    --box-border: max(4px, 0.4vh);
+  }
+
+  .svg-diagram {
+    display: none;
+  }
+
+  div.diagram {
+    &__text-container {
+      border-left: $box-border solid $primary-color;
+    }
+  }
+}
+
+.svg-diagram {
+  height: $svg-height;
+  // width: calc($svg-height/2);
+}
+
+.diagram {
+  // display: flex;
+  // flex-wrap: nowrap;
+  display: flex;
+  grid-template-columns: 800px 600px;
+  width: 85%;
+
+  &__text-container {
+    border-right: $box-border solid $primary-color;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    &__text {
+      height: $text-box-height;
+      background-color: white;
+      width: $text-box-width;
+
+      border-top: $box-border solid $primary-color;
+
+      &:not(.empty) {
+        height: calc($text-box-height + $box-border);
+      }
+
+      &.fourth {
+        height: calc($text-box-height + $box-border + $box-border);
+      }
+
+      &.empty {
+        height: $empty-box-height;
+
+        &:last-of-type {
+          height: calc($empty-box-height + $box-border);
+          border-bottom: $box-border solid $primary-color;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  $svg-height: 400px;
+}

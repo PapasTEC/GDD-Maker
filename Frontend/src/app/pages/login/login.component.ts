@@ -64,8 +64,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           var localUser = JSON.stringify(response);
           var localUserObj = JSON.parse(localUser);
           delete localUserObj.password;
-          delete localUserObj.owned_documents;
-          delete localUserObj.shared_with_me_documents;
+          // delete localUserObj.owned_documents;
+          // delete localUserObj.shared_with_me_documents;
+          localUserObj.owned_documents = localUserObj.owned_documents.length
+          localUserObj.shared_with_me_documents = localUserObj.shared_with_me_documents.length
           delete localUserObj._id;
           delete localUserObj.__v;
 

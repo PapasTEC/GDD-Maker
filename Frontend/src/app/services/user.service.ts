@@ -18,4 +18,19 @@ export class UserService {
     return this.http.get<any>(this.API + 'get/' + email + '/');
   }
 
+  addOwnProject(email: string, id: string) {
+    return this.http.put<any>(this.API + 'addOwnProject/' + email, { "id": id });
+  }
+
+  addSharedProject(email: string, id: string) {
+    return this.http.put<any>(this.API + 'addSharedProject/' + email, { "id": id });
+  }
+
+  removeOwnProject(email: string, id: string) {
+    return this.http.put<any>(this.API + 'deleteOwnProject/' + email, { "id": id });
+  }
+
+  removeSharedProject(email: string, id: string) {
+    return this.http.put<any>(this.API + 'deleteSharedProject/' + email, { "id": id });
+  }
 }

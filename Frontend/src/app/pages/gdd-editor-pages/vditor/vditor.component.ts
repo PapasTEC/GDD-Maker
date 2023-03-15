@@ -34,16 +34,6 @@ export class VditorComponent {
     // this.vditor.setValue(content);
   }
 
-  getValue() {
-    if (this.vditor) {
-      // alert(this.vditor.getValue());
-      console.log("vditor.getValue(): ", this.vditor.getValue());
-      console.log(this.vditor.exportJSON(this.vditor.getValue()));
-    } else {
-      console.log("vditor is null");
-    }
-  }
-
   updateDocument(value: any) {
     console.log("currentValue: ", value);
     this.documentSubSection.subSectionContent.text = value;

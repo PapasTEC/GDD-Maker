@@ -9,24 +9,24 @@ documentController.getDocuments = async (req, res) => {
 };
 
 documentController.createDocument = async (req, res) => {
-    try {
-        const { owner, frontPage, documentContent } =
-            req.body;
-
-        console.log("Creating document: " + owner);
-        console.log("Creating document: " + frontPage);
-        console.log("Creating document: " + documentContent);
-        const newDocument = new Documents({
-            owner,
-            frontPage,
-            documentContent
-        });
-        console.log("Inserting document: " + newDocument);
-        await newDocument.save();
-        res.status(200).json({ message: "Document created" });
-    } catch (error) {
+    const { owner, frontPage, documentContent } = req.body;
+    console.log("Creating document: " + owner);
+    console.log("Creating document: " + frontPage);
+    console.log("Creating document: " + documentContent);
+    const newDocument = new Documents({
+        owner,
+        frontPage,
+        documentContent
+    });
+    console.log("Inserting document: " + newDocument);
+    await newDocument.save().then((document) => {
+        if (!document) {
+            return res.status(404).json({ message: "Document not found" });
+        }
+        res.status(200).json({ message: "Document created", id: document._id });
+    }).catch((error) => {
         res.status(500).json({ message: error });
-    }
+    });
 };
 
 documentController.getDocument = async (req, res) => {

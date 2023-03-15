@@ -27,6 +27,24 @@ userController.createUser = async (req, res) => {
     }
 };
 
+userController.addOwnProject = async (req, res) => {
+    Users.updateOne({ email: req.params.email }, { $push: { owned_documents: req.body.id } }).then((user) => {
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.status(200).json({ message: "Project Added" });
+    }).catch((error) => {
+        res.status(500).json({ message: error });
+    });
+};
+
+userController.addSharedProject = async (req, res) => {
+    Users.updateOne({ email: req.params.email }, { $push: { shared_with_me_documents: req.body.id } }).then((user) => {
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.status(200).json({ message: "Shared Project Added" });
+    }).catch((error) => {
+        res.status(500).json({ message: error });
+    });
+};
+
 userController.checkUser = async (req, res) => {
     try {
         const user = await Users.findOne({ email: req.params.email });
@@ -79,6 +97,24 @@ userController.deleteUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error });
     }
+};
+
+userController.deleteOwnProject = async (req, res) => {
+    Users.updateOne({ email: req.params.email }, { $pull: { owned_documents: req.body.id } }).then((user) => {
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.status(200).json({ message: "Project Deleted" });
+    }).catch((error) => {
+        res.status(500).json({ message: error });
+    });
+};
+
+userController.deleteSharedProject = async (req, res) => {
+    Users.updateOne({ email: req.params.email }, { $pull: { shared_with_me_documents: req.body.id } }).then((user) => {
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.status(200).json({ message: "Shared Project Deleted" });
+    }).catch((error) => {
+        res.status(500).json({ message: error });
+    });
 };
 
 userController.sendCodeUser = async (req, res) => {

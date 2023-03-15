@@ -96,6 +96,9 @@ export class DashboardComponent implements OnInit {
         this.Projects = this.Projects.filter((project: Project) => project._id != id);
         this.MyProjectsData = this.MyProjectsData.filter((project: Project) => project._id != id);
         this.data = this.Projects;
+        this.userService.removeOwnProject(this.email, id).subscribe((data: any) => {
+          console.log(data);
+        });
       });
     }
   }

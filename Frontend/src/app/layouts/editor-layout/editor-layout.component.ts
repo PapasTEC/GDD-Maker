@@ -24,11 +24,12 @@ export class EditorLayoutComponent implements OnInit {
   lastManualSaveTimeInMinutes = 0;
 
   saveButtonText = "Save";
+  currentTitle = "";
 
   constructor(private location: Location, private route: ActivatedRoute,
     private router: Router,
     private documentService: DocumentService,
-    private editingDocumentService: EditingDocumentService) {}
+    private editingDocumentService: EditingDocumentService) { }
 
   openSidebar() {
     document.getElementById("sidebar").focus();
@@ -62,7 +63,7 @@ export class EditorLayoutComponent implements OnInit {
       this.lastManualSaveTimeInMinutes++;
     }, 60 * 1000); // Establecemos el intervalo para que se ejecute cada minuto
   }
-  
+
   startAutoSaveTimer() {
     this.autoSaveTimer = setInterval(() => {
       console.log('Auto save..');
@@ -91,18 +92,18 @@ export class EditorLayoutComponent implements OnInit {
       this.router.navigate(["/dashboard"]);
     }
   }
-  
+
   saveDocument(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.documentService.updateDocument(this.documentId, this.document).subscribe(
         res => {
           console.log("Update res: ", res);
           resolve(true);
-        err => {
-          console.log("Update err: ", err);
-          reject(false);
-        }
-      });
+          err => {
+            console.log("Update err: ", err);
+            reject(false);
+          }
+        });
     });
   }
 
@@ -133,10 +134,40 @@ export class EditorLayoutComponent implements OnInit {
     });
   }
 
+  switchSection(url: string) {
+    switch (url) {
+      case 'theme':
+        this.currentTitle = "Theme";
+        break;
+      case 'aesthetics':
+        this.currentTitle = "Aesthetics";
+        break;
+      case 'coreMechanic':
+        this.currentTitle = "Core mechanic";
+        break;
+      default:
+        this.currentTitle = "";
+        break;
+    }
+  }
+
+  getSectionRegex(section: string) {
+    const regex = /\/editor\/(\w+)\?pjt=/;
+    const match = section.match(regex);
+    const result = match ? match[1] : null;
+    return result;
+  }
+
   ngOnInit() {
+
     this.route.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
     });
+
+    const section = this.getSectionRegex(this.location.path());
+    if (section) {
+      this.switchSection(section);
+    }
 
     this.setDocumentData();
 

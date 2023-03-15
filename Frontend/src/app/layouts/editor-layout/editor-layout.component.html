@@ -58,9 +58,9 @@
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container" style="display: none">
-              <a class="nActive" [routerLink]="['/editor/theme']" queryParamsHandling="merge"><span>Theme</span></a>
-              <a class="nActive" [routerLink]="['/editor/aesthetics']" queryParamsHandling="merge"><span>Aesthetics</span></a>
-              <a class="nActive" [routerLink]="['/editor/coreMechanic']" queryParamsHandling="merge"><span>Core Mechanic</span></a>
+              <a class="nActive" (click)="switchSection('theme')" [routerLink]="['/editor/theme']" queryParamsHandling="merge"><span>Theme</span></a>
+              <a class="nActive" (click)="switchSection('aesthetics')" [routerLink]="['/editor/aesthetics']" queryParamsHandling="merge"><span>Aesthetics</span></a>
+              <a class="nActive" (click)="switchSection('coreMechanic')" [routerLink]="['/editor/coreMechanic']" queryParamsHandling="merge"><span>Core Mechanic</span></a>
             </div>
             <!-- <a class="nActive" href="#/editor">About</a> -->
           </div>
@@ -97,6 +97,9 @@
       </div>
     </div>
     <div id="workspace" class="workspace-class">
+      <div class="cardRibbonTitle">
+        <span> {{currentTitle}} </span>
+      </div>
       <router-outlet></router-outlet>
       <img
         (click)="openSidebar()"

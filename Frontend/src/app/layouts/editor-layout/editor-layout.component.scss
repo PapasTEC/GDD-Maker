@@ -597,3 +597,20 @@ $transistionTime: 100ms;
   display: block;
   transition: 200ms;
 }
+
+.cardRibbonTitle {
+  position: relative;
+  border: #01a2ff 2px $borderState;
+  width: fit-content;
+  height: fit-content;
+
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+
+  font-size: min(5vw, 5vh);
+
+  /* or 0% */
+  display: flex;
+
+  color: #000000;
+}

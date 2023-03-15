@@ -1,11 +1,11 @@
 <div class="bodyClass">
     <div class="aestheticsInnerBody">
         <div class="aestheticsContainer scrollBar">
-            <div class="aestheticsCard" *ngFor="let docAesthetics of aestheticsInDocument; index as i">
+            <div class="aestheticsCard" [ngStyle]="{'min-height': (i==0)? 'max(20vh, 25vw)':'max(20vh, 20vw)'}" *ngFor="let docAesthetics of aestheticsInDocument; index as i">
                 <div class="cardBody">
                     <div class="cardHeader">
                         <div class="aestheticName" >
-                            <fa-icon id="mainAesthetic" [icon]="crownIcon" *ngIf="i == 0"></fa-icon>
+                            <fa-icon id="mainAesthetic" [icon]="crownIcon" *ngIf="i == 0" ></fa-icon>
                             <button type="button" #but class="btn" (click)="showAesthetics($event, but)">
                                 {{docAesthetics.name}}
                             </button>
@@ -40,11 +40,7 @@
                 </button>
             </div>
 
-            <div class="separator">
-                <button #trash type="button" class="btn btn-icon-only">
-                    <fa-icon [icon]="plusIcon"></fa-icon>
-                </button>
-            </div>
+            
             
         </div>
     </div>

@@ -1,6 +1,11 @@
 /* BlueBody */
 $borderState: none;
 
+$borderState: none;
+$fontColor: #313131;
+$shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
+$cardBorderRadius: max(1vw, 1vh);
+
 * {
   border: lime $borderState 3px;
 }
@@ -23,13 +28,13 @@ $borderState: none;
   height: 100%;
 
 
-  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.548);
+  box-shadow: $shadow;
 
   // border-top-right-radius: $r;
   // border-top-left-radius: $r;
   // border-bottom-left-radius: $r;
   // border-bottom-right-radius: $r;
-  border-radius: 5px;
+  border-radius: $cardBorderRadius;
 
 }
 

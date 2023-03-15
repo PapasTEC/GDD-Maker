@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation  } from '@angular/core';
-import { faTrash, faPlus, faCrown } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faAdd, faCrown } from "@fortawesome/free-solid-svg-icons";
 
 
 @Component({
@@ -17,7 +17,7 @@ export class AestheticsComponent {
   aestheticsInDocument:[{name: String, content:String}] = [{name:"", content:""}];
 
   trashIcon = faTrash;
-  plusIcon = faPlus;
+  plusIcon = faAdd;
   crownIcon = faCrown;
 
   cardsInDocument = 0;

@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { VditorComponent } from "../../pages/gdd-editor-pages/vditor/vditor.component";
 import { AestheticsComponent } from 'src/app/pages/gdd-editor-pages/aesthetics/aesthetics.component';
 import { CoreMechanicComponent } from 'src/app/pages/gdd-editor-pages/coreMechanic/coreMechanic.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { CoreMechanicComponent } from 'src/app/pages/gdd-editor-pages/coreMechan
     ClipboardModule,
     FormsModule,
     ReactiveFormsModule,
+    FontAwesomeModule
   ],
   declarations: [
     VditorComponent,

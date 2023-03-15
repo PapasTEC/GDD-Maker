@@ -114,7 +114,7 @@ export class FinishSetupComponent {
         }, {
           subSectionTitle: "Aesthetic",
           subSectionContent: {
-            aesthetic: this.aesthetics[currentSetup.aesthetic[0]]
+            aesthetics: [{name:this.aesthetics[currentSetup.aesthetic[0]], content:""}]
           }
         }, {
           subSectionTitle: "Core Mechanic",

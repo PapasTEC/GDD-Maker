@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation  } from '@angular/core';
 import { faTrash, faAdd, faCrown } from "@fortawesome/free-solid-svg-icons";
+import { EditingDocumentService } from "src/app/services/editing-document.service";
+import { filter, map, take } from "rxjs/operators";
 
 
 @Component({
@@ -13,6 +15,8 @@ import { faTrash, faAdd, faCrown } from "@fortawesome/free-solid-svg-icons";
 
 export class AestheticsComponent {
 
+  constructor(private editingDocumentService: EditingDocumentService) { }
+
   allAesthetics = ["Sensation", "Fantasy", "Narrative", "Challenge", "Puzzle","Fellowship", "Discovery", "Expression", "Submission" ];
   aestheticsInDocument:[{name: String, content:String}] = [{name:"", content:""}];
 
@@ -23,27 +27,47 @@ export class AestheticsComponent {
   cardsInDocument = 0;
   limitOfCards = 9;
 
-  ngOnInit(){
+  section = "High Level Design";
+  subSection = "Aesthetic";
+  documentSubSection: any;
 
-    
-    this.aestheticsInDocument[0].name = this.allAesthetics[0];
-    this.aestheticsInDocument[0].content = "";
-
-    this.cardsInDocument = this.aestheticsInDocument.length;
-
+  updateDocument(aestheticsInDocument: any) {
+    console.log("aestheticsInDocument: ", aestheticsInDocument);
+    this.documentSubSection.subSectionContent.aesthetics = aestheticsInDocument;
+    this.editingDocumentService.updateDocumentSubSection(
+      this.section,
+      this.subSection,
+      this.documentSubSection
+    );
   }
 
-  functionalComboBox(){
-    
-}
+  ngOnInit(){
+
+    this.editingDocumentService.document$
+      .pipe(
+        filter((document) => document !== null),
+        map((document) =>
+          document.documentContent
+            .find((section) => section.sectionTitle === this.section)
+            .subSections.find(
+              (subsection) => subsection.subSectionTitle === this.subSection
+            )
+        ),
+        take(1)
+      ).subscribe((document) => {
+        this.documentSubSection = document;
+        this.aestheticsInDocument = this.documentSubSection.subSectionContent.aesthetics;
+        console.log("aestheticsInDocument:", this.aestheticsInDocument);
+        this.cardsInDocument = this.aestheticsInDocument.length;
+      });
+  }
+
+  functionalComboBox(){}
 
   showAesthetics(evt: Event, currentAestheticButton: HTMLElement){
 
     let allAestheticsSelectors = document.getElementsByClassName("aestheticsSelector");
-
     let subMenuBase = currentAestheticButton.nextSibling as HTMLElement;
-
-    
 
     for(let i = 0; i < allAestheticsSelectors.length; i++){
       let subM = allAestheticsSelectors[i] as HTMLElement;
@@ -87,31 +111,29 @@ export class AestheticsComponent {
 
   loadAesthetics(subMenuBase: HTMLElement, currentAestheticButton: HTMLElement,open:boolean){
     
+    let child = subMenuBase.firstChild as HTMLElement;
+    child.innerHTML = "";
 
-      let child = subMenuBase.firstChild as HTMLElement;
-      child.innerHTML = "";
+    let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
+    
+    let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
 
+    if(open){
+      let index:number = 0;
+      availableAesthetics.forEach(aesthetic => {
 
-      let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
-      
-      let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
+        if(index!=0){
+          child.innerHTML += `<div class="horizontalLine"></div>`;
+        }
+        
+        const newButton = document.createElement("button");
+        newButton.setAttribute("type", "button");
+        newButton.setAttribute("id", index.toString());
+        newButton.setAttribute("class", "btn");
+        newButton.innerHTML = aesthetic;
+        child.appendChild(newButton);
 
-      if(open){
-        let index:number = 0;
-        availableAesthetics.forEach(aesthetic => {
-
-          if(index!=0){
-            child.innerHTML += `<div class="horizontalLine"></div>`;
-          }
-          
-          const newButton = document.createElement("button");
-          newButton.setAttribute("type", "button");
-          newButton.setAttribute("id", index.toString());
-          newButton.setAttribute("class", "btn");
-          newButton.innerHTML = aesthetic;
-          child.appendChild(newButton);
-
-          index++;
+        index++;
 
       });
 
@@ -122,9 +144,7 @@ export class AestheticsComponent {
           this.chooseAesthetic(subMenuBase, buttons[i], buttons[i].innerHTML, currentAestheticButton.innerHTML);
         });
       }
-
-  }
-
+    }
   }
 
 
@@ -179,6 +199,7 @@ export class AestheticsComponent {
     this.aestheticsInDocument[aestheticsNames.indexOf(aesthetic)].content = txtArea.value;
 
     console.log(this.aestheticsInDocument);
+    this.updateDocument(this.aestheticsInDocument);
   }
 
 

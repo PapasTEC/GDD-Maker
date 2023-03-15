@@ -13,7 +13,7 @@
     <div id="sidebar" class="leftModuleClass sidebarHide" tabindex="0" (click)="keepSidebarOpen()">
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
-          <div class="icon-container" [routerLink]="['/dashboard']">
+          <div class="icon-container" (click)="returnDashboard()">
             <div>
               <img
                 class="exit-button"

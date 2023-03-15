@@ -10,6 +10,10 @@ $cardBorderRadius: max(1vw, 1vh);
   border: lime $borderState 3px;
 }
 
+.header-margin {
+  margin-top: -16vh;
+}
+
 .setupBodyClass {
   position: relative;
   width: 100%;

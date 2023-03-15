@@ -1,10 +1,10 @@
-<div class="header bg-gradient-tertiary pb-8 pt-5 pt-xs-8">
+<div class="header bg-gradient-tertiary" style="height: 19vh;">
   <div class="container-fluid">
   </div>
 </div>
 
 <!-- Page content -->
-<div class="container-fluid mt--7 ">
+<div class="container-fluid header-margin">
   <!-- Dark table -->
   <div class="col-lg-7 col-md-10 mx-auto">
     <div class="row">
@@ -61,7 +61,7 @@
                         </div>
                       </div>
                     </th>
-                    <td>
+                    <td (click)="goToEditor(project._id)">
                       {{project.lastUpdated}}
                     </td>
                     <td>

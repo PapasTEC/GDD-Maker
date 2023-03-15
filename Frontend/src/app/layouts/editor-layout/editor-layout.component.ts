@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from "@angular/common";
 import { DocumentService } from "src/app/services/document.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
@@ -26,6 +26,7 @@ export class EditorLayoutComponent implements OnInit {
   saveButtonText = "Save";
 
   constructor(private location: Location, private route: ActivatedRoute,
+    private router: Router,
     private documentService: DocumentService,
     private editingDocumentService: EditingDocumentService) {}
 
@@ -79,6 +80,16 @@ export class EditorLayoutComponent implements OnInit {
   resetAutoSaveTimer() {
     clearInterval(this.autoSaveTimer);
     this.startAutoSaveTimer();
+  }
+
+  returnDashboard() {
+    if (this.isDocumentEdited) {
+      if (confirm("You have unsaved changes. Do you want to leave?")) {
+        this.router.navigate(["/dashboard"]);
+      }
+    } else {
+      this.router.navigate(["/dashboard"]);
+    }
   }
   
   saveDocument(): Promise<boolean> {

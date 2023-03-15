@@ -4,12 +4,19 @@
 // $primary-color: #17415b;
 // $text-box-width: max(800px, 50vw);
 // $box-border: max(5px, 0.5vh);
-$svg-height: 800px;
-$text-box-height: 158px;
-$empty-box-height: 46px;
-$primary-color: #17415b;
-$text-box-width: 800px;
-$box-border: 5px;
+// $svg-height: 800px;
+// $text-box-height: 158px;
+// $empty-box-height: 46px;
+// $primary-color: #17415b;
+// $text-box-width: 800px;
+// $box-border: 5px;
+
+$svg-height: --svg-height;
+$text-box-height: --text-box-height;
+$empty-box-height: --empty-box-height;
+$primary-color: --primary-color;
+$text-box-width: --text-box-width;
+$box-border: --box-border;
 
 h1 {
   margin-bottom: max(10px, 2vh);
@@ -22,6 +29,13 @@ h1 {
   height: 100%;
   width: 100%;
   padding: 20px;
+
+  --svg-height: max(800px, 80vh);
+  --text-box-height: max(220px, 22vh);
+  --empty-box-height: max(63px, 6.3vh);
+  --primary-color: #17415b;
+  --text-box-width: max(800px, 50vw);
+  --box-border: max(5px, 0.5vh);
 }
 
 .svg-diagram {

@@ -19,6 +19,7 @@ export class EditingDocumentService {
     const document = this.document.getValue();
     const secId = document.documentContent.findIndex((obj => obj.sectionTitle == section));
     const subSecId = document.documentContent[secId].subSections.findIndex((obj => obj.subSectionTitle == subSection));
+    console.log(secId, subSecId);
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
   }

@@ -44,7 +44,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLogin = false;
     const email = this.emailForm.value.email;
     this.http.put(`/api/users/sendCode/${email}/`,{}).subscribe((response) => {
-      console.log("Code generated:", response);
+      if (response) {
+        alert("Code sent to your email");
+        return;
+      } else {
+        alert("Error sending code");
+        return;
+      }
     });
   }
 

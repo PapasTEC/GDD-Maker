@@ -100,7 +100,9 @@
       <div class="cardRibbonTitle">
         <span> {{currentTitle}} </span>
       </div>
-      <router-outlet></router-outlet>
+      <div class="outlet">
+        <router-outlet></router-outlet>
+      </div>
       <img
         (click)="openSidebar()"
         class="open-sidebar-button"

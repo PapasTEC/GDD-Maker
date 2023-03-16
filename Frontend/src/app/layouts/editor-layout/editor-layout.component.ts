@@ -143,7 +143,7 @@ export class EditorLayoutComponent implements OnInit {
         this.currentTitle = "Aesthetics";
         break;
       case 'coreMechanic':
-        this.currentTitle = "Core mechanic";
+        this.currentTitle = "Core mechanic Diagram";
         break;
       default:
         this.currentTitle = "";

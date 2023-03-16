@@ -20,6 +20,32 @@ $icon-container-size: min(2vh, 2vw);
   margin-top: -19vh;
 }
 
+.outlet {
+  position: relative;
+  height: 92%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.cardRibbonTitle {
+  position: relative;
+  border: #01a2ff 2px $borderState;
+  width: 100%;
+  height: 8%;
+
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+
+  font-size: min(4vw, 4vh);
+  /* or 0% */
+  display: flex;
+
+  color: #32325d;
+
+  align-items: center;
+  padding-left: 2%;
+}
+
 .midTextFont {
   font-size: $middle-font-size;
   font-weight: 600;
@@ -216,6 +242,10 @@ img {
   overflow: hidden;
 
   border: green $borderState;
+
+  div {
+    border: crimson $borderState;
+  }
 
   .open-sidebar-button {
     position: absolute;
@@ -596,21 +626,4 @@ $transistionTime: 100ms;
 .show-block {
   display: block;
   transition: 200ms;
-}
-
-.cardRibbonTitle {
-  position: relative;
-  border: #01a2ff 2px $borderState;
-  width: fit-content;
-  height: fit-content;
-
-  font-family: "Roboto", sans-serif;
-  font-weight: bold;
-
-  font-size: min(5vw, 5vh);
-
-  /* or 0% */
-  display: flex;
-
-  color: #000000;
 }

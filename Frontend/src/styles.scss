@@ -66,7 +66,7 @@ $scrollbar-width: max(10px, 0.5vw);
   &__vditor4 {
     height: 100% !important;
     border: none !important;
-    padding: 0px 0px 0px 20px !important;
+    padding: 10px 0px 10px 20px !important;
 
     .vditor-reset p {
       margin-bottom: 0px;
@@ -74,7 +74,7 @@ $scrollbar-width: max(10px, 0.5vw);
     }
 
     div.vditor-ir pre.vditor-reset {
-      padding: 10px 0px 10px 0px !important;
+      padding: 0px !important;
     }
 
     .vditor-reset {

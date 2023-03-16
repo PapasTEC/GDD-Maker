@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 $mobile-width: 700px;
 @mixin mobile {
   @media (max-width: #{$mobile-width}) {
@@ -8,8 +7,14 @@ $mobile-width: 700px;
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .vditor-reset {
   padding: 20px 30px 20px 30px !important;
@@ -41,18 +46,52 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border: none !important;
 }
 
-.vditor-reset, .vditor-preview {
+.vditor-reset,
+.vditor-preview {
   background-color: white !important;
 }
 
-.vditor-tooltipped svg, .vditor-toolbar__divider {
+.vditor-tooltipped svg,
+.vditor-toolbar__divider {
   // background-color: red;
   color: black;
 }
 
+$scrollbar-width: max(10px, 0.5vw);
+
 .core-diagram {
-  &__vditor1, &__vditor2, &__vditor3, &__vditor4 {
+  &__vditor1,
+  &__vditor2,
+  &__vditor3,
+  &__vditor4 {
     height: 100% !important;
     border: none !important;
+    padding: 0px 0px 0px 20px !important;
+
+    .vditor-reset p {
+      margin-bottom: 0px;
+      line-height: 1.5;
+    }
+
+    div.vditor-ir pre.vditor-reset {
+      padding: 10px 0px 10px 0px !important;
+    }
+
+    .vditor-reset {
+      &::-webkit-scrollbar {
+        width: $scrollbar-width;
+        background-color: #e9e9e9;
+        z-index: 2;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+
+        background-color: #d3d3d3;
+      }
+    }
   }
 }

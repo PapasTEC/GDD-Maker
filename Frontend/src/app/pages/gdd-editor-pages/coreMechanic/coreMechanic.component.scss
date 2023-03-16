@@ -22,12 +22,12 @@ h1 {
   justify-content: center;
   height: 100%;
   width: 100%;
-  --svg-height: max(800px, 80vh);
-  --text-box-height: max(158px, 15.8vh);
-  --empty-box-height: max(46px, 4.6vh);
+  --svg-height: max(680px, 68vh);
+  --text-box-height: max(134.3px, 13.43vh);
+  --empty-box-height: max(39.1px, 3.91vh);
   --primary-color: #17415b;
-  --text-box-width: 100%;
-  --box-border: max(5px, 0.5vh);
+  --text-box-width: 70%;
+  --box-border: max(4.25px, 0.425vh);
   // padding: 20px;
 }
 
@@ -40,21 +40,39 @@ h1 {
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-height: 900px) {
   div.diagram-screen {
-    --svg-height: max(550px, 55vh);
-    --text-box-height: max(108.625px, 10.8625vh);
-    --empty-box-height: max(31.625px, 3.1625vh);
-    --box-border: max(3.4375px, 0.34375vh);
+    --svg-height: min(600px, 60vh);
+    --text-box-height: min(118.5px, 11.85vh);
+    --empty-box-height: min(34.5px, 3.45vh);
+    --box-border: min(3.75px, 0.375vh);
   }
 }
 
+@media screen and (max-height: 650px) {
+  div.diagram-screen {
+    --svg-height: min(450px, 45vh) !important;
+    --text-box-height: min(90px, 9vh) !important;
+    --empty-box-height: min(27px, 2.7vh) !important;
+    --box-border: min(3px, 0.3vh) !important;
+  }
+}
+
+// @media screen and (max-width: 1000px) {
+//   div.diagram-screen {
+//     --svg-height: max(550px, 55vh);
+//     --text-box-height: max(108.625px, 10.8625vh);
+//     --empty-box-height: max(31.625px, 3.1625vh);
+//     --box-border: max(3.4375px, 0.34375vh);
+//   }
+// }
+
 @media screen and (max-width: 650px) {
   div.diagram-screen {
-    --svg-height: max(600px, 60vh);
-    --text-box-height: max(118px, 11.8vh);
-    --empty-box-height: max(35px, 3.5vh);
-    --box-border: max(4px, 0.4vh);
+    --svg-height: max(500px, 50vh);
+    --text-box-height: max(98.33px, 9.833vh);
+    --empty-box-height: max(29.16px, 2.916vh);
+    --box-border: max(3.33px, 0.333vh);
   }
 
   .svg-diagram {
@@ -78,17 +96,18 @@ h1 {
   // flex-wrap: nowrap;
   display: flex;
   grid-template-columns: 800px 600px;
-  width: 85%;
+  width: 80%;
+  justify-content: center;
 
   &__text-container {
     border-right: $box-border solid $primary-color;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: $text-box-width;
     &__text {
       height: $text-box-height;
       background-color: white;
-      width: $text-box-width;
+      width: 100%;
 
       border-top: $box-border solid $primary-color;
 

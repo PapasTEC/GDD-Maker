@@ -18,9 +18,9 @@ $icon-container-size: min(2vh, 2vw);
 
 $buttonTransition: 0.3s ease color, 0.3s ease background-color;
 
-$resizeFontSize: max(100%, 2.5vh);
+$resizeFontSize: max(100%, 3.5vh);
 $resizeTitleFont: min(3vw, 3vh);
-$layoutSectionsResize: min(10vw, 8vh);
+$layoutSectionsResize: min(10vw, 7vh);
 
 .header-margin {
   margin-top: -19vh;
@@ -444,7 +444,9 @@ $sideBarDefaultBGColor: #f4f3f6;
   }
 }
 
-
+.ribbon{
+  background-color: $primaryAppColor;
+}
 .leftModuleBottomClass {
   height: 100%;
   width: 100%;
@@ -456,6 +458,8 @@ $sideBarDefaultBGColor: #f4f3f6;
   position: relative;
   overflow: hidden;
 
+  
+
   border: #d15706 $borderState;
 }
 
@@ -466,6 +470,15 @@ $sideBarDefaultBGColor: #f4f3f6;
   margin-bottom: 5%;
   margin-top: 3%;
   padding-left: max(16px, 6%);
+
+  height: 10vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+
+  justify-content: center;
 
   
 
@@ -479,10 +492,11 @@ $sideBarDefaultBGColor: #f4f3f6;
 
 .layoutText {
   font-family: "Roboto", sans-serif;
-  font-style: bold 50px;
+  font-style: bold;
+  font-weight: bolder;
   font-size: $resizeFontSize;
   text-align: left;
-  color: $primaryTextColor;
+  color: white;
 }
 
 .layoutContainerClass {
@@ -493,6 +507,8 @@ $sideBarDefaultBGColor: #f4f3f6;
   border-radius: none;
   position: relative;
   overflow: hidden;
+
+  
 
   border: greenyellow $borderState;
 }
@@ -537,7 +553,7 @@ $layoutTransitionTime: 100ms ease color, 100ms ease background-color;
   height: $layoutSectionsResize;
   text-decoration: none;
 
-  font-size: calc($layoutSectionsResize*0.25);
+  font-size: calc($layoutSectionsResize*0.3);
 
   display: flex;
   align-items: center;

@@ -141,7 +141,7 @@ export class AestheticsComponent {
 
       for(let i = 0; i < buttons.length; i++){
         buttons[i].addEventListener("click", () => {
-          this.chooseAesthetic(subMenuBase, buttons[i], buttons[i].innerHTML, currentAestheticButton.innerHTML);
+          this.chooseAesthetic(subMenuBase, buttons[i], buttons[i].innerHTML, currentAestheticButton.children[0].innerHTML);
         });
       }
     }
@@ -154,7 +154,9 @@ export class AestheticsComponent {
     let grandparent = parent.parentElement as HTMLElement;
     let beforeGrandparent = grandparent.previousSibling as HTMLElement;
 
-    beforeGrandparent.innerHTML = newAesthetic;
+    
+    console.log("beforeGrandparent: ", beforeGrandparent);
+    beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(oldAesthetic, newAesthetic);
 
     menu.style.display = "none";
 
@@ -214,7 +216,7 @@ export class AestheticsComponent {
     let beforeCard = card.previousSibling as HTMLElement;
     beforeCard = beforeCard.previousSibling as HTMLElement;
 
-    let cardAesthetic = beforeCard.innerHTML.trim();
+    let cardAesthetic = beforeCard.children[0].innerHTML.trim();
 
     console.log(aestheticsNames);
 

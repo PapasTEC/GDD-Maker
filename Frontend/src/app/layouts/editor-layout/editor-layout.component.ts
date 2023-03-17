@@ -4,6 +4,7 @@ import { Location } from "@angular/common";
 import { DocumentService } from "src/app/services/document.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { filter } from 'rxjs/operators';
+import { faThumbTack } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: "app-editor-layout",
@@ -26,6 +27,8 @@ export class EditorLayoutComponent implements OnInit {
   saveButtonText = "Save";
   currentTitle = "";
 
+  pinIcon = faThumbTack;
+
   constructor(private location: Location, private route: ActivatedRoute,
     private router: Router,
     private documentService: DocumentService,
@@ -39,15 +42,20 @@ export class EditorLayoutComponent implements OnInit {
     document.getElementById("sidebar").focus();
   }
 
+  pinnedSidebarColor: string = "#007bff";
+  unpinnedSidebarColor: string = "#6c757d";
+
   toggleKeepSidebarOpen() {
     const sidebar = document.getElementById("sidebar");
 
     if (sidebar.classList.contains("sidebarHide")) {
       sidebar.classList.replace("sidebarHide", "sidebarShow");
-      document.getElementById("pin").style.filter = " invert(26%) sepia(98%) saturate(1435%) hue-rotate(92deg) brightness(97%) contrast(107%)";
+      document.getElementById("pin").classList.remove("unpinned");
+      document.getElementById("pin").classList.add("pinned");
     } else if (sidebar.classList.contains("sidebarShow")) {
       sidebar.classList.replace("sidebarShow", "sidebarHide");
-      document.getElementById("pin").style.filter = "";
+      document.getElementById("pin").classList.remove("pinned");
+      document.getElementById("pin").classList.add("unpinned");
     }
   }
 

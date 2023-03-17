@@ -5,9 +5,13 @@
                 <div class="cardBody">
                     <div class="cardHeader">
                         <div class="aestheticName" >
-                            <fa-icon id="mainAesthetic" [icon]="crownIcon" *ngIf="i == 0" ></fa-icon>
+                            
                             <button type="button" #but class="btn" (click)="showAesthetics($event, but)">
-                                {{docAesthetics.name}}
+                                
+                                <span>
+                                    {{docAesthetics.name}}
+                                </span>
+                                <fa-icon style="position: absolute; top:2%; left: 4%;" id="mainAesthetic" [icon]="crownIcon" *ngIf="i == 0" ></fa-icon>
                             </button>
                             <div class="aestheticsSelector" style="display: none">
                                 <div tabindex="-1" class="aestheticsOptions scrollBar ">

@@ -31,9 +31,9 @@ $cardBorderRadius: max(1vw, 1vh);
 
     align-items: center;
 
-    overflow: auto;
+    box-sizing: border-box;
 
-
+    overflow-y: auto;
 
     border: $borderState 1px #06537c;
 }
@@ -49,7 +49,7 @@ $cardSeparation: 1.5%;
 }
 
 .aestheticsCard {
-    background-color: rgb(247, 247, 247);
+    background-color: #f4f3f6;
     border-radius: $cardBorderRadius;
 
     position: relative;
@@ -305,6 +305,7 @@ $cardSeparation: 1.5%;
     overflow: auto;
     background-color: transparent;
     border: none;
+    font-weight: lighter;
     line-height: 1.5 !important;
 }
 

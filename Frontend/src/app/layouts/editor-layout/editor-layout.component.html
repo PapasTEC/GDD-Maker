@@ -36,8 +36,8 @@
         </div>
       </div>
       <div id="sidebar-bottom" class="leftModuleBottomClass">
-        <div id="layout-text" class="layoutTextContainer">
-          <div class="layoutText"><span>{{this.documentTitle}}</span></div>
+        <div id="layout-text" class="layoutTextContainer ribbon">
+          <div class="layoutText"  ><span>{{this.documentTitle}}</span></div>
         </div>
         <div id="layout-container" class="layoutContainerClass">
 
@@ -78,7 +78,7 @@
           </div> -->
           <div class="icon-container">
             <div>
-              <a class="save-button" (click)="manualSave()">{{this.saveButtonText}}</a>
+              <a class="save-button" (click)="manualSave()"><span>{{this.saveButtonText}}</span></a>
             </div>
             <div>
               <span class="littleTextFont">Last Updated: {{this.lastManualSaveTimeInMinutes}}m ago</span>
@@ -87,11 +87,7 @@
         </div>
         <div id="share-export-buttons" class="pinButtonContainerClass">
           <div class="icon-container" (click)="toggleKeepSidebarOpen()">
-            <img
-            id = "pin"
-            src="assets/img/icons/common/thumbtack-solid.svg"
-            alt="share"
-            />
+              <fa-icon id="pin" [icon]="pinIcon" class="pinIcon unpinned"></fa-icon>            
           </div>
         </div>
       </div>

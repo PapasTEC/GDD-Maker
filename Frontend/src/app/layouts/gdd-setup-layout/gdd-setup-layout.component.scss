@@ -1,6 +1,8 @@
 /* BlueBody */
 $borderState: none;
 
+$primary: #16425B;
+
 $borderState: none;
 $fontColor: #313131;
 $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
@@ -205,7 +207,7 @@ $size : min(4vw, 4vh);
   }
 
   &:hover .fa-home{
-    color: #16425B;
+    color: $primary;
   }
 
   &:not(hover) .fa-home{

@@ -11,7 +11,7 @@ import { GddSetupLayoutComponent } from 'src/app/layouts/gdd-setup-layout/gdd-se
 const routes: Routes =[
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full',
   }, {
     path: 'editor',

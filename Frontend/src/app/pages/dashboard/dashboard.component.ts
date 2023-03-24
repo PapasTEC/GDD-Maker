@@ -75,7 +75,6 @@ export class DashboardComponent implements OnInit {
 
   goToEditor(idProject: string) {
     console.log(idProject);
-    //this.router.navigateByUrl('/editor', { state: { id: idProject } })
     this.router.navigate(['/editor'], { queryParams: { pjt: idProject } });
   }
 

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { VditorComponent } from "../../pages/gdd-editor-pages/high_level_design/vditor/vditor.component";
+import { VditorComponent } from "../../pages/gdd-editor-pages/vditor/vditor.component";
 import { AestheticsComponent } from 'src/app/pages/gdd-editor-pages/high_level_design/aesthetics/aesthetics.component';
 import { CoreMechanicComponent } from 'src/app/pages/gdd-editor-pages/high_level_design/coreMechanic/coreMechanic.component';
 

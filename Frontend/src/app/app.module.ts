@@ -13,6 +13,9 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-layout.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import * as dotenv from 'dotenv';
+
+//dotenv.config();
 
 @NgModule({
   imports: [

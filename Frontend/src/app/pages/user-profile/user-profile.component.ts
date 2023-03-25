@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms"
 import { HttpClient } from "@angular/common/http";
 
 import { DocumentService } from "../../services/document.service";
+import { TokenService } from 'src/app/services/token.service';
+import { UserService } from 'src/app/services/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,13 +14,13 @@ import { DocumentService } from "../../services/document.service";
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private documentService: DocumentService) { }
+  constructor(private cookieService: CookieService, private userService: UserService, private tokenService: TokenService, private formBuilder: FormBuilder, private http: HttpClient, private documentService: DocumentService) { }
 
   @ViewChild('fileInput') fileInput;
   profileImage: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
   formSubmitted: boolean = false;
-  localUser = JSON.parse(localStorage.getItem('currentUser'));
+  localUser = { email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
   userID: string = "";
 
   editUserForm = new FormGroup({
@@ -26,22 +29,28 @@ export class UserProfileComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.http.get(`/api/users/get/${this.localUser.email}`).subscribe((response:any) => {
-      Object.assign(this.localUser, response);
-      this.userID = response._id;
-    });
-    this.editUserForm = this.formBuilder.group({
-      name: [this.localUser.name, Validators.required],
-      email: [this.localUser.email, [Validators.required, Validators.email]]
-    });
-    if (!this.localUser.owned_documents) {
-      this.localUser.owned_documents = [];
-    }
-    if (!this.localUser.shared_with_me_documents) {
-      this.localUser.shared_with_me_documents = [];
-    }
-    this.profileImage = this.localUser.image;
+    this.tokenService.decodeToken().subscribe((data: any) => {
+      this.localUser = data.decoded;
+      this.localUser.image = localStorage.getItem('ImageUser');
 
+      this.userService.getUser(this.localUser.email).subscribe((response: any) => {
+        Object.assign(this.localUser, response);
+        this.userID = response._id;
+      });
+
+      this.editUserForm = this.formBuilder.group({
+        name: [this.localUser.name, Validators.required],
+        email: [this.localUser.email, [Validators.required, Validators.email]]
+      });
+
+      if (!this.localUser.owned_documents) {
+        this.localUser.owned_documents = [];
+      }
+      if (!this.localUser.shared_with_me_documents) {
+        this.localUser.shared_with_me_documents = [];
+      }
+      this.profileImage = this.localUser.image;
+    });
   }
 
   confirmUpdate() {
@@ -49,7 +58,7 @@ export class UserProfileComponent implements OnInit {
     if (this.editUserForm.valid) {
       if (confirm("Do you want to update your profile?")) {
         this.http.get(`/api/users/get/${this.editUserForm.value.email}/`).subscribe((response: any) => {
-          if (response && response._id != this.userID ) {
+          if (response && response._id != this.userID) {
             alert("This email is already registered in another account");
             return;
           } else {
@@ -69,8 +78,15 @@ export class UserProfileComponent implements OnInit {
       console.log("Usuario actualizado:", response);
       this.documentService.updateOwnerInDocuments(this.localUser.email, { owner: updateUser.email }).subscribe((response) => {
         console.log("Documentos actualizados:", response);
-        localStorage.setItem('currentUser', JSON.stringify(updateUser));
-        location.reload();
+        this.cookieService.delete('Token');
+        this.tokenService.generateToken(updateUser).subscribe((response: any) => {
+          console.log("Token generado:", response);
+          this.cookieService.set("Token", response.token);
+          localStorage.setItem("ImageUser", this.profileImage );
+          location.reload();
+        });
+
+        
       });
     });
   }
@@ -118,8 +134,9 @@ export class UserProfileComponent implements OnInit {
 
   async displayBase64(file: File) {
     const base64 = await this.scaleAndEncodeImage(file);
-    console.log(base64);
     this.profileImage = base64;
+
+
   }
 
 }

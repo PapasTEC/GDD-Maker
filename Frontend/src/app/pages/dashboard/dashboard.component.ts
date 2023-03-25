@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 
 import { DocumentService } from '../../services/document.service';
 import { UserService } from '../../services/user.service';
+import { TokenService } from '../../services/token.service';
+import { CookieService } from 'ngx-cookie-service';
 
 export interface Project {
   documentTitle: string;
@@ -15,7 +17,7 @@ export interface Project {
   lastUpdated: string;
   owner: string;
   _id: string;
-} 
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +26,7 @@ export interface Project {
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private documentService: DocumentService, private userService: UserService, private router: Router) {}
+  constructor(private tokenService: TokenService, private documentService: DocumentService, private userService: UserService, private router: Router) { }
 
   tableMode: string = 'My Projects';
   Projects: Project[];
@@ -32,7 +34,7 @@ export class DashboardComponent implements OnInit {
   tableFilter: String;
 
   MyProjectsData: Project[] = []
-  
+
   SharedProjectsData: Project[] = []
 
   email: string;
@@ -41,7 +43,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.tableMode = 'My Projects';
 
-    this.email = JSON.parse(localStorage.getItem('currentUser')).email;
+    this.tokenService.decodeToken().subscribe((data: any) => {
+      console.log(`${JSON.stringify(data.decoded)}`);
+      this.email = data.decoded.email;
+    });
 
     this.userService.getUser(this.email).subscribe((data: any) => {
       this.sharedProjects = data.shared_with_me_documents;
@@ -50,7 +55,7 @@ export class DashboardComponent implements OnInit {
           return {
             documentTitle: project.frontPage.documentTitle,
             documentLogo: project.frontPage.documentLogo,
-            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}),
+            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
             owner: "",
             _id: project._id
           }
@@ -64,7 +69,7 @@ export class DashboardComponent implements OnInit {
           return {
             documentTitle: project.frontPage.documentTitle,
             documentLogo: project.frontPage.documentLogo,
-            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'}),
+            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
             owner: project.owner,
             _id: project._id
           }

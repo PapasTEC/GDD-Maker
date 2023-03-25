@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CookieService } from 'ngx-cookie-service';
 @NgModule({
   imports: [
     CommonModule,
@@ -21,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     LoginComponent,
     RegisterComponent
-  ]
+  ],
+  providers: [ CookieService]
 })
 export class AuthLayoutModule { }

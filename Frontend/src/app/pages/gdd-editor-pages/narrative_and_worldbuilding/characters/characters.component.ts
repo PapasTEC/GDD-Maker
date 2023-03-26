@@ -217,6 +217,8 @@ export class CharactersComponent {
     if (file) {
       this.uploadedImage = URL.createObjectURL(file);
 
+      console.log("file", file);
+
       this.updateLogo(id);
 
       this.charactersInDocument[parseInt(id)][field] = this.uploadedImage;
@@ -230,10 +232,57 @@ export class CharactersComponent {
   private updateLogo(id:string): void {
     let uploadButton = document.getElementById(`upButton${id}`);
     uploadButton.style.backgroundImage = `url(${this.uploadedImage})`;
-    uploadButton.style.backgroundSize = "100%";
+
+    //Get natural width and height of image
+    console.log(uploadButton.style.backgroundImage, this.uploadedImage);
+
+    // let img = new Image();
+    // img.src = this.uploadedImage;
+
+    // let ratio = 0;
+    // let naturalWidth;
+    // let naturalHeight;
+    
+    // img.onload = () => {
+    //   naturalWidth = img.naturalWidth;
+    //   naturalHeight = img.naturalHeight;
+
+    //   console.log("Dimensions", naturalWidth, naturalHeight);
+    //   ratio = naturalWidth / naturalHeight;
+
+    //   uploadButton.style.position = "relative";
+
+    //   console.log("ratio", ratio);
+    //   if(ratio > 1){
+    //     uploadButton.style.width = `100%`;
+    //     uploadButton.style.height = `${1/ratio * 100}%`;
+    //     uploadButton.style.backgroundSize = "100%";
+
+    //   }else{
+        
+        
+    //     uploadButton.style.width = `${ratio * 100}%`;
+        
+
+    //   }
+    // }
+
+    
+
+    
+
+    uploadButton.style.maxHeight = "100%";
+    uploadButton.style.maxWidth = "100%";
     uploadButton.style.backgroundRepeat = "no-repeat";
     uploadButton.style.backgroundPosition = "center";
-    uploadButton.style.zIndex = "1";
+    uploadButton.style.backgroundSize = "cover";
+
+    
+
+    
+
+    
+    
     // fit image to button
 
     

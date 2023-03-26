@@ -273,9 +273,7 @@ img {
 
   border: green $borderState;
 
-  div {
-    border: crimson $borderState;
-  }
+  
 
   .open-sidebar-button {
     position: absolute;
@@ -467,7 +465,7 @@ $sideBarDefaultBGColor: #f4f3f6;
   width: 100%;
 
   // padding: 3% 6%;
-  margin-bottom: 5%;
+  
   margin-top: 3%;
   padding-left: max(16px, 6%);
 
@@ -561,6 +559,8 @@ $layoutTransitionTime: 100ms ease color, 100ms ease background-color;
   transition: $layoutTransitionTime;
 
   border: 0;
+
+  text-align: left;
 
   i {
     margin-left: auto;

@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-layout.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CharactersComponent } from './pages/gdd-editor-pages/narrative_and_worldbuilding/characters/characters.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -26,6 +28,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     RouterModule,
     AppRoutingModule,
     MatDialogModule,
+    DragDropModule,
   ],
   declarations: [
     AppComponent,
@@ -33,6 +36,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AuthLayoutComponent,
     DashboardLayoutComponent,
     GddSetupLayoutComponent,
+    CharactersComponent,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

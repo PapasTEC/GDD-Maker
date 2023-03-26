@@ -2,23 +2,20 @@ import { Component, ViewEncapsulation  } from '@angular/core';
 import { faTrash, faAdd, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { filter, map, take } from "rxjs/operators";
-
+import { ICharacterCard } from './characterCard';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-aesthetics',
-  templateUrl: './aesthetics.component.html',
-  styleUrls: ['./aesthetics.component.scss', '../../editorGlobalStyles.scss', '../../vditor/vditor.component.scss', '../coreMechanic/coreMechanic.component.scss'],
+  selector: 'app-characters',
+  templateUrl: './characters.component.html',
+  styleUrls: ['../../editorGlobalStyles.scss', '../../vditor/vditor.component.scss', './characters.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-
-
-
-export class AestheticsComponent {
-
+export class CharactersComponent {
   constructor(private editingDocumentService: EditingDocumentService) { }
 
   allAesthetics = ["Sensation", "Fantasy", "Narrative", "Challenge", "Puzzle","Fellowship", "Discovery", "Expression", "Submission" ];
-  aestheticsInDocument:[{name: String, content:String}] = [{name:"", content:""}];
+  charactersInDocument:ICharacterCard[] = [];
 
   trashIcon = faTrash;
   plusIcon = faAdd;
@@ -30,10 +27,12 @@ export class AestheticsComponent {
   section = "High Level Design";
   subSection = "Aesthetic";
   documentSubSection: any;
+  characterCardKeys = Object.keys(this.createBlankCharacter());
 
-  updateDocument(aestheticsInDocument: any) {
-    console.log("aestheticsInDocument: ", aestheticsInDocument);
-    this.documentSubSection.subSectionContent.aesthetics = aestheticsInDocument;
+
+  updateDocument(charactersInDocument: any) {
+    console.log("charactersInDocument: ", charactersInDocument);
+    this.documentSubSection.subSectionContent.aesthetics = charactersInDocument;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
       this.subSection,
@@ -41,7 +40,14 @@ export class AestheticsComponent {
     );
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.charactersInDocument, event.previousIndex, event.currentIndex);
+    
+  }
+
   ngOnInit(){
+
+    //this.charactersInDocument = [this.createBlankCharacter()];
 
     this.editingDocumentService.document$
       .pipe(
@@ -56,9 +62,9 @@ export class AestheticsComponent {
         take(1)
       ).subscribe((document) => {
         this.documentSubSection = document;
-        this.aestheticsInDocument = this.documentSubSection.subSectionContent.aesthetics;
-        console.log("aestheticsInDocument:", this.aestheticsInDocument);
-        this.cardsInDocument = this.aestheticsInDocument.length;
+        this.charactersInDocument = this.documentSubSection.subSectionContent.aesthetics;
+        console.log("charactersInDocument:", this.charactersInDocument);
+        this.cardsInDocument = this.charactersInDocument.length;
       });
   }
 
@@ -77,7 +83,7 @@ export class AestheticsComponent {
       }
     }
 
-    if(this.aestheticsInDocument.length < this.limitOfCards){
+    if(this.charactersInDocument.length < this.limitOfCards){
       console.log("showAesthetics");
       console.log(evt);
 
@@ -114,7 +120,7 @@ export class AestheticsComponent {
     let child = subMenuBase.firstChild as HTMLElement;
     child.innerHTML = "";
 
-    let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
+    let aestheticsNames = this.convertToNameArray(this.charactersInDocument);
     
     let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
 
@@ -162,75 +168,99 @@ export class AestheticsComponent {
 
     oldAesthetic = oldAesthetic.trim();
 
-    let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
+    let aestheticsNames = this.convertToNameArray(this.charactersInDocument);
     
     let index = aestheticsNames.indexOf(oldAesthetic);
-    this.aestheticsInDocument[index].name = newAesthetic;
+    this.charactersInDocument[index].name = newAesthetic;
  
+  }
+
+
+  createBlankCharacter(): ICharacterCard {
+      const blankCharacter: ICharacterCard = {
+          "image": "",
+          "name":"",
+          "age": "",
+          "gender":"",
+          "profession":"",
+          "bio": "",
+          "virtues":"",
+          "flaws":"",
+          "goals":""
+      }
+
+      return blankCharacter;
   }
 
   addCard(){
 
-    let usedQuantity = this.aestheticsInDocument.length;
-    let allQuantity = this.allAesthetics.length;
-
-    this.cardsInDocument = usedQuantity;
-
-    if(this.cardsInDocument == this.limitOfCards){
-      alert("You can't add more cards");
-      return;
-    }
-
-    let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
-
-    let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
-
-    this.aestheticsInDocument.push({name:availableAesthetics[Math.floor(Math.random() * (availableAesthetics.length-1) )], content:""});
-
-    console.log(this.aestheticsInDocument);
+    const newCharacterCard = this.createBlankCharacter();
+    this.charactersInDocument.push(newCharacterCard);
+    console.log("addCard");
+    console.log(this.charactersInDocument);
+    
   }
 
-  updateTxtContent(txtArea: HTMLTextAreaElement, aesthetic: string){
+  updateTxtContent(txtArea: HTMLTextAreaElement, field: string, id:string){
     
-    let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
-    aesthetic = aesthetic.trim();
+    console.log(txtArea.value);
+    this.charactersInDocument[parseInt(id)][field] = txtArea.value;
 
-    this.aestheticsInDocument[aestheticsNames.indexOf(aesthetic)].content = txtArea.value;
+    console.log(this.charactersInDocument);
+  }
 
-    console.log(this.aestheticsInDocument);
-    this.updateDocument(this.aestheticsInDocument);
+  uploadedImage: string = "";
+
+  public onFileSelected(event: any, field:string, id:string): void {
+    const file = event.target.files[0];
+
+    if (file) {
+      this.uploadedImage = URL.createObjectURL(file);
+
+      this.updateLogo(id);
+
+      this.charactersInDocument[parseInt(id)][field] = this.uploadedImage;
+
+      // if (sessionStorage.getItem("currentSetup") !== null) {
+      //   this.setSessionStorageContent(this.routeUsingComponent);
+      // }
+    }
+  }
+
+  private updateLogo(id:string): void {
+    let uploadButton = document.getElementById(`upButton${id}`);
+    uploadButton.style.backgroundImage = `url(${this.uploadedImage})`;
+    uploadButton.style.backgroundSize = "100%";
+    uploadButton.style.backgroundRepeat = "no-repeat";
+    uploadButton.style.backgroundPosition = "center";
+    uploadButton.style.zIndex = "1";
+    // fit image to button
+
+    
+
+    //Get child element of upload button
+    let uploadButtonChild = uploadButton.children[1] as HTMLElement;
+    uploadButtonChild.style.display = "none";
   }
 
 
 
   removeCard(card: HTMLElement){
 
+    console.log(card)
 
+    // Go back 3 elements to get the card
+    card = card.parentElement.parentElement;
+
+    const cardID = card.id;
     
-    let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
 
-    // element before
-    let beforeCard = card.previousSibling as HTMLElement;
-    beforeCard = beforeCard.previousSibling as HTMLElement;
+    console.log("Removing card: ", parseInt(cardID))
 
-    let cardAesthetic = beforeCard.children[0].innerHTML.trim();
+    this.charactersInDocument.splice(parseInt(cardID), 1);
 
-    console.log(aestheticsNames);
-
-    console.log("cardAesthetic: " + cardAesthetic);
-
-    let index = aestheticsNames.indexOf(cardAesthetic);
-
-    if(index == -1){
-      alert("Error: Aesthetic not found");
-    }
-    
-    console.log(index);
-
-    console.log(this.aestheticsInDocument);
-
-    this.aestheticsInDocument.splice(index, 1);
-
+     
+    card.remove();
 
   }
 }

@@ -51,6 +51,28 @@ function verifyTokenController(req, res) {
   res.json({ isValidToken });
 }
 
+function backendValidation(req, res, next) {
+  // Obtener el token del header de la petición
+  const headerToken = req.headers['authorization'];
+
+  // Verificar si el token existe
+  if (!headerToken) {
+    return res.status(401).json({ mensaje: 'Token not found' });
+  }
+
+  // Verificar si el token es válido
+  const token = headerToken.split(' ')[1];
+  try {
+    const isValidToken = verifyToken(token);
+    if (isValidToken) {
+      return next();
+    }
+    return res.status(401).json({ mensaje: 'Invalid Token' });
+  } catch (error) {
+    return res.status(401).json({ mensaje: 'error while verifying token ' });
+  }
+}
+
 module.exports = {
   generateToken,
   decodeToken,
@@ -58,4 +80,5 @@ module.exports = {
   generateTokenController,
   decodeTokenController,
   verifyTokenController,
+  backendValidation,
 };

@@ -5,8 +5,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./events.component.scss']
 })
 export class EventsComponent {
-  canvasParent:HTMLElement;
-  currZoom = 1;
+
+  canvas:HTMLElement;
+  interactiveElement:HTMLElement;
+
+  zoom:number = 1;
+  scale:number;
+
+  shareZoom:boolean = false;
+
+  elements = []
+  elementsPositions = []
+  elementsZooms = []
+  interactiveElements = []
 
   constructor() {}
 
@@ -15,10 +26,35 @@ export class EventsComponent {
 
   ngOnInit() {
 
-    this.canvasParent = document.getElementById("canvasContainer");
+    this.shareZoom = true;
+
+    this.canvas = document.getElementById("canvasContainer");
+
+
     
-    this.addPanning(this.canvasParent, 1);
-    this.addZooming(this.canvasParent, this.currZoom, 4, 20, 0);
+    this.setInteractiveElement(document.getElementById("canvas"))
+    //this.setInteractiveElement(document.getElementById("canvas2"))
+
+    this.addPanAndZoom(this.canvas, 1 , 5, 0, 20);
+
+  }
+
+  addPanAndZoom(element: HTMLElement, panSpeed: number, zoomSpeed:number, minZoom: number, maxZoom: number) {
+    this.addPanning(element, panSpeed);
+    this.addZooming(element, zoomSpeed, maxZoom, minZoom);
+  }
+
+  setInteractiveElement(element: HTMLElement) {
+
+    this.interactiveElement = element;
+    
+    if(!this.elements.includes(element.id)){
+      this.interactiveElements.push(element.id)
+      element.style.scale = "1";
+      this.elements.push(this.interactiveElement.id)
+      this.elementsPositions.push({lastXTranslation: 0, lastYTranslation: 0})
+      this.elementsZooms.push({lastZoom: 1})
+    }
 
   }
 
@@ -28,14 +64,18 @@ export class EventsComponent {
 
   addPanning(element: HTMLElement, speed: number) {
 
-    let canvas = element.firstChild as HTMLElement;
-
-    let lastXTranslation = 0;
-    let lastYTranslation = 0;
-    let xTranslation = 0;
-    let yTranslation = 0;
-
     element.onpointerdown = (e) => {
+
+      let lastXTranslation = 0;
+      let lastYTranslation = 0;
+
+      let xTranslation = 0;
+      let yTranslation = 0;
+
+      let index = this.elements.indexOf(this.interactiveElement.id)
+
+      lastXTranslation = this.elementsPositions[index].lastXTranslation
+      lastYTranslation = this.elementsPositions[index].lastYTranslation
 
       element.style.cursor = "grabbing";
 
@@ -51,12 +91,13 @@ export class EventsComponent {
         movingX = e.x;
         movingY = e.y;
 
-        let currentCanvasScale = parseFloat(canvas.style.scale);
+        let currentCanvasScale = parseFloat(this.interactiveElement.style.scale);
 
-        xTranslation = ( ( ( (movingX - offX) ) * 1/currentCanvasScale ) * speed);
-        yTranslation = ( ( ( (movingY - offY) ) * 1/currentCanvasScale ) * speed);
+        xTranslation = ( ( ( (movingX - offX) ) * 1/currentCanvasScale ));
+        yTranslation = ( ( ( (movingY - offY) ) * 1/currentCanvasScale ) );
 
-        canvas.style.transform = `translate(${lastXTranslation + xTranslation}px, ${lastYTranslation + yTranslation}px)`;
+
+        this.interactiveElement.style.transform = `translate(${lastXTranslation + xTranslation}px, ${lastYTranslation + yTranslation}px)`;
 
       }
 
@@ -65,6 +106,12 @@ export class EventsComponent {
         element.style.cursor = "initial";
         lastXTranslation = lastXTranslation + xTranslation;
         lastYTranslation = lastYTranslation + yTranslation;
+
+        let index = this.elements.indexOf(this.interactiveElement.id)
+
+        this.elementsPositions[index].lastXTranslation = lastXTranslation
+        this.elementsPositions[index].lastYTranslation = lastYTranslation
+
         this.stopFollowingPointer(element);
 
       }
@@ -80,30 +127,53 @@ export class EventsComponent {
     element.onpointermove = null;
   }
 
-  addZooming(element: HTMLElement, zoom: number, speed: number, maxZoom: number = 7.5, minZoom: number = 0) {
-    let canvas = element.firstChild as HTMLElement;
-    canvas.style.scale = "1";
+  switchElement(element: HTMLElement) {
+    this.interactiveElement = element;
+    this.scale = parseFloat(this.interactiveElement.style.scale);
+    this.zoom = this.elementsZooms[this.elements.indexOf(this.interactiveElement.id)].lastZoom;
+  }
+
+  addZooming(element: HTMLElement, speed: number, maxZoom: number = 7.5, minZoom: number = 0) {
 
     element.onwheel = (e) => {
 
+      // if(e.deltaY > 0) {
+      //   this.interactiveElement = document.getElementById("canvas2");
+      // }else{
+      //   this.interactiveElement = document.getElementById("interactiveElement");
+      // }
       e.preventDefault();
 
-      let canvas = element.firstChild as HTMLElement;
-      let currentScale = parseFloat(canvas.style.scale);
-
-      let equivalentSpeed = this.getEquivalentSpeed(speed, currentScale);
       
-      zoom += (e.deltaY * equivalentSpeed) / -(10000);
 
-      if(zoom > maxZoom) {
-        zoom = maxZoom;
-      }else if(zoom < minZoom) {
-        zoom = minZoom;
+      let currentScale = parseFloat(this.interactiveElement.style.scale);
+      let equivalentSpeed = this.getEquivalentSpeed(speed, currentScale);
+
+      let index = this.elements.indexOf(this.interactiveElement.id)
+      
+      this.zoom = this.elementsZooms[index].lastZoom;
+      this.zoom += (e.deltaY * equivalentSpeed) / -(10000);
+
+      if(this.zoom > maxZoom) {
+        this.zoom = maxZoom;
+      }else if(this.zoom < minZoom) {
+        this.zoom = minZoom;
       }
 
-      canvas.style.scale = zoom.toString();
-
-    }
+      this.elementsZooms[index].lastZoom = this.zoom
+      if(this.shareZoom){
+        let i = 0;
+        this.elements.forEach(element => {
+          let el = document.getElementById(element)
+          this.elementsZooms[i].lastZoom = this.zoom
+          el.style.scale = this.zoom.toString();
+          i++;
+        });
+      } else {
+        this.elementsZooms[index].lastZoom = this.zoom
+        this.interactiveElement.style.scale = this.zoom.toString();
+      }
+    } 
 
   }
 

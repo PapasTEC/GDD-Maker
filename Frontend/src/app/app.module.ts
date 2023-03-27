@@ -15,6 +15,7 @@ import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-la
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CharactersComponent } from './pages/gdd-editor-pages/narrative_and_worldbuilding/characters/characters.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { EventsComponent } from './pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     DashboardLayoutComponent,
     GddSetupLayoutComponent,
     CharactersComponent,
+    EventsComponent,
 
   ],
   providers: [],

@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
+import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
-  styleUrls: ['./events.component.scss']
+  styleUrls: ['./events.component.scss', '../../editorGlobalStyles.scss']
 })
 export class EventsComponent {
+
+  trashIcon = faTrash;
+  plusIcon = faPlus;
 
   canvas:HTMLElement;
   interactiveElement:HTMLElement;
 
   zoom:number = 1;
-  scale:number;
 
   shareZoom:boolean = false;
 
@@ -26,13 +29,16 @@ export class EventsComponent {
 
   ngOnInit() {
 
-    this.shareZoom = true;
+    this.shareZoom = false;
 
     this.canvas = document.getElementById("canvasContainer");
 
+    const intElement = document.getElementById("canvas");
 
+    intElement.style.height = (intElement.parentElement.clientHeight).toString() + "px";
+    intElement.style.width = (intElement.parentElement.clientWidth*0.6).toString() + "px";
     
-    this.setInteractiveElement(document.getElementById("canvas"))
+    this.setInteractiveElement(intElement)
     //this.setInteractiveElement(document.getElementById("canvas2"))
 
     this.addPanAndZoom(this.canvas, 1 , 5, 0, 20);
@@ -79,22 +85,24 @@ export class EventsComponent {
 
       element.style.cursor = "grabbing";
 
-      let offX = e.x;
-      let offY = e.y;
+      const pointerDownX = e.x;
+      const pointerDownY = e.y;
 
-      let movingX = 0;
-      let movingY = 0;
+      let pointerMovementX = 0;
+      let pointerMovementY = 0;
 
       element.onpointermove = (e) => {
 
+        e.preventDefault();
+
         element.style.cursor = "grabbing";
-        movingX = e.x;
-        movingY = e.y;
+        pointerMovementX = e.x;
+        pointerMovementY = e.y;
 
         let currentCanvasScale = parseFloat(this.interactiveElement.style.scale);
 
-        xTranslation = ( ( ( (movingX - offX) ) * 1/currentCanvasScale ));
-        yTranslation = ( ( ( (movingY - offY) ) * 1/currentCanvasScale ) );
+        xTranslation = ( ( ( (pointerMovementX - pointerDownX) ) * 1/currentCanvasScale ));
+        yTranslation = ( ( ( (pointerMovementY - pointerDownY) ) * 1/currentCanvasScale ) );
 
 
         this.interactiveElement.style.transform = `translate(${lastXTranslation + xTranslation}px, ${lastYTranslation + yTranslation}px)`;
@@ -107,7 +115,7 @@ export class EventsComponent {
         lastXTranslation = lastXTranslation + xTranslation;
         lastYTranslation = lastYTranslation + yTranslation;
 
-        let index = this.elements.indexOf(this.interactiveElement.id)
+        const index = this.elements.indexOf(this.interactiveElement.id)
 
         this.elementsPositions[index].lastXTranslation = lastXTranslation
         this.elementsPositions[index].lastYTranslation = lastYTranslation
@@ -129,7 +137,6 @@ export class EventsComponent {
 
   switchElement(element: HTMLElement) {
     this.interactiveElement = element;
-    this.scale = parseFloat(this.interactiveElement.style.scale);
     this.zoom = this.elementsZooms[this.elements.indexOf(this.interactiveElement.id)].lastZoom;
   }
 

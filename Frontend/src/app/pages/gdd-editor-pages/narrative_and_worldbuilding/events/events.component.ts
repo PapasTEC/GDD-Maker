@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+
+import { TimelineEntry } from './event';
+
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
-  styleUrls: ['./events.component.scss', '../../editorGlobalStyles.scss']
+  styleUrls: ['../../editorGlobalStyles.scss','./events.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EventsComponent {
+
+  timeline: TimelineEntry[];
 
   trashIcon = faTrash;
   plusIcon = faPlus;
@@ -16,6 +22,9 @@ export class EventsComponent {
   zoom:number = 1;
 
   shareZoom:boolean = false;
+
+  allowZoom:boolean = false;
+  allowPan:boolean = false;
 
   elements = []
   elementsPositions = []
@@ -29,20 +38,95 @@ export class EventsComponent {
 
   ngOnInit() {
 
+    this.timeline = [ {name: "Mission 1", missions: [{name: "Event 1", events: [{name: "Event 1", description: "Event 1"}, {name: "Event 2", description: "Event 2"}]}, {name: "Event 2", events: [{name: "Event 1", description: "Event 1"}, {name: "Event 2", description: "Event 2"}]}]}, {name: "Mission 2", missions: [{name: "Event 1", events: [{name: "Event 1", description: "Event 1"}, {name: "Event 2", description: "Event 2"}]}, {name: "Event 2", events: [{name: "Event 1", description: "Event 1"}, {name: "Event 2", description: "Event 2"}]}]}]
+
     this.shareZoom = false;
 
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key == "Shift") {
+        this.allowZoom = true;
+        this.allowPan = true;
+      }
+      
+    })
+
+    document.addEventListener("keyup", (e) => {
+      if(e.key == "Shift") {
+        this.allowZoom = false;
+        this.allowPan = false;
+      }
+      
+      
+    })
+
+    
+    
     this.canvas = document.getElementById("canvasContainer");
+
+    this.canvas.addEventListener("resize", () => {
+      console.log("resize")
+    })
+
+    // intElement.style.height = (intElement.parentElement.clientHeight).toString() + "px";
+    // intElement.style.width = (intElement.parentElement.clientWidth*0.6).toString() + "px";
+    
 
     const intElement = document.getElementById("canvas");
 
-    intElement.style.height = (intElement.parentElement.clientHeight).toString() + "px";
-    intElement.style.width = (intElement.parentElement.clientWidth*0.6).toString() + "px";
+    
     
     this.setInteractiveElement(intElement)
     //this.setInteractiveElement(document.getElementById("canvas2"))
 
     this.addPanAndZoom(this.canvas, 1 , 5, 0, 20);
 
+  }
+
+  rerenderButtons() {
+    let buttons = document.getElementsByClassName("spec");
+    
+    for(let i = 0; i < buttons.length; i++) {
+      let b = buttons[i] as HTMLElement;
+
+
+        
+      b.style.display = "grid";
+
+      setTimeout(() => {
+        b.style.display = "flex";
+      }, 0.1);
+
+
+
+    }
+  }
+
+  addEvent(id:string, missionId:string) {
+    this.timeline[parseInt(id)].missions[parseInt(missionId)].events.push({name: "", description: ""});
+  }
+
+  removeEvent(id:string, missionId:string, eventId:string) {
+    this.timeline[parseInt(id)].missions[parseInt(missionId)].events.splice(parseInt(eventId), 1);
+  }
+
+  addMission(id:string) {
+    this.timeline[parseInt(id)].missions.push({name: "", events: []})
+    this.addEvent(id, (this.timeline[parseInt(id)].missions.length-1).toString())
+  }
+
+  removeMission(id:string, missionId:string) {
+    this.timeline[parseInt(id)].missions.splice(parseInt(missionId), 1);
+  }
+
+  addEntry() {
+    this.timeline.push({name: "", missions: []})
+    this.addMission((this.timeline.length-1).toString())
+    this.addEvent((this.timeline.length-1).toString(), "0")
+  }
+
+  removeEntry(id:string) {
+    this.timeline.splice(parseInt(id), 1);
   }
 
   addPanAndZoom(element: HTMLElement, panSpeed: number, zoomSpeed:number, minZoom: number, maxZoom: number) {
@@ -64,13 +148,36 @@ export class EventsComponent {
 
   }
 
+  translateCanvasPositionToNewDimensions(x: number, y: number, oldWidth: number, oldHeight: number, newWidth: number, newHeight: number) {
+    const xRatio = newWidth / oldWidth;
+    const yRatio = newHeight / oldHeight;
+
+    return {x: x * xRatio, y: y * yRatio};
+  }
+
   getEquivalentSpeed(zoomSpeed: number, scale: number) {
     return scale * zoomSpeed;
   }
 
   addPanning(element: HTMLElement, speed: number) {
 
+
     element.onpointerdown = (e) => {
+      
+      this.pointerDownAction(element, e);
+      
+    }
+    element.onpointerleave = element.onpointerup;
+
+  }
+
+  pointerDownAction(element: HTMLElement, e: PointerEvent){
+
+    if(!this.allowPan) {
+      console.log("panning not allowed")
+      return;
+    }
+    e.preventDefault();
 
       let lastXTranslation = 0;
       let lastYTranslation = 0;
@@ -82,7 +189,7 @@ export class EventsComponent {
 
       lastXTranslation = this.elementsPositions[index].lastXTranslation
       lastYTranslation = this.elementsPositions[index].lastYTranslation
-
+      
       element.style.cursor = "grabbing";
 
       const pointerDownX = e.x;
@@ -91,7 +198,13 @@ export class EventsComponent {
       let pointerMovementX = 0;
       let pointerMovementY = 0;
 
+      
+
       element.onpointermove = (e) => {
+        if(!this.allowPan) {
+          console.log("panning not allowed")
+          return;
+        }
 
         e.preventDefault();
 
@@ -104,12 +217,35 @@ export class EventsComponent {
         xTranslation = ( ( ( (pointerMovementX - pointerDownX) ) * 1/currentCanvasScale ));
         yTranslation = ( ( ( (pointerMovementY - pointerDownY) ) * 1/currentCanvasScale ) );
 
+        
+          this.interactiveElement.style.transform = `translate(${lastXTranslation + xTranslation}px, ${lastYTranslation + yTranslation}px)`;
 
-        this.interactiveElement.style.transform = `translate(${lastXTranslation + xTranslation}px, ${lastYTranslation + yTranslation}px)`;
+        element.onpointerleave = (e) => {
+          if(!this.allowPan) {
+            console.log("panning not allowed")
+            return;
+          }
+          element.style.cursor = "initial";
+          lastXTranslation = lastXTranslation + xTranslation;
+          lastYTranslation = lastYTranslation + yTranslation;
 
+          const index = this.elements.indexOf(this.interactiveElement.id)
+
+          this.elementsPositions[index].lastXTranslation = lastXTranslation
+          this.elementsPositions[index].lastYTranslation = lastYTranslation
+
+          this.stopFollowingPointer(element);
+
+        }
       }
 
+      
+      
       element.onpointerup = (e) => {
+        if(!this.allowPan) {
+          console.log("panning not allowed")
+          return;
+        }
 
         element.style.cursor = "initial";
         lastXTranslation = lastXTranslation + xTranslation;
@@ -122,9 +258,10 @@ export class EventsComponent {
 
         this.stopFollowingPointer(element);
 
-      }
+        element.onpointerleave = (e) => {};
+        
 
-    }
+      }
   }
 
   followPointer(element: HTMLElement, speed: number) {
@@ -140,15 +277,29 @@ export class EventsComponent {
     this.zoom = this.elementsZooms[this.elements.indexOf(this.interactiveElement.id)].lastZoom;
   }
 
+
+
   addZooming(element: HTMLElement, speed: number, maxZoom: number = 7.5, minZoom: number = 0) {
 
+    // if pressing ctrl, zoom in/out
+
+
+    
     element.onwheel = (e) => {
+
+      if(this.allowZoom) {
 
       // if(e.deltaY > 0) {
       //   this.interactiveElement = document.getElementById("canvas2");
       // }else{
       //   this.interactiveElement = document.getElementById("interactiveElement");
       // }
+      // let targ = e.target as HTMLElement;
+
+      // if(targ.id == "txtArea" && targ.clientHeight < targ.scrollHeight){
+      //   return;
+      // }
+
       e.preventDefault();
 
       
@@ -180,7 +331,11 @@ export class EventsComponent {
         this.elementsZooms[index].lastZoom = this.zoom
         this.interactiveElement.style.scale = this.zoom.toString();
       }
-    } 
+    }   
+    this.rerenderButtons();
+  }
+
+  
 
   }
 

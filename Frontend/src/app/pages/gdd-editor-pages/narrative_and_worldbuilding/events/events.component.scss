@@ -1,15 +1,26 @@
+$resizeFont: 1rem;
+$cardBorderRadius: 1rem;
+    $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
+    $fontColor: #000000;
+    $borderState: none;
   .eventsInnerBody {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    width: 100%;
-    height:  100%;
     box-sizing: border-box;
+
+    backface-visibility: hidden;
+
+    
 
     transition: position 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 
+    border: none 1px black;
+
   }
+
+
 
   .vertical{
     height: 100%;
@@ -26,13 +37,14 @@
     box-sizing: border-box;
 
     margin-bottom: 2rem;
+    margin-right: 2rem;
 
-    border: solid 1px black;
+    border: none 1px black;
   }
 
   .eventsChapterContainer{
     
-    margin: 2% 0;
+    margin: 1rem 0;
     
     position: relative;
     display: flex;
@@ -43,10 +55,13 @@
     height: 100%; // fit-content
     box-sizing: border-box;
 
-    border: solid 1px black;
+    border: none 1px black;
   }
 
   $eventsChapterTitleHeight: 3rem;
+  
+
+  $padd: 0.75rem;
 
   .eventsChapterTitle{
     position: relative;
@@ -54,11 +69,68 @@
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    width: 100%;
+    width: inherit;
     height: $eventsChapterTitleHeight;
     box-sizing: border-box;
+    
+    padding: $padd;
 
     background-color: rgba(240, 248, 255, 0.151);
+
+    .btn {
+      background-color: transparent;
+      font-size: $resizeFont;
+      font-weight: bold;
+      color: $fontColor;
+      width: 2 rem;
+      height: 2 rem;
+
+      border: none;
+
+      padding: 0.2rem;
+
+      margin: 0;
+      margin-right: $padd;
+
+
+      &:hover {
+          color: #ffffff;
+          background-color: #16425B;
+      }
+
+      &:not(hover) {
+          color: $fontColor;
+          background-color: transparent;
+          box-shadow: none;
+      }
+  }
+
+
+
+  .btn-icon-only {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      height: calc($resizeFont * 1.5);
+      width: calc($resizeFont * 1.5);
+      padding: 0;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      fa-icon {
+          position: relative;
+          fill: #ffffff;
+          font-size: calc($resizeFont*0.75);
+          display: inline-block;
+
+      }
+
+
+  }
+
   }
 
     $eventTimelineOffsetX: 5%;
@@ -69,27 +141,26 @@
       position: absolute;
       display: flex;
       left: $eventTimelineOffsetX;
-      height: 100%;
+      height: 3rem;
       box-sizing: border-box;
       z-index: -1;
 
       margin-left: calc($lineWidth / -2);
   
-      border-left: solid $lineWidth black;
+      border-left: none $lineWidth black;
 
     }
 
 
     .missionNameContainer{
       position: relative;
-      
       display: flex;
-      align-items: start;
       justify-content: center;
+      
       width: $ballContainerWidth;
       height: 100%;
       box-sizing: border-box;
-      border: solid 0.1vw rgb(255, 0, 0);
+      border: none 0.1vw rgb(255, 0, 0);
       z-index: 0;
     }
 
@@ -101,6 +172,20 @@
       justify-content: center;
     }
 
+    .missionNameTextArea{
+      padding: $padd;
+      font-weight: bolder !important;
+      height: calc($ballContainerWidth * 0.5) !important;
+      text-align: center !important;
+    }
+
+    .chapterNameTextArea{
+      width: 75% !important;
+      height: 100% !important;
+      font-size: larger !important;
+      line-height: 1 !important;
+    }
+
     .timelineContainer{
       position: relative;
       display: flex;
@@ -108,8 +193,45 @@
       width: $ballContainerWidth;
       height: 100%;
       box-sizing: border-box;
-      border: solid 0.1vw rgb(255, 0, 0);
+      border: none 0.1vw rgb(255, 0, 0);
       z-index: 0;
+    }
+
+    .deleteMiss{
+      position: absolute;
+
+      height: 3rem;
+      width: 3rem;
+
+      left: calc(50% - 1.5rem);
+      top: calc(25% - 1.5rem);
+
+      box-shadow: none;
+      
+      &:not(hover){
+        color: transparent;
+        box-shadow: none;
+      }
+      &:hover{
+        color: #dfdfdf;
+        box-shadow: none;
+        transform: translate(0);
+      }
+
+      &:focus{
+        color: #ffffff;
+        box-shadow: none !important;
+        transform: translate(0);
+      }
+
+      fa-icon{
+        -webkit-font-smoothing: antialiased;
+        -webkit-font-smoothing: subpixel-antialiased;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     .content{
@@ -122,28 +244,28 @@
 
       overflow: none;
 
-      border: solid 0.1vw rgb(0, 0, 255);
+      border: none 0.1vw rgb(0, 0, 255);
     }
 
-    $cardBorderRadius: 1rem;
-    $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
-    $fontColor: #000000;
-    $borderState: none;
-
-    $resizeFont: 1rem;
+    
+    .horizontalText {
+      white-space: nowrap;
+      overflow-y: none;
+    }
+    
 
     .textArea {
       width: 100%;
       height: 80%;
       border: none;
       font-size: calc($resizeFont * 2/3);
-      padding: 1rem !important;
+      padding: 0rem !important;
       margin: 0px;
       overflow: auto;
       background-color: transparent !important;
       border: none;
       font-weight: lighter;
-      line-height: 1.5 !important;
+      line-height: 1 !important;
   }
 
     .eventCard {
@@ -154,21 +276,21 @@
     align-items: center;
 
     width: 16rem;
-    min-height: 9rem;
+    height: 9rem;
 
     display: flex;
     flex-direction: column;
     box-shadow: $shadow;
 
-    margin-right: 1%;
+    margin-right: 1rem;
 
     .cardBody {
 
         color: $fontColor;
 
-        padding: 2.5%;
-        width: 100%;
-        height: 100%;
+        padding: 1rem;
+        width: inherit;
+        height: inherit;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -206,7 +328,6 @@
                 width: 100%;
                 flex-direction: row;
 
-                padding-left: 1rem;
 
                 justify-content: left;
 
@@ -312,6 +433,7 @@
       width: fit-content;
       height: 100%;
       box-sizing: border-box;
+      white-space: nowrap;
 
       font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB",
       "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
@@ -320,7 +442,7 @@
       font-size: 2rem;
       
 
-      border: solid 0.1vw rgb(0, 255, 0);
+      border: none 0.1vw rgb(0, 255, 0);
     }
 
   .eventsChapterContentDivider{
@@ -345,7 +467,7 @@
     height: 100%;
     box-sizing: border-box;
 
-    border: solid 1px black;
+    border: none 1px black;
   }
 
   

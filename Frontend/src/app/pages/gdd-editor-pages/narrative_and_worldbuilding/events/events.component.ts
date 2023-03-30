@@ -24,7 +24,7 @@ export class EventsComponent {
   shareZoom:boolean = false;
 
   allowZoom:boolean = false;
-  allowPan:boolean = false;
+  allowPan:boolean = true;
 
   elements = []
   elementsPositions = []
@@ -163,6 +163,19 @@ export class EventsComponent {
 
 
     element.onpointerdown = (e) => {
+      if(e.target instanceof HTMLButtonElement) {
+        this.allowPan = false;
+        return;
+      }
+  
+      //if clicking on a textArea, don't pan
+  
+      if(e.target instanceof HTMLTextAreaElement) {
+        this.allowPan = false;
+        return;
+      }
+
+      this.allowPan = true;
       
       this.pointerDownAction(element, e);
       
@@ -177,7 +190,11 @@ export class EventsComponent {
       console.log("panning not allowed")
       return;
     }
-    e.preventDefault();
+
+    //if clicking on a button, don't pan
+
+    
+
 
       let lastXTranslation = 0;
       let lastYTranslation = 0;

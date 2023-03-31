@@ -5,6 +5,8 @@ import { filter, map, take } from "rxjs/operators";
 import { ICharacterCard } from './characterCard';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-characters',
   templateUrl: './characters.component.html',
@@ -12,7 +14,12 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
   encapsulation: ViewEncapsulation.None,
 })
 export class CharactersComponent {
-  constructor(private editingDocumentService: EditingDocumentService) { }
+
+  activatedRoute: ActivatedRoute;
+
+  constructor(private editingDocumentService: EditingDocumentService, route: ActivatedRoute) {
+    this.activatedRoute = route;
+   }
 
   allAesthetics = ["Sensation", "Fantasy", "Narrative", "Challenge", "Puzzle","Fellowship", "Discovery", "Expression", "Submission" ];
   charactersInDocument:ICharacterCard[] = [];
@@ -24,15 +31,14 @@ export class CharactersComponent {
   cardsInDocument = 0;
   limitOfCards = 9;
 
-  section = "High Level Design";
-  subSection = "Aesthetic";
+  section:string;
+  subSection:string;
   documentSubSection: any;
   characterCardKeys = Object.keys(this.createBlankCharacter());
-
+  
 
   updateDocument(charactersInDocument: any) {
-    console.log("charactersInDocument: ", charactersInDocument);
-    this.documentSubSection.subSectionContent.aesthetics = charactersInDocument;
+    this.documentSubSection.subSectionContent.characters = charactersInDocument;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
       this.subSection,
@@ -45,9 +51,24 @@ export class CharactersComponent {
     
   }
 
+
+  getSectionAndSubSection(route:ActivatedRoute){
+    route.data.subscribe((data) => {
+      this.section = data.section;
+      this.subSection = data.subSection;
+    });
+    
+  }
+
   ngOnInit(){
 
-    //this.charactersInDocument = [this.createBlankCharacter()];
+    this.getSectionAndSubSection(this.activatedRoute);
+
+    console.log("section: ", this.section);
+    console.log("subSection: ", this.subSection);
+
+    // this.addDocSectionIfItDoesntExist(this.section);
+    // this.addDocSubSectionIfItDoesntExist(this.section, this.subSection, {characters: []} );
 
     this.editingDocumentService.document$
       .pipe(
@@ -62,118 +83,43 @@ export class CharactersComponent {
         take(1)
       ).subscribe((document) => {
         this.documentSubSection = document;
-        this.charactersInDocument = this.documentSubSection.subSectionContent.aesthetics;
-        console.log("charactersInDocument:", this.charactersInDocument);
-        this.cardsInDocument = this.charactersInDocument.length;
-      });
+        this.charactersInDocument = document.subSectionContent.characters;
+
+        console.log("charactersInDocument: ", this.charactersInDocument)
+    });
+  }
+
+
+  addDocSectionIfItDoesntExist(section:string){
+    this.editingDocumentService.document$.pipe(
+      filter((document) => document !== null),
+      map((document) => document.documentContent.map( d => {return d.sectionTitle;}).includes(section)),
+      take(1)
+    ).subscribe(
+      (sectionExists) => {
+        if(!sectionExists){
+          this.editingDocumentService.addDocumentSection(section);
+        }
+        
+      }
+    );
+  }
+
+  addDocSubSectionIfItDoesntExist(section:string, subSection:string, content:any){
+    this.editingDocumentService.document$.pipe(
+      filter((document) => document !== null),
+      map((document) => document.documentContent.find( d => {return d.sectionTitle === section;}).subSections.map( s => {return s.subSectionTitle;}).includes(subSection)),
+      take(1)
+    ).subscribe(
+      (subSectionExists) => {
+        if(!subSectionExists){
+          this.editingDocumentService.addDocumentSubSection(section, subSection, content);
+        }
+      }
+    );
   }
 
   functionalComboBox(){}
-
-  showAesthetics(evt: Event, currentAestheticButton: HTMLElement){
-
-    let allAestheticsSelectors = document.getElementsByClassName("aestheticsSelector");
-    let subMenuBase = currentAestheticButton.nextSibling as HTMLElement;
-
-    for(let i = 0; i < allAestheticsSelectors.length; i++){
-      let subM = allAestheticsSelectors[i] as HTMLElement;
-      if(subM != subMenuBase){
-        subM.style.display = "none";
-
-      }
-    }
-
-    if(this.charactersInDocument.length < this.limitOfCards){
-      console.log("showAesthetics");
-      console.log(evt);
-
-      
-      let subMenu = subMenuBase.firstChild as HTMLElement;
-
-
-      subMenuBase.focus();
-      subMenuBase.addEventListener("focusout", () => {
-        subMenuBase.style.display = "none";
-      });
-
-      console.log(subMenuBase.style.display);
-
-      if(subMenuBase.style.display != "none"){
-        subMenuBase.style.display = "none";
-      }else{
-        subMenuBase.style.display = "block";
-
-        this.loadAesthetics(subMenuBase, currentAestheticButton, true);
-      }
-    }
-  }
-
-  convertToNameArray(array: any[]){
-    let nameArray = array.map(aestheticsCard => aestheticsCard.name);
-
-    return nameArray;
-  }
-
-
-  loadAesthetics(subMenuBase: HTMLElement, currentAestheticButton: HTMLElement,open:boolean){
-    
-    let child = subMenuBase.firstChild as HTMLElement;
-    child.innerHTML = "";
-
-    let aestheticsNames = this.convertToNameArray(this.charactersInDocument);
-    
-    let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
-
-    if(open){
-      let index:number = 0;
-      availableAesthetics.forEach(aesthetic => {
-
-        if(index!=0){
-          child.innerHTML += `<div class="horizontalLine"></div>`;
-        }
-        
-        const newButton = document.createElement("button");
-        newButton.setAttribute("type", "button");
-        newButton.setAttribute("id", index.toString());
-        newButton.setAttribute("class", "btn");
-        newButton.innerHTML = aesthetic;
-        child.appendChild(newButton);
-
-        index++;
-
-      });
-
-      let buttons = child.getElementsByTagName("button");
-
-      for(let i = 0; i < buttons.length; i++){
-        buttons[i].addEventListener("click", () => {
-          this.chooseAesthetic(subMenuBase, buttons[i], buttons[i].innerHTML, currentAestheticButton.children[0].innerHTML);
-        });
-      }
-    }
-  }
-
-
-  chooseAesthetic(menu:HTMLElement, item: HTMLElement, newAesthetic: string, oldAesthetic: string){
-
-    let parent = item.parentElement as HTMLElement;
-    let grandparent = parent.parentElement as HTMLElement;
-    let beforeGrandparent = grandparent.previousSibling as HTMLElement;
-
-    
-    console.log("beforeGrandparent: ", beforeGrandparent);
-    beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(oldAesthetic, newAesthetic);
-
-    menu.style.display = "none";
-
-    oldAesthetic = oldAesthetic.trim();
-
-    let aestheticsNames = this.convertToNameArray(this.charactersInDocument);
-    
-    let index = aestheticsNames.indexOf(oldAesthetic);
-    this.charactersInDocument[index].name = newAesthetic;
- 
-  }
 
 
   createBlankCharacter(): ICharacterCard {
@@ -193,20 +139,16 @@ export class CharactersComponent {
   }
 
   addCard(){
-
     const newCharacterCard = this.createBlankCharacter();
     this.charactersInDocument.push(newCharacterCard);
     console.log("addCard");
     console.log(this.charactersInDocument);
-    
   }
 
   updateTxtContent(txtArea: HTMLTextAreaElement, field: string, id:string){
-    
-    console.log(txtArea.value);
-    this.charactersInDocument[parseInt(id)][field] = txtArea.value;
 
-    console.log(this.charactersInDocument);
+    this.charactersInDocument[parseInt(id)][field] = txtArea.value;
+    
   }
 
   uploadedImage: string = "";
@@ -223,53 +165,22 @@ export class CharactersComponent {
 
       this.charactersInDocument[parseInt(id)][field] = this.uploadedImage;
 
-      // if (sessionStorage.getItem("currentSetup") !== null) {
-      //   this.setSessionStorageContent(this.routeUsingComponent);
-      // }
     }
   }
+
+
+  loadSavedImages(){
+    let i = 0;
+    this.charactersInDocument.forEach((character, index) => {
+      this.updateLogo(i.toString());
+      i++;
+    });
+  }
+
 
   private updateLogo(id:string): void {
     let uploadButton = document.getElementById(`upButton${id}`);
     uploadButton.style.backgroundImage = `url(${this.uploadedImage})`;
-
-    //Get natural width and height of image
-    console.log(uploadButton.style.backgroundImage, this.uploadedImage);
-
-    // let img = new Image();
-    // img.src = this.uploadedImage;
-
-    // let ratio = 0;
-    // let naturalWidth;
-    // let naturalHeight;
-    
-    // img.onload = () => {
-    //   naturalWidth = img.naturalWidth;
-    //   naturalHeight = img.naturalHeight;
-
-    //   console.log("Dimensions", naturalWidth, naturalHeight);
-    //   ratio = naturalWidth / naturalHeight;
-
-    //   uploadButton.style.position = "relative";
-
-    //   console.log("ratio", ratio);
-    //   if(ratio > 1){
-    //     uploadButton.style.width = `100%`;
-    //     uploadButton.style.height = `${1/ratio * 100}%`;
-    //     uploadButton.style.backgroundSize = "100%";
-
-    //   }else{
-        
-        
-    //     uploadButton.style.width = `${ratio * 100}%`;
-        
-
-    //   }
-    // }
-
-    
-
-    
 
     uploadButton.style.maxHeight = "100%";
     uploadButton.style.maxWidth = "100%";
@@ -277,39 +188,19 @@ export class CharactersComponent {
     uploadButton.style.backgroundPosition = "center";
     uploadButton.style.backgroundSize = "cover";
 
-    
-
-    
-
-    
-    
-    // fit image to button
-
-    
-
-    //Get child element of upload button
     let uploadButtonChild = uploadButton.children[1] as HTMLElement;
     uploadButtonChild.style.display = "none";
+
   }
 
 
 
   removeCard(card: HTMLElement){
-
-    console.log(card)
-
-    // Go back 3 elements to get the card
     card = card.parentElement.parentElement;
 
     const cardID = card.id;
-    
-
-    console.log("Removing card: ", parseInt(cardID))
-
     this.charactersInDocument.splice(parseInt(cardID), 1);
 
-     
     card.remove();
-
   }
 }

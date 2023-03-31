@@ -125,7 +125,25 @@ export class FinishSetupComponent {
             "metaphore": ""
           }
         }]
-      }]
+      },
+      {
+        sectionTitle: "Narrative and Worldbuilding",
+        subSections: [{
+          subSectionTitle: "Characters",
+          subSectionContent: {
+            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+            characters: []
+          }
+        },
+        {
+          subSectionTitle: "Events",
+          subSectionContent: {
+            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+            events: []
+          }
+        }]
+      }
+    ]
     }
 
     console.log("document:", document);

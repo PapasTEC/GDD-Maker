@@ -67,14 +67,12 @@ export class EditorLayoutComponent implements OnInit {
     private documentService: DocumentService,
     private editingDocumentService: EditingDocumentService,
     private cdRef: ChangeDetectorRef
-     ) { 
+    ) { 
       console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath)
 
       console.log("uniqueSections: ", this.uniqueSections)
       console.log("layout: ", this.documentLayout)
-
-      
-     }
+    }
 
   openSidebar() {
     document.getElementById("sidebar").focus();
@@ -124,7 +122,7 @@ export class EditorLayoutComponent implements OnInit {
           alert("Error auto-updating document");
         }
       }
-      this.startAutoSaveTimer();
+      // this.startAutoSaveTimer();
     }, this.autoSaveIntervalInMinutes * 60 * 1000);
   }
 

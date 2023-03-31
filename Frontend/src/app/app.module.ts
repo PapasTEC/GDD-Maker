@@ -14,6 +14,8 @@ import { ComponentsModule } from './components/components.module';
 import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-layout.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BasicInfoComponent } from './pages/gdd-editor-pages/basic-info/basic-info.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 @NgModule({
   imports: [
@@ -27,6 +29,7 @@ import { BasicInfoComponent } from './pages/gdd-editor-pages/basic-info/basic-in
     RouterModule,
     AppRoutingModule,
     MatDialogModule,
+    DragDropModule,
   ],
   declarations: [
     AppComponent,

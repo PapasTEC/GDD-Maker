@@ -185,10 +185,7 @@ export class AestheticsComponent {
 
     let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
 
-    this.aestheticsInDocument.push({name:availableAesthetics[0], content:""});
-
-
-    console.log("addCard");
+    this.aestheticsInDocument.push({name:availableAesthetics[Math.floor(Math.random() * (availableAesthetics.length-1) )], content:""});
 
     console.log(this.aestheticsInDocument);
   }

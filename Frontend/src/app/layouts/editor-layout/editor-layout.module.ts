@@ -9,6 +9,9 @@ import { VditorComponent } from "../../pages/gdd-editor-pages/vditor/vditor.comp
 import { AestheticsComponent } from 'src/app/pages/gdd-editor-pages/high_level_design/aesthetics/aesthetics.component';
 import { CoreMechanicComponent } from 'src/app/pages/gdd-editor-pages/high_level_design/coreMechanic/coreMechanic.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { CharactersComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/characters/characters.component';
+import { EventsComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
+import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_cover/document-cover/document-cover.component';
 
 @NgModule({
   imports: [
@@ -26,6 +29,9 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     VditorComponent,
     AestheticsComponent,
     CoreMechanicComponent,
+    CharactersComponent,
+    EventsComponent,
+    DocumentCoverComponent,
   ]
 })
 

@@ -52,15 +52,16 @@
               <a class="nActive" href="#/editor">Link 3</a>
             </div> -->
             <!-- <a class="nActive" href="#/editor">Tematica</a> -->
-
-            <button class="dropdown-btn">
-              High Level Design
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container" style="display: none">
-              <a class="nActive" (click)="switchSection('theme')" [routerLink]="['/editor/theme']" queryParamsHandling="merge"><span>Theme</span></a>
-              <a class="nActive" (click)="switchSection('aesthetics')" [routerLink]="['/editor/aesthetics']" queryParamsHandling="merge"><span>Aesthetics</span></a>
-              <a class="nActive" (click)="switchSection('coreMechanic')" [routerLink]="['/editor/coreMechanic']" queryParamsHandling="merge"><span>Core Mechanic</span></a>
+            <!-- *ngFor="let sec of documentLayout; index as i" -->
+            <div *ngFor="let sec of documentLayout; index as i">
+              <button class="dropdown-btn">
+                <span>{{sec.section}}</span>
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-container" style="display: none" >
+                <a class="nActive" (click)="switchSection(subSec)" [routerLink]="[sec.paths[j]]" queryParamsHandling="merge" *ngFor="let subSec of sec.subSections; index as j"><span>{{subSec}}</span></a>
+                
+              </div>
             </div>
             <!-- <a class="nActive" href="#/editor">About</a> -->
           </div>

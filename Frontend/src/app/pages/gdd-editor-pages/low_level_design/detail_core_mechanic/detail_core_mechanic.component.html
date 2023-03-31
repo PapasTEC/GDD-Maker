@@ -1,7 +1,29 @@
 <div class="bodyClass">
-    <div class="cInnerBody">
+  <div class="basicInfoInnerBody">
+    <div class="basicInfoContainer scrollBar">
+      <!-- Elevator Pitch -->
+      <div class="basicInfoCard">
+        <div class="cardBody">
+          <div class="cardHeader">
+            <div class="title">
+              <span> Elevator Pitch </span>
+            </div>
+          </div>
+          <div class="horizontalLine"></div>
+          <div class="basicInfoCardContent">
+            <textarea
+              id="txtArea"
+              #txtArea
+              class="vditor-reset textArea scrollBar"
+              [value]="elevatorPitch"
+              placeholder=""
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="cInnerBody">
         <div cdkDropList (cdkDropListDropped)="drop($event)" class="cContainer scrollBar">
-            <!-- [ngStyle]="{characterCardKeys[i]}"  -->
+            esto no va -> [ngStyle]="{characterCardKeys[i]}"
             <div *ngIf="charactersInDocument.length == 0"style="margin: 5% 0;">
                 <span class="characterInfoText">Nothing to see here! Click the plus button to add your first character.</span>
             </div>
@@ -90,5 +112,7 @@
                 </button>
             </div>
         </div>
+    </div> -->
     </div>
+  </div>
 </div>

@@ -14,268 +14,270 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 export class DetailCoreMechanicComponent {
   constructor(private editingDocumentService: EditingDocumentService) { }
 
-  allAesthetics = ["Sensation", "Fantasy", "Narrative", "Challenge", "Puzzle","Fellowship", "Discovery", "Expression", "Submission" ];
-  charactersInDocument:ICharacterCard[] = [];
+  elevatorPitch = "";
 
-  trashIcon = faTrash;
-  plusIcon = faAdd;
-  crownIcon = faCrown;
+  // allAesthetics = ["Sensation", "Fantasy", "Narrative", "Challenge", "Puzzle","Fellowship", "Discovery", "Expression", "Submission" ];
+  // charactersInDocument:ICharacterCard[] = [];
 
-  cardsInDocument = 0;
-  limitOfCards = 9;
+  // trashIcon = faTrash;
+  // plusIcon = faAdd;
+  // crownIcon = faCrown;
 
-  section = "High Level Design";
-  subSection = "Aesthetic";
-  documentSubSection: any;
-  characterCardKeys = Object.keys(this.createBlankCharacter());
+  // cardsInDocument = 0;
+  // limitOfCards = 9;
+
+  // section = "High Level Design";
+  // subSection = "Aesthetic";
+  // documentSubSection: any;
+  // characterCardKeys = Object.keys(this.createBlankCharacter());
 
 
-  updateDocument(charactersInDocument: any) {
-    console.log("charactersInDocument: ", charactersInDocument);
-    this.documentSubSection.subSectionContent.aesthetics = charactersInDocument;
-    this.editingDocumentService.updateDocumentSubSection(
-      this.section,
-      this.subSection,
-      this.documentSubSection
-    );
-  }
+  // updateDocument(charactersInDocument: any) {
+  //   console.log("charactersInDocument: ", charactersInDocument);
+  //   this.documentSubSection.subSectionContent.aesthetics = charactersInDocument;
+  //   this.editingDocumentService.updateDocumentSubSection(
+  //     this.section,
+  //     this.subSection,
+  //     this.documentSubSection
+  //   );
+  // }
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.charactersInDocument, event.previousIndex, event.currentIndex);
+  // drop(event: CdkDragDrop<string[]>) {
+  //   moveItemInArray(this.charactersInDocument, event.previousIndex, event.currentIndex);
     
-  }
+  // }
 
-  ngOnInit(){
+  // ngOnInit(){
 
-    //this.charactersInDocument = [this.createBlankCharacter()];
+  //   //this.charactersInDocument = [this.createBlankCharacter()];
 
-    this.editingDocumentService.document$
-      .pipe(
-        filter((document) => document !== null),
-        map((document) =>
-          document.documentContent
-            .find((section) => section.sectionTitle === this.section)
-            .subSections.find(
-              (subsection) => subsection.subSectionTitle === this.subSection
-            )
-        ),
-        take(1)
-      ).subscribe((document) => {
-        this.documentSubSection = document;
-        this.charactersInDocument = this.documentSubSection.subSectionContent.aesthetics;
-        console.log("charactersInDocument:", this.charactersInDocument);
-        this.cardsInDocument = this.charactersInDocument.length;
-      });
-  }
+  //   this.editingDocumentService.document$
+  //     .pipe(
+  //       filter((document) => document !== null),
+  //       map((document) =>
+  //         document.documentContent
+  //           .find((section) => section.sectionTitle === this.section)
+  //           .subSections.find(
+  //             (subsection) => subsection.subSectionTitle === this.subSection
+  //           )
+  //       ),
+  //       take(1)
+  //     ).subscribe((document) => {
+  //       this.documentSubSection = document;
+  //       this.charactersInDocument = this.documentSubSection.subSectionContent.aesthetics;
+  //       console.log("charactersInDocument:", this.charactersInDocument);
+  //       this.cardsInDocument = this.charactersInDocument.length;
+  //     });
+  // }
 
-  functionalComboBox(){}
+  // functionalComboBox(){}
 
-  showAesthetics(evt: Event, currentAestheticButton: HTMLElement){
+  // showAesthetics(evt: Event, currentAestheticButton: HTMLElement){
 
-    let allAestheticsSelectors = document.getElementsByClassName("aestheticsSelector");
-    let subMenuBase = currentAestheticButton.nextSibling as HTMLElement;
+  //   let allAestheticsSelectors = document.getElementsByClassName("aestheticsSelector");
+  //   let subMenuBase = currentAestheticButton.nextSibling as HTMLElement;
 
-    for(let i = 0; i < allAestheticsSelectors.length; i++){
-      let subM = allAestheticsSelectors[i] as HTMLElement;
-      if(subM != subMenuBase){
-        subM.style.display = "none";
+  //   for(let i = 0; i < allAestheticsSelectors.length; i++){
+  //     let subM = allAestheticsSelectors[i] as HTMLElement;
+  //     if(subM != subMenuBase){
+  //       subM.style.display = "none";
 
-      }
-    }
+  //     }
+  //   }
 
-    if(this.charactersInDocument.length < this.limitOfCards){
-      console.log("showAesthetics");
-      console.log(evt);
+  //   if(this.charactersInDocument.length < this.limitOfCards){
+  //     console.log("showAesthetics");
+  //     console.log(evt);
 
       
-      let subMenu = subMenuBase.firstChild as HTMLElement;
+  //     let subMenu = subMenuBase.firstChild as HTMLElement;
 
 
-      subMenuBase.focus();
-      subMenuBase.addEventListener("focusout", () => {
-        subMenuBase.style.display = "none";
-      });
+  //     subMenuBase.focus();
+  //     subMenuBase.addEventListener("focusout", () => {
+  //       subMenuBase.style.display = "none";
+  //     });
 
-      console.log(subMenuBase.style.display);
+  //     console.log(subMenuBase.style.display);
 
-      if(subMenuBase.style.display != "none"){
-        subMenuBase.style.display = "none";
-      }else{
-        subMenuBase.style.display = "block";
+  //     if(subMenuBase.style.display != "none"){
+  //       subMenuBase.style.display = "none";
+  //     }else{
+  //       subMenuBase.style.display = "block";
 
-        this.loadAesthetics(subMenuBase, currentAestheticButton, true);
-      }
-    }
-  }
+  //       this.loadAesthetics(subMenuBase, currentAestheticButton, true);
+  //     }
+  //   }
+  // }
 
-  convertToNameArray(array: any[]){
-    let nameArray = array.map(aestheticsCard => aestheticsCard.name);
+  // convertToNameArray(array: any[]){
+  //   let nameArray = array.map(aestheticsCard => aestheticsCard.name);
 
-    return nameArray;
-  }
+  //   return nameArray;
+  // }
 
 
-  loadAesthetics(subMenuBase: HTMLElement, currentAestheticButton: HTMLElement,open:boolean){
+  // loadAesthetics(subMenuBase: HTMLElement, currentAestheticButton: HTMLElement,open:boolean){
     
-    let child = subMenuBase.firstChild as HTMLElement;
-    child.innerHTML = "";
+  //   let child = subMenuBase.firstChild as HTMLElement;
+  //   child.innerHTML = "";
 
-    let aestheticsNames = this.convertToNameArray(this.charactersInDocument);
+  //   let aestheticsNames = this.convertToNameArray(this.charactersInDocument);
     
-    let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
+  //   let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
 
-    if(open){
-      let index:number = 0;
-      availableAesthetics.forEach(aesthetic => {
+  //   if(open){
+  //     let index:number = 0;
+  //     availableAesthetics.forEach(aesthetic => {
 
-        if(index!=0){
-          child.innerHTML += `<div class="horizontalLine"></div>`;
-        }
+  //       if(index!=0){
+  //         child.innerHTML += `<div class="horizontalLine"></div>`;
+  //       }
         
-        const newButton = document.createElement("button");
-        newButton.setAttribute("type", "button");
-        newButton.setAttribute("id", index.toString());
-        newButton.setAttribute("class", "btn");
-        newButton.innerHTML = aesthetic;
-        child.appendChild(newButton);
+  //       const newButton = document.createElement("button");
+  //       newButton.setAttribute("type", "button");
+  //       newButton.setAttribute("id", index.toString());
+  //       newButton.setAttribute("class", "btn");
+  //       newButton.innerHTML = aesthetic;
+  //       child.appendChild(newButton);
 
-        index++;
+  //       index++;
 
-      });
+  //     });
 
-      let buttons = child.getElementsByTagName("button");
+  //     let buttons = child.getElementsByTagName("button");
 
-      for(let i = 0; i < buttons.length; i++){
-        buttons[i].addEventListener("click", () => {
-          this.chooseAesthetic(subMenuBase, buttons[i], buttons[i].innerHTML, currentAestheticButton.children[0].innerHTML);
-        });
-      }
-    }
-  }
+  //     for(let i = 0; i < buttons.length; i++){
+  //       buttons[i].addEventListener("click", () => {
+  //         this.chooseAesthetic(subMenuBase, buttons[i], buttons[i].innerHTML, currentAestheticButton.children[0].innerHTML);
+  //       });
+  //     }
+  //   }
+  // }
 
 
-  chooseAesthetic(menu:HTMLElement, item: HTMLElement, newAesthetic: string, oldAesthetic: string){
+  // chooseAesthetic(menu:HTMLElement, item: HTMLElement, newAesthetic: string, oldAesthetic: string){
 
-    let parent = item.parentElement as HTMLElement;
-    let grandparent = parent.parentElement as HTMLElement;
-    let beforeGrandparent = grandparent.previousSibling as HTMLElement;
+  //   let parent = item.parentElement as HTMLElement;
+  //   let grandparent = parent.parentElement as HTMLElement;
+  //   let beforeGrandparent = grandparent.previousSibling as HTMLElement;
 
     
-    console.log("beforeGrandparent: ", beforeGrandparent);
-    beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(oldAesthetic, newAesthetic);
+  //   console.log("beforeGrandparent: ", beforeGrandparent);
+  //   beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(oldAesthetic, newAesthetic);
 
-    menu.style.display = "none";
+  //   menu.style.display = "none";
 
-    oldAesthetic = oldAesthetic.trim();
+  //   oldAesthetic = oldAesthetic.trim();
 
-    let aestheticsNames = this.convertToNameArray(this.charactersInDocument);
+  //   let aestheticsNames = this.convertToNameArray(this.charactersInDocument);
     
-    let index = aestheticsNames.indexOf(oldAesthetic);
-    this.charactersInDocument[index].name = newAesthetic;
+  //   let index = aestheticsNames.indexOf(oldAesthetic);
+  //   this.charactersInDocument[index].name = newAesthetic;
  
-  }
+  // }
 
 
-  createBlankCharacter(): ICharacterCard {
-      const blankCharacter: ICharacterCard = {
-          "image": "",
-          "name":"",
-          "age": "",
-          "gender":"",
-          "profession":"",
-          "bio": "",
-          "virtues":"",
-          "flaws":"",
-          "goals":""
-      }
+  // createBlankCharacter(): ICharacterCard {
+  //     const blankCharacter: ICharacterCard = {
+  //         "image": "",
+  //         "name":"",
+  //         "age": "",
+  //         "gender":"",
+  //         "profession":"",
+  //         "bio": "",
+  //         "virtues":"",
+  //         "flaws":"",
+  //         "goals":""
+  //     }
 
-      return blankCharacter;
-  }
+  //     return blankCharacter;
+  // }
 
-  addCard(){
+  // addCard(){
 
-    const newCharacterCard = this.createBlankCharacter();
-    this.charactersInDocument.push(newCharacterCard);
-    console.log("addCard");
-    console.log(this.charactersInDocument);
+  //   const newCharacterCard = this.createBlankCharacter();
+  //   this.charactersInDocument.push(newCharacterCard);
+  //   console.log("addCard");
+  //   console.log(this.charactersInDocument);
     
-  }
+  // }
 
-  updateTxtContent(txtArea: HTMLTextAreaElement, field: string, id:string){
+  // updateTxtContent(txtArea: HTMLTextAreaElement, field: string, id:string){
     
-    console.log(txtArea.value);
-    this.charactersInDocument[parseInt(id)][field] = txtArea.value;
+  //   console.log(txtArea.value);
+  //   this.charactersInDocument[parseInt(id)][field] = txtArea.value;
 
-    console.log(this.charactersInDocument);
-  }
+  //   console.log(this.charactersInDocument);
+  // }
 
-  uploadedImage: string = "";
+  // uploadedImage: string = "";
 
-  public onFileSelected(event: any, field:string, id:string): void {
-    const file = event.target.files[0];
+  // public onFileSelected(event: any, field:string, id:string): void {
+  //   const file = event.target.files[0];
 
-    if (file) {
-      this.uploadedImage = URL.createObjectURL(file);
+  //   if (file) {
+  //     this.uploadedImage = URL.createObjectURL(file);
 
-      console.log("file", file);
+  //     console.log("file", file);
 
-      this.updateLogo(id);
+  //     this.updateLogo(id);
 
-      this.charactersInDocument[parseInt(id)][field] = this.uploadedImage;
+  //     this.charactersInDocument[parseInt(id)][field] = this.uploadedImage;
 
-      // if (sessionStorage.getItem("currentSetup") !== null) {
-      //   this.setSessionStorageContent(this.routeUsingComponent);
-      // }
-    }
-  }
+  //     // if (sessionStorage.getItem("currentSetup") !== null) {
+  //     //   this.setSessionStorageContent(this.routeUsingComponent);
+  //     // }
+  //   }
+  // }
 
-  private updateLogo(id:string): void {
-    let uploadButton = document.getElementById(`upButton${id}`);
-    uploadButton.style.backgroundImage = `url(${this.uploadedImage})`;
+  // private updateLogo(id:string): void {
+  //   let uploadButton = document.getElementById(`upButton${id}`);
+  //   uploadButton.style.backgroundImage = `url(${this.uploadedImage})`;
 
-    //Get natural width and height of image
-    console.log(uploadButton.style.backgroundImage, this.uploadedImage);
+  //   //Get natural width and height of image
+  //   console.log(uploadButton.style.backgroundImage, this.uploadedImage);
 
-    // let img = new Image();
-    // img.src = this.uploadedImage;
+  //   // let img = new Image();
+  //   // img.src = this.uploadedImage;
 
-    // let ratio = 0;
-    // let naturalWidth;
-    // let naturalHeight;
+  //   // let ratio = 0;
+  //   // let naturalWidth;
+  //   // let naturalHeight;
     
-    // img.onload = () => {
-    //   naturalWidth = img.naturalWidth;
-    //   naturalHeight = img.naturalHeight;
+  //   // img.onload = () => {
+  //   //   naturalWidth = img.naturalWidth;
+  //   //   naturalHeight = img.naturalHeight;
 
-    //   console.log("Dimensions", naturalWidth, naturalHeight);
-    //   ratio = naturalWidth / naturalHeight;
+  //   //   console.log("Dimensions", naturalWidth, naturalHeight);
+  //   //   ratio = naturalWidth / naturalHeight;
 
-    //   uploadButton.style.position = "relative";
+  //   //   uploadButton.style.position = "relative";
 
-    //   console.log("ratio", ratio);
-    //   if(ratio > 1){
-    //     uploadButton.style.width = `100%`;
-    //     uploadButton.style.height = `${1/ratio * 100}%`;
-    //     uploadButton.style.backgroundSize = "100%";
+  //   //   console.log("ratio", ratio);
+  //   //   if(ratio > 1){
+  //   //     uploadButton.style.width = `100%`;
+  //   //     uploadButton.style.height = `${1/ratio * 100}%`;
+  //   //     uploadButton.style.backgroundSize = "100%";
 
-    //   }else{
+  //   //   }else{
         
         
-    //     uploadButton.style.width = `${ratio * 100}%`;
+  //   //     uploadButton.style.width = `${ratio * 100}%`;
         
 
-    //   }
-    // }
+  //   //   }
+  //   // }
 
     
 
     
 
-    uploadButton.style.maxHeight = "100%";
-    uploadButton.style.maxWidth = "100%";
-    uploadButton.style.backgroundRepeat = "no-repeat";
-    uploadButton.style.backgroundPosition = "center";
-    uploadButton.style.backgroundSize = "cover";
+  //   uploadButton.style.maxHeight = "100%";
+  //   uploadButton.style.maxWidth = "100%";
+  //   uploadButton.style.backgroundRepeat = "no-repeat";
+  //   uploadButton.style.backgroundPosition = "center";
+  //   uploadButton.style.backgroundSize = "cover";
 
     
 
@@ -283,33 +285,33 @@ export class DetailCoreMechanicComponent {
 
     
     
-    // fit image to button
+  //   // fit image to button
 
     
 
-    //Get child element of upload button
-    let uploadButtonChild = uploadButton.children[1] as HTMLElement;
-    uploadButtonChild.style.display = "none";
-  }
+  //   //Get child element of upload button
+  //   let uploadButtonChild = uploadButton.children[1] as HTMLElement;
+  //   uploadButtonChild.style.display = "none";
+  // }
 
 
 
-  removeCard(card: HTMLElement){
+  // removeCard(card: HTMLElement){
 
-    console.log(card)
+  //   console.log(card)
 
-    // Go back 3 elements to get the card
-    card = card.parentElement.parentElement;
+  //   // Go back 3 elements to get the card
+  //   card = card.parentElement.parentElement;
 
-    const cardID = card.id;
+  //   const cardID = card.id;
     
 
-    console.log("Removing card: ", parseInt(cardID))
+  //   console.log("Removing card: ", parseInt(cardID))
 
-    this.charactersInDocument.splice(parseInt(cardID), 1);
+  //   this.charactersInDocument.splice(parseInt(cardID), 1);
 
      
-    card.remove();
+  //   card.remove();
 
-  }
+  // }
 }

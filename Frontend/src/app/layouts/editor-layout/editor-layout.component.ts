@@ -46,13 +46,18 @@ export class EditorLayoutComponent implements OnInit {
   
 
   fillLayout = this.sectionsSubSectionsPath.forEach( route => {
+
     let currentSection = route.section;
     let curretnSubSection = route.subSection;
     let currentPath = route.path;
 
+    
+
     let oldSection = this.documentLayout.find( section => section.section === currentSection);
     let index = this.documentLayout.indexOf(oldSection);
-    oldSection.subSections.push(curretnSubSection);
+    if(currentSection !== curretnSubSection)
+      oldSection.subSections.push(curretnSubSection);
+    
     oldSection.paths.push(currentPath);
     this.documentLayout[index] = oldSection;
   });

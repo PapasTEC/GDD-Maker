@@ -144,6 +144,9 @@ export class EditorLayoutComponent implements OnInit {
 
   switchSection(url: string) {
     switch (url) {
+      case 'basicInfo':
+        this.currentTitle = "Basic Information";
+        break;
       case 'theme':
         this.currentTitle = "Theme";
         break;

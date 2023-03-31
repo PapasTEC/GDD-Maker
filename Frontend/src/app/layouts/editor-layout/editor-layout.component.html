@@ -52,7 +52,7 @@
               <a class="nActive" href="#/editor">Link 3</a>
             </div> -->
             <!-- <a class="nActive" href="#/editor">Tematica</a> -->
-
+            <a class="nActive" (click)="switchSection('basicInfo')" [routerLink]="['/editor/basicInfo']" queryParamsHandling="merge"><span>Basic Information</span></a>
             <button class="dropdown-btn">
               High Level Design
               <i class="fa fa-caret-down"></i>

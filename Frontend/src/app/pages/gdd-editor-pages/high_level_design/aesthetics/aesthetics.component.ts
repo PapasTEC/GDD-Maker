@@ -7,7 +7,7 @@ import { filter, map, take } from "rxjs/operators";
 @Component({
   selector: 'app-aesthetics',
   templateUrl: './aesthetics.component.html',
-  styleUrls: ['./aesthetics.component.scss', '../../editorGlobalStyles.scss', '../vditor/vditor.component.scss', '../coreMechanic/coreMechanic.component.scss'],
+  styleUrls: ['./aesthetics.component.scss', '../../editorGlobalStyles.scss', '../../vditor/vditor.component.scss', '../coreMechanic/coreMechanic.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 

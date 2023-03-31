@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { EditingDocumentService } from "src/app/services/editing-document.service";
+import { filter, map, take } from "rxjs/operators";
 @Component({
   selector: "app-basic-info",
   templateUrl: "./basic-info.component.html",
@@ -17,6 +19,12 @@ export class BasicInfoComponent {
 
   tagName: string;
   tags: string[] = [];
+
+
+  constructor(private editingDocumentService: EditingDocumentService) { }
+
+  
+
 
   public addGenre(): void {
     var genreTextBox = document.getElementById("genreText") as HTMLInputElement;
@@ -59,4 +67,7 @@ export class BasicInfoComponent {
     console.log(this.tags);
     //this.updateStorage();
   }
+
+
+
 }

@@ -81,7 +81,10 @@ export class FinishSetupComponent {
           subSectionTitle: "Elevator Pitch",
           subSectionContent: {
             // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
-            text: currentSetup.elevatorPitch
+            elevatorPitch: currentSetup.elevatorPitch,
+            tagline: "",
+            genres: [],
+            tags: currentSetup.gameTags,
           }
         }, {
           subSectionTitle: "Tagline",

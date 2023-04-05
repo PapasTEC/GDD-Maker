@@ -10,7 +10,7 @@ import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_
 
 export const EditorLayoutRoutes: Routes = [
     { path: 'cover', component: DocumentCoverComponent, data: {section: "Document Cover", subSection: "Document Cover"}},
-    { path: 'basicInfo', component: BasicInfoComponent },
+    { path: 'basicInfo', component: BasicInfoComponent, data: {section: "Basic Information", subSection: "Basic Information"} },
     { path: 'theme', component: VditorComponent, data: {section: "High Level Design", subSection: "Theme"} },
     { path: 'aesthetics', component: AestheticsComponent, data: {section: "High Level Design", subSection: "Aesthetics"} },
     { path: 'coreMechanic', component: CoreMechanicComponent, data: {section: "High Level Design", subSection: "Core Mechanic Diagram"} },

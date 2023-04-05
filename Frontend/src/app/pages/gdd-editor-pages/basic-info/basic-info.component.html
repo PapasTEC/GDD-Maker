@@ -17,11 +17,13 @@
               class="vditor-reset textArea scrollBar"
               [value]="elevatorPitch"
               placeholder=""
+              [(ngModel)]="elevatorPitch"
+              (input)="updateDocument()"
             ></textarea>
           </div>
         </div>
       </div>
-      <!-- Slogan -->
+      <!-- Tagline -->
       <div
         class="basicInfoCard"
         [ngStyle]="{
@@ -31,7 +33,7 @@
         <div class="cardBody">
           <div class="cardHeader">
             <div class="title">
-              <span> Slogan </span>
+              <span> Tagline </span>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -40,8 +42,10 @@
               id="txtArea"
               #txtArea
               class="vditor-reset textArea scrollBar"
-              [value]="slogan"
+              [value]="tagline"
               placeholder=""
+              [(ngModel)]="tagline"
+              (input)="updateDocument()"
             ></textarea>
           </div>
         </div>

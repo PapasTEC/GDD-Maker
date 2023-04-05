@@ -12,6 +12,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { CharactersComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/characters/characters.component';
 import { EventsComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
 import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_cover/document-cover/document-cover.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_
     ClipboardModule,
     FormsModule,
     ReactiveFormsModule,
+    DragDropModule
   ],
   declarations: [
     VditorComponent,

@@ -1,0 +1,189 @@
+.bodyClass{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+
+
+    border: solid 1px rgb(0, 0, 0);
+
+    
+}
+
+.innerBodyClass{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    width: 75%;
+    height: 100%;
+
+}
+
+$textContainerHeight: min(10%, 7vh);
+$fontSize: max(2.5vh, 2.5vw);
+
+
+
+.textContainer{
+
+    height: fit-content;
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: solid 1px chocolate;
+
+    padding:1% 0;
+
+
+    .titleText{
+        font-size: $fontSize;
+        font-weight: 7000;
+        text-align: center;
+        color:black;
+    }
+    
+    .intermediateText{
+        font-size: calc($fontSize * 0.5);
+        font-weight: 7000;
+        text-align: center;
+        color:black;
+    }
+
+}
+
+.textDel{
+    display: flex;
+    flex-direction: row;
+}
+
+.delCont{
+    position: relative;
+    width: 10%;
+}
+
+.textAreaContainer, .imageContainer{
+    padding: 0;
+
+    height: max-content;
+    width: 75%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:1% 0;
+
+
+}
+
+.documentCoverTextAreas, .documentCoverTextAreasAuthors {
+    background-color: #ebe9e9 !important;
+    padding: 0 !important;
+    text-align: center;
+    line-height: 1.5 !important;
+    border: none;
+    font-size: calc($fontSize * 0.7);
+    overflow:auto !important;
+    white-space: pre-wrap;
+  }
+
+  .documentCoverTextAreasAuthors{
+    font-size: calc($fontSize * 0.5);
+    margin-bottom: 1vh;
+  }
+
+  $photoDim: 7vmin;
+
+  .characterPhoto{
+    position: relative;
+    
+    // padding: clamp(25%, 1vh ,40%);
+    /* padding-top: 0.56%; */
+    /* height: fit-content; */
+
+    height: fit-content;
+    width: fit-content;
+    box-sizing: content-box;
+
+    padding: $photoDim;
+
+    svg{
+      width: calc($photoDim*2);
+      height: $photoDim;
+    }
+    
+
+    
+    border: solid 0.5vh #000000;
+}
+
+.authorsContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 45%;
+    height: 100%;
+    padding:1% 0;
+    margin: 0;
+    border: solid 1px chocolate;
+}
+
+.author{
+    padding: 1%;
+    border: solid 1px rgb(0, 255, 98);
+    width: 100% !important;
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+}
+
+.addButtonContainer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    
+  }
+
+
+  .btn {
+    position: relative;
+
+    height: calc($fontSize * 1);
+    width: calc($fontSize * 1);
+    padding: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 3vh;
+
+    border: solid 2px #16425b;
+
+    &:hover {
+      color: #ffffff;
+      background-color: #16425b;
+    }
+
+    &:not(hover) {
+      color: black;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    fa-icon {
+      position: relative;
+      fill: #ffffff;
+      font-size: calc($fontSize * 0.5);
+      display: flex;
+    }
+  }

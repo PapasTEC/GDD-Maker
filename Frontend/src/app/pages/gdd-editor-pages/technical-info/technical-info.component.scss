@@ -49,8 +49,6 @@ $resizeFont: max(1.5vw, 1.5vh);
         padding: 2.5%;
         width: 100%;
         height: 100%;
-        min-width: 100%;
-        min-height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -96,6 +94,18 @@ $resizeFont: max(1.5vw, 1.5vh);
             border-radius: 1vh;
             width: 100%;
             padding: 0.05vh 0px;
+        }
+
+        .techInfoCardContent {
+            color: inherit;
+            position: relative;
+            width: 100%;
+            height: 80%;
+            display: flex;
+            margin-top: 3vh;
+            border-bottom-left-radius: inherit;
+            border-bottom-right-radius: inherit;
+            border: $borderState 2px #2ec201;
         }
     }
 }
@@ -213,4 +223,95 @@ $size: min(clamp(20%, 10vw, 50%), clamp(20%, 10vh, 50%));
         text-align: center;
         border: $borderState 1px #8b565f;
     }
+}
+
+
+
+.otherDetailsContent {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    padding: 0 2vw;
+}
+
+.otherDetailsBody {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: $borderState 1px #29f800;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 40%;
+    height: 100%;
+    width: 60%;
+    padding: 0;
+    margin: 0;
+    border: $borderState 2px #eb0505;
+    border-right: 1px solid rgba(0, 0, 0, 0.29);
+}
+
+.textBoxContainer {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 60%;
+    height: 100%;
+    width: 60%;
+    padding: 0;
+    margin: 0;
+    margin-left: 5%;
+    border: $borderState 2px #2705eb;
+}
+
+
+
+$contentPadding: 2%;
+
+
+$resizeFont: min(clamp(0.3em, 3vw, 3em), clamp(0.3em, 3vh, 3em));
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    min-width: 100%;
+
+    border: $borderState 1px #05eb37;
+
+
+}
+
+.textPart {
+    width: 100%;
+    height: 100%;
+    border: $borderState 1px #eb05d0;
+    margin-right: 0.1vw;
+    margin: 3%;
+}
+
+.txt{
+    border: none !important;
+    background-color: #E5E5E5 !important;
+}
+
+.txt:focus{
+    outline: none !important;
+    border: none !important;
+
 }

@@ -6,7 +6,7 @@ import { EditingDocumentService } from 'src/app/services/editing-document.servic
 @Component({
   selector: 'app-technical-info',
   templateUrl: './technical-info.component.html',
-  styleUrls: ['./technical-info.component.scss']
+  styleUrls: ['./technical-info.component.scss',"../editorGlobalStyles.scss",]
 })
 export class TechnicalInfoComponent {
 

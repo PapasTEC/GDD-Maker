@@ -10,7 +10,12 @@
             </div>
           </div>
           <div class="horizontalLine"></div>
-          <div class="techInfoCardContent">
+          <div
+            class="techInfoCardContent"
+            [ngStyle]="{
+              'margin-top': '0vh'
+            }"
+          >
             <div class="platformCanvas">
               <div
                 class="flexCont"
@@ -23,13 +28,15 @@
                       src="{{ platform.image }}"
                       alt=""
                     />
-                    <div class="overlay" styles="" >
+                    <div class="overlay" styles="">
                       <svg
                         id="i"
                         class="overlayImage"
                         version="1.1"
                         id="Capa_1"
-                        [style.display]="chosenPlatforms.includes(i) ? 'block' : 'none'"
+                        [style.display]="
+                          chosenPlatforms.includes(i) ? 'block' : 'none'
+                        "
                         xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink"
                         viewBox="-3.2 -3.2 38.40 38.40"
@@ -74,6 +81,66 @@
                     <span>{{ platform.name }}</span>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="techInfoCard" [ngStyle]="{
+          'min-height': 'max(20vh, 30vw)'
+        }">
+        <div class="cardBody">
+          <div class="cardHeader">
+            <div class="title">
+              <span> Other details </span>
+            </div>
+          </div>
+          <div class="horizontalLine"></div>
+          <div class="techInfoCardContent">
+            <div class="otherDetailsContent">
+              <div class="otherDetailsBody">
+                <div class="titleContainer">
+                  <div class="inputContainer">
+                    
+                  </div>
+                </div>
+                <div class="textBoxContainer">
+                    <div class="inputContainer">
+                      <div class="textPart">
+                        <input
+                          id="tagText"
+                          class="textBox txt"
+                          type="text"
+                          
+                        />
+                      </div>
+                      <div class="textPart">
+                        <input
+                          id="tagText"
+                          class="textBox txt"
+                          type="text"
+                          
+                        />
+                      </div>
+                      <div class="textPart">
+                          <input
+                            id="tagText"
+                            class="textBox txt"
+                            type="text"
+                            
+                          />
+                        </div>
+                        <div class="textPart">
+                          <input
+                          
+                            id="tagText"
+                            class="textBox txt"
+                            type="text"
+                            
+                          />
+                        </div>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>

@@ -7,10 +7,12 @@ import { BasicInfoComponent } from 'src/app/pages/gdd-editor-pages/basic-info/ba
 import { CharactersComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/characters/characters.component';
 import { EventsComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
 import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_cover/document-cover/document-cover.component';
+import { TechnicalInfoComponent } from 'src/app/pages/gdd-editor-pages/technical-info/technical-info.component';
 
 export const EditorLayoutRoutes: Routes = [
     { path: 'cover', component: DocumentCoverComponent, data: {section: "Document Cover", subSection: "Document Cover"}},
     { path: 'basicInfo', component: BasicInfoComponent, data: {section: "Basic Information", subSection: "Basic Information"} },
+    { path: 'techInfo', component: TechnicalInfoComponent, data: {section: "Technical Information", subSection: "Technical Information"} },
     { path: 'theme', component: VditorComponent, data: {section: "High Level Design", subSection: "Theme"} },
     { path: 'aesthetics', component: AestheticsComponent, data: {section: "High Level Design", subSection: "Aesthetics"} },
     { path: 'coreMechanic', component: CoreMechanicComponent, data: {section: "High Level Design", subSection: "Core Mechanic Diagram"} },

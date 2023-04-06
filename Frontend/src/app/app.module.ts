@@ -15,6 +15,7 @@ import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-la
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BasicInfoComponent } from './pages/gdd-editor-pages/basic-info/basic-info.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TechnicalInfoComponent } from './pages/gdd-editor-pages/technical-info/technical-info.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     DashboardLayoutComponent,
     GddSetupLayoutComponent,
     BasicInfoComponent,
+    TechnicalInfoComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

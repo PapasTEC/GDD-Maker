@@ -78,32 +78,20 @@ export class FinishSetupComponent {
       documentContent: [{
         sectionTitle: "Basic Information",
         subSections: [{
-          subSectionTitle: "Elevator Pitch",
+          subSectionTitle: "Basic Information",
           subSectionContent: {
-            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
             elevatorPitch: currentSetup.elevatorPitch,
             tagline: "",
             genres: [],
             tags: currentSetup.gameTags,
           }
-        }, {
-          subSectionTitle: "Tagline",
-          subSectionContent: {}
-        } , {
-          subSectionTitle: "Genre",
-          subSectionContent: {}
-        }, {
-          subSectionTitle: "Keywords and Tags",
-          subSectionContent: {
-            tags: currentSetup.gameTags
-          }
         }]
       }, {
         sectionTitle: "Technical Information",
         subSections: [{
-          subSectionTitle: "self",
+          subSectionTitle: "Technical Information",
           subSectionContent: {
-            platforms: myPlatforms
+            platforms: currentSetup.gamePlatforms,
           }
         }]
       }, {

@@ -13,6 +13,9 @@ import { BasicInfoComponent } from '../../pages/gdd-editor-pages/basic-info/basi
 import { DetailCoreMechanicComponent } from '../../pages/gdd-editor-pages/low_level_design/detail_core_mechanic/detail_core_mechanic.component';
 import { EventsComponent } from '../../pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { CharactersComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/characters/characters.component';
+import { EventsComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
+import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_cover/document-cover/document-cover.component';
 
 @NgModule({
   imports: [
@@ -34,6 +37,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     EventsComponent,
     BasicInfoComponent,
     DetailCoreMechanicComponent,
+    DocumentCoverComponent,
   ]
 })
 

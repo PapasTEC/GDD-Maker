@@ -54,16 +54,19 @@
             <!-- <a class="nActive" href="#/editor">Tematica</a> -->
             <!-- *ngFor="let sec of documentLayout; index as i" -->
             <div *ngFor="let sec of documentLayout; index as i">
-              <button class="dropdown-btn">
-                <span>{{sec.section}}</span>
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-container" style="display: none" >
-                <a class="nActive" (click)="switchSection(subSec)" [routerLink]="[sec.paths[j]]" queryParamsHandling="merge" *ngFor="let subSec of sec.subSections; index as j"><span>{{subSec}}</span></a>
-                
+              <div *ngIf="sec.subSections.length !== 0;else alt">
+                <button class="dropdown-btn">
+                  <span>{{sec.section}}</span>
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-container" style="display: none" >
+                  <a class="nActive" (click)="switchSection(subSec)" [routerLink]="[sec.paths[j]]" queryParamsHandling="merge" *ngFor="let subSec of sec.subSections; index as j"><span>{{subSec}}</span></a>
+                </div>
               </div>
+              <ng-template #alt>
+                <a class="nActive" (click)="switchSection(sec.section)" [routerLink]="[sec.paths[0]]" queryParamsHandling="merge"><span>{{sec.section}}</span></a>
+              </ng-template>
             </div>
-            <!-- <a class="nActive" href="#/editor">About</a> -->
           </div>
         </div>
       </div>

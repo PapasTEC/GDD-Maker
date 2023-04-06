@@ -7,8 +7,10 @@ import { CharactersComponent } from 'src/app/pages/gdd-editor-pages/narrative_an
 import { BasicInfoComponent } from 'src/app/pages/gdd-editor-pages/basic-info/basic-info.component';
 import { DetailCoreMechanicComponent } from 'src/app/pages/gdd-editor-pages/low_level_design/detail_core_mechanic/detail_core_mechanic.component';
 import { EventsComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
+import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_cover/document-cover/document-cover.component';
 
 export const EditorLayoutRoutes: Routes = [
+    { path: 'cover', component: DocumentCoverComponent, data: {section: "Document Cover", subSection: "Document Cover"}},
     { path: 'basicInfo', component: BasicInfoComponent, data: {section: "Basic Information", subSection: "Basic Information"} },
     { path: 'theme', component: VditorComponent, data: {section: "High Level Design", subSection: "Theme"} },
     { path: 'aesthetics', component: AestheticsComponent, data: {section: "High Level Design", subSection: "Aesthetics"} },

@@ -17,11 +17,13 @@
               class="vditor-reset textArea scrollBar"
               [value]="elevatorPitch"
               placeholder=""
+              [(ngModel)]="elevatorPitch"
+              (input)="updateDocument()"
             ></textarea>
           </div>
         </div>
       </div>
-      <!-- Slogan -->
+      <!-- Tagline -->
       <div
         class="basicInfoCard"
         [ngStyle]="{
@@ -31,7 +33,7 @@
         <div class="cardBody">
           <div class="cardHeader">
             <div class="title">
-              <span> Slogan </span>
+              <span> Tagline </span>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -40,8 +42,10 @@
               id="txtArea"
               #txtArea
               class="vditor-reset textArea scrollBar"
-              [value]="slogan"
+              [value]="tagline"
               placeholder=""
+              [(ngModel)]="tagline"
+              (input)="updateDocument()"
             ></textarea>
           </div>
         </div>
@@ -62,76 +66,78 @@
           <div class="horizontalLine"></div>
           <div class="basicInfoCardContent">
             <div class="tagsContent">
-                <div class="genreBody">
-                    <div class="titleContentContainer">
-                      <div class="subtitleContainer">
-                        <span class="subtitle">Add Genres</span>
+              <div class="genreBody">
+                <div class="titleContentContainer">
+                  <div class="subtitleContainer">
+                    <span class="subtitle">Add Genre</span>
+                  </div>
+                  <div class="contentContainer" style="height: 100%">
+                    <div class="inputContainer">
+                      <div class="textPart">
+                        <input
+                          id="genreText"
+                          class="textBox"
+                          type="text"
+                          placeholder="New genre"
+                          [(ngModel)]="genreName"
+                        />
                       </div>
-                      <div class="contentContainer" style="height: 100%">
-                        <div class="inputContainer">
-                          <div class="textPart">
-                            <input
-                              id="genreText"
-                              class="textBox"
-                              type="text"
-                              placeholder="New genre"
-                              [(ngModel)]="genreName"
-                            />
-                          </div>
-                          <div class="buttonPart">
-                            <button class="btn" (click)="addGenre()">
-                              <svg
-                                class="icon"
-                                style="
-                                  filter: invert(100%) sepia(0%) saturate(7500%)
-                                    hue-rotate(247deg) brightness(110%) contrast(108%);
-                                "
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                              >
-                                <polygon
-                                  fill-rule="evenodd"
-                                  points="13 11 22 11 22 13 13 13 13 22 11 22 11 13 2 13 2 11 11 11 11 2 13 2"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="titleContentContainer">
-                      <div class="subtitleContainer">
-                        <span class="subtitle">Game Genres</span>
-                      </div>
-                      <div class="contentContainer">
-                        <div class="genresList">
-                          <div
-                            class="genreContainer"
-                            *ngFor="let genre of genres; index as i"
+                      <div class="buttonPart">
+                        <button class="btn" (click)="addGenre()">
+                          <svg
+                            class="icon"
+                            style="
+                              filter: invert(100%) sepia(0%) saturate(7500%)
+                                hue-rotate(247deg) brightness(110%)
+                                contrast(108%);
+                            "
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
                           >
-                            <span class="txt">{{ genre }}</span>
-                            <button class="btn" (click)="deleteGenre(i)">
-                              <svg
-                                class="icon"
-                                style="
-                                  filter: invert(100%) sepia(0%) saturate(7500%)
-                                    hue-rotate(247deg) brightness(110%) contrast(108%);
-                                "
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
+                            <polygon
+                              fill-rule="evenodd"
+                              points="13 11 22 11 22 13 13 13 13 22 11 22 11 13 2 13 2 11 11 11 11 2 13 2"
+                            />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="titleContentContainer">
+                  <div class="subtitleContainer">
+                    <span class="subtitle">Game Genres</span>
+                  </div>
+                  <div class="contentContainer">
+                    <div class="genresList">
+                      <div
+                        class="genreContainer"
+                        *ngFor="let genre of genres; index as i"
+                      >
+                        <span class="txt">{{ genre }}</span>
+                        <button class="btn" (click)="deleteGenre(i)">
+                          <svg
+                            class="icon"
+                            style="
+                              filter: invert(100%) sepia(0%) saturate(7500%)
+                                hue-rotate(247deg) brightness(110%)
+                                contrast(108%);
+                            "
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -152,76 +158,78 @@
           <div class="horizontalLine"></div>
           <div class="basicInfoCardContent">
             <div class="tagsContent">
-                <div class="genreBody">
-                    <div class="titleContentContainer">
-                      <div class="subtitleContainer">
-                        <span class="subtitle">Add Tag</span>
+              <div class="genreBody">
+                <div class="titleContentContainer">
+                  <div class="subtitleContainer">
+                    <span class="subtitle">Add Tag</span>
+                  </div>
+                  <div class="contentContainer" style="height: 100%">
+                    <div class="inputContainer">
+                      <div class="textPart">
+                        <input
+                          id="tagText"
+                          class="textBox"
+                          type="text"
+                          placeholder="New tag"
+                          [(ngModel)]="tagName"
+                        />
                       </div>
-                      <div class="contentContainer" style="height: 100%">
-                        <div class="inputContainer">
-                          <div class="textPart">
-                            <input
-                              id="tagText"
-                              class="textBox"
-                              type="text"
-                              placeholder="New tag"
-                              [(ngModel)]="tagName"
-                            />
-                          </div>
-                          <div class="buttonPart">
-                            <button class="btn" (click)="addTag()">
-                              <svg
-                                class="icon"
-                                style="
-                                  filter: invert(100%) sepia(0%) saturate(7500%)
-                                    hue-rotate(247deg) brightness(110%) contrast(108%);
-                                "
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                              >
-                                <polygon
-                                  fill-rule="evenodd"
-                                  points="13 11 22 11 22 13 13 13 13 22 11 22 11 13 2 13 2 11 11 11 11 2 13 2"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="titleContentContainer">
-                      <div class="subtitleContainer">
-                        <span class="subtitle">Game Tags</span>
-                      </div>
-                      <div class="contentContainer">
-                        <div class="genresList">
-                          <div
-                            class="genreContainer"
-                            *ngFor="let tag of tags; index as i"
+                      <div class="buttonPart">
+                        <button class="btn" (click)="addTag()">
+                          <svg
+                            class="icon"
+                            style="
+                              filter: invert(100%) sepia(0%) saturate(7500%)
+                                hue-rotate(247deg) brightness(110%)
+                                contrast(108%);
+                            "
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
                           >
-                            <span class="txt">{{ tag }}</span>
-                            <button class="btn" (click)="deleteTag(i)">
-                              <svg
-                                class="icon"
-                                style="
-                                  filter: invert(100%) sepia(0%) saturate(7500%)
-                                    hue-rotate(247deg) brightness(110%) contrast(108%);
-                                "
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
+                            <polygon
+                              fill-rule="evenodd"
+                              points="13 11 22 11 22 13 13 13 13 22 11 22 11 13 2 13 2 11 11 11 11 2 13 2"
+                            />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="titleContentContainer">
+                  <div class="subtitleContainer">
+                    <span class="subtitle">Game Tags</span>
+                  </div>
+                  <div class="contentContainer">
+                    <div class="genresList">
+                      <div
+                        class="genreContainer"
+                        *ngFor="let tag of tags; index as i"
+                      >
+                        <span class="txt">{{ tag }}</span>
+                        <button class="btn" (click)="deleteTag(i)">
+                          <svg
+                            class="icon"
+                            style="
+                              filter: invert(100%) sepia(0%) saturate(7500%)
+                                hue-rotate(247deg) brightness(110%)
+                                contrast(108%);
+                            "
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

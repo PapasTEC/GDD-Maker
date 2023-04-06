@@ -59,6 +59,11 @@ $cardSeparation: 1.5%;
 
     width: 100%;
     box-sizing: content-box;
+
+    svg{
+      width: 7vh;
+      height: 7vh;
+    }
     
 
     
@@ -631,6 +636,8 @@ $topH: 30%;
   }
 }
 
+
+
 .trashButton{
     position: absolute;
     top: 2%;
@@ -644,6 +651,6 @@ $topH: 30%;
   transform: translate(0%, -50%);
   color: #ccc;
   cursor: move;
-  width: 24px;
-  height: 24px;
+  width: calc($resizeFont * 0.75);
+  height: calc($resizeFont * 0.75);
 }

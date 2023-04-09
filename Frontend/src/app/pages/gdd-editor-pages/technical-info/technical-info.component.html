@@ -86,61 +86,68 @@
           </div>
         </div>
       </div>
-      <div class="techInfoCard" [ngStyle]="{
-          'min-height': 'max(20vh, 30vw)'
-        }">
+      <div
+        class="techInfoCard"
+        [ngStyle]="{
+          'min-height': 'max(20vh, 25vw)'
+        }"
+      >
         <div class="cardBody">
-          <div class="cardHeader">
-            <div class="title">
-              <span> Other details </span>
-            </div>
-          </div>
-          <div class="horizontalLine"></div>
           <div class="techInfoCardContent">
             <div class="otherDetailsContent">
               <div class="otherDetailsBody">
-                <div class="titleContainer">
-                  <div class="inputContainer">
-                    
+                <div class="otherDetailRow">
+                  <div class="textColumn">
+                    <div class="titleText">AGE CLASSIFICATION</div>
+                  </div>
+                  <div class="inputColumn">
+                    <input
+                      type="text"
+                      [value]="ageClassification"
+                      [(ngModel)]="ageClassification"
+                      (input)="updateDocument()"
+                    />
                   </div>
                 </div>
-                <div class="textBoxContainer">
-                    <div class="inputContainer">
-                      <div class="textPart">
-                        <input
-                          id="tagText"
-                          class="textBox txt"
-                          type="text"
-                          
-                        />
-                      </div>
-                      <div class="textPart">
-                        <input
-                          id="tagText"
-                          class="textBox txt"
-                          type="text"
-                          
-                        />
-                      </div>
-                      <div class="textPart">
-                          <input
-                            id="tagText"
-                            class="textBox txt"
-                            type="text"
-                            
-                          />
-                        </div>
-                        <div class="textPart">
-                          <input
-                          
-                            id="tagText"
-                            class="textBox txt"
-                            type="text"
-                            
-                          />
-                        </div>
-                    </div>
+                <div class="otherDetailRow">
+                  <div class="textColumn">
+                    <div class="titleText">TARGET AUDIENCE</div>
                   </div>
+                  <div class="inputColumn">
+                    <input
+                      type="text"
+                      [value]="targetAudience"
+                      [(ngModel)]="targetAudience"
+                      (input)="updateDocument()"
+                    />
+                  </div>
+                </div>
+                <div class="otherDetailRow">
+                  <div class="textColumn">
+                    <div class="titleText">RELEASE DATE</div>
+                  </div>
+                  <div class="inputColumn">
+                    <input
+                      type="date"
+                      [value]="releaseDate"
+                      [(ngModel)]="releaseDate"
+                      (input)="updateDocument()"
+                    />
+                  </div>
+                </div>
+                <div class="otherDetailRow">
+                  <div class="textColumn">
+                    <div class="titleText">PRICE</div>
+                  </div>
+                  <div class="inputColumn">
+                    <input
+                      type="text"
+                      [value]="price"
+                      [(ngModel)]="price"
+                      (input)="updateDocument()"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

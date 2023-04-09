@@ -92,6 +92,10 @@ export class FinishSetupComponent {
           subSectionTitle: "Technical Information",
           subSectionContent: {
             platforms: currentSetup.gamePlatforms,
+            ageClassification : "",
+            targetAudience: "",
+            releaseDate: "",
+            price: "",
           }
         }]
       }, {

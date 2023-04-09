@@ -23,12 +23,16 @@ export class TechnicalInfoComponent {
   ];
 
   chosenPlatforms = [];
+  ageClassification = "";
+  targetAudience = "";
+  releaseDate = "";
+  price = "";
 
 
   section: any;
   subSection: any;
   documentSubSection: any;
-  techInfo = { platforms: []};
+  techInfo = { platforms: [], ageClassification: "", targetAudience: "", releaseDate: "", price: ""};
 
   constructor(private editingDocumentService: EditingDocumentService, private route: ActivatedRoute) {}
 
@@ -47,9 +51,6 @@ export class TechnicalInfoComponent {
     console.log("section: ", this.section);
     console.log("subSection: ", this.subSection);
 
-    // this.addDocSectionIfItDoesntExist(this.section);
-    // this.addDocSubSectionIfItDoesntExist(this.section, this.subSection, {characters: []} );
-
     this.editingDocumentService.document$
       .pipe(
         filter((document) => document !== null),
@@ -65,11 +66,20 @@ export class TechnicalInfoComponent {
         console.log("Document: ", document);
         this.documentSubSection = document;
         this.chosenPlatforms = document.subSectionContent.platforms;
+        this.ageClassification = document.subSectionContent.ageClassification;
+        this.targetAudience = document.subSectionContent.targetAudience;
+        this.releaseDate = document.subSectionContent.releaseDate;
+        this.price = document.subSectionContent.price;
+        
     });
   }
 
   updateDocument() {
     this.techInfo.platforms = this.chosenPlatforms;
+    this.techInfo.ageClassification = this.ageClassification;
+    this.techInfo.targetAudience = this.targetAudience;
+    this.techInfo.releaseDate = this.releaseDate;
+    this.techInfo.price = this.price;
     console.log("Tech Info: ", this.techInfo);
     this.documentSubSection.subSectionContent = this.techInfo;
     this.editingDocumentService.updateDocumentSubSection(

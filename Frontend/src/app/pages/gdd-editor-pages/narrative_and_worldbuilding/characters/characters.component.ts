@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-characters',
   templateUrl: './characters.component.html',
-  styleUrls: ['../../editorGlobalStyles.scss', '../../vditor/vditor.component.scss', './characters.component.scss'],
+  styleUrls: ['../../vditor/vditor.component.scss', './characters.component.scss', '../../editorGlobalStyles.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class CharactersComponent {

@@ -6,7 +6,7 @@
     <div class="textContainer">
       <span class="intermediateText"> FOR </span>
     </div>
-    <div class="textAreaContainer">
+    <div class="textAreaContainerCover">
       <textarea
         rows="1"
         #titl
@@ -17,11 +17,11 @@
       ></textarea>
     </div>
     <div class="imageContainer">
-      <button class="butt characterPhoto">
+      <button #gameLogo class="butt coverPhoto">
         <input
           type="file"
           accept="image/*"
-          id="logo"
+          
           style="
             position: absolute;
             opacity: 0;
@@ -30,6 +30,7 @@
             width: 100%;
             height: 100%;
           "
+          (change)="onFileSelected($event, gameLogo, 1)"
         />
         <svg
           class="icon"
@@ -47,7 +48,7 @@
       <span class="intermediateText"> A GAME BY </span>
     </div>
 
-    <div class="textAreaContainer">
+    <div class="textAreaContainerCover">
       <textarea
         rows="1"
         #comp
@@ -58,11 +59,11 @@
       ></textarea>
     </div>
     <div class="imageContainer">
-      <button class="butt characterPhoto">
+      <button #compLogo class="butt coverPhoto">
         <input
           type="file"
           accept="image/*"
-          id="logo"
+          
           style="
             position: absolute;
             opacity: 0;
@@ -71,6 +72,7 @@
             width: 100%;
             height: 100%;
           "
+          (change)="onFileSelected($event, compLogo, 0)"
         />
         <svg
           class="icon"
@@ -92,7 +94,7 @@
     <div class="authorsContainer">
       <div class="textDel" *ngFor="let author of authors; index as i">
         <div class="delCont"></div>
-        <div class="textAreaContainer author">
+        <div class="textAreaContainerCover author">
           <textarea
             rows="1"
             id="el"
@@ -104,13 +106,13 @@
           ></textarea>
         </div>
         <div class="delCont">
-          <button #trash type="button" class="btn" (click)="removeAuthor(i)">
+          <button #trash type="button" class="btn btnCover" (click)="removeAuthor(i)">
             <fa-icon [icon]="trashIcon"></fa-icon>
           </button>
         </div>
       </div>
       <div class="addButtonContainer">
-        <button #trash type="button" class="btn" (click)="addAuthor()">
+        <button #trash type="button" class="btn btnCover" (click)="addAuthor()">
           <fa-icon [icon]="plusIcon"></fa-icon>
         </button>
       </div>

@@ -20,9 +20,19 @@ export class DocumentCoverComponent {
 
   lastUpdate:string;
 
+  cover = {GameName: "", GameLogo:"", CompanyLogo:"", CompanyName: "", Authors: this.authors};
+
   ngOnInit(){
     this.resetAreasSize();
     this.setLastUpdate();
+
+    this.cover.GameName = this.gameName;
+    this.cover.CompanyName = this.companyName;
+
+    setInterval(() => {
+     console.log(this.cover);
+    }, 1000);
+
   }
 
   resetAreasSize(){
@@ -40,9 +50,15 @@ export class DocumentCoverComponent {
     
     this.breakLines(ev);
 
-    
+    this.updateCoverContent();
 
 
+  }
+
+  updateCoverContent(){
+    this.cover.Authors = this.authors;
+    this.cover.GameName = this.gameName;
+    this.cover.CompanyName = this.companyName;
   }
 
   getCurrentDate(){
@@ -67,10 +83,12 @@ export class DocumentCoverComponent {
 
   addAuthor(){
     this.authors.push({'name': ""});
+    this.updateCoverContent();
   }
 
   removeAuthor(index:number){
     this.authors.splice(index, 1);
+    this.updateCoverContent();
   }
   
 
@@ -116,5 +134,54 @@ export class DocumentCoverComponent {
   ngAfterViewInit(){
     console.log("ngAfterViewInit");
     this.resetAreasSize();
+  }
+
+  public onFileSelected(event: any, element: HTMLElement, isGameLogo: any): void {
+    const file = event.target.files[0];
+    console.log(element)
+    if (file) {
+      const img = URL.createObjectURL(file);
+
+      if(isGameLogo){
+        this.cover.GameLogo = img;
+      }else{
+        this.cover.CompanyLogo = img;
+      }
+
+      this.updateLogo(img, element);
+
+
+    }
+  }
+
+  private updateLogo(image, target: HTMLElement): void {
+    let uploadButton = target;
+    uploadButton.style.backgroundImage = `url(${image})`;
+    uploadButton.style.backgroundSize = "100% 100%";
+    uploadButton.style.backgroundRepeat = "no-repeat";
+
+    let uploadButtonChild = uploadButton.children[1] as HTMLElement;
+    
+    // Get photo aspect ratio
+    let img = new Image();
+    img.src = image;
+    img.onload = () => {
+      let aspectRatio = img.width / img.height;
+      console.log("aspectRatio: ", aspectRatio);
+      uploadButtonChild.style.display = "none";
+
+      const w = "calc(4vmax * " + (aspectRatio) + ")"
+      const h = "4vmax";
+
+        uploadButton.style.width = w;
+        uploadButton.style.height = h;
+
+        uploadButton.style.paddingTop = h;
+        uploadButton.style.paddingBottom = h;
+
+        uploadButton.style.paddingLeft = w;
+        uploadButton.style.paddingRight = w;
+      
+    };
   }
 }

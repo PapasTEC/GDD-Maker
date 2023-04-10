@@ -15,19 +15,19 @@
     flex-direction: column;
     position: relative;
     align-items: center;
-    width: 75%;
+    width: 60%;
     height: 100%;
 
 }
 
-$textContainerHeight: min(10%, 7vh);
-$fontSize: max(2.5vh, 2.5vw);
+$textContainerHeight: 10%;
+$fontSize: clamp(1rem, 7.5vmax, 3rem);
 
 
 
 .textContainer{
 
-    height: fit-content;
+    height: 100%;
     width: 100%;
 
     display: flex;
@@ -37,7 +37,7 @@ $fontSize: max(2.5vh, 2.5vw);
 
     border: solid 1px chocolate;
 
-    padding:1% 0;
+    padding:1vmax 0;
 
 
     .titleText{
@@ -66,7 +66,7 @@ $fontSize: max(2.5vh, 2.5vw);
     width: 10%;
 }
 
-.textAreaContainer, .imageContainer{
+.textAreaContainerCover, .imageContainer{
     padding: 0;
 
     height: max-content;
@@ -98,29 +98,42 @@ $fontSize: max(2.5vh, 2.5vw);
     margin-bottom: 1vh;
   }
 
-  $photoDim: 7vmin;
-
-  .characterPhoto{
+  $photoDim: 4vmax;
+  $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
+  .coverPhoto{
     position: relative;
+
+    transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     
     // padding: clamp(25%, 1vh ,40%);
     /* padding-top: 0.56%; */
     /* height: fit-content; */
 
-    height: fit-content;
     width: fit-content;
+    height: $photoDim;
     box-sizing: content-box;
 
     padding: $photoDim;
 
+    border: none;
+
+    &:hover{
+        scale: 1.01;
+        background-color: rgb(238, 235, 235);
+        box-shadow: $shadow;
+
+    }
+
     svg{
+      transition: scale 0s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+
+      display: block;
       width: calc($photoDim*2);
       height: $photoDim;
     }
     
 
     
-    border: solid 0.5vh #000000;
 }
 
 .authorsContainer{
@@ -154,7 +167,7 @@ $fontSize: max(2.5vh, 2.5vw);
   }
 
 
-  .btn {
+  .btnCover {
     position: relative;
 
     height: calc($fontSize * 1);
@@ -185,5 +198,15 @@ $fontSize: max(2.5vh, 2.5vw);
       fill: #ffffff;
       font-size: calc($fontSize * 0.5);
       display: flex;
+    }
+  }
+
+  .appearOnlyOnHover {
+    &:hover {
+      display: flex;
+    }
+
+    &:not(hover) {
+      display: none;
     }
   }

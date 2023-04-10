@@ -29,9 +29,9 @@ export class DocumentCoverComponent {
     this.cover.GameName = this.gameName;
     this.cover.CompanyName = this.companyName;
 
-    setInterval(() => {
-     console.log(this.cover);
-    }, 1000);
+    // setInterval(() => {
+    //  console.log(this.cover);
+    // }, 1000);
 
   }
 

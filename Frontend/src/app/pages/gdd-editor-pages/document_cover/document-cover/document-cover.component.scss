@@ -41,7 +41,7 @@ $fontSize: clamp(1rem, 7.5vmax, 3rem);
 
 
     .titleText{
-        font-size: $fontSize;
+        font-size: calc($fontSize*1.2);
         font-weight: 7000;
         text-align: center;
         color:black;

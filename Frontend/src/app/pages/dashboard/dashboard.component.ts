@@ -46,36 +46,40 @@ export class DashboardComponent implements OnInit {
     this.tokenService.decodeToken().subscribe((data: any) => {
       console.log(`${JSON.stringify(data.decoded)}`);
       this.email = data.decoded.email;
-    });
 
-    this.userService.getUser(this.email).subscribe((data: any) => {
-      this.sharedProjects = data.shared_with_me_documents;
-      this.documentService.getMyProjects(this.email).subscribe((data: any) => {
-        this.MyProjectsData = data.map((project: any) => {
-          return {
-            documentTitle: project.frontPage.documentTitle,
-            documentLogo: project.frontPage.documentLogo,
-            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-            owner: "",
-            _id: project._id
-          }
+      this.userService.getUser(this.email).subscribe((data: any) => {
+        this.sharedProjects = data.shared_with_me_documents ;
+        this.documentService.getMyProjects(this.email).subscribe((data: any) => {
+          console.log(data);
+          this.MyProjectsData = data.map((project: any) => {
+            return {
+              documentTitle: project.frontPage.documentTitle,
+              documentLogo: project.frontPage.documentLogo,
+              lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+              owner: "",
+              _id: project._id
+            }
+          });
+          this.Projects = this.MyProjectsData;
+          this.data = this.Projects;
         });
-        this.Projects = this.MyProjectsData;
-        this.data = this.Projects;
+  
+        this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
+          this.SharedProjectsData = data.map((project: any) => {
+            return {
+              documentTitle: project.frontPage.documentTitle,
+              documentLogo: project.frontPage.documentLogo,
+              lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+              owner: project.owner,
+              _id: project._id
+            }
+          });
+        });
       });
 
-      this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
-        this.SharedProjectsData = data.map((project: any) => {
-          return {
-            documentTitle: project.frontPage.documentTitle,
-            documentLogo: project.frontPage.documentLogo,
-            lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-            owner: project.owner,
-            _id: project._id
-          }
-        });
-      });
     });
+    
+    
   }
 
   goToEditor(idProject: string) {

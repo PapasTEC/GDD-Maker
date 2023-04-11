@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const email = this.emailForm.value.email;
       const code = this.codeForm.value.code;
       this.userService.login(email, code).subscribe((response) => {
+        console.log("response ",response);
         if (response.token) {
           console.log(response.token);
           alert("You are logged in");
@@ -89,7 +90,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
 
         (error) => {
+          console.log(error);
           if (error.status == 500) {
+            
             alert("Wrong code");
           }
         });

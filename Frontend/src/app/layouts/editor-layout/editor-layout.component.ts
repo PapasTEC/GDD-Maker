@@ -189,9 +189,23 @@ export class EditorLayoutComponent implements OnInit {
     });
   }
 
-  switchSection(title: string) {
-    this.currentTitle = title;
+  switchSection(sectionTitle: string = null) {
+    if (!sectionTitle) {
+      const url = this.getSectionRegex(this.location.path());
+      let routesChildren: any;
+      routesChildren = this.route.routeConfig.children[0];
+      routesChildren = routesChildren._loadedRoutes;
+      for (const route of routesChildren) {
+        if (route.path === url) {
+          sectionTitle = route.data.subSection;
+          break;
+        }
+      }
+    }
+  
+    this.currentTitle = sectionTitle;
   }
+  
 
   getSectionRegex(section: string) {
     const regex = /\/editor\/(\w+)\?pjt=/;
@@ -201,15 +215,11 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.switchSection();
 
     this.route.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
     });
-
-    const section = this.getSectionRegex(this.location.path());
-    if (section) {
-      this.switchSection(section);
-    }
 
     this.setDocumentData();
 
@@ -260,7 +270,7 @@ export class EditorLayoutComponent implements OnInit {
     var links = document.getElementsByTagName("a");
     for (i = 0; i < links.length; i++) {
       links[i].addEventListener("click", function () {
-        console.log(this.className);
+        console.log(this.className);        
         if (this.className == "nActive") {
           var otherLinks = document.getElementsByClassName("active");
           for (var j = 0; j < otherLinks.length; j++) {

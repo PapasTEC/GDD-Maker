@@ -22,17 +22,11 @@ export class TechnicalInfoComponent {
     { "name": "Nintendo Switch", "image": "../../assets/img/platformIcons/switch.png" },
   ];
 
-  chosenPlatforms = [];
-  ageClassification = "";
-  targetAudience = "";
-  releaseDate = "";
-  price = "";
-
-
   section: any;
   subSection: any;
   documentSubSection: any;
   techInfo = { platforms: [], ageClassification: "", targetAudience: "", releaseDate: "", price: ""};
+  today: Date = new Date();
 
   constructor(private editingDocumentService: EditingDocumentService, private route: ActivatedRoute) {}
 
@@ -65,21 +59,13 @@ export class TechnicalInfoComponent {
       ).subscribe((document) => {
         console.log("Document: ", document);
         this.documentSubSection = document;
-        this.chosenPlatforms = document.subSectionContent.platforms;
-        this.ageClassification = document.subSectionContent.ageClassification;
-        this.targetAudience = document.subSectionContent.targetAudience;
-        this.releaseDate = document.subSectionContent.releaseDate;
-        this.price = document.subSectionContent.price;
+        this.techInfo = document.subSectionContent;
+
         
     });
   }
 
   updateDocument() {
-    this.techInfo.platforms = this.chosenPlatforms;
-    this.techInfo.ageClassification = this.ageClassification;
-    this.techInfo.targetAudience = this.targetAudience;
-    this.techInfo.releaseDate = this.releaseDate;
-    this.techInfo.price = this.price;
     console.log("Tech Info: ", this.techInfo);
     this.documentSubSection.subSectionContent = this.techInfo;
     this.editingDocumentService.updateDocumentSubSection(
@@ -90,16 +76,14 @@ export class TechnicalInfoComponent {
   }
 
   public addOrRemove(platformID: number) {
-    if (this.chosenPlatforms.includes(platformID)) {
-      this.chosenPlatforms.splice(
-        this.chosenPlatforms.indexOf(platformID),
+    if (this.techInfo.platforms.includes(platformID)) {
+      this.techInfo.platforms.splice(
+        this.techInfo.platforms.indexOf(platformID),
         1
       );
     } else {
-      this.chosenPlatforms.push(platformID);
+      this.techInfo.platforms.push(platformID);
     }
-
-    console.log(this.chosenPlatforms);
     this.updateDocument();
   }
 

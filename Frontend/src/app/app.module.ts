@@ -17,6 +17,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import * as dotenv from 'dotenv';
 import { JwtInterceptorInterceptor } from './token/jwt-interceptor.interceptor';
 
+
 //dotenv.config();
 
 @NgModule({
@@ -31,7 +32,6 @@ import { JwtInterceptorInterceptor } from './token/jwt-interceptor.interceptor';
     RouterModule,
     AppRoutingModule,
     MatDialogModule,
-    DragDropModule,
   ],
   declarations: [
     AppComponent,

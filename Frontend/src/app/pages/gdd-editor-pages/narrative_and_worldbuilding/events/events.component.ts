@@ -9,7 +9,7 @@ import { TimelineEntry } from './event';
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
-  styleUrls: ['./events.component.scss'],
+  styleUrls: ['../../editorGlobalStyles.scss','./events.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class EventsComponent {

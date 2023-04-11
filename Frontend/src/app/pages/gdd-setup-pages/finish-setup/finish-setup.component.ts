@@ -10,6 +10,8 @@ import { TokenService } from 'src/app/services/token.service';
   templateUrl: './finish-setup.component.html',
   styleUrls: ['./finish-setup.component.scss', '../setupStyles.scss']
 })
+
+
 export class FinishSetupComponent {
   tempImage: string;
 
@@ -81,7 +83,17 @@ export class FinishSetupComponent {
         collaborators: [user.name],
         lastUpdated: new Date()
       },
-      documentContent: [{
+      documentContent: [
+        // {
+        //   sectionTitle: "Document Cover",
+        //   subSections: [{
+        //     subSectionTitle: "Document Cover",
+        //     subSectionContent: {
+        //       coverData: []
+        //     }
+        //   }]
+        // },
+        {
         sectionTitle: "Basic Information",
         subSections: [{
           subSectionTitle: "Basic Information",
@@ -195,15 +207,17 @@ export class FinishSetupComponent {
     );
   }
 
-  async convertTempUrlToBase64(url: any) {
+  
+  public async convertTempUrlToBase64(url: any) {
     const base64 = await this.scaleAndEncodeImage(url);
     return base64;
   }
 
   async scaleAndEncodeImage(url: any): Promise<string> {
-    const width = 256;
-    const height = 256;
+    let width = 512;
+    let height = width;
     const img = new Image();
+  
     const reader = new FileReader();
     reader.readAsDataURL(await fetch(url).then(r => r.blob()));
     const base64 = await new Promise<string>((resolve, reject) => {
@@ -213,6 +227,12 @@ export class FinishSetupComponent {
     return new Promise<string>((resolve, reject) => {
       img.onload = () => {
         const canvas = document.createElement('canvas');
+        const aspect = img.width / img.height;
+        if (img.width > img.height) {
+          height = width / aspect;
+        } else {
+          width = height * aspect;
+        }
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');

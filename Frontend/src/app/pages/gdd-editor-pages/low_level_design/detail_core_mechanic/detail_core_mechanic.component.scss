@@ -206,7 +206,8 @@ $resizeFont: max(1.5vw, 1.5vh);
 .detailTextArea {
   display: block;
   width: 100%;
-  min-height: 4vh;
+  min-height: 3vh;
+  height: 3vh;
   font-size: calc($resizeFont * 2 / 3);
   padding: 3px;
   margin: 0px;

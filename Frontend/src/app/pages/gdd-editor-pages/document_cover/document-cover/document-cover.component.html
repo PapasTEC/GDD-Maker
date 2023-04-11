@@ -9,6 +9,7 @@
     <div class="textAreaContainerCover">
       <textarea
         rows="1"
+        id="titl"
         #titl
         [(ngModel)]="gameName"
         class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
@@ -21,6 +22,8 @@
         <input
           type="file"
           accept="image/*"
+
+          
           
           style="
             position: absolute;
@@ -51,6 +54,7 @@
     <div class="textAreaContainerCover">
       <textarea
         rows="1"
+        id="comp"
         #comp
         [(ngModel)]="companyName"
         class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
@@ -91,7 +95,7 @@
       <span class="intermediateText"> DOCUMENT CREATED BY </span>
     </div>
 
-    <div class="authorsContainer">
+    <div class="authorsContainer" id="authCont">
       <div class="textDel" *ngFor="let author of authors; index as i">
         <div class="delCont"></div>
         <div class="textAreaContainerCover author">

@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, AfterViewChecked } from '@angular/core';
 import { faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 
@@ -34,6 +34,8 @@ export class DocumentCoverComponent {
   subSection:string;
   frontPage: any;
 
+  loaded = true;
+
   ;
 
   constructor(private editingDocumentService: EditingDocumentService, route: ActivatedRoute, private finishSetup: FinishSetupComponent ) {
@@ -50,7 +52,6 @@ export class DocumentCoverComponent {
 
   updateDocument() {
     
-    console.log("name", this.gameName)
     this.frontPage.documentTitle = this.cover.GameName;
 
     this.finishSetup.convertTempUrlToBase64(this.cover.GameLogo).then((result) => {
@@ -67,7 +68,6 @@ export class DocumentCoverComponent {
     });
     this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
 
-    console.log("frontPage", this.frontPage);
     console.log(this.companyName)
 
     this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
@@ -76,10 +76,7 @@ export class DocumentCoverComponent {
   ngOnInit(){
     this.getSectionAndSubSection(this.route);
 
-    console.log("section: ", this.section);
-    console.log("subSection: ", this.subSection);
-
-    this.resetAreasSize();
+    
     
     this.editingDocumentService.document$
       .pipe(
@@ -106,35 +103,59 @@ export class DocumentCoverComponent {
 
         this.updateLogo(this.gameLogo, gameLogoDoc);
         this.updateLogo(this.companyLogo, companyLogoDoc);
-
-        console.log("lu",frontPage.lastUpdated)
         
         this.setLastUpdate(new Date(frontPage.lastUpdated));
         
+        const titleArea = document.getElementById("titl") as HTMLElement;
+        const companyArea = document.getElementById("comp") as HTMLElement;
+
+        this.resetAreasSize(titleArea, this.gameName);
+        this.resetAreasSize(companyArea, this.companyName);
+        this.loaded = true;
+
       });
 
       this.cover.GameName = this.gameName;
       this.cover.CompanyName = this.companyName;
-
-      
   }
 
   
 
-  resetAreasSize(){
-    console.log("resetAreasSize");
-    const areas = document.querySelectorAll('textarea');
-    areas.forEach((area) => {
-      area.style.height = '1.5em';
-    });
+  resetAreasSize(area, _var){
+    
+    const targ = area as HTMLTextAreaElement;
+    let rows = _var.split("\n").length;
+
+    console.log("rows: ", _var);
+    
+    targ.style.height = `${rows * 1.5}em`;
+    targ.rows = rows;
+
+    targ.value = _var;
+    
+    while(targ.scrollHeight > targ.clientHeight){
+      console.log("targ.scrollHeight B: ", targ.style.height);
+      targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
+    }
+
+    while(targ.scrollHeight < targ.clientHeight){
+      console.log("targ.scrollHeight A: ", targ.style.height);
+      targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
+    }
+
+    this.updateCoverContent();
+      
+    
+
   }
 
   growShrink(ev: Event, var_:string) {
     let rows = var_.split("\n").length;
     let trgt = ev.target as HTMLTextAreaElement;
     trgt.style.height = `${rows * 1.5}em`;
+    trgt.rows = rows;
     
-    this.breakLines(ev);
+    this.breakLines(ev, rows);
     this.updateCoverContent();
 
   }
@@ -180,60 +201,56 @@ export class DocumentCoverComponent {
 
   updateTXT(ev: Event, elem: HTMLTextAreaElement, indexInp:string) {
     
-
     const index = parseInt(indexInp);
-    console.log("index: ", elem.value);
-
-    console.log(ev)
-
-    // if(elem.value == ""){
-    //   this.removeAuthor(index);
-    //   return;
-    // }
 
     this.authors[index].name = elem.value;
-    console.log("authors: ", this.authors);
 
     let rows = this.authors[index].name.split("\n").length;
     let trgt = ev.target as HTMLTextAreaElement;
     trgt.style.height = `${rows * 1.5}em`;
 
-    this.breakLines(ev);
+    this.breakLines(ev, rows);
     this.updateCoverContent();
     
   }
 
 
-  breakLines(ev: Event) {
+  breakLines(ev: Event, rows?:number) {
     const targ = ev.target as HTMLTextAreaElement;
 
     
-    if(targ.scrollHeight > targ.clientHeight){
+    while(targ.scrollHeight > targ.clientHeight){
       console.log("targ.scrollHeight B: ", targ.style.height);
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
     }
 
-    if(targ.scrollHeight < targ.clientHeight){
+    while(targ.scrollHeight < targ.clientHeight){
       console.log("targ.scrollHeight A: ", targ.style.height);
       targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
     }
   }
 
-  ngAfterViewInit(){
-    console.log("ngAfterViewInit");
-    this.resetAreasSize();
-  }
+  ngAfterViewChecked(){
+    if(this.loaded){
+      const auth = document.getElementById("authCont") as HTMLElement;
 
-  
+        const authsTXTArea = auth.getElementsByTagName("textarea") as HTMLCollectionOf<HTMLElement>;
+
+        for(let i = 0; i < authsTXTArea.length; i++){
+          this.resetAreasSize(authsTXTArea[i], this.authors[i].name);
+        }
+
+        this.loaded = false;
+
+    }
+    
+  }
 
 
   public onFileSelected(event: any, element: HTMLElement, isGameLogo: any, eventB=false, newF=File): void {
     const file = event.target.files[0];
-    console.log("Entra",file)
     if (file) {
       const img = URL.createObjectURL(file);
-
-      console.log("img: ", img);
 
       if(isGameLogo){
         this.cover.GameLogo = img;
@@ -274,7 +291,6 @@ export class DocumentCoverComponent {
     img.src = image;
     img.onload = () => {
       let aspectRatio = img.width / img.height;
-      console.log("aspectRatio: ", aspectRatio);
       uploadButtonChild.style.display = "none";
 
       const w = "calc(4vmax * " + (aspectRatio) + ")"

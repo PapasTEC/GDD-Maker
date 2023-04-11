@@ -1,0 +1,88 @@
+$diagram__color: #b71e42;
+$text-box-width: 30%;
+
+.diagram {
+  width: 50vw;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.text-box {
+  display: block;
+  background-color: $diagram__color;
+  color: white;
+  width: $text-box-width;
+  height: 160px;
+  padding: 10px;
+  border-radius: 20px;
+
+  &__textarea {
+    background-color: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    outline: none;
+
+    // target the placeholder text
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.61);
+    }
+  }
+}
+
+.second__row,
+.fourth__row {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+}
+
+.third__row {
+  display: flex;
+  .tb-left {
+    margin-right: auto;
+  }
+  .tb-right {
+    margin-left: auto;
+  }
+}
+
+.first__row,
+.fifth__row {
+  display: flex;
+  justify-content: center;
+}
+
+.right-arrow {
+}
+
+.left-arrow {
+  margin-left: calc($text-box-width - 5%);
+}
+
+.right-arrow {
+  margin-right: calc($text-box-width - 4%);
+}
+
+.second__row .right-arrow {
+  transform: rotate(90deg);
+}
+
+.fourth__row {
+  .left-arrow {
+    transform: rotate(270deg);
+  }
+
+  .right-arrow {
+    transform: rotate(180deg);
+  }
+}
+
+.left-arrow,
+.right-arrow {
+  // width: 50px;
+  height: 80px;
+}

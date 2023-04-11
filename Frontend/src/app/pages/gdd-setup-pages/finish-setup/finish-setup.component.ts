@@ -2,7 +2,8 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { DocumentService } from "../../../services/document.service";
-import { UserService } from "src/app/services/user.service";
+import { UserService } from 'src/app/services/user.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: "app-finish-setup",
@@ -12,11 +13,8 @@ import { UserService } from "src/app/services/user.service";
 export class FinishSetupComponent {
   tempImage: string;
 
-  constructor(
-    private documentService: DocumentService,
-    private userService: UserService,
-    private router: Router
-  ) {}
+  constructor(private tokenService: TokenService,private documentService: DocumentService, private userService: UserService,
+    private router: Router) { }
 
   platforms = [
     "Android",
@@ -44,8 +42,13 @@ export class FinishSetupComponent {
   ];
 
   async finishSetup() {
-    let user = JSON.parse(localStorage.getItem("currentUser"));
-    let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
+    let user;
+    this.tokenService.decodeToken().subscribe((data: any) => {
+      console.log(`${JSON.stringify(data.decoded)}`);
+      user = data.decoded;
+      user.image = localStorage.getItem('ImageUser');
+    });
+    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
 
     const myPlatforms = currentSetup.gamePlatforms.map((platform) => {
       return this.platforms[platform];

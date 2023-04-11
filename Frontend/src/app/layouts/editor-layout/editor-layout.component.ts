@@ -148,6 +148,7 @@ export class EditorLayoutComponent implements OnInit {
 
   saveDocument(): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      this.document.frontPage.lastUpdated = new Date();
       this.documentService.updateDocument(this.documentId, this.document).subscribe(
         res => {
           console.log("Update res: ", res);

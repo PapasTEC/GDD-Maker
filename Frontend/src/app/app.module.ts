@@ -14,8 +14,6 @@ import { ComponentsModule } from './components/components.module';
 import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-layout.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { TechnicalInfoComponent } from './pages/gdd-editor-pages/technical-info/technical-info.component';
-import { BasicInfoComponent } from './pages/gdd-editor-pages/basic-info/basic-info.component';
 
 @NgModule({
   imports: [
@@ -37,8 +35,6 @@ import { BasicInfoComponent } from './pages/gdd-editor-pages/basic-info/basic-in
     AuthLayoutComponent,
     DashboardLayoutComponent,
     GddSetupLayoutComponent,
-    BasicInfoComponent,
-    TechnicalInfoComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,11 @@
 import { Component } from "@angular/core";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
+import { DocumentService } from "src/app/services/document.service";
 import Vditor from "vditor";
 import { ActivatedRoute } from "@angular/router";
 import { filter, map, take } from "rxjs/operators";
+import { Buffer } from 'buffer';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: "app-vditor",
@@ -20,8 +23,18 @@ export class VditorComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private editingDocumentService: EditingDocumentService
+    private editingDocumentService: EditingDocumentService,
+    private documentService: DocumentService
   ) {}
+
+  // getMarkdown = (vditor: IVditor) => {
+  //   if (vditor.currentMode === "wysiwyg") {
+  //       return vditor.lute.VditorDOM2Md(vditor.wysiwyg.element.innerHTML);
+  //   } else if (vditor.currentMode === "ir") {
+  //       return vditor.lute.VditorIRDOM2Md(vditor.ir.element.innerHTML);
+  //   }
+  //   return "";
+  // };
 
   toggleToolbar() {
     const content = this.vditor.getValue();
@@ -81,24 +94,73 @@ export class VditorComponent {
 
   // Funciones para subir imagenes
 
-  public onFileSelected(event: any) {
+  public async onFileSelected(event: any) {
     const file = event.target.files[0];
 
     if (file) {
-      this.uploadedImage = URL.createObjectURL(file);
-      console.log("uploadedImage: ", this.uploadedImage);
-      this.vditor.insertValue(`![](${this.uploadedImage})`);
+      const fileSize = file.size / 1024 / 1024; // in MB
+      console.log("File size: " + fileSize);
+      // alert("File size: " + fileSize);
+      // if (fileSize > 1) {
+      //   alert("File size exceeds 1 MB");
+      //   return;
+      // }
+      const formData = new FormData();
+      formData.append('image', file);
+      this.documentService.uploadImage('234', formData).subscribe(res => {
+        console.log("res: ", res);
+      });
+      // console.log("res: ", res);
+      
+      // this.uploadedImage = URL.createObjectURL(file);
+      // this.vditor.insertValue(`![](${this.uploadedImage})`);
+      // const width = prompt("Width", "640");
+      // const height = prompt("Height", "480");
+      // const scaledBase64 = await this.scaleAndEncodeImage(this.uploadedImage, width, height);
+      // const base65 = await this.Base64ToBlob(scaledBase64);
+      // const buffer = Buffer.from(scaledBase64.substring(scaledBase64.indexOf(',') + 1), 'base64');
+      // console.log("Byte length: " + buffer.length);
+      // console.log("MB: " + buffer.length / 1e+6);
+      // console.log("uploadedImage: ", this.uploadedImage);
+      // this.vditor.insertValue(`![](${URL.createObjectURL(base65)})`);
     }
   }
 
-  // async waitUntilValue() {
-  //   return new Promise((resolve) => {
-  //     document.getElementById("fileSelector").addEventListener("chance", () => {
-  //       resolve(th);
-  //     });
+  async Base64ToBlob(base64: string): Promise<Blob> {
+    const res = await fetch(base64);
+    const blob = await res.blob();
+    return blob;
+  }
 
-  //   });
-  // }
+  async scaleAndEncodeImage(url: any, width: any, height: any): Promise<string> {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.readAsDataURL(await fetch(url).then(r => r.blob()));
+    const base64 = await new Promise<string>((resolve, reject) => {
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error);
+    });
+    return new Promise<string>((resolve, reject) => {
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = width * img.height / img.width;
+        const ctx = canvas.getContext('2d');
+        // ctx.drawImage(img, 0, 0, width, height);
+        // ctx.drawImage(img, 0, 0, height, height * img.height / img.width);
+        ctx.drawImage(img, 0, 0, width, width * img.height / img.width);
+        // ctx.drawImage(img, 0, 0, width * img.width / img.height, width);
+        // context.drawImage(imageObj, 0, 0, 100, 100 * imageObj.height / imageObj.width)
+        const scaledBase64 = canvas.toDataURL();
+        console.log("img: ", img.width, img.height);
+        console.log("scaledBase64: ", canvas.width, canvas.height);
+        resolve(scaledBase64);
+      };
+      img.onerror = () => reject(new Error('Failed to load image'));
+      img.src = base64;
+    });
+  }
+
 
   uploadImage() {
     document.getElementById("fileSelector").click();
@@ -108,8 +170,9 @@ export class VditorComponent {
   // Configuracion de vditor
 
   changeVditorConfig(toolbar: boolean, content: string): IOptions {
-    return {
+    return { 
       value: content,
+      placeholder: "Type here...",
       image: {
         preview(bom: Element) {
           console.log(bom);
@@ -122,7 +185,7 @@ export class VditorComponent {
       //   },
       // },
       upload: {
-        max: 5242880,
+        max: 1048576,
         accept: 'image/jpeg,image/png,image/gif',
         // url: "/api/upload/editor",
         // linkToImgUrl: "/api/upload/fetch",
@@ -341,6 +404,21 @@ export class VditorComponent {
               name: "devtools",
               tipPosition: "nw",
             },
+            {
+              icon: '<svg><use xlink:href="#vditor-icon-edit"></use></svg>',
+              name: "edit-mode",
+              tipPosition: "nw",
+            },
+            // {
+            //   icon: '<svg><use xlink:href="#vditor-icon-bug"></use></svg>',
+            //   name: "getMarkdown",
+            //   tip: "Print Markdown",
+            //   tipPosition: "s",
+            //   click () {
+            //     const markdown = this.vditor.VditorIRDOM2Md(this.vditor.ir.element.innerHTML);
+            //     console.log("Makrdown: ", markdown)
+            //   }
+            // },
             {
               name: "br",
             },

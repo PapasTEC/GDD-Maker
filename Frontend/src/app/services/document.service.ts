@@ -8,6 +8,8 @@ export class DocumentService {
 
   API = '/api/documents/';
 
+  Image = '/api/images/';
+
   constructor(private http: HttpClient) {}
 
   getDocuments() {
@@ -40,5 +42,9 @@ export class DocumentService {
 
   updateOwnerInDocuments(owner: string, newOwner: any) {
     return this.http.put(this.API + 'updateOwner/' + owner, newOwner);
+  }
+
+  uploadImage(owner: string, formData: any) {
+    return this.http.post<any>(this.Image + owner + '/images', formData);
   }
 }

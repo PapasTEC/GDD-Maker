@@ -34,5 +34,6 @@ app.use('/app/*', function(req, res) {
 app.use("/api/users", require("./routes/UserRoutes"))
 app.use("/api/documents", require("./routes/DocumentRoutes"))
 app.use("/api/token", require("./routes/TokenRoute"))
+app.use("/api/images", require("./routes/ImageRoutes"))
 
 module.exports = app

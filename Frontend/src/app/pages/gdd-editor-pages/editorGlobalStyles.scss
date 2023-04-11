@@ -11,7 +11,7 @@ $background:    #D9DCD6 !default;
     width: 100%;
     top: 0%;
     left: 0%;
-    padding: max(3vh, 3vw);
+    padding: max(2vh, 2vw);
 
 }
 .lowerContainer{
@@ -49,11 +49,12 @@ $background:    #D9DCD6 !default;
 
 }
 
-$scrollbar-width: 6px;
+$scrollbar-width: 0.4vw;
 
 
     .scrollBar::-webkit-scrollbar {
         width: $scrollbar-width;
+        height: $scrollbar-width;
         background-color: #e9e9e9;
         z-index: 2;
     }

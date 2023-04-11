@@ -81,7 +81,10 @@ export class FinishSetupComponent {
           subSectionTitle: "Elevator Pitch",
           subSectionContent: {
             // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
-            text: currentSetup.elevatorPitch
+            elevatorPitch: currentSetup.elevatorPitch,
+            tagline: "",
+            genres: [],
+            tags: currentSetup.gameTags,
           }
         }, {
           subSectionTitle: "Tagline",
@@ -125,7 +128,40 @@ export class FinishSetupComponent {
             "metaphore": ""
           }
         }]
-      }]
+      },
+      {
+        sectionTitle: "Low Level Design",
+        subSections: [{
+          subSectionTitle: "Detail of the Core Mechanic",
+          subSectionContent: {
+            tokens : "",
+            resources : "",
+            additionalElements : "",
+            decisions : "",
+            intermediate : "",
+            local : "",
+            global : ""
+          }
+        }]
+      },
+      {
+        sectionTitle: "Narrative and Worldbuilding",
+        subSections: [{
+          subSectionTitle: "Characters",
+          subSectionContent: {
+            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+            characters: []
+          }
+        },
+        {
+          subSectionTitle: "Events",
+          subSectionContent: {
+            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+            events: []
+          }
+        }]
+      }
+    ]
     }
 
     console.log("document:", document);

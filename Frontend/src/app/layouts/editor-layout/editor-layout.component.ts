@@ -1,18 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { Location } from "@angular/common";
 import { DocumentService } from "src/app/services/document.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { filter } from 'rxjs/operators';
 import { faThumbTack } from '@fortawesome/free-solid-svg-icons';
+import { layout } from "./docLayoutInterface";
+import { EditorLayoutRoutes } from "./editor-layout.routing";
 
 @Component({
   selector: "app-editor-layout",
   templateUrl: "./editor-layout.component.html",
   styleUrls: ["./editor-layout.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class EditorLayoutComponent implements OnInit {
-  sections = [];
   documentTitle = "";
   documentId = "";
   document: any;
@@ -29,10 +31,53 @@ export class EditorLayoutComponent implements OnInit {
 
   pinIcon = faThumbTack;
 
+  // documentLayout:layout[];
+
+  sectionsSubSectionsPath = EditorLayoutRoutes.map( route => {
+    return {section: route.data.section, subSection: route.data.subSection, path: route.path}
+  } );
+
+  uniqueSections:Set<String> = new Set( 
+    this.sectionsSubSectionsPath.map( route => route.section) 
+  );
+  documentLayout = [...this.uniqueSections].map( section => { return {section: section, subSections: [], paths:[]} } );
+
+  
+  
+
+  fillLayout = this.sectionsSubSectionsPath.forEach( route => {
+
+    let currentSection = route.section;
+    let curretnSubSection = route.subSection;
+    let currentPath = route.path;
+
+    
+
+    let oldSection = this.documentLayout.find( section => section.section === currentSection);
+    let index = this.documentLayout.indexOf(oldSection);
+    if(currentSection !== curretnSubSection)
+      oldSection.subSections.push(curretnSubSection);
+    
+    oldSection.paths.push(currentPath);
+    this.documentLayout[index] = oldSection;
+  });
+  
+
+  a = [/*{section: "High Level Design", subSections: ["Theme", "Aesthetics", "Core Mechanic"]}, {section: "Narrative and Worldbuilding", subSections: ["Characters"]}*/]
+
+
+
   constructor(private location: Location, private route: ActivatedRoute,
     private router: Router,
     private documentService: DocumentService,
-    private editingDocumentService: EditingDocumentService) { }
+    private editingDocumentService: EditingDocumentService,
+    private cdRef: ChangeDetectorRef
+    ) { 
+      console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath)
+
+      console.log("uniqueSections: ", this.uniqueSections)
+      console.log("layout: ", this.documentLayout)
+    }
 
   openSidebar() {
     document.getElementById("sidebar").focus();
@@ -82,7 +127,7 @@ export class EditorLayoutComponent implements OnInit {
           alert("Error auto-updating document");
         }
       }
-      this.startAutoSaveTimer();
+      // this.startAutoSaveTimer();
     }, this.autoSaveIntervalInMinutes * 60 * 1000);
   }
 
@@ -103,6 +148,7 @@ export class EditorLayoutComponent implements OnInit {
 
   saveDocument(): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      this.document.frontPage.lastUpdated = new Date();
       this.documentService.updateDocument(this.documentId, this.document).subscribe(
         res => {
           console.log("Update res: ", res);
@@ -142,21 +188,8 @@ export class EditorLayoutComponent implements OnInit {
     });
   }
 
-  switchSection(url: string) {
-    switch (url) {
-      case 'theme':
-        this.currentTitle = "Theme";
-        break;
-      case 'aesthetics':
-        this.currentTitle = "Aesthetics";
-        break;
-      case 'coreMechanic':
-        this.currentTitle = "Core mechanic Diagram";
-        break;
-      default:
-        this.currentTitle = "";
-        break;
-    }
+  switchSection(title: string) {
+    this.currentTitle = title;
   }
 
   getSectionRegex(section: string) {
@@ -195,11 +228,25 @@ export class EditorLayoutComponent implements OnInit {
 
     document.getElementById("sidebar").focus();
 
+    
+  }
+
+  ngAfterViewInit() {
+    this.cdRef.detectChanges();
+    
     var dropdown = document.getElementsByClassName("dropdown-btn");
     var i;
     for (i = 0; i < dropdown.length; i++) {
       dropdown[i].addEventListener("click", function () {
         //this.classList.toggle("active");
+
+        var otherDropdowns = document.getElementsByClassName("dropdown-btn");
+        for (var j = 0; j < otherDropdowns.length; j++) {
+          if (otherDropdowns[j] != this) {
+            var sibling = otherDropdowns[j].nextElementSibling as HTMLElement;
+            sibling.style.display = "none";
+          }
+        }
         var dropdownContent = this.nextElementSibling;
         if (dropdownContent.style.display === "block") {
           dropdownContent.style.display = "none";

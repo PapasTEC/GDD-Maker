@@ -1,1 +1,131 @@
-<p>document-cover works!</p>
+<div class="bodyClass scrollBar">
+  <div class="innerBodyClass">
+    <div class="textContainer">
+      <span class="titleText"> GAME DESIGN DOCUMENT </span>
+    </div>
+    <div class="textContainer">
+      <span class="intermediateText"> FOR </span>
+    </div>
+    <div class="textAreaContainerCover">
+      <textarea
+        rows="1"
+        #titl
+        [(ngModel)]="gameName"
+        class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
+        (input)="growShrink($event, gameName)"
+        placeholder="Game Title Here"
+      ></textarea>
+    </div>
+    <div class="imageContainer">
+      <button id="gl" #gameLogo class="butt coverPhoto">
+        <input
+          type="file"
+          accept="image/*"
+          
+          style="
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          "
+          (change)="onFileSelected($event, gameLogo, 1)"
+        />
+        <svg
+          class="icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M15,3.41421356 L15,7 L18.5857864,7 L15,3.41421356 Z M19,9 L15,9 C13.8954305,9 13,8.1045695 13,7 L13,3 L5,3 L5,21 L19,21 L19,9 Z M5,1 L15.4142136,1 L21,6.58578644 L21,21 C21,22.1045695 20.1045695,23 19,23 L5,23 C3.8954305,23 3,22.1045695 3,21 L3,3 C3,1.8954305 3.8954305,1 5,1 Z M13,13.4142136 L13,18 L11,18 L11,13.4142136 L9.70710678,14.7071068 L8.29289322,13.2928932 L12,9.58578644 L15.7071068,13.2928932 L14.2928932,14.7071068 L13,13.4142136 Z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="textContainer">
+      <span class="intermediateText"> A GAME BY </span>
+    </div>
+
+    <div class="textAreaContainerCover">
+      <textarea
+        rows="1"
+        #comp
+        [(ngModel)]="companyName"
+        class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
+        (input)="growShrink($event, companyName)"
+        placeholder="Company Name Here"
+      ></textarea>
+    </div>
+    <div class="imageContainer">
+      <button id="cl" #compLogo class="butt coverPhoto">
+        <input
+          type="file"
+          accept="image/*"
+          
+          style="
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          "
+          (change)="onFileSelected($event, compLogo, 0)"
+        />
+        <svg
+          class="icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M15,3.41421356 L15,7 L18.5857864,7 L15,3.41421356 Z M19,9 L15,9 C13.8954305,9 13,8.1045695 13,7 L13,3 L5,3 L5,21 L19,21 L19,9 Z M5,1 L15.4142136,1 L21,6.58578644 L21,21 C21,22.1045695 20.1045695,23 19,23 L5,23 C3.8954305,23 3,22.1045695 3,21 L3,3 C3,1.8954305 3.8954305,1 5,1 Z M13,13.4142136 L13,18 L11,18 L11,13.4142136 L9.70710678,14.7071068 L8.29289322,13.2928932 L12,9.58578644 L15.7071068,13.2928932 L14.2928932,14.7071068 L13,13.4142136 Z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div class="textContainer">
+      <span class="intermediateText"> DOCUMENT CREATED BY </span>
+    </div>
+
+    <div class="authorsContainer">
+      <div class="textDel" *ngFor="let author of authors; index as i">
+        <div class="delCont"></div>
+        <div class="textAreaContainerCover author">
+          <textarea
+            rows="1"
+            id="el"
+            #el
+            class="vditor-reset textArea documentCoverTextAreasAuthors horizontalText scrollBar"
+            [value]="author.name"
+            (input)="updateTXT($event, el, i)"
+            placeholder="Author / Alias"
+          ></textarea>
+        </div>
+        <div class="delCont">
+          <button #trash type="button" class="btn btnCover trashButton" (click)="removeAuthor(i)">
+            <fa-icon [icon]="trashIcon"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="addButtonContainer">
+        <button #trash type="button" class="btn btnCover" (click)="addAuthor()">
+          <fa-icon [icon]="plusIcon"></fa-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="textContainer">
+      <span class="intermediateText"> LAST UPDATE </span>
+    </div>
+
+    <div class="textContainer" style="padding-bottom: 15vmin; padding-top: 0">
+      <span class="intermediateText" style="margin-top: 0">
+        {{ lastUpdate }}
+      </span>
+    </div>
+  </div>
+</div>

@@ -36,4 +36,10 @@ export class EditingDocumentService {
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
   }
+
+  updateDocumentFrontPage(content: any) {
+    const document = this.document.getValue();
+    document.frontPage = content;
+    this.document.next(document);
+  }
 }

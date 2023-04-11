@@ -14,7 +14,9 @@ import { DetailCoreMechanicComponent } from '../../pages/gdd-editor-pages/low_le
 import { EventsComponent } from '../../pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_cover/document-cover/document-cover.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TechnicalInfoComponent } from 'src/app/pages/gdd-editor-pages/technical-info/technical-info.component';
+
 
 @NgModule({
   imports: [
@@ -27,6 +29,7 @@ import { TechnicalInfoComponent } from 'src/app/pages/gdd-editor-pages/technical
     ClipboardModule,
     FormsModule,
     ReactiveFormsModule,
+    DragDropModule
   ],
   declarations: [
     VditorComponent,

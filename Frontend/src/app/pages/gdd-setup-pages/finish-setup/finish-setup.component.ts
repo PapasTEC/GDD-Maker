@@ -130,6 +130,21 @@ export class FinishSetupComponent {
         }]
       },
       {
+        sectionTitle: "Low Level Design",
+        subSections: [{
+          subSectionTitle: "Detail of the Core Mechanic",
+          subSectionContent: {
+            tokens : "",
+            resources : "",
+            additionalElements : "",
+            decisions : "",
+            intermediate : "",
+            local : "",
+            global : ""
+          }
+        }]
+      },
+      {
         sectionTitle: "Narrative and Worldbuilding",
         subSections: [{
           subSectionTitle: "Characters",

@@ -50,20 +50,38 @@ $cardSeparation: 1.5%;
   min-height: max(20vh, 20vw);
 }
 
+$photoDim: 10vmax;
+$shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
 .characterPhoto{
-    position: relative;
-    
-    // padding: clamp(25%, 1vh ,40%);
-    /* padding-top: 0.56%; */
-    /* height: fit-content; */
+  position: relative;
 
-    width: 100%;
-    box-sizing: content-box;
+  transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  
+  // padding: clamp(25%, 1vh ,40%);
+  /* padding-top: 0.56%; */
+  /* height: fit-content; */
 
-    svg{
-      width: 7vh;
-      height: 7vh;
-    }
+  width: $photoDim;
+  height: $photoDim;
+
+  padding: 1%;
+
+  border: none;
+
+  input{
+      cursor: pointer;
+  }
+
+  &:hover{
+      scale: 1.01;
+      background-color: rgb(238, 235, 235);
+      box-shadow: $shadow;
+
+  }
+
+  svg{
+      transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  }
     
 
     
@@ -460,7 +478,7 @@ $fontColor: #ffffff;
   }
 
   .imageDivider {
-    width: $imageWidth;
+    max-width: 30%;
     display: flex;
     //convert to pixels
     border: 5px $borderState #00c3ff;

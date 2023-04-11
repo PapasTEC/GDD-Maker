@@ -60,6 +60,7 @@ $fontSize: 2vmax;
         font-size: calc($fontSize * 0.5);
         font-weight: 7000;
         text-align: center;
+        margin-top: 3vh;
         color:black;
     }
 
@@ -212,6 +213,11 @@ $fontSize: 2vmax;
       font-size: calc($fontSize * 0.5);
       display: flex;
     }
+  }
+
+  .trashButton{
+    border: none;
+    margin-left: 2%;
   }
 
   .appearOnlyOnHover {

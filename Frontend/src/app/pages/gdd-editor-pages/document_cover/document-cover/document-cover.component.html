@@ -106,7 +106,7 @@
           ></textarea>
         </div>
         <div class="delCont">
-          <button #trash type="button" class="btn btnCover" (click)="removeAuthor(i)">
+          <button #trash type="button" class="btn btnCover trashButton" (click)="removeAuthor(i)">
             <fa-icon [icon]="trashIcon"></fa-icon>
           </button>
         </div>
@@ -122,8 +122,8 @@
       <span class="intermediateText"> LAST UPDATE </span>
     </div>
 
-    <div class="textContainer" style="padding-bottom: 20vmin; padding-top: 0">
-      <span class="intermediateText">
+    <div class="textContainer" style="padding-bottom: 15vmin; padding-top: 0">
+      <span class="intermediateText" style="margin-top: 0">
         {{ lastUpdate }}
       </span>
     </div>

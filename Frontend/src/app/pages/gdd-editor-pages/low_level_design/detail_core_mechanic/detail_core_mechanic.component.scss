@@ -89,9 +89,24 @@ $resizeFont: max(1.5vw, 1.5vh);
         color: $fontColor;
         width: fit-content;
         border: none;
-        padding: min(0.8vh, 0.8vw);
+        // padding: min(0.8vh, 0.8vw);
         margin: 0;
         border: $borderState 2px #040077;
+
+      }
+
+      .detailSubTitle {
+        position: relative;
+        flex: auto;
+        display: flex;
+        flex-direction: row;
+        background-color: transparent;
+        justify-content: flex-end !important;
+        font-weight: bold;
+        color: $fontColor;
+        width: fit-content;
+        border: $borderState 2px #040077;
+
       }
     }
 
@@ -139,23 +154,26 @@ $resizeFont: max(1.5vw, 1.5vh);
         position: relative;
         display: flex;
         flex: 1 1 0;
-        padding-left: 0.5vw;
+        padding-left: 1vw;
       }
 
-      .detailCol.detailTitle {
-        width: 11%;
+      .detailCol.detailSubTitle {
+        min-width: fit-content;
+        width: 13%;
+        text-align: end;
       }
 
       .detailRow {
         position: relative;
-        flex: auto;
+        // flex: auto;
         display: flex;
         flex-direction: row;
+        flex-wrap: nowrap;
         align-items: center;
         border: 2px $borderState #ff0000;
         min-height: 6vh;
         height: fit-content;
-        padding: 0.5vh 0;
+        margin: 0.5vh 0;
       }
     }
   }
@@ -173,11 +191,16 @@ $resizeFont: max(1.5vw, 1.5vh);
 }
 
 .detailCharacterInfoText {
-  font-size: calc($resizeFont * 0.6);
-  text-align: end;
-  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB",
-    "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+  // font-size: calc($resizeFont * 2 / 4);
+  font-size: max(1vw, 1vh);
+  font-weight: bold;
+  color: $fontColor;
+  height: fit-content;
+  white-space: nowrap;
+  // font-size: calc($resizeFont * 0.6);
+  // font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB",
+  //   "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  //   "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
 }
 
 .detailTextArea {
@@ -192,12 +215,13 @@ $resizeFont: max(1.5vw, 1.5vh);
   background-color: transparent;
   outline: none;
   border: none;
+  
 
   // -webkit-box-shadow: none;
   // -moz-box-shadow: none;
   // box-shadow: none;
 
-  font-weight: lighter;
+  // font-weight: lighter;
   line-height: 1.5 !important;
 }
 

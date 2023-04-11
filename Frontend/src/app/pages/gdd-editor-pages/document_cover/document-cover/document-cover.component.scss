@@ -5,23 +5,30 @@
     overflow-y: auto;
 
 
-    border: solid 1px rgb(0, 0, 0);
+    border: none 1px rgb(0, 0, 0);
 
     
 }
 
 .innerBodyClass{
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    align-items: center;
-    width: 60%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  width: 60%;
+  height: 100%;
 
 }
+//Change width at 1500px screen width
+@media (max-width: 600px) {
+    .innerBodyClass{
+        width: 100%;
+    }
+}
+
 
 $textContainerHeight: 10%;
-$fontSize: clamp(1rem, 7.5vmax, 3rem);
+$fontSize: 2vmax;
 
 
 
@@ -35,16 +42,18 @@ $fontSize: clamp(1rem, 7.5vmax, 3rem);
     align-items: center;
     justify-content: center;
 
-    border: solid 1px chocolate;
+    border: none 1px chocolate;
 
     padding:1vmax 0;
 
 
     .titleText{
-        font-size: calc($fontSize*1.2);
+        font-size: calc($fontSize*1.5);
         font-weight: 7000;
         text-align: center;
+        padding: 0 0.8rem;
         color:black;
+        border-left: solid 1vw #16425b;
     }
     
     .intermediateText{
@@ -124,6 +133,10 @@ $fontSize: clamp(1rem, 7.5vmax, 3rem);
 
     }
 
+    input{
+      cursor: pointer;
+    }
+
     svg{
       transition: scale 0s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 
@@ -144,12 +157,12 @@ $fontSize: clamp(1rem, 7.5vmax, 3rem);
     height: 100%;
     padding:1% 0;
     margin: 0;
-    border: solid 1px chocolate;
+    border: none 1px chocolate;
 }
 
 .author{
     padding: 1%;
-    border: solid 1px rgb(0, 255, 98);
+    border: none 1px rgb(0, 255, 98);
     width: 100% !important;
     display: flex;
     height: fit-content;

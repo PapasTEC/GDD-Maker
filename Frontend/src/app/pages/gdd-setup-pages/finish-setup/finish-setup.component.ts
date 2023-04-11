@@ -109,7 +109,6 @@ export class FinishSetupComponent {
         subSections: [{
           subSectionTitle: "Theme",
           subSectionContent: {
-            // text: "## Theme\n" + currentSetup.theme
             text: currentSetup.theme
           }
         }, {
@@ -140,11 +139,22 @@ export class FinishSetupComponent {
             local : "",
             global : ""
           }
+        },
+        {
+          subSectionTitle: "Detail of the Secondary Mechanic",
+          subSectionContent: {
+            text: ""
+          }
         }]
       },
       {
         sectionTitle: "Narrative and Worldbuilding",
         subSections: [{
+          subSectionTitle: "Setting",
+          subSectionContent: {
+            text: ""
+          }
+        },{
           subSectionTitle: "Characters",
           subSectionContent: {
             // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch

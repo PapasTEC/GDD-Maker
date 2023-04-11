@@ -73,7 +73,7 @@ $resizeFont: max(1.5vw, 1.5vh);
       $headerHeight: height;
       flex-direction: row;
       align-items: center;
-      justify-content: start;
+      justify-content: flex-start;
       box-sizing: border-box;
       border-top-left-radius: inherit;
       border-top-right-radius: inherit;

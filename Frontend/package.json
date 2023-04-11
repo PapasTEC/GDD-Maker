@@ -34,6 +34,7 @@
     "chart.js": "2.9.4",
     "clipboard": "^2.0.11",
     "crypto-browserify": "^3.12.0",
+    "detect-url-change": "^1.0.2",
     "dotenv": "^16.0.3",
     "jose": "^4.13.1",
     "jquery": "^3.6.3",

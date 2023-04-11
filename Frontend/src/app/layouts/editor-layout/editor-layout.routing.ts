@@ -18,6 +18,8 @@ export const EditorLayoutRoutes: Routes = [
     { path: 'aesthetics', component: AestheticsComponent, data: {section: "High Level Design", subSection: "Aesthetics"} },
     { path: 'coreMechanic', component: CoreMechanicComponent, data: {section: "High Level Design", subSection: "Core Mechanic Diagram"} },
     { path: 'detailCoreMechanic', component: DetailCoreMechanicComponent, data: {section: "Low Level Design", subSection: "Detail of the Core Mechanic"} },
+    { path: 'detailSecondaryMechanic', component: VditorComponent, data: {section: "Low Level Design", subSection: "Detail of the Secondary Mechanic"} },
+    { path: 'setting', component: VditorComponent, data: {section: "Narrative and Worldbuilding", subSection: "Setting"} },
     { path: 'characters', component: CharactersComponent, data: {section: "Narrative and Worldbuilding", subSection: "Characters"} },
     { path: 'events', component: EventsComponent, data: {section: "Narrative and Worldbuilding", subSection: "Events"} },
 ];

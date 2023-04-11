@@ -60,39 +60,23 @@ export class VditorComponent {
     this.activatedRoute.data.subscribe((_value) => {
       this.section = _value.section;
       this.subSection = _value.subSection;
+      console.log("section:", this.section);
+      console.log("subSection:", this.subSection);
     });
 
-    // this.editingDocumentService.document$
-    //   .pipe(
-    //     filter((document) => document !== null),
-    //     map((document) =>
-    //       document.documentContent
-    //         .find((section) => section.sectionTitle === this.section)
-    //         .subSections.find(
-    //           (subsection) => subsection.subSectionTitle === this.subSection
-    //         )
-    //     ),
-    //     take(1)
-    //   )
-    //   .subscribe((document) => {
-    //     this.documentSubSection = document;
-    //     console.log("documentSub:", this.documentSubSection);
-    //     this.vditor = new Vditor(
-    //       "vditor",
-    //       this.changeVditorConfig(
-    //         false,
-    //         this.documentSubSection.subSectionContent.text
-    //       )
-    //     );
-    //   });
-
-    this.vditor = new Vditor(
-      "vditor",
-      this.changeVditorConfig(
-        this.showToolbar,
-        "Texto"
-      )
-    );
+    this.editingDocumentService.document$.pipe(
+      filter(document => document !== null),
+      map(document => document.documentContent.find(section => 
+        section.sectionTitle === this.section).subSections.find(subsection => 
+          subsection.subSectionTitle === this.subSection)),
+      take(1)
+    ).subscribe((document) => {
+      this.documentSubSection = document;
+      console.log("documentSub:", this.documentSubSection);
+      setTimeout(() => {
+        this.vditor = new Vditor("vditor", this.changeVditorConfig(false, this.documentSubSection.subSectionContent.text));
+      }, 5);
+    });
   }
 
   // Funciones para subir imagenes

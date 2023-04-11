@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
@@ -13,6 +13,12 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { GddSetupLayoutComponent } from './layouts/gdd-setup-layout/gdd-setup-layout.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import * as dotenv from 'dotenv';
+import { JwtInterceptorInterceptor } from './token/jwt-interceptor.interceptor';
+
+
+//dotenv.config();
 
 @NgModule({
   imports: [
@@ -34,7 +40,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     DashboardLayoutComponent,
     GddSetupLayoutComponent,
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true
+  }],
   bootstrap: [AppComponent]
 })
 

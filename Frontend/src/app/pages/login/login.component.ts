@@ -2,33 +2,42 @@ import { Component, OnInit, OnDestroy, Query } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private http: HttpClient,
+    private router: Router,
+    private cookieService: CookieService
+  ) { }
 
   isLogin: boolean = true;
-  signInText: string = 'Sign in with credentials';
+  signInText: string = "Sign in with credentials";
   emailSubmitted: boolean = false;
   codeSubmitted: boolean = false;
 
-  emailForm = new FormGroup({email: new FormControl("", [Validators.required, Validators.email])});
-  codeForm = new FormGroup({code: new FormControl("", [Validators.required])});
+  emailForm = new FormGroup({
+    email: new FormControl("", [Validators.required, Validators.email]),
+  });
+  codeForm = new FormGroup({
+    code: new FormControl("", [Validators.required]),
+  });
 
-  ngOnInit() {
-  }
-  ngOnDestroy() {
-  }
+  ngOnInit() { }
+  ngOnDestroy() { }
 
   checkEmail() {
     this.emailSubmitted = true;
     if (this.emailForm.valid) {
       const email = this.emailForm.value.email;
-      this.http.get(`/api/users/get/${email}/`).subscribe((response) => {
+      this.userService.checkUserExists(email).subscribe((response) => {
         if (response) {
           this.provideCode();
           return;
@@ -40,10 +49,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  provideCode(){
+  provideCode() {
     this.isLogin = false;
     const email = this.emailForm.value.email;
-    this.http.put(`/api/users/sendCode/${email}/`,{}).subscribe((response) => {
+    this.userService.provideCodeUser(email).subscribe((response) => {
       if (response) {
         console.log(response)
         alert("Code sent to your email");
@@ -55,39 +64,38 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-
   returnToLogin() {
     this.isLogin = true;
   }
 
-  signIn(){
+  signIn() {
     this.codeSubmitted = true;
     if (this.codeForm.valid) {
       const email = this.emailForm.value.email;
       const code = this.codeForm.value.code;
-      this.http.get(`/api/users/login/${email}/${code}`).subscribe((response) => {
-        if (response) {
+      this.userService.login(email, code).subscribe((response) => {
+        console.log("response ",response);
+        if (response.token) {
+          console.log(response.token);
           alert("You are logged in");
-          var localUser = JSON.stringify(response);
-          var localUserObj = JSON.parse(localUser);
-          delete localUserObj.password;
-          // delete localUserObj.owned_documents;
-          // delete localUserObj.shared_with_me_documents;
-          localUserObj.owned_documents = localUserObj.owned_documents.length
-          localUserObj.shared_with_me_documents = localUserObj.shared_with_me_documents.length
-          delete localUserObj._id;
-          delete localUserObj.__v;
+          localStorage.setItem("ImageUser", response.image);
+          this.cookieService.set("Token", response.token);
 
-          localStorage.setItem('currentUser', JSON.stringify(localUserObj));
-          
-          this.router.navigate(['/dashboard']);          
+          this.router.navigate(["/dashboard"]);
           return;
-        }else{
+        } else {
           alert("Wrong code");
           return;
         }
-      });
+      },
+
+        (error) => {
+          console.log(error);
+          if (error.status == 500) {
+            
+            alert("Wrong code");
+          }
+        });
     }
   }
-
 }

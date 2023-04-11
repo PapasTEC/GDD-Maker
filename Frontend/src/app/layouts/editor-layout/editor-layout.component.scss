@@ -273,9 +273,7 @@ img {
 
   border: green $borderState;
 
-  div {
-    border: crimson $borderState;
-  }
+  
 
   .open-sidebar-button {
     position: absolute;
@@ -446,6 +444,7 @@ $sideBarDefaultBGColor: #f4f3f6;
 
 .ribbon{
   background-color: $primaryAppColor;
+  border: solid 0.2rem #bdbdbd ;
 }
 .leftModuleBottomClass {
   height: 100%;
@@ -467,7 +466,7 @@ $sideBarDefaultBGColor: #f4f3f6;
   width: 100%;
 
   // padding: 3% 6%;
-  margin-bottom: 5%;
+  
   margin-top: 3%;
   padding-left: max(16px, 6%);
 
@@ -485,7 +484,6 @@ $sideBarDefaultBGColor: #f4f3f6;
   position: relative;
   overflow: hidden;
 
-  border: rebeccapurple $borderState;
 }
 
 
@@ -562,6 +560,8 @@ $layoutTransitionTime: 100ms ease color, 100ms ease background-color;
 
   border: 0;
 
+  text-align: left;
+
   i {
     margin-left: auto;
   }
@@ -597,7 +597,7 @@ $layoutHoverFontColor: #000000;
   color: $layoutActiveSectionFontColor;
 }
 
-.sidebar a.nActive, .dropdown-btn {
+.sidebar a.nActive, .dropdown-btn, .noSubSections {
   background-color: $layoutDefaultBGColor;
   color: $layoutDefaultSectionColor;
 }
@@ -617,7 +617,7 @@ $sectionDefaultPadding: 1vw;
   font-size: calc($layoutSectionsResize*0.2);
 }
 
-.dropdown-container a.nActive {
+.dropdown-container a.nActive{
   background-color: $layoutSubsectionDefaultBGColor;
   transition: 0.3s;
   position: relative;
@@ -629,6 +629,11 @@ $sectionDefaultPadding: 1vw;
     padding-left: $sectionDefaultPadding;
   }
   
+}
+
+.noSubSections.active:hover {
+  background-color: $layoutHoverBGColor;
+  color: green;
 }
 
 .dropdown-container a.active {

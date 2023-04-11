@@ -3,16 +3,19 @@ import { Router } from '@angular/router';
 
 import { DocumentService } from '../../../services/document.service';
 import { UserService } from 'src/app/services/user.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-finish-setup',
   templateUrl: './finish-setup.component.html',
   styleUrls: ['./finish-setup.component.scss', '../setupStyles.scss']
 })
+
+
 export class FinishSetupComponent {
   tempImage: string;
 
-  constructor(private documentService: DocumentService, private userService: UserService,
+  constructor(private tokenService: TokenService,private documentService: DocumentService, private userService: UserService,
     private router: Router) { }
 
   platforms = [
@@ -41,7 +44,12 @@ export class FinishSetupComponent {
   ];
 
   async finishSetup() {
-    let user = JSON.parse(localStorage.getItem('currentUser'));
+    let user;
+    this.tokenService.decodeToken().subscribe((data: any) => {
+      console.log(`${JSON.stringify(data.decoded)}`);
+      user = data.decoded;
+      user.image = localStorage.getItem('ImageUser');
+    });
     let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
 
     const myPlatforms = currentSetup.gamePlatforms.map(platform => {
@@ -75,32 +83,37 @@ export class FinishSetupComponent {
         collaborators: [user.name],
         lastUpdated: new Date()
       },
-      documentContent: [{
+      documentContent: [
+        // {
+        //   sectionTitle: "Document Cover",
+        //   subSections: [{
+        //     subSectionTitle: "Document Cover",
+        //     subSectionContent: {
+        //       coverData: []
+        //     }
+        //   }]
+        // },
+        {
         sectionTitle: "Basic Information",
         subSections: [{
-          subSectionTitle: "Elevator Pitch",
+          subSectionTitle: "Basic Information",
           subSectionContent: {
-            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
-            text: currentSetup.elevatorPitch
-          }
-        }, {
-          subSectionTitle: "Tagline",
-          subSectionContent: {}
-        } , {
-          subSectionTitle: "Genre",
-          subSectionContent: {}
-        }, {
-          subSectionTitle: "Keywords and Tags",
-          subSectionContent: {
-            tags: currentSetup.gameTags
+            elevatorPitch: currentSetup.elevatorPitch,
+            tagline: "",
+            genres: [],
+            tags: currentSetup.gameTags,
           }
         }]
       }, {
         sectionTitle: "Technical Information",
         subSections: [{
-          subSectionTitle: "self",
+          subSectionTitle: "Technical Information",
           subSectionContent: {
-            platforms: myPlatforms
+            platforms: currentSetup.gamePlatforms,
+            ageClassification : "",
+            targetAudience: "",
+            releaseDate: "",
+            price: "",
           }
         }]
       }, {
@@ -108,7 +121,6 @@ export class FinishSetupComponent {
         subSections: [{
           subSectionTitle: "Theme",
           subSectionContent: {
-            // text: "## Theme\n" + currentSetup.theme
             text: currentSetup.theme
           }
         }, {
@@ -125,7 +137,51 @@ export class FinishSetupComponent {
             "metaphore": ""
           }
         }]
-      }]
+      },
+      {
+        sectionTitle: "Low Level Design",
+        subSections: [{
+          subSectionTitle: "Detail of the Core Mechanic",
+          subSectionContent: {
+            tokens : "",
+            resources : "",
+            additionalElements : "",
+            decisions : "",
+            intermediate : "",
+            local : "",
+            global : ""
+          }
+        },
+        {
+          subSectionTitle: "Detail of the Secondary Mechanic",
+          subSectionContent: {
+            text: ""
+          }
+        }]
+      },
+      {
+        sectionTitle: "Narrative and Worldbuilding",
+        subSections: [{
+          subSectionTitle: "Setting",
+          subSectionContent: {
+            text: ""
+          }
+        },{
+          subSectionTitle: "Characters",
+          subSectionContent: {
+            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+            characters: []
+          }
+        },
+        {
+          subSectionTitle: "Events",
+          subSectionContent: {
+            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+            events: []
+          }
+        }]
+      }
+    ]
     }
 
     console.log("document:", document);
@@ -151,15 +207,17 @@ export class FinishSetupComponent {
     );
   }
 
-  async convertTempUrlToBase64(url: any) {
+  
+  public async convertTempUrlToBase64(url: any) {
     const base64 = await this.scaleAndEncodeImage(url);
     return base64;
   }
 
   async scaleAndEncodeImage(url: any): Promise<string> {
-    const width = 256;
-    const height = 256;
+    let width = 512;
+    let height = width;
     const img = new Image();
+  
     const reader = new FileReader();
     reader.readAsDataURL(await fetch(url).then(r => r.blob()));
     const base64 = await new Promise<string>((resolve, reject) => {
@@ -169,6 +227,12 @@ export class FinishSetupComponent {
     return new Promise<string>((resolve, reject) => {
       img.onload = () => {
         const canvas = document.createElement('canvas');
+        const aspect = img.width / img.height;
+        if (img.width > img.height) {
+          height = width / aspect;
+        } else {
+          width = height * aspect;
+        }
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');

@@ -8,13 +8,14 @@ export class UserService {
 
   API = '/api/users/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUsers() {
     return this.http.get<any>(this.API + 'get/');
   }
 
   getUser(email: string) {
+    console.log("email: ", email);
     return this.http.get<any>(this.API + 'get/' + email + '/');
   }
 
@@ -33,4 +34,17 @@ export class UserService {
   removeSharedProject(email: string, id: string) {
     return this.http.put<any>(this.API + 'deleteSharedProject/' + email, { "id": id });
   }
+
+  checkUserExists(email: string) {
+    return this.http.get<any>(this.API + 'check/' + email + '/');
+  }
+
+  provideCodeUser(email: string) {
+    return this.http.put<any>(this.API + 'sendCode/' + email + '/', {});
+  }
+
+  login(email: string, code: string) {
+    return this.http.get<any>(this.API + 'login/' + email + '/' + code)
+  }
+
 }

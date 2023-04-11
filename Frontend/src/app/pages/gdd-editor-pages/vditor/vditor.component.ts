@@ -17,7 +17,7 @@ export class VditorComponent {
   vditor: Vditor | null = null;
   showToolbar = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private editingDocumentService: EditingDocumentService ) { }
+  constructor(private activatedRoute: ActivatedRoute, private editingDocumentService: EditingDocumentService ) {}
 
   toggleToolbar() {
     const content = this.vditor.getValue();
@@ -39,11 +39,13 @@ export class VditorComponent {
     this.documentSubSection.subSectionContent.text = value;
     this.editingDocumentService.updateDocumentSubSection(this.section, this.subSection, this.documentSubSection);
   }
-  
+
   ngOnInit() {
     this.activatedRoute.data.subscribe(_value => {
       this.section = _value.section;
       this.subSection = _value.subSection;
+      console.log("section:", this.section);
+      console.log("subSection:", this.subSection);
     });
 
     this.editingDocumentService.document$.pipe(
@@ -55,7 +57,9 @@ export class VditorComponent {
     ).subscribe((document) => {
       this.documentSubSection = document;
       console.log("documentSub:", this.documentSubSection);
-      this.vditor = new Vditor("vditor", this.changeVditorConfig(false, this.documentSubSection.subSectionContent.text));
+      setTimeout(() => {
+        this.vditor = new Vditor("vditor", this.changeVditorConfig(false, this.documentSubSection.subSectionContent.text));
+      }, 5);
     });
   }
 

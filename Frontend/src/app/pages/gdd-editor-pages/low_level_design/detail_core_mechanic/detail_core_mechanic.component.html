@@ -1,0 +1,137 @@
+<div class="bodyClass">
+  <!-- <div class="detailInnerBody">
+    
+  </div> -->
+  <div class="detailContainer scrollBar">
+    <!-- Representation -->
+    <div class="detailCard">
+      <div class="detailCardBody">
+        <div class="detailCardHeader">
+          <div class="detailTitle">
+            <span> Representation </span>
+          </div>
+        </div>
+        <div class="detailHorizontalLine"></div>
+        <div class="detailCardContent">
+          <div class="rowsDivider">
+            <div class="detailRow">
+                <div class="detailCol detailTitle">
+                    <span class="characterInfoText">Tokens</span>
+                </div>
+                <div class="detailCol wide">
+                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
+                    id="textarea"
+                    [(ngModel)]="this.details.tokens"
+                    (input)='this.updateDocument()'
+                  ></textarea>
+                  <!-- <span 
+                    class="detailTextArea detailGreyBG scrollBarResizer" 
+                    id="tokens"
+                    (input)='this.updateDetails("tokens")'
+                    role="textbox" 
+                    contenteditable
+                  ></span> -->
+                </div>
+            </div>
+            <div class="detailRow">
+                <div class="detailCol detailTitle">
+                    <span class="characterInfoText">Resources</span>
+                </div>
+                <div class="detailCol wide">
+                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
+                    [(ngModel)]="this.details.resources"
+                    (input)='this.updateDocument()'
+                  ></textarea>
+                </div>
+            </div>
+            <div class="detailRow">
+                <div class="detailCol detailTitle">
+                    <span class="characterInfoText"
+                        >Additional<br />Elements</span
+                    >
+                </div>
+                <div class="detailCol wide">
+                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
+                    [(ngModel)]="this.details.additionalElements"
+                    (input)='this.updateDocument()'
+                  ></textarea>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Decisions -->
+    <div class="detailCard">
+      <div class="detailCardBody">
+        <div class="detailCardHeader">
+          <div class="detailTitle">
+            <span> Decisions </span>
+          </div>
+        </div>
+        <div class="detailHorizontalLine"></div>
+        <div class="detailCardContent">
+          <textarea class="vditor-reset detailTextArea scrollBarResizer resize-ta"
+            [(ngModel)]="this.details.decisions"
+            (input)='this.updateDocument()'
+          ></textarea>
+          <!-- <span class="vditor-reset detailTextArea scrollBarResizer" 
+          id="decisions"
+          (input)='this.updateDetails("decisions")'
+          role="textbox" 
+          contenteditable></span> -->
+          <!-- <span class="vditor-reset detailTextArea scrollBarResizer" role="textbox" contenteditable></span> -->
+        </div>
+      </div>
+    </div>
+    <!-- Goals -->
+    <div class="detailCard">
+      <div class="detailCardBody">
+        <div class="detailCardHeader">
+          <div class="detailTitle">
+            <span> Goals </span>
+          </div>
+        </div>
+        <div class="detailHorizontalLine"></div>
+        <div class="detailCardContent">
+          <div class="rowsDivider">
+            <div class="detailRow">
+                <div class="detailCol detailTitle">
+                    <span class="characterInfoText">Intermediate</span>
+                </div>
+                <div class="detailCol wide">
+                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
+                    [(ngModel)]="this.details.intermediate"
+                    (input)='this.updateDocument()'
+                  ></textarea>
+                </div>
+            </div>
+            <div class="detailRow">
+                <div class="detailCol detailTitle">
+                    <span class="characterInfoText">Local</span>
+                </div>
+                <div class="detailCol wide">
+                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
+                    [(ngModel)]="this.details.local"
+                    (input)='this.updateDocument()'
+                  ></textarea>
+                </div>
+            </div>
+            <div class="detailRow">
+                <div class="detailCol detailTitle">
+                    <span class="characterInfoText">Global</span
+                    >
+                </div>
+                <div class="detailCol wide">
+                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
+                    [(ngModel)]="this.details.global"
+                    (input)='this.updateDocument()'
+                  ></textarea>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

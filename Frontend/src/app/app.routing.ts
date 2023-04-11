@@ -7,6 +7,7 @@ import { EditorLayoutComponent } from './layouts/editor-layout/editor-layout.com
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { GddSetupLayoutComponent } from 'src/app/layouts/gdd-setup-layout/gdd-setup-layout.component';
+import { UserGuardGuard } from './guard/user-guard.guard';
 
 const routes: Routes =[
   {
@@ -16,6 +17,7 @@ const routes: Routes =[
   }, {
     path: 'editor',
     component: EditorLayoutComponent,
+    canActivateChild: [UserGuardGuard],
     children: [
       {
         path: '',
@@ -34,6 +36,7 @@ const routes: Routes =[
   }, {
     path: '',
     component: DashboardLayoutComponent,
+    canActivateChild: [UserGuardGuard],
     children: [
       {
         path: '',
@@ -43,6 +46,7 @@ const routes: Routes =[
   }, {
     path: 'setup',
     component: GddSetupLayoutComponent,
+    canActivateChild: [UserGuardGuard],
     children: [
       {
         path: '',

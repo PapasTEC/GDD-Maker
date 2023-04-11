@@ -4,8 +4,6 @@ const path = require('path')
 var cors = require("cors");
 var bodyParser = require('body-parser');
 
-const { generatePasswordCode, sendEmail } = require('./functions/utils')
-
 const app = express()
 const db = require('./database')
 
@@ -35,5 +33,6 @@ app.use('/app/*', function(req, res) {
 
 app.use("/api/users", require("./routes/UserRoutes"))
 app.use("/api/documents", require("./routes/DocumentRoutes"))
+app.use("/api/token", require("./routes/TokenRoute"))
 
 module.exports = app

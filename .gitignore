@@ -1,0 +1,3 @@
+# ignore env config files
+*.crt
+.env

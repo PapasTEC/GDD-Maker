@@ -12,7 +12,7 @@ import { EditorLayoutRoutes } from "./editor-layout.routing";
   selector: "app-editor-layout",
   templateUrl: "./editor-layout.component.html",
   styleUrls: ["./editor-layout.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
 })
 export class EditorLayoutComponent implements OnInit {
   documentTitle = "";

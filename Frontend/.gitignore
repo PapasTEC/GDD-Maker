@@ -6,7 +6,8 @@
 /tmp
 /out-tsc
 /.angular
-src/images
+src/uploads
+
 
 # dependencies
 /node_modules

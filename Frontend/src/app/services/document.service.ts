@@ -45,6 +45,6 @@ export class DocumentService {
   }
 
   uploadImage(owner: string, formData: any) {
-    return this.http.post<any>(this.Image + owner + '/images', formData);
+    return this.http.post<any>(this.Image + owner, formData);
   }
 }

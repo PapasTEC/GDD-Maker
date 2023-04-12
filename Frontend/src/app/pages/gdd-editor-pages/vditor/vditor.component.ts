@@ -13,28 +13,18 @@ import { filter, map, take } from "rxjs/operators";
   styleUrls: ["./vditor.component.scss"],
 })
 export class VditorComponent {
+  documentId: string;
   section: string;
   subSection: string;
   documentSubSection: any;
   vditor: Vditor | null = null;
   showToolbar = true;
 
-  uploadedImage: string;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private editingDocumentService: EditingDocumentService,
     private documentService: DocumentService
   ) {}
-
-  // getMarkdown = (vditor: IVditor) => {
-  //   if (vditor.currentMode === "wysiwyg") {
-  //       return vditor.lute.VditorDOM2Md(vditor.wysiwyg.element.innerHTML);
-  //   } else if (vditor.currentMode === "ir") {
-  //       return vditor.lute.VditorIRDOM2Md(vditor.ir.element.innerHTML);
-  //   }
-  //   return "";
-  // };
 
   toggleToolbar() {
     const content = this.vditor.getValue();
@@ -77,6 +67,10 @@ export class VditorComponent {
       console.log("subSection:", this.subSection);
     });
 
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.documentId = params.pjt;
+    });
+
     this.editingDocumentService.document$.pipe(
       filter(document => document !== null),
       map(document => document.documentContent.find(section => 
@@ -99,17 +93,27 @@ export class VditorComponent {
     const file = event.target.files[0];
 
     if (file) {
+      const fixName = file.name.replace(/ /gi, "_");
+      console.log("name: ", file.name);
+      console.log("fixName: ", fixName);
+      // const editName = name.replace(/[^a-z0-9]/gi, "_");
       const fileSize = file.size / 1024 / 1024; // in MB
       console.log("File size: " + fileSize);
+      
       // alert("File size: " + fileSize);
       // if (fileSize > 1) {
       //   alert("File size exceeds 1 MB");
       //   return;
       // }
       const formData = new FormData();
-      formData.append('image', file);
-      this.documentService.uploadImage('234', formData).subscribe(res => {
+      formData.append('image', file, fixName);
+      console.log("formData: ", formData);
+      this.documentService.uploadImage(this.documentId, formData).subscribe((res) => {
         console.log("res: ", res);
+      }, (err) => {
+        console.log("err: ", err);
+        this.vditor.insertValue(``);
+        this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
       });
       // console.log("res: ", res);
       
@@ -174,11 +178,12 @@ export class VditorComponent {
     return { 
       value: content,
       placeholder: "Type here...",
-      image: {
-        preview(bom: Element) {
-          console.log(bom);
-        },
-      },
+      // image: {
+      //   preview(bom: Element) {
+      //     console.log(bom);
+      //   },
+      // },
+      // ![](https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg)
       // upload: {
       //   handler(files: File[]) {
       //     console.log(files);
@@ -199,7 +204,6 @@ export class VditorComponent {
         success: (editor, result) => {
           console.log(result);
         }
-
       },
       lang: "en_US",
       mode: "ir",
@@ -430,9 +434,7 @@ export class VditorComponent {
       },
       after: () => {},
       input: (value: string) => {
-        // this.updateDocument(value);
-        // this.vditor.insertValue("Hola", false);
-        // this.vditor.focus();
+        this.updateDocument(value);
       },
       theme: "dark",
     };

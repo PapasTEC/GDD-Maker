@@ -34,7 +34,6 @@ export class VditorComponent {
         "vditor",
         this.changeVditorConfig(false, content)
       );
-      this.showToolbar = false;
       document.getElementById("toolbar-toggle-button").style.transform =
         "rotate(-90deg)";
     } else {
@@ -81,7 +80,9 @@ export class VditorComponent {
       this.documentSubSection = document;
       console.log("documentSub:", this.documentSubSection);
       setTimeout(() => {
-        this.vditor = new Vditor("vditor", this.changeVditorConfig(false, this.documentSubSection.subSectionContent.text));
+        this.vditor = new Vditor("vditor", this.changeVditorConfig(true, this.documentSubSection.subSectionContent.text));
+        this.vditor.insertValue("![]()");
+        this.vditor.setValue(this.documentSubSection.subSectionContent.text);
       }, 5);
     });
   }
@@ -208,8 +209,8 @@ export class VditorComponent {
       lang: "en_US",
       mode: "ir",
       toolbarConfig: {
-        // hide: true,
-        // pin: false,
+        hide: true,
+        pin: true,
       },
       // name can be enumerated as: emoji, headings, bold, italic, strike, |, line, quote, list, ordered-list, check, outdent, indent, code, inline-code, insert-after, insert-before, undo, redo, upload, link, table, record, edit-mode, both, preview, fullscreen, outline, code-theme, content-theme, export, devtools, info, help, br
       toolbar: toolbar

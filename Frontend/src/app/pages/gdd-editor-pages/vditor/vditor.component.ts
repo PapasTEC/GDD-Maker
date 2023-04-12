@@ -4,8 +4,8 @@ import { DocumentService } from "src/app/services/document.service";
 import Vditor from "vditor";
 import { ActivatedRoute } from "@angular/router";
 import { filter, map, take } from "rxjs/operators";
-import { Buffer } from 'buffer';
-import { HttpClient } from '@angular/common/http';
+//import { Buffer } from '../../../../../../Backend/uploads/234/1681252566007-1274551.jpg';
+//import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: "app-vditor",
@@ -93,6 +93,7 @@ export class VditorComponent {
   }
 
   // Funciones para subir imagenes
+
 
   public async onFileSelected(event: any) {
     const file = event.target.files[0];

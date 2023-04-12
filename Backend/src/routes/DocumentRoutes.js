@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const documentController = require('../controllers/DocumentController');
-const { backendValidation } = require('../controllers/tokenController');
+const { backendValidation } = require('../controllers/TokenController');
 
 router.get('/get', backendValidation, documentController.getDocuments);
 router.post('/add', backendValidation, documentController.createDocument);

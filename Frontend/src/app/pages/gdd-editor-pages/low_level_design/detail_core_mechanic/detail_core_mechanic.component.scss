@@ -1,4 +1,4 @@
-$borderState: solid;
+$borderState: none;
 $cardBorderRadius: max(1vw, 1vh);
 $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
 $cardSeparation: 1%;
@@ -218,7 +218,6 @@ $resizeFont: max(1.5vw, 1.5vh);
   background-color: transparent;
   outline: none;
   border: none;
-  resize: none;
   
 
   // -webkit-box-shadow: none;
@@ -227,17 +226,6 @@ $resizeFont: max(1.5vw, 1.5vh);
 
   // font-weight: lighter;
   line-height: 1.5 !important;
-}
-
-.textArea {
-  width: 100%!important;
-  height: 100%!important;
-  border: none;
-  font-size: calc($resizeFont * 2/3);
-  overflow: auto!important;
-  font-weight: lighter;
-  line-height: 1.5 !important;
-  border: $borderState #eb05d0;
 }
 
 $scrollbar-width: 1.2vw;

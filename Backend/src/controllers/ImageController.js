@@ -7,33 +7,36 @@ const imageController = {};
 
 const folderPath = '../Frontend/src/uploads/';
 
-checkExistsWithTimeout = async (filePath, timeout) => {
-  return new Promise(function (resolve, reject) {
-
-    var timer = setTimeout(function () {
-        watcher.close();
-        reject(new Error('File did not exists and was not created during the timeout.'));
+async function checkExistsWithTimeout(filePath, timeout) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      watcher.close();
+      reject(new Error('El archivo no se ha creado en el tiempo especificado.'));
     }, timeout);
 
-    fs.access(filePath, fs.constants.R_OK, function (err) {
-        if (!err) {
-            clearTimeout(timer);
-            watcher.close();
-            resolve();
-        }
+    const dir = path.dirname(filePath);
+    const basename = path.basename(filePath);
+    const watcher = fs.watch(dir, (eventType, filename) => {
+      if (eventType === 'rename' && filename === basename) {
+        clearTimeout(timer);
+        watcher.close();
+        resolve(true);
+      }
     });
 
-    var dir = path.dirname(filePath);
-    var basename = path.basename(filePath);
-    var watcher = fs.watch(dir, function (eventType, filename) {
-        if (eventType === 'rename' && filename === basename) {
-            clearTimeout(timer);
-            watcher.close();
-            resolve();
-        }
+    fs.access(filePath, fs.constants.R_OK, (err) => {
+      if (err) {
+        clearTimeout(timer);
+        watcher.close();
+        reject(err);
+      } else {
+        resolve(true);
+      }
     });
   });
 }
+
+
 
 // Configuración de Multer
 const storage = multer.diskStorage({
@@ -56,15 +59,18 @@ imageController.upload = multer({ storage: storage });
 imageController.uploadImage = async (req, res) => {
   const documentId = req.params.documentId;
   const path = folderPath + documentId;
-  if (checkExistsWithTimeout(path, 10000)) {
-    res.status(200).send('OK');
-  } else {
-    err.status(400).send('No se ha seleccionado ningún archivo');
+  try {
+    const exists = await checkExistsWithTimeout(path, 10000);
+    if (exists) {
+      res.status(200).send('OK');
+    } else {
+      res.status(400).send('No se ha seleccionado ningún archivo');
+    }
+  } catch (err) {
+    res.status(500).send(err.message);
   }
-  // image.save()
-  //   .then(result => res.send(result))
-  //   .catch(err => next(err));
-}
+};
+
 
 // Controlador para eliminar una imagen
 

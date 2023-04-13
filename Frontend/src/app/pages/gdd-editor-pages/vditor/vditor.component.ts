@@ -95,12 +95,12 @@ export class VditorComponent {
 
     if (file) {
       const fixName = file.name.replace(/ /gi, "_");
-      console.log("name: ", file.name);
-      console.log("fixName: ", fixName);
+      //console.log("name: ", file.name);
+      //console.log("fixName: ", fixName);
       // const editName = name.replace(/[^a-z0-9]/gi, "_");
       const fileSize = file.size / 1024 / 1024; // in MB
-      console.log("File size: " + fileSize);
-      
+      //console.log("File size: " + fileSize);
+
       // alert("File size: " + fileSize);
       // if (fileSize > 1) {
       //   alert("File size exceeds 1 MB");
@@ -108,16 +108,35 @@ export class VditorComponent {
       // }
       const formData = new FormData();
       formData.append('image', file, fixName);
-      console.log("formData: ", formData);
-      this.documentService.uploadImage(this.documentId, formData).subscribe((res) => {
-        console.log("res: ", res);
-      }, (err) => {
-        console.log("err: ", err);
-        this.vditor.insertValue(``);
+      //console.log("formData: ", formData);
+      this.documentService.uploadImage(this.documentId, formData).subscribe((res) => { }, (err) => {
+        if (err.status === 200) {
         this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
+
+        this.updateDocument(this.vditor.getValue());
+        this.editingDocumentService.document$.pipe(
+          take(1)
+        ).subscribe((document) => {
+          
+          console.log("document: ", document);
+          //this.document.frontPage.lastUpdated = new Date();
+          this.documentService.updateDocument(this.documentId, document).subscribe(
+            res => {
+              console.log("Update res: ", res);
+              err => {
+                console.log("Update err: ", err);
+
+              }
+            });
+
+        });
+        } else {
+          console.log("Error: ", err);
+        }
+        
       });
       // console.log("res: ", res);
-      
+
       // this.uploadedImage = URL.createObjectURL(file);
       // this.vditor.insertValue(`![](${this.uploadedImage})`);
       // const width = prompt("Width", "640");
@@ -176,7 +195,7 @@ export class VditorComponent {
   // Configuracion de vditor
 
   changeVditorConfig(toolbar: boolean, content: string): IOptions {
-    return { 
+    return {
       value: content,
       placeholder: "Type here...",
       // image: {
@@ -215,220 +234,220 @@ export class VditorComponent {
       // name can be enumerated as: emoji, headings, bold, italic, strike, |, line, quote, list, ordered-list, check, outdent, indent, code, inline-code, insert-after, insert-before, undo, redo, upload, link, table, record, edit-mode, both, preview, fullscreen, outline, code-theme, content-theme, export, devtools, info, help, br
       toolbar: toolbar
         ? [
-            {
-              hotkey: "⌘H",
-              icon: '<svg><use xlink:href="#vditor-icon-headings"></use></svg>',
-              name: "headings",
-              tipPosition: "se",
-            },
-            {
-              hotkey: "⌘B",
-              icon: '<svg><use xlink:href="#vditor-icon-bold"></use></svg>',
-              name: "bold",
-              prefix: "**",
-              suffix: "**",
-              tipPosition: "se",
-            },
-            {
-              hotkey: "⌘I",
-              icon: '<svg><use xlink:href="#vditor-icon-italic"></use></svg>',
-              name: "italic",
-              prefix: "*",
-              suffix: "*",
-              tipPosition: "se",
-            },
-            {
-              hotkey: "⌘D",
-              icon: '<svg><use xlink:href="#vditor-icon-strike"></use></svg>',
-              name: "strike",
-              prefix: "~~",
-              suffix: "~~",
-              tipPosition: "se",
-            },
+          {
+            hotkey: "⌘H",
+            icon: '<svg><use xlink:href="#vditor-icon-headings"></use></svg>',
+            name: "headings",
+            tipPosition: "se",
+          },
+          {
+            hotkey: "⌘B",
+            icon: '<svg><use xlink:href="#vditor-icon-bold"></use></svg>',
+            name: "bold",
+            prefix: "**",
+            suffix: "**",
+            tipPosition: "se",
+          },
+          {
+            hotkey: "⌘I",
+            icon: '<svg><use xlink:href="#vditor-icon-italic"></use></svg>',
+            name: "italic",
+            prefix: "*",
+            suffix: "*",
+            tipPosition: "se",
+          },
+          {
+            hotkey: "⌘D",
+            icon: '<svg><use xlink:href="#vditor-icon-strike"></use></svg>',
+            name: "strike",
+            prefix: "~~",
+            suffix: "~~",
+            tipPosition: "se",
+          },
 
-            {
-              name: "|",
-            },
+          {
+            name: "|",
+          },
 
-            {
-              hotkey: "⌘L",
-              icon: '<svg><use xlink:href="#vditor-icon-list"></use></svg>',
-              name: "list",
-              prefix: "* ",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⌘O",
-              icon: '<svg><use xlink:href="#vditor-icon-ordered-list"></use></svg>',
-              name: "ordered-list",
-              prefix: "1. ",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⌘J",
-              icon: '<svg><use xlink:href="#vditor-icon-check"></use></svg>',
-              name: "check",
-              prefix: "* [ ] ",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⇧⌘I",
-              icon: '<svg><use xlink:href="#vditor-icon-outdent"></use></svg>',
-              name: "outdent",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⇧⌘O",
-              icon: '<svg><use xlink:href="#vditor-icon-indent"></use></svg>',
-              name: "indent",
-              tipPosition: "s",
-            },
+          {
+            hotkey: "⌘L",
+            icon: '<svg><use xlink:href="#vditor-icon-list"></use></svg>',
+            name: "list",
+            prefix: "* ",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⌘O",
+            icon: '<svg><use xlink:href="#vditor-icon-ordered-list"></use></svg>',
+            name: "ordered-list",
+            prefix: "1. ",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⌘J",
+            icon: '<svg><use xlink:href="#vditor-icon-check"></use></svg>',
+            name: "check",
+            prefix: "* [ ] ",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⇧⌘I",
+            icon: '<svg><use xlink:href="#vditor-icon-outdent"></use></svg>',
+            name: "outdent",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⇧⌘O",
+            icon: '<svg><use xlink:href="#vditor-icon-indent"></use></svg>',
+            name: "indent",
+            tipPosition: "s",
+          },
 
-            {
-              name: "|",
-            },
+          {
+            name: "|",
+          },
 
-            {
-              hotkey: "⌘;",
-              icon: '<svg><use xlink:href="#vditor-icon-quote"></use></svg>',
-              name: "quote",
-              prefix: "> ",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⇧⌘H",
-              icon: '<svg><use xlink:href="#vditor-icon-line"></use></svg>',
-              name: "line",
-              prefix: "---",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⌘U",
-              icon: '<svg><use xlink:href="#vditor-icon-code"></use></svg>',
-              name: "code",
-              prefix: "```",
-              suffix: "\n```",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⌘G",
-              icon: '<svg><use xlink:href="#vditor-icon-inline-code"></use></svg>',
-              name: "inline-code",
-              prefix: "`",
-              suffix: "`",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⇧⌘B",
-              icon: '<svg><use xlink:href="#vditor-icon-before"></use></svg>',
-              name: "insert-before",
-              tipPosition: "s",
-            },
-            {
-              hotkey: "⇧⌘E",
-              icon: '<svg><use xlink:href="#vditor-icon-after"></use></svg>',
-              name: "insert-after",
-              tipPosition: "s",
-            },
+          {
+            hotkey: "⌘;",
+            icon: '<svg><use xlink:href="#vditor-icon-quote"></use></svg>',
+            name: "quote",
+            prefix: "> ",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⇧⌘H",
+            icon: '<svg><use xlink:href="#vditor-icon-line"></use></svg>',
+            name: "line",
+            prefix: "---",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⌘U",
+            icon: '<svg><use xlink:href="#vditor-icon-code"></use></svg>',
+            name: "code",
+            prefix: "```",
+            suffix: "\n```",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⌘G",
+            icon: '<svg><use xlink:href="#vditor-icon-inline-code"></use></svg>',
+            name: "inline-code",
+            prefix: "`",
+            suffix: "`",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⇧⌘B",
+            icon: '<svg><use xlink:href="#vditor-icon-before"></use></svg>',
+            name: "insert-before",
+            tipPosition: "s",
+          },
+          {
+            hotkey: "⇧⌘E",
+            icon: '<svg><use xlink:href="#vditor-icon-after"></use></svg>',
+            name: "insert-after",
+            tipPosition: "s",
+          },
 
-            {
-              name: "|",
-            },
+          {
+            name: "|",
+          },
 
-            {
-              hotkey: "⌘K",
-              icon: '<svg><use xlink:href="#vditor-icon-link"></use></svg>',
-              name: "link",
-              prefix: "[",
-              suffix: "](https://)",
-              tipPosition: "s",
-            },
-            // {
-            //   icon: '<svg><use xlink:href="#vditor-icon-upload"></use></svg>',
-            //   name: "upload",
-            //   tipPosition: "s",
-            // },
-            {
-              icon: '<svg><use xlink:href="#vditor-icon-upload"></use></svg>',
-              name: "newUpload",
-              tip: "Upload Image",
-              tipPosition: "s",
+          {
+            hotkey: "⌘K",
+            icon: '<svg><use xlink:href="#vditor-icon-link"></use></svg>',
+            name: "link",
+            prefix: "[",
+            suffix: "](https://)",
+            tipPosition: "s",
+          },
+          // {
+          //   icon: '<svg><use xlink:href="#vditor-icon-upload"></use></svg>',
+          //   name: "upload",
+          //   tipPosition: "s",
+          // },
+          {
+            icon: '<svg><use xlink:href="#vditor-icon-upload"></use></svg>',
+            name: "newUpload",
+            tip: "Upload Image",
+            tipPosition: "s",
               click () {
-                console.log("Hola")
-                document.getElementById("fileSelector").click();
-              }
-            },
-            // {
-            //   hotkey: "",
-            //   icon: '<svg><use xlink:href="#vditor-icon-upload"></use></svg>',
-            //   name: "italic",
-            //   tip: "Upload Image",
-            //   prefix: "![",
-            //   suffix: "](" + this.uploadImage() + ")",
-            //   tipPosition: "s",
-            // },
-            {
-              hotkey: "⌘M",
-              icon: '<svg><use xlink:href="#vditor-icon-table"></use></svg>',
-              name: "table",
-              prefix: "| col1",
-              suffix:
-                " | col2 | col3 |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |",
-              tipPosition: "s",
-            },
-            {
-              name: "|",
-            },
-            {
-              hotkey: "⌘Z",
-              icon: '<svg><use xlink:href="#vditor-icon-undo"></use></svg>',
-              name: "undo",
-              tipPosition: "sw",
-            },
-            {
-              hotkey: "⌘Y",
-              icon: '<svg><use xlink:href="#vditor-icon-redo"></use></svg>',
-              name: "redo",
-              tipPosition: "sw",
-            },
-            {
-              name: "|",
-            },
-            // {
-            //     icon: '<svg><use xlink:href="#vditor-icon-theme"></use></svg>',
-            //     name: "content-theme",
-            //     tipPosition: "sw",
-            // },
-            // {
-            //     icon:
-            //         '<svg><use xlink:href="#vditor-icon-code-theme"></use></svg>',
-            //     name: "code-theme",
-            //     tipPosition: "sw",
-            // },
-            {
-              icon: '<svg><use xlink:href="#vditor-icon-bug"></use></svg>',
-              name: "devtools",
-              tipPosition: "nw",
-            },
-            {
-              icon: '<svg><use xlink:href="#vditor-icon-edit"></use></svg>',
-              name: "edit-mode",
-              tipPosition: "nw",
-            },
-            // {
-            //   icon: '<svg><use xlink:href="#vditor-icon-bug"></use></svg>',
-            //   name: "getMarkdown",
-            //   tip: "Print Markdown",
-            //   tipPosition: "s",
-            //   click () {
-            //     const markdown = this.vditor.VditorIRDOM2Md(this.vditor.ir.element.innerHTML);
-            //     console.log("Makrdown: ", markdown)
-            //   }
-            // },
-            {
-              name: "br",
-            },
-          ]
+              console.log("Hola")
+              document.getElementById("fileSelector").click();
+            }
+          },
+          // {
+          //   hotkey: "",
+          //   icon: '<svg><use xlink:href="#vditor-icon-upload"></use></svg>',
+          //   name: "italic",
+          //   tip: "Upload Image",
+          //   prefix: "![",
+          //   suffix: "](" + this.uploadImage() + ")",
+          //   tipPosition: "s",
+          // },
+          {
+            hotkey: "⌘M",
+            icon: '<svg><use xlink:href="#vditor-icon-table"></use></svg>',
+            name: "table",
+            prefix: "| col1",
+            suffix:
+              " | col2 | col3 |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |",
+            tipPosition: "s",
+          },
+          {
+            name: "|",
+          },
+          {
+            hotkey: "⌘Z",
+            icon: '<svg><use xlink:href="#vditor-icon-undo"></use></svg>',
+            name: "undo",
+            tipPosition: "sw",
+          },
+          {
+            hotkey: "⌘Y",
+            icon: '<svg><use xlink:href="#vditor-icon-redo"></use></svg>',
+            name: "redo",
+            tipPosition: "sw",
+          },
+          {
+            name: "|",
+          },
+          // {
+          //     icon: '<svg><use xlink:href="#vditor-icon-theme"></use></svg>',
+          //     name: "content-theme",
+          //     tipPosition: "sw",
+          // },
+          // {
+          //     icon:
+          //         '<svg><use xlink:href="#vditor-icon-code-theme"></use></svg>',
+          //     name: "code-theme",
+          //     tipPosition: "sw",
+          // },
+          {
+            icon: '<svg><use xlink:href="#vditor-icon-bug"></use></svg>',
+            name: "devtools",
+            tipPosition: "nw",
+          },
+          {
+            icon: '<svg><use xlink:href="#vditor-icon-edit"></use></svg>',
+            name: "edit-mode",
+            tipPosition: "nw",
+          },
+          // {
+          //   icon: '<svg><use xlink:href="#vditor-icon-bug"></use></svg>',
+          //   name: "getMarkdown",
+          //   tip: "Print Markdown",
+          //   tipPosition: "s",
+          //   click () {
+          //     const markdown = this.vditor.VditorIRDOM2Md(this.vditor.ir.element.innerHTML);
+          //     console.log("Makrdown: ", markdown)
+          //   }
+          // },
+          {
+            name: "br",
+          },
+        ]
         : [],
       cache: {
         enable: false,

@@ -1,6 +1,27 @@
 $borderState: none 2px;
 $icon-size: min(4vh, 4vw);
 
+.toolbarBar {
+    position: absolute;
+    width: 100%;
+    //height: 1vh;
+    height: 6px;
+    background-color: #bdbdbd;
+    //border: red $borderState;
+    z-index: 20;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+
+    i {
+        font-size: 0.5em;
+        margin-top: -1px;
+        border: red $borderState;
+    }
+}
+
+
+
 .markdown-wrapper {
     background-color: inherit;
     position: relative;

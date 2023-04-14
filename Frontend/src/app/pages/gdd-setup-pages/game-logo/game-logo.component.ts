@@ -24,7 +24,7 @@ export class GameLogoComponent {
       this.getSessionStorageContent(this.routeUsingComponent);
 
       if (this.uploadedImage != "") {
-        this.updateLogo();
+        this.updateLogo(); 
       }
     }
   }

@@ -100,12 +100,15 @@ export class DashboardComponent implements OnInit {
 
   deleteDocument(id: string) {
     if (confirm("Are you sure you want to delete this document?")) {
-      this.documentService.deleteDocument(id).subscribe((data: any) => {
+      this.documentService.deleteDocument(id).subscribe((data1: any) => {
         this.Projects = this.Projects.filter((project: Project) => project._id != id);
         this.MyProjectsData = this.MyProjectsData.filter((project: Project) => project._id != id);
         this.data = this.Projects;
-        this.userService.removeOwnProject(this.email, id).subscribe((data: any) => {
-          console.log(data);
+        this.userService.removeOwnProject(this.email, id).subscribe((data2: any) => {
+          console.log(data2);
+          this.documentService.deleteFolderImages(id).subscribe((data3: any) => {
+            console.log(data3);
+          });
         });
       });
     }

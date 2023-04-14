@@ -27,7 +27,8 @@
             ],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/uploads"
             ],
             "styles": [
               "src/styles.scss",
@@ -74,7 +75,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "GDDMaker:build"
+            "browserTarget": "GDDMaker:build",
+            "liveReload": false
           },
           "configurations": {
             "production": {

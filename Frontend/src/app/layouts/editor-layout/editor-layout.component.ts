@@ -5,7 +5,6 @@ import { DocumentService } from "src/app/services/document.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { filter } from 'rxjs/operators';
 import { faThumbTack } from '@fortawesome/free-solid-svg-icons';
-import { layout } from "./docLayoutInterface";
 import { EditorLayoutRoutes } from "./editor-layout.routing";
 
 @Component({

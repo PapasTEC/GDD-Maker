@@ -5,8 +5,8 @@ const path = require('path');
 const imageController = {};
 
 
-//const folderPath = '../Frontend/src/uploads/';
-const folderPath = 'src/uploads/';
+const folderPath = '../Frontend/src/uploads/';
+//const folderPath = 'src/uploads/';
 
 async function checkExistsWithTimeout(filePath, timeout) {
   return new Promise((resolve, reject) => {
@@ -73,21 +73,58 @@ imageController.uploadImage = async (req, res) => {
   }
 };
 
+function eliminarCarpeta(req, res) {
+  const rutaCarpeta = req.params.rutaCarpeta; // obtiene la ruta de la carpeta desde los parámetros de la URL
+  const rutaCompleta = './carpetas/' + rutaCarpeta; // construye la ruta completa de la carpeta
+  
+  // verifica si la carpeta existe
+  if (fs.existsSync(rutaCompleta)) {
+    // elimina la carpeta utilizando el método rmdir de fs
+    fs.rmdir(rutaCompleta, { recursive: true }, (error) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send('Error al eliminar la carpeta');
+      } else {
+        res.status(200).send('Carpeta eliminada correctamente');
+      }
+    });
+  } else {
+    res.status(404).send('La carpeta no existe');
+  }
+}
+
+imageController.deleteFolder = async (req, res) => {
+  const documentId = req.params.documentId;
+  const path = folderPath + documentId;
+  if (fs.existsSync(path)) {
+    // elimina la carpeta utilizando el método rmdir de fs
+    fs.rmdir(path, { recursive: true }, (error) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send('Error deleting folder');
+      } else {
+        res.status(200).send('Folder deleted successfully');
+      }
+    });
+  } else {
+    res.status(404).send('The folder does not exist');
+  }
+};
 
 // Controlador para eliminar una imagen
 
-imageController.deleteImage = async (req, res) => {
-  const documentId = req.params.documentId;
-  const fileName = req.params.fileName;
-  const filePath = `${folderPath}/${documentId}/${fileName}`;
+// imageController.deleteImage = async (req, res) => {
+//   const documentId = req.params.documentId;
+//   const fileName = req.params.fileName;
+//   const filePath = `${folderPath}/${documentId}/${fileName}`;
 
-  // Elimina el archivo del sistema de archivos
-  fs.unlink(filePath, (err) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error al eliminar el archivo');
-    }
-  });
-}
+//   // Elimina el archivo del sistema de archivos
+//   fs.unlink(filePath, (err) => {
+//     if (err) {
+//       console.error(err);
+//       res.status(500).send('Error al eliminar el archivo');
+//     }
+//   });
+// }
 
 module.exports = imageController;

@@ -8,6 +8,9 @@ const { backendValidation } = require('../controllers/tokenController');
 router.post('/:documentId', backendValidation, imageController.upload.single('image'), imageController.uploadImage);
 
 // Ruta para eliminar una imagen
-router.delete('/:documentId/:fileName', backendValidation, imageController.deleteImage);
+// router.delete('/:documentId/:fileName', backendValidation, imageController.deleteImage);
+
+// Ruta para eliminar una carpeta
+router.delete('/delete/:documentId', backendValidation, imageController.deleteFolder);
 
 module.exports = router;

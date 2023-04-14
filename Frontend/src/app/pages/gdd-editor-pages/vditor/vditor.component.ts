@@ -123,6 +123,7 @@ export class VditorComponent {
       formData.append('image', file, fixName);
       this.documentService.uploadImage(this.documentId, formData).subscribe((res) => { }, (err) => {
         if (err.status === 200) {
+          //this.vditor.insertValue(`![](../uploads/${this.documentId}/${fixName})`);
           this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
           this.updateDocument(this.vditor.getValue());
           this.editingDocumentService.document$.pipe(

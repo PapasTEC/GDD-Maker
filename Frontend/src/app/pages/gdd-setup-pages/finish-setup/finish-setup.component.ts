@@ -45,195 +45,196 @@ export class FinishSetupComponent {
 
   async finishSetup() {
     let user;
-    this.tokenService.decodeToken().subscribe((data: any) => {
-      console.log(`${JSON.stringify(data.decoded)}`);
+    this.tokenService.decodeToken().subscribe(async (data: any) => {
+      console.log("text: ",`${JSON.stringify(data.decoded)}`);
       user = data.decoded;
       user.image = localStorage.getItem('ImageUser');
-    });
-    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
 
-    const myPlatforms = currentSetup.gamePlatforms.map(platform => {
-      return this.platforms[platform];
-    });
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
 
-    let myGameLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
-    let myCompanyLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+      const myPlatforms = currentSetup.gamePlatforms.map(platform => {
+        return this.platforms[platform];
+      });
 
-    if (currentSetup.gameLogo !== "") {
-      myGameLogo = await this.convertTempUrlToBase64(currentSetup.gameLogo);
-    }
+      let myGameLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+      let myCompanyLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
 
-    if (currentSetup.companyLogo !== "") {
-      myCompanyLogo = await this.convertTempUrlToBase64(currentSetup.companyLogo);
-    }
-
-    console.log("user: ", user);
-    console.log("currentSetup: ", currentSetup);
-    console.log("myPlatforms: ", myPlatforms);
-    console.log("myGameLogo: ", myGameLogo);
-    console.log("myCompanyLogo: ", myCompanyLogo);
-
-    const document = {
-      owner: user.email,
-      frontPage: {
-        documentTitle: currentSetup.gameTitle,
-        documentLogo: myGameLogo,
-        companyName: currentSetup.companyName,
-        companyLogo: myCompanyLogo,
-        collaborators: [user.name],
-        lastUpdated: new Date()
-      },
-      documentContent: [
-        // {
-        //   sectionTitle: "Document Cover",
-        //   subSections: [{
-        //     subSectionTitle: "Document Cover",
-        //     subSectionContent: {
-        //       coverData: []
-        //     }
-        //   }]
-        // },
-        {
-        sectionTitle: "Basic Information",
-        subSections: [{
-          subSectionTitle: "Basic Information",
-          subSectionContent: {
-            elevatorPitch: currentSetup.elevatorPitch,
-            tagline: "",
-            genres: [],
-            tags: currentSetup.gameTags,
-          }
-        }]
-      }, {
-        sectionTitle: "Technical Information",
-        subSections: [{
-          subSectionTitle: "Technical Information",
-          subSectionContent: {
-            platforms: currentSetup.gamePlatforms,
-            ageClassification : "",
-            targetAudience: "",
-            releaseDate: "",
-            price: "",
-          }
-        }]
-      }, {
-        sectionTitle: "High Level Design",
-        subSections: [{
-          subSectionTitle: "Theme",
-          subSectionContent: {
-            text: currentSetup.theme
-          }
-        }, {
-          subSectionTitle: "Aesthetic",
-          subSectionContent: {
-            aesthetics: [{name:this.aesthetics[currentSetup.aesthetic[0]], content:""}]
-          }
-        }, {
-          subSectionTitle: "Core Mechanic",
-          subSectionContent: {
-            "coreMechanic": currentSetup.coreMechanic,
-            "secondary": "",
-            "progression": "",
-            "metaphore": ""
-          }
-        }]
-      },
-      {
-        sectionTitle: "Low Level Design",
-        subSections: [{
-          subSectionTitle: "Detail of the Core Mechanic",
-          subSectionContent: {
-            tokens : "",
-            resources : "",
-            additionalElements : "",
-            decisions : "",
-            intermediate : "",
-            local : "",
-            global : ""
-          }
-        },
-        {
-          subSectionTitle: "Detail of the Secondary Mechanic",
-          subSectionContent: {
-            text: ""
-          }
-        }]
-      },
-      {
-        sectionTitle: "Narrative and Worldbuilding",
-        subSections: [{
-          subSectionTitle: "Setting",
-          subSectionContent: {
-            text: ""
-          }
-        },{
-          subSectionTitle: "Characters",
-          subSectionContent: {
-            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
-            characters: []
-          }
-        },
-        {
-          subSectionTitle: "Events",
-          subSectionContent: {
-            // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
-            events: []
-          }
-        }]
-      },
-      {
-        sectionTitle: "Look and Feel",
-        subSections: [{
-          subSectionTitle: "Visual Style",
-          subSectionContent: {
-            text: ""
-          }
-        },{
-          subSectionTitle: "User Interface",
-          subSectionContent: {
-            text: ""
-          }
-        },
-        {
-          subSectionTitle: "Music and Sound",
-          subSectionContent: {
-            text: ""
-          }
-        }]
-      },
-      {
-        sectionTitle: "Game References",
-        subSections: [{
-          subSectionTitle: "Game References",
-          subSectionContent: {
-            text: ""
-          }
-        }]
-      },
-    ]
-    }
-
-    console.log("document:", document);
-
-    this.documentService.addDocument(document).subscribe(
-      res => {
-        console.log("addDocument res:", res);
-        alert("Document added successfully!");
-        this.userService.addOwnProject(user.email, res['id']).subscribe(
-          res2 => {
-            console.log("addOwnDocument res:", res2);
-            this.router.navigate(['/dashboard']);
-          err2 => {
-            console.log(err2);
-            alert("Error adding document to user");
-          }
-        });
-      },
-      err => {
-        console.log(err);
-        alert("Error adding document");
+      if (currentSetup.gameLogo !== "") {
+        myGameLogo = await this.convertTempUrlToBase64(currentSetup.gameLogo);
       }
-    );
+
+      if (currentSetup.companyLogo !== "") {
+        myCompanyLogo = await this.convertTempUrlToBase64(currentSetup.companyLogo);
+      }
+
+      console.log("user: ", user);
+      console.log("currentSetup: ", currentSetup);
+      console.log("myPlatforms: ", myPlatforms);
+      console.log("myGameLogo: ", myGameLogo);
+      console.log("myCompanyLogo: ", myCompanyLogo);
+
+      const document = {
+        owner: user.email,
+        frontPage: {
+          documentTitle: currentSetup.gameTitle,
+          documentLogo: myGameLogo,
+          companyName: currentSetup.companyName,
+          companyLogo: myCompanyLogo,
+          collaborators: [user.name],
+          lastUpdated: new Date()
+        },
+        documentContent: [
+          // {
+          //   sectionTitle: "Document Cover",
+          //   subSections: [{
+          //     subSectionTitle: "Document Cover",
+          //     subSectionContent: {
+          //       coverData: []
+          //     }
+          //   }]
+          // },
+          {
+          sectionTitle: "Basic Information",
+          subSections: [{
+            subSectionTitle: "Basic Information",
+            subSectionContent: {
+              elevatorPitch: currentSetup.elevatorPitch,
+              tagline: "",
+              genres: [],
+              tags: currentSetup.gameTags,
+            }
+          }]
+        }, {
+          sectionTitle: "Technical Information",
+          subSections: [{
+            subSectionTitle: "Technical Information",
+            subSectionContent: {
+              platforms: currentSetup.gamePlatforms,
+              ageClassification : "",
+              targetAudience: "",
+              releaseDate: "",
+              price: "",
+            }
+          }]
+        }, {
+          sectionTitle: "High Level Design",
+          subSections: [{
+            subSectionTitle: "Theme",
+            subSectionContent: {
+              text: currentSetup.theme
+            }
+          }, {
+            subSectionTitle: "Aesthetic",
+            subSectionContent: {
+              aesthetics: [{name:this.aesthetics[currentSetup.aesthetic[0]], content:""}]
+            }
+          }, {
+            subSectionTitle: "Core Mechanic",
+            subSectionContent: {
+              "coreMechanic": currentSetup.coreMechanic,
+              "secondary": "",
+              "progression": "",
+              "metaphore": ""
+            }
+          }]
+        },
+        {
+          sectionTitle: "Low Level Design",
+          subSections: [{
+            subSectionTitle: "Detail of the Core Mechanic",
+            subSectionContent: {
+              tokens : "",
+              resources : "",
+              additionalElements : "",
+              decisions : "",
+              intermediate : "",
+              local : "",
+              global : ""
+            }
+          },
+          {
+            subSectionTitle: "Detail of the Secondary Mechanic",
+            subSectionContent: {
+              text: ""
+            }
+          }]
+        },
+        {
+          sectionTitle: "Narrative and Worldbuilding",
+          subSections: [{
+            subSectionTitle: "Setting",
+            subSectionContent: {
+              text: ""
+            }
+          },{
+            subSectionTitle: "Characters",
+            subSectionContent: {
+              // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+              characters: []
+            }
+          },
+          {
+            subSectionTitle: "Events",
+            subSectionContent: {
+              // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+              events: []
+            }
+          }]
+        },
+        {
+          sectionTitle: "Look and Feel",
+          subSections: [{
+            subSectionTitle: "Visual Style",
+            subSectionContent: {
+              text: ""
+            }
+          },{
+            subSectionTitle: "User Interface",
+            subSectionContent: {
+              text: ""
+            }
+          },
+          {
+            subSectionTitle: "Music and Sound",
+            subSectionContent: {
+              text: ""
+            }
+          }]
+        },
+        {
+          sectionTitle: "Game References",
+          subSections: [{
+            subSectionTitle: "Game References",
+            subSectionContent: {
+              text: ""
+            }
+          }]
+        },
+      ]
+      }
+
+      console.log("document:", document);
+
+      this.documentService.addDocument(document).subscribe(
+        res => {
+          console.log("addDocument res:", res);
+          alert("Document added successfully!");
+          this.userService.addOwnProject(user.email, res['id']).subscribe(
+            res2 => {
+              console.log("addOwnDocument res:", res2);
+              this.router.navigate(['/dashboard']);
+            err2 => {
+              console.log(err2);
+              alert("Error adding document to user");
+            }
+          });
+        },
+        err => {
+          console.log(err);
+          alert("Error adding document");
+        }
+      );
+    });
   }
 
   

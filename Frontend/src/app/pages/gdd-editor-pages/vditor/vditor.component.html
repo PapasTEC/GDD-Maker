@@ -1,11 +1,10 @@
-
 <div id="markdown-editor" class="markdown-wrapper">
-    <div class="toolbarBar">
-        <i class="fas fa-chevron-down icon"></i>
-    </div> 
-    <!-- <router-outlet></router-outlet> -->
-    <div id="vditor"></div>
-    <!-- <img
+  <div class="toolbarBar">
+    <i class="fas fa-chevron-down icon"></i>
+  </div>
+  <!-- <router-outlet></router-outlet> -->
+  <div id="vditor"></div>
+  <!-- <img
         id="toolbar-toggle-button"
         (click)="toggleToolbar()"
         class="hide-toolbar"
@@ -13,4 +12,10 @@
         alt="share"
     /> -->
 </div>
-<input type="file" accept="image/*" id="fileSelector" (change)="onFileSelected($event)">
+<input
+  type="file"
+  [hidden]="true"
+  accept="image/*"
+  id="fileSelector"
+  (change)="onFileSelected($event)"
+/>

@@ -24,7 +24,7 @@ export class VditorComponent {
     private activatedRoute: ActivatedRoute,
     private editingDocumentService: EditingDocumentService,
     private documentService: DocumentService
-  ) {}
+  ) { }
 
   toggleToolbar() {
     const content = this.vditor.getValue();
@@ -72,8 +72,8 @@ export class VditorComponent {
 
     this.editingDocumentService.document$.pipe(
       filter(document => document !== null),
-      map(document => document.documentContent.find(section => 
-        section.sectionTitle === this.section).subSections.find(subsection => 
+      map(document => document.documentContent.find(section =>
+        section.sectionTitle === this.section).subSections.find(subsection =>
           subsection.subSectionTitle === this.subSection)),
       take(1)
     ).subscribe((document) => {
@@ -89,103 +89,81 @@ export class VditorComponent {
 
   // Funciones para subir imagenes
 
-
-  public async onFileSelected(event: any) {
-    const file = event.target.files[0];
-
-    if (file) {
-      const fixName = file.name.replace(/ /gi, "_");
-      //console.log("name: ", file.name);
-      //console.log("fixName: ", fixName);
-      // const editName = name.replace(/[^a-z0-9]/gi, "_");
-      const fileSize = file.size / 1024 / 1024; // in MB
-      //console.log("File size: " + fileSize);
-
-      // alert("File size: " + fileSize);
-      // if (fileSize > 1) {
-      //   alert("File size exceeds 1 MB");
-      //   return;
-      // }
-      const formData = new FormData();
-      formData.append('image', file, fixName);
-      //console.log("formData: ", formData);
-      this.documentService.uploadImage(this.documentId, formData).subscribe((res) => { }, (err) => {
-        if (err.status === 200) {
-        this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
-
-        this.updateDocument(this.vditor.getValue());
-        this.editingDocumentService.document$.pipe(
-          take(1)
-        ).subscribe((document) => {
-          
-          console.log("document: ", document);
-          //this.document.frontPage.lastUpdated = new Date();
-          this.documentService.updateDocument(this.documentId, document).subscribe(
-            res => {
-              console.log("Update res: ", res);
-              err => {
-                console.log("Update err: ", err);
-
-              }
-            });
-
-        });
-        } else {
-          console.log("Error: ", err);
-        }
-        
-      });
-      // console.log("res: ", res);
-
-      // this.uploadedImage = URL.createObjectURL(file);
-      // this.vditor.insertValue(`![](${this.uploadedImage})`);
-      // const width = prompt("Width", "640");
-      // const height = prompt("Height", "480");
-      // const scaledBase64 = await this.scaleAndEncodeImage(this.uploadedImage, width, height);
-      // const base65 = await this.Base64ToBlob(scaledBase64);
-      // const buffer = Buffer.from(scaledBase64.substring(scaledBase64.indexOf(',') + 1), 'base64');
-      // console.log("Byte length: " + buffer.length);
-      // console.log("MB: " + buffer.length / 1e+6);
-      // console.log("uploadedImage: ", this.uploadedImage);
-      // this.vditor.insertValue(`![](${URL.createObjectURL(base65)})`);
-    }
-  }
-
-  async Base64ToBlob(base64: string): Promise<Blob> {
-    const res = await fetch(base64);
-    const blob = await res.blob();
-    return blob;
-  }
-
-  async scaleAndEncodeImage(url: any, width: any, height: any): Promise<string> {
+  async scaleImage(file: File): Promise<File> {
     const img = new Image();
     const reader = new FileReader();
-    reader.readAsDataURL(await fetch(url).then(r => r.blob()));
+    reader.readAsDataURL(file);
     const base64 = await new Promise<string>((resolve, reject) => {
-      reader.onloadend = () => resolve(reader.result as string);
+      reader.onload = () => resolve(reader.result as string);
       reader.onerror = () => reject(reader.error);
     });
-    return new Promise<string>((resolve, reject) => {
+    return new Promise<File>((resolve, reject) => {
       img.onload = () => {
         const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 1000;
+        const MAX_HEIGHT = 1000;
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
         canvas.width = width;
-        canvas.height = width * img.height / img.width;
+        canvas.height = height;
         const ctx = canvas.getContext('2d');
-        // ctx.drawImage(img, 0, 0, width, height);
-        // ctx.drawImage(img, 0, 0, height, height * img.height / img.width);
-        ctx.drawImage(img, 0, 0, width, width * img.height / img.width);
-        // ctx.drawImage(img, 0, 0, width * img.width / img.height, width);
-        // context.drawImage(imageObj, 0, 0, 100, 100 * imageObj.height / imageObj.width)
-        const scaledBase64 = canvas.toDataURL();
-        console.log("img: ", img.width, img.height);
-        console.log("scaledBase64: ", canvas.width, canvas.height);
-        resolve(scaledBase64);
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          const resizedFile = new File([blob], file.name, {
+            type: file.type,
+            lastModified: file.lastModified,
+          });
+          resolve(resizedFile);
+        }, file.type, 0.8);
       };
       img.onerror = () => reject(new Error('Failed to load image'));
       img.src = base64;
     });
   }
 
+  public async onFileSelected(event: any) {
+    let file = event.target.files[0];
+
+    if (file) {
+      const fileSize = file.size / (1024 * 1024); // in MB
+      if (fileSize > 1) {
+        file = await this.scaleImage(file);
+      }
+      const fixName = file.name.replace(/ /gi, "_");
+      const formData = new FormData();
+      formData.append('image', file, fixName);
+      this.documentService.uploadImage(this.documentId, formData).subscribe((res) => { }, (err) => {
+        if (err.status === 200) {
+          this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
+          this.updateDocument(this.vditor.getValue());
+          this.editingDocumentService.document$.pipe(
+            take(1)
+          ).subscribe((document) => {
+            this.documentService.updateDocument(this.documentId, document).subscribe(
+              res => {
+                console.log("Update res: ", res);
+                err => {
+                  console.log("Update err: ", err);
+                }
+              });
+          });
+        } else {
+          console.log("Error: ", err);
+        }
+      });
+    }
+  }
 
   uploadImage() {
     document.getElementById("fileSelector").click();
@@ -198,18 +176,6 @@ export class VditorComponent {
     return {
       value: content,
       placeholder: "Type here...",
-      // image: {
-      //   preview(bom: Element) {
-      //     console.log(bom);
-      //   },
-      // },
-      // ![](https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg)
-      // upload: {
-      //   handler(files: File[]) {
-      //     console.log(files);
-      //     return "https://hacpai.com/images/2020/04/1586249606.png";
-      //   },
-      // },
       upload: {
         max: 1048576,
         accept: 'image/jpeg,image/png,image/gif',
@@ -231,7 +197,6 @@ export class VditorComponent {
         hide: true,
         pin: true,
       },
-      // name can be enumerated as: emoji, headings, bold, italic, strike, |, line, quote, list, ordered-list, check, outdent, indent, code, inline-code, insert-after, insert-before, undo, redo, upload, link, table, record, edit-mode, both, preview, fullscreen, outline, code-theme, content-theme, export, devtools, info, help, br
       toolbar: toolbar
         ? [
           {
@@ -372,7 +337,7 @@ export class VditorComponent {
             name: "newUpload",
             tip: "Upload Image",
             tipPosition: "s",
-              click () {
+            click() {
               console.log("Hola")
               document.getElementById("fileSelector").click();
             }
@@ -452,7 +417,7 @@ export class VditorComponent {
       cache: {
         enable: false,
       },
-      after: () => {},
+      after: () => { },
       input: (value: string) => {
         this.updateDocument(value);
       },

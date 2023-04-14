@@ -180,7 +180,36 @@ export class FinishSetupComponent {
             events: []
           }
         }]
-      }
+      },
+      {
+        sectionTitle: "Look and Feel",
+        subSections: [{
+          subSectionTitle: "Visual Style",
+          subSectionContent: {
+            text: ""
+          }
+        },{
+          subSectionTitle: "User Interface",
+          subSectionContent: {
+            text: ""
+          }
+        },
+        {
+          subSectionTitle: "Music and Sound",
+          subSectionContent: {
+            text: ""
+          }
+        }]
+      },
+      {
+        sectionTitle: "Game References",
+        subSections: [{
+          subSectionTitle: "Game References",
+          subSectionContent: {
+            text: ""
+          }
+        }]
+      },
     ]
     }
 

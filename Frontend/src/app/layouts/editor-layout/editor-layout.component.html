@@ -10,7 +10,7 @@
 
 <div class="bodyContainer header-margin">
   <div id="editor-container" class="editor-container-Class">
-    <div id="sidebar" class="leftModuleClass sidebarHide" tabindex="0" (click)="keepSidebarOpen()">
+    <div id="sidebar" class="leftModuleClass " tabindex="0" (click)="keepSidebarOpen()">
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
           <div class="icon-container" (click)="returnDashboard()">
@@ -39,36 +39,30 @@
         <div id="layout-text" class="layoutTextContainer ribbon">
           <div class="layoutText"  ><span>{{this.documentTitle}}</span></div>
         </div>
-        <div id="layout-container" class="layoutContainerClass">
+        <div id="layout-container" class="layoutContainerClass scrollBar">
 
           <div class="sidebar">
-            <!-- <button class="dropdown-btn">
-              Tematica
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container" style="display: none">
-              <a class="nActive" href="#/editor">Link 1</a>
-              <a class="nActive" href="#/editor">Link 2</a>
-              <a class="nActive" href="#/editor">Link 3</a>
-            </div> -->
-            <!-- <a class="nActive" href="#/editor">Tematica</a> -->
             <!-- *ngFor="let sec of documentLayout; index as i" -->
-            <div *ngFor="let sec of documentLayout; index as i">
+            <div class="subSectionCont" *ngFor="let sec of documentLayout; index as i">
               <div *ngIf="sec.subSections.length !== 0;else alt">
                 <button class="dropdown-btn">
                   <span>{{sec.section}}</span>
-                  <i class="fa fa-caret-down"></i>
+                  <i class="fa fa-caret-down "></i>
                 </button>
-                <div class="dropdown-container" style="display: none" >
-                  <a class="nActive" (click)="switchSection(subSec)" [routerLink]="[sec.paths[j]]" queryParamsHandling="merge" *ngFor="let subSec of sec.subSections; index as j"><span>{{subSec}}</span></a>
+                <div class="dropdown-container hideDropdown" style="display:none; height: 0px;" >
+                  <a  class="nActive" (click)="switchSection(subSec)" [routerLink]="[sec.paths[j]]" queryParamsHandling="merge" *ngFor="let subSec of sec.subSections; index as j"><span>{{subSec}}</span></a>
                 </div>
               </div>
               <ng-template #alt>
-                <a class="nActive" (click)="switchSection(sec.section)" [routerLink]="[sec.paths[0]]" queryParamsHandling="merge"><span>{{sec.section}}</span></a>
+                <a id="singleSec" class="nActive" (click)="switchSection(sec.section)" [routerLink]="[sec.paths[0]]" queryParamsHandling="merge"><span>{{sec.section}}</span></a>
               </ng-template>
             </div>
           </div>
+          <div class="xBot">
+
+          </div>
         </div>
+        
       </div>
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
@@ -96,14 +90,15 @@
         </div>
       </div>
     </div>
-    <div id="workspace" class="workspace-class">
-      <div class="cardRibbonTitle">
+    <div id="workspace" class="workspace-class sidebarHide">
+      <div class="subSectionTitleShowedInEditor">
         <span> {{currentTitle}} </span>
       </div>
       <div class="outlet">
         <router-outlet></router-outlet>
       </div>
       <img
+        id="showHideSBButton"
         (click)="openSidebar()"
         class="open-sidebar-button"
         src="assets/img/icons/common/chevrons-left.svg"

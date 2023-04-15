@@ -30,7 +30,7 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(request).pipe(
+    return next.handle(newRequest).pipe(
       /*
       Error 500: Internal Server Error
       Error 501: Not Implemented

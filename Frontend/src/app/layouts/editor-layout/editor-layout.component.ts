@@ -286,5 +286,7 @@ export class EditorLayoutComponent implements OnInit {
 
     clearInterval(this.autoSaveTimer);
     clearInterval(this.lastManualSaveTimer);
+
+    this.editingDocumentService.changeDocument(null);
   }
 }

@@ -13,50 +13,22 @@
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
-          <div class="rowsDivider">
-            <div class="detailRow">
-                <div class="detailCol detailSubTitle">
-                    <span class="detailCharacterInfoText">Tokens</span>
-                </div>
-                <div class="detailCol wide">
-                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
-                    id="textarea"
-                    [(ngModel)]="this.details.tokens"
-                    (input)='this.updateDocument()'
-                  ></textarea>
-                  <!-- <span 
-                    class="detailTextArea detailGreyBG scrollBarResizer" 
-                    id="tokens"
-                    (input)='this.updateDetails("tokens")'
-                    role="textbox" 
-                    contenteditable
-                  ></span> -->
-                </div>
-            </div>
-            <div class="detailRow">
-                <div class="detailCol detailSubTitle">
-                    <span class="detailCharacterInfoText">Resources</span>
-                </div>
-                <div class="detailCol wide">
-                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
-                    [(ngModel)]="this.details.resources"
-                    (input)='this.updateDocument()'
-                  ></textarea>
-                </div>
-            </div>
-            <div class="detailRow">
-                <div class="detailCol detailSubTitle">
-                    <span class="detailCharacterInfoText"
-                        >Additional<br />Elements</span
-                    >
-                </div>
-                <div class="detailCol wide">
-                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
-                    [(ngModel)]="this.details.additionalElements"
-                    (input)='this.updateDocument()'
-                  ></textarea>
-                </div>
-            </div>
+          <div class="grid">
+            <div class="detailSubTitleGrid detailCharacterInfoText">Tokens</div>
+            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+              [(ngModel)]="this.details.tokens"
+              (input)='this.growShrink($event, this.details.tokens)'
+            ></textarea>
+            <div class="detailSubTitleGrid detailCharacterInfoText">Resources</div>
+            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+              [(ngModel)]="this.details.resources"
+              (input)='this.growShrink($event, this.details.resources)'
+            ></textarea>
+            <div class="detailSubTitleGrid detailCharacterInfoText">Additional<br> Elements</div>
+            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+              [(ngModel)]="this.details.additionalElements"
+              (input)='this.growShrink($event, this.details.additionalElements)'
+            ></textarea>
           </div>
         </div>
       </div>
@@ -71,16 +43,10 @@
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
-          <textarea class="vditor-reset detailTextArea scrollBarResizer resize-ta"
+          <textarea class="vditor-reset detailTextArea scrollBar resize-ta"
             [(ngModel)]="this.details.decisions"
-            (input)='this.updateDocument()'
+            (input)='this.growShrink($event, this.details.decisions, true)'
           ></textarea>
-          <!-- <span class="vditor-reset detailTextArea scrollBarResizer" 
-          id="decisions"
-          (input)='this.updateDetails("decisions")'
-          role="textbox" 
-          contenteditable></span> -->
-          <!-- <span class="vditor-reset detailTextArea scrollBarResizer" role="textbox" contenteditable></span> -->
         </div>
       </div>
     </div>
@@ -94,41 +60,22 @@
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
-          <div class="rowsDivider">
-            <div class="detailRow">
-                <div class="detailCol detailSubTitle">
-                    <span class="detailCharacterInfoText">Intermediate</span>
-                </div>
-                <div class="detailCol wide">
-                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
-                    [(ngModel)]="this.details.intermediate"
-                    (input)='this.updateDocument()'
-                  ></textarea>
-                </div>
-            </div>
-            <div class="detailRow">
-                <div class="detailCol detailSubTitle">
-                    <span class="detailCharacterInfoText">Local</span>
-                </div>
-                <div class="detailCol wide">
-                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
-                    [(ngModel)]="this.details.local"
-                    (input)='this.updateDocument()'
-                  ></textarea>
-                </div>
-            </div>
-            <div class="detailRow">
-                <div class="detailCol detailSubTitle">
-                    <span class="detailCharacterInfoText">Global</span
-                    >
-                </div>
-                <div class="detailCol wide">
-                  <textarea class="detailTextArea detailGreyBG scrollBarResizer resize-ta"
-                    [(ngModel)]="this.details.global"
-                    (input)='this.updateDocument()'
-                  ></textarea>
-                </div>
-            </div>
+          <div class="grid">
+            <div class="detailSubTitleGrid detailCharacterInfoText">Intermediate</div>
+            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+              [(ngModel)]="this.details.intermediate"
+              (input)='this.growShrink($event, this.details.intermediate)'
+            ></textarea>
+            <div class="detailSubTitleGrid detailCharacterInfoText">Local</div>
+            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+              [(ngModel)]="this.details.local"
+              (input)='this.growShrink($event, this.details.local)'
+            ></textarea>
+            <div class="detailSubTitleGrid detailCharacterInfoText">Global</div>
+            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+              [(ngModel)]="this.details.global"
+              (input)='this.growShrink($event, this.details.global)'
+            ></textarea>
           </div>
         </div>
       </div>

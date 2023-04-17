@@ -497,7 +497,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   display: flex;
   flex-direction: column;
 
-  overflow: auto;
+  overflow-y:scroll;
 
   border: greenyellow $borderState;
 }

@@ -230,12 +230,11 @@ export class EditorLayoutComponent implements OnInit {
 
   ngOnInit() {
     
-    console.log(this.documentId)
+    
 
     this.route.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
-    });
-    
+    });    
 
     this.setDocumentData();
 
@@ -263,7 +262,9 @@ export class EditorLayoutComponent implements OnInit {
     let coverLink = document.getElementsByClassName("nActive")[0] as HTMLElement;
     coverLink.classList.remove("nActive");
     coverLink.classList.add("active");
+    
     this.router.navigate(["./cover"],{relativeTo: this.route, queryParams: { pjt: this.documentId } });
+    
   }
 
   ngAfterViewInit() {
@@ -460,5 +461,7 @@ export class EditorLayoutComponent implements OnInit {
 
     clearInterval(this.autoSaveTimer);
     clearInterval(this.lastManualSaveTimer);
+
+    this.editingDocumentService.changeDocument(null);
   }
 }

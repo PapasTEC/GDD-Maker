@@ -1,42 +1,27 @@
-<div class="header bg-gradient-tertiary" style="height: 50vh; padding-top: 27vh;">
-  <div class="container">
-    <div class="header-body text-center mb-7">
-      <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-6">
-          <h1 class="text-white">Welcome again!</h1>
+<div class="bodyClass">
+  <div class="imageContainer">
+
+  </div>
+
+  <!-- <video autoplay muted loop id="myVideo" class="videoContainer">
+    <source src="https://cdn.pixabay.com/vimeo/616430996/video-games-89894.mp4?width=1280&expiry=1681689953&hash=bad1b30ce762a17e36430a386d4febe8414ce074" type="video/mp4">
+  </video> -->
+  <div class="loginContainer gradientBG">
+        <div class="wlcmText">
+          Welcome to GDD Maker!
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="separator separator-bottom separator-skew zindex-100">
-    <svg
-      x="0"
-      y="0"
-      viewBox="0 0 2560 100"
-      preserveAspectRatio="none"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
-    </svg>
-  </div>
-</div>
-<!-- Page content -->
-<div class="container mt--8 pb-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-5 col-md-7">
-      <div class="card bg-secondary shadow border-0">
-        <div class="card-body px-lg-5 py-lg-5">
+        <div class="cardBdy">
           <div *ngIf="isLogin">
             <div class="text-center text-muted mb-4">
-              <small>Sign in with credentials</small>
+              <small>Sign in with your email</small>
             </div>
             <form
               class="needs-validation was-validated"
               [formGroup]="emailForm"
             >
-              <div class="form-group">
-                <div class="input-group input-group-alternative mb-3">
+              <div class="form-group"  >
+                <div class=" input-group input-group-alternative mb-3">
+                  
                   <div class="input-group-prepend">
                     <span class="input-group-text"
                       ><i class="ni ni-email-83"></i
@@ -48,29 +33,34 @@
                     placeholder="Email"
                     type="email"
                     required
+                    style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;"
                   />
-                  <div
+                  <div class="inv"
                     *ngIf="
                       emailForm.get('email').invalid &&
                       (emailForm.get('email').touched || emailSubmitted)
-                    "
+                      ; else l"
                     class="invalid-feedback"
                   >
+                  
                     <div *ngIf="emailForm.get('email').errors.required">
-                      Email is required
+                      Please enter your email to continue!
                     </div>
                     <div *ngIf="emailForm.get('email').errors.email">
-                      Email is invalid
+                      The email address is invalid!
                     </div>
                   </div>
+                  <ng-template #l>
+                    <div class="always"><div></div></div>
+                  </ng-template>
                 </div>
               </div>
-
+  
               <div class="text-center">
                 <button
                   (click)="checkEmail()"
                   type="button"
-                  class="btn btn-primary my-4"
+                  class="btn btn-primary my-4 smallButtTxt"
                 >
                   Sign in
                 </button>
@@ -134,13 +124,12 @@
               </div>
             </form>
           </div>
+        
+        <div class="text-center">
+          <a routerLink="/register" class="text-light"
+            ><small>No account yet? Create one!</small></a
+          >
         </div>
-      </div>
-      <div class="text-center">
-        <a routerLink="/register" class="text-light"
-          ><small>Create new account</small></a
-        >
-      </div>
-    </div>
+      
   </div>
 </div>

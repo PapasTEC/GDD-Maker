@@ -1,28 +1,21 @@
-<div class="header bg-gradient-tertiary" style="height: 50vh; padding-top: 18vh;">
-  <div class="container">
-    <div class="header-body text-center mb-7">
-      <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-6">
-          <h1 class="text-white">Welcome new user!</h1>
+
+          
+
+      <div class="bodyClass">
+        <div class="imageContainer">
+      
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="separator separator-bottom separator-skew zindex-100">
-    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
-    </svg>
-  </div>
-</div>
-<!-- Page content -->
-<div class="container pb-5 py-4" style="margin-top: -25vh;">
-  <!-- Table -->
-  <div class="row justify-content-center">
-    <div class="col-lg-6 col-md-8">
-      <div class="card bg-secondary shadow border-0">
-        <div class="card-body px-lg-5 py-lg-5">
+      
+        <!-- <video autoplay muted loop id="myVideo" class="videoContainer">
+          <source src="https://cdn.pixabay.com/vimeo/616430996/video-games-89894.mp4?width=1280&expiry=1681689953&hash=bad1b30ce762a17e36430a386d4febe8414ce074" type="video/mp4">
+        </video> -->
+        <div class="loginContainer backGAnim">
+          <div class="wlcmText">
+            Nice to see new faces!
+          </div>
+          <div class="cardBdy">
           <div class="text-center text-muted mb-4">
-            <small>Sign in with credentials</small>
+            <small>Register a new account</small>
           </div>
           <form class="needs-validation was-validated" [formGroup]="registerForm">
             <div class="form-group">
@@ -30,9 +23,9 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                 </div>
-                <input class="form-control" formControlName="name" placeholder="Name" type="text" required>
+                <input class="form-control" formControlName="name" placeholder="Name" type="text" required style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
                 <div *ngIf="registerForm.get('name').invalid && (registerForm.get('name').touched || formSubmitted)" class="invalid-feedback">
-                  <div *ngIf="registerForm.get('name').errors.required">Name is required</div>
+                  <div *ngIf="registerForm.get('name').errors.required">A name is required</div>
                 </div>
               </div>
             </div>
@@ -41,24 +34,25 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input class="form-control" formControlName="email" placeholder="Email" type="email" required>
+                <input class="form-control" formControlName="email" placeholder="Email" type="email" required style="border-top-right-radius: 0.375rem; border-bottom-right-radius: 0.375rem;">
                 <div *ngIf="registerForm.get('email').invalid && (registerForm.get('email').touched || formSubmitted)" class="invalid-feedback">
-                  <div *ngIf="registerForm.get('email').errors.required">Email is required</div>
-                  <div *ngIf="registerForm.get('email').errors.email">Email is invalid</div>
+                  <div *ngIf="registerForm.get('email').errors.required">An email is required</div>
+                  <div *ngIf="registerForm.get('email').errors.email">The email is invalid</div>
                 </div>
               </div>
             </div>
             <div class="text-center">
               <button (click)="confirmRegister()" class="btn btn-primary mt-4">Create account</button>
             </div>
+            <div class="row mt-3" style="justify-content: center;">
+              <div class="col-6" style="text-align: center;">
+                <a routerLink="/login" class="text-light"><small>Back to login</small></a>
+              </div>
+            </div>
           </form>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-6">
-          <a routerLink="/login" class="text-light"><small>Login</small></a>
+ 
+      
+            
         </div>
       </div>
     </div>
-  </div>
-</div>

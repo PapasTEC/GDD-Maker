@@ -11,7 +11,7 @@
 $imageWidth: 40%;
 $marginTop: 12vh;
 .imageContainer{
-    background-image: url('https://b2064626.smushcdn.com/2064626/wp-content/uploads/2022/05/AdobeStock_478283134-2.jpeg?size=2048x1363&lossy=0&strip=1&webp=1');
+    background-image: url('https://www.virtru.com/hubfs/Imported_Blog_Media/digital-files-1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -58,6 +58,7 @@ $marginTop: 12vh;
     flex-direction: column;
     
 }
+
 
 
 
@@ -118,6 +119,10 @@ $font: 1.45rem;
 
 .smallButtTxt{
     font-size: calc(#{$font} - 0.5rem);
+}
+
+.text-light{
+    font-size: calc(#{$font} - 0.3rem);
 }
 
 .backGAnim {

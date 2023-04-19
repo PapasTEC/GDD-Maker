@@ -9,9 +9,9 @@ import { ActivatedRoute, Router, Routes } from "@angular/router";
 import { Location } from "@angular/common";
 import { DocumentService } from "src/app/services/document.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
-import { filter } from "rxjs/operators";
 import { faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { layout } from "./docLayoutInterface";
+import { filter, timeout } from "rxjs/operators";
+
 import { EditorLayoutRoutes } from "./editor-layout.routing";
 
 interface SectionSubsectionPath {
@@ -24,7 +24,7 @@ interface SectionSubsectionPath {
   selector: "app-editor-layout",
   templateUrl: "./editor-layout.component.html",
   styleUrls: ["./editor-layout.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
 })
 export class EditorLayoutComponent implements OnInit {
   documentTitle = "";
@@ -42,6 +42,10 @@ export class EditorLayoutComponent implements OnInit {
   currentTitle = "";
 
   pinIcon = faThumbTack;
+  pinned = false;
+
+  workspace: HTMLElement;
+  hideSideBarButton: HTMLElement;
 
   // documentLayout:layout[];
 
@@ -78,10 +82,6 @@ export class EditorLayoutComponent implements OnInit {
     this.documentLayout[index] = oldSection;
   });
 
-  a = [
-    /*{section: "High Level Design", subSections: ["Theme", "Aesthetics", "Core Mechanic"]}, {section: "Narrative and Worldbuilding", subSections: ["Characters"]}*/
-  ];
-
   constructor(
     private location: Location,
     private route: ActivatedRoute,
@@ -91,14 +91,30 @@ export class EditorLayoutComponent implements OnInit {
     private cdRef: ChangeDetectorRef
   ) {
     console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath);
-
+    this.route = route;
     console.log("uniqueSections: ", this.uniqueSections);
     console.log("layout: ", this.documentLayout);
   }
 
   @HostListener("window:keydown.alt.o", ["$event"])
   openSidebar() {
-    document.getElementById("sidebar").focus();
+    if (!this.pinned) {
+      if (this.workspace.classList.contains("sidebarHide")) {
+        this.workspace.classList.replace("sidebarHide", "sidebarShow");
+        this.hideSideBarButton.classList.add("flipHorizontal");
+      } else if (this.workspace.classList.contains("sidebarShow")) {
+        this.workspace.classList.replace("sidebarShow", "sidebarHide");
+        this.hideSideBarButton.classList.remove("flipHorizontal");
+      }
+    }
+  }
+
+  keepSidebarClosed() {
+    console.log("this.pinned");
+    if (!this.pinned) {
+      this.workspace.classList.replace("sidebarShow", "sidebarHide");
+      this.hideSideBarButton.classList.remove("flipHorizontal");
+    }
   }
 
   @HostListener("window:keydown.alt.c", ["$event"])
@@ -111,7 +127,8 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   keepSidebarOpen() {
-    document.getElementById("sidebar").focus();
+    this.workspace.classList.replace("sidebarHide", "sidebarShow");
+    this.hideSideBarButton.classList.add("flipHorizontal");
   }
 
   pinnedSidebarColor: string = "#007bff";
@@ -119,16 +136,14 @@ export class EditorLayoutComponent implements OnInit {
 
   @HostListener("window:keydown.alt.k", ["$event"])
   toggleKeepSidebarOpen() {
-    const sidebar = document.getElementById("sidebar");
-
-    if (sidebar.classList.contains("sidebarHide")) {
-      sidebar.classList.replace("sidebarHide", "sidebarShow");
-      document.getElementById("pin").classList.remove("unpinned");
-      document.getElementById("pin").classList.add("pinned");
-    } else if (sidebar.classList.contains("sidebarShow")) {
-      sidebar.classList.replace("sidebarShow", "sidebarHide");
+    if (this.pinned) {
       document.getElementById("pin").classList.remove("pinned");
       document.getElementById("pin").classList.add("unpinned");
+      this.pinned = false;
+    } else {
+      document.getElementById("pin").classList.remove("unpinned");
+      document.getElementById("pin").classList.add("pinned");
+      this.pinned = true;
     }
   }
 
@@ -369,7 +384,7 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.switchSection();
+    console.log(this.documentId);
 
     this.route.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
@@ -390,33 +405,52 @@ export class EditorLayoutComponent implements OnInit {
 
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-background");
+  }
 
-    document.getElementById("sidebar").focus();
+  navToStartingSection() {
+    this.switchSection("Document Cover");
+    let coverLink = document.getElementsByClassName(
+      "nActive"
+    )[0] as HTMLElement;
+    coverLink.classList.remove("nActive");
+    coverLink.classList.add("active");
+    this.router.navigate(["./cover"], {
+      relativeTo: this.route,
+      queryParams: { pjt: this.documentId },
+    });
   }
 
   ngAfterViewInit() {
+    this.navToStartingSection();
+
     this.cdRef.detectChanges();
 
+    this.workspace = document.getElementById("workspace");
+    this.hideSideBarButton = document.getElementById("showHideSBButton");
+
+    console.log("workspace", this.workspace);
+
+    this.workspace.addEventListener("click", (ev) => {
+      const targ = ev.target as HTMLElement;
+      if (!targ.classList.contains("open-sidebar-button")) {
+        this.keepSidebarClosed();
+      }
+    });
+
     var dropdown = document.getElementsByClassName("dropdown-btn");
+    var singleSection = document.getElementsByTagName("a");
+    let singleSections = Array.from(singleSection).filter((el) => {
+      return el.id === "singleSec";
+    });
+
+    console.log("dropdown", singleSection, singleSections);
     var i;
     for (i = 0; i < dropdown.length; i++) {
-      dropdown[i].addEventListener("click", function () {
-        //this.classList.toggle("active");
+      this.add(dropdown[i], true);
+    }
 
-        var otherDropdowns = document.getElementsByClassName("dropdown-btn");
-        for (var j = 0; j < otherDropdowns.length; j++) {
-          if (otherDropdowns[j] != this) {
-            var sibling = otherDropdowns[j].nextElementSibling as HTMLElement;
-            sibling.style.display = "none";
-          }
-        }
-        var dropdownContent = this.nextElementSibling;
-        if (dropdownContent.style.display === "block") {
-          dropdownContent.style.display = "none";
-        } else {
-          dropdownContent.style.display = "block";
-        }
-      });
+    for (i = 0; i < singleSections.length; i++) {
+      this.add(singleSection[i], false);
     }
 
     var links = document.getElementsByTagName("a");
@@ -434,11 +468,135 @@ export class EditorLayoutComponent implements OnInit {
     }
   }
 
+  showHideDropDown(ddElement: any, show: boolean) {
+    console.log("showHideDropDown", ddElement, show);
+    if (show) {
+      ddElement.classList.remove("hideDropdown");
+      ddElement.classList.add("showDropdown");
+    } else {
+      ddElement.classList.remove("showDropdown");
+      ddElement.classList.add("hideDropdown");
+    }
+  }
+
+  op;
+  cl;
+  oth;
+  currTarget;
+  currEl;
+  timeCloseElement;
+  timeOpenElement;
+
+  add(el: Element, hasSubmenu: boolean) {
+    const sh = this.showHideDropDown.bind(this);
+
+    el.addEventListener("click", function () {
+      //this.classList.toggle("active");
+
+      let caret = this.children[1] as HTMLElement;
+
+      var otherDropdowns = document.getElementsByClassName("dropdown-btn");
+      let mydropdown = this.nextElementSibling as HTMLElement;
+
+      let allShowDropdowns = document.getElementsByClassName("showDropdown");
+      let targetDropdown;
+
+      for (var i = 0; i < allShowDropdowns.length; i++) {
+        if (allShowDropdowns[i] != mydropdown) {
+          targetDropdown = allShowDropdowns[i];
+        }
+      }
+
+      if (targetDropdown) {
+        let targetPrev = targetDropdown.previousElementSibling as HTMLElement;
+
+        let targetDDCaret = targetPrev.children[1] as HTMLElement;
+
+        targetDDCaret.classList.remove("flip");
+      }
+
+      if (targetDropdown) {
+        sh(targetDropdown, false);
+
+        targetDropdown.style.display = `none`;
+        targetDropdown.style.height = `0px`;
+      }
+
+      if (hasSubmenu) {
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.classList.contains("showDropdown")) {
+          caret.classList.remove("flip");
+          sh(dropdownContent, false);
+
+          clearTimeout(this.cl);
+          clearTimeout(this.op);
+          clearTimeout(this.oth);
+
+          let linksInDropdown = dropdownContent.getElementsByTagName("a");
+          let linksInDropdownArray = Array.from(linksInDropdown);
+          let clientHeight = 0;
+
+          if (dropdownContent.style.height === "fit-content") {
+            for (let i = 0; i < linksInDropdownArray.length; i++) {
+              let lnk = linksInDropdownArray[i] as HTMLElement;
+              let compSt = window.getComputedStyle(lnk).height;
+              clientHeight += parseFloat(compSt);
+            }
+            dropdownContent.style.height = `${clientHeight}px`;
+          }
+
+          setTimeout(() => {
+            dropdownContent.style.height = `0px`;
+          }, 1);
+
+          this.currEl = dropdownContent as HTMLElement;
+          this.cl = setTimeout(() => {
+            dropdownContent.style.display = `none`;
+            this.timeCloseElement = dropdownContent;
+          }, 300);
+        } else {
+          caret.classList.add("flip");
+          sh(dropdownContent, true);
+
+          clearTimeout(this.cl);
+          clearTimeout(this.op);
+          clearTimeout(this.oth);
+
+          dropdownContent.style.display = "block";
+          let linksInDropdown = dropdownContent.getElementsByTagName("a");
+          let linksInDropdownArray = Array.from(linksInDropdown);
+
+          let clientHeight = 0;
+
+          dropdownContent.style.height = "0px";
+
+          for (let i = 0; i < linksInDropdownArray.length; i++) {
+            let lnk = linksInDropdownArray[i] as HTMLElement;
+            let compSt = window.getComputedStyle(lnk).height;
+            clientHeight += parseFloat(compSt);
+          }
+
+          setTimeout(() => {
+            dropdownContent.style.height = `${clientHeight}px`;
+          }, 1);
+
+          this.currEl = dropdownContent as HTMLElement;
+          this.op = setTimeout(() => {
+            dropdownContent.style.height = `fit-content`;
+            this.timeOpenElement = dropdownContent;
+          }, 300);
+        }
+      }
+    });
+  }
+
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("bg-background");
 
     clearInterval(this.autoSaveTimer);
     clearInterval(this.lastManualSaveTimer);
+
+    this.editingDocumentService.changeDocument(null);
   }
 }

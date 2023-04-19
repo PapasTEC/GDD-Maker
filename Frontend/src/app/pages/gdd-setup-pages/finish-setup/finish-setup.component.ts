@@ -10,6 +10,8 @@ import { TokenService } from 'src/app/services/token.service';
   templateUrl: "./finish-setup.component.html",
   styleUrls: ["./finish-setup.component.scss", "../setupStyles.scss"],
 })
+
+
 export class FinishSetupComponent {
   tempImage: string;
 
@@ -43,202 +45,209 @@ export class FinishSetupComponent {
 
   async finishSetup() {
     let user;
-    this.tokenService.decodeToken().subscribe((data: any) => {
-      console.log(`${JSON.stringify(data.decoded)}`);
+    this.tokenService.decodeToken().subscribe(async (data: any) => {
+      console.log("text: ",`${JSON.stringify(data.decoded)}`);
       user = data.decoded;
       user.image = localStorage.getItem('ImageUser');
-    });
-    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
 
-    const myPlatforms = currentSetup.gamePlatforms.map((platform) => {
-      return this.platforms[platform];
-    });
+      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
 
-    let myGameLogo =
-      "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
-    let myCompanyLogo =
-      "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+      const myPlatforms = currentSetup.gamePlatforms.map(platform => {
+        return this.platforms[platform];
+      });
 
-    if (currentSetup.gameLogo !== "") {
-      myGameLogo = await this.convertTempUrlToBase64(currentSetup.gameLogo);
-    }
+      let myGameLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+      let myCompanyLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
 
-    if (currentSetup.companyLogo !== "") {
-      myCompanyLogo = await this.convertTempUrlToBase64(
-        currentSetup.companyLogo
-      );
-    }
+      if (currentSetup.gameLogo !== "") {
+        myGameLogo = await this.convertTempUrlToBase64(currentSetup.gameLogo);
+      }
 
-    console.log("user: ", user);
-    console.log("currentSetup: ", currentSetup);
-    console.log("myPlatforms: ", myPlatforms);
-    console.log("myGameLogo: ", myGameLogo);
-    console.log("myCompanyLogo: ", myCompanyLogo);
+      if (currentSetup.companyLogo !== "") {
+        myCompanyLogo = await this.convertTempUrlToBase64(currentSetup.companyLogo);
+      }
 
-    const document = {
-      owner: user.email,
-      frontPage: {
-        documentTitle: currentSetup.gameTitle,
-        documentLogo: myGameLogo,
-        companyName: currentSetup.companyName,
-        companyLogo: myCompanyLogo,
-        collaborators: [user.name],
-        lastUpdated: new Date(),
-      },
-      documentContent: [
-        {
+      console.log("user: ", user);
+      console.log("currentSetup: ", currentSetup);
+      console.log("myPlatforms: ", myPlatforms);
+      console.log("myGameLogo: ", myGameLogo);
+      console.log("myCompanyLogo: ", myCompanyLogo);
+
+      const document = {
+        owner: user.email,
+        frontPage: {
+          documentTitle: currentSetup.gameTitle,
+          documentLogo: myGameLogo,
+          companyName: currentSetup.companyName,
+          companyLogo: myCompanyLogo,
+          collaborators: [user.name],
+          lastUpdated: new Date()
+        },
+        documentContent: [
+          // {
+          //   sectionTitle: "Document Cover",
+          //   subSections: [{
+          //     subSectionTitle: "Document Cover",
+          //     subSectionContent: {
+          //       coverData: []
+          //     }
+          //   }]
+          // },
+          {
           sectionTitle: "Basic Information",
-          subSections: [
-            {
-              subSectionTitle: "Elevator Pitch",
-              subSectionContent: {
-                // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
-                elevatorPitch: currentSetup.elevatorPitch,
-                tagline: "",
-                genres: [],
-                tags: currentSetup.gameTags,
-              },
-            },
-            {
-              subSectionTitle: "Tagline",
-              subSectionContent: {},
-            },
-            {
-              subSectionTitle: "Genre",
-              subSectionContent: {},
-            },
-            {
-              subSectionTitle: "Keywords and Tags",
-              subSectionContent: {
-                tags: currentSetup.gameTags,
-              },
-            },
-          ],
-        },
-        {
+          subSections: [{
+            subSectionTitle: "Basic Information",
+            subSectionContent: {
+              elevatorPitch: currentSetup.elevatorPitch,
+              tagline: "",
+              genres: [],
+              tags: currentSetup.gameTags,
+            }
+          }]
+        }, {
           sectionTitle: "Technical Information",
-          subSections: [
-            {
-              subSectionTitle: "self",
-              subSectionContent: {
-                platforms: myPlatforms,
-              },
-            },
-          ],
-        },
-        {
+          subSections: [{
+            subSectionTitle: "Technical Information",
+            subSectionContent: {
+              platforms: currentSetup.gamePlatforms,
+              ageClassification : "",
+              targetAudience: "",
+              releaseDate: "",
+              price: "",
+            }
+          }]
+        }, {
           sectionTitle: "High Level Design",
-          subSections: [
-            {
-              subSectionTitle: "Theme",
-              subSectionContent: {
-                // text: "## Theme\n" + currentSetup.theme
-                text: currentSetup.theme,
-              },
-            },
-            {
-              subSectionTitle: "Aesthetic",
-              subSectionContent: {
-                aesthetics: [
-                  {
-                    name: this.aesthetics[currentSetup.aesthetic[0]],
-                    content: "",
-                  },
-                ],
-              },
-            },
-            {
-              subSectionTitle: "Core Mechanic",
-              subSectionContent: {
-                coreMechanic: currentSetup.coreMechanic,
-                secondary: "",
-                progression: "",
-                metaphore: "",
-              },
-            },
-          ],
+          subSections: [{
+            subSectionTitle: "Theme",
+            subSectionContent: {
+              text: currentSetup.theme
+            }
+          }, {
+            subSectionTitle: "Aesthetic",
+            subSectionContent: {
+              aesthetics: [{name:this.aesthetics[currentSetup.aesthetic[0]], content:""}]
+            }
+          }, {
+            subSectionTitle: "Core Mechanic",
+            subSectionContent: {
+              "coreMechanic": currentSetup.coreMechanic,
+              "secondary": "",
+              "progression": "",
+              "metaphore": ""
+            }
+          }]
         },
         {
           sectionTitle: "Low Level Design",
-          subSections: [
-            {
-              subSectionTitle: "Detail of the Core Mechanic",
-              subSectionContent: {
-                tokens: "",
-                resources: "",
-                additionalElements: "",
-                decisions: "",
-                intermediate: "",
-                local: "",
-                global: "",
-              },
-            },
-            {
-              subSectionTitle: "Core Gameplay Loop",
-              subSectionContent: {
-                first: "",
-                second: "",
-                third: "",
-                fourth: "",
-              },
-            },
-          ],
+          subSections: [{
+            subSectionTitle: "Detail of the Core Mechanic",
+            subSectionContent: {
+              tokens : "",
+              resources : "",
+              additionalElements : "",
+              decisions : "",
+              intermediate : "",
+              local : "",
+              global : ""
+            }
+          },
+          {
+            subSectionTitle: "Detail of the Secondary Mechanic",
+            subSectionContent: {
+              text: ""
+            }
+          }]
         },
         {
           sectionTitle: "Narrative and Worldbuilding",
-          subSections: [
-            {
-              subSectionTitle: "Characters",
-              subSectionContent: {
-                // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
-                characters: [],
-              },
-            },
-            {
-              subSectionTitle: "Events",
-              subSectionContent: {
-                // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
-                events: [],
-              },
-            },
-          ],
+          subSections: [{
+            subSectionTitle: "Setting",
+            subSectionContent: {
+              text: ""
+            }
+          },{
+            subSectionTitle: "Characters",
+            subSectionContent: {
+              // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+              characters: []
+            }
+          },
+          {
+            subSectionTitle: "Events",
+            subSectionContent: {
+              // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+              events: []
+            }
+          }]
         },
-      ],
-    };
+        {
+          sectionTitle: "Look and Feel",
+          subSections: [{
+            subSectionTitle: "Visual Style",
+            subSectionContent: {
+              text: ""
+            }
+          },{
+            subSectionTitle: "User Interface",
+            subSectionContent: {
+              text: ""
+            }
+          },
+          {
+            subSectionTitle: "Music and Sound",
+            subSectionContent: {
+              text: ""
+            }
+          }]
+        },
+        {
+          sectionTitle: "Game References",
+          subSections: [{
+            subSectionTitle: "Game References",
+            subSectionContent: {
+              text: ""
+            }
+          }]
+        },
+      ]
+      }
 
-    console.log("document:", document);
+      console.log("document:", document);
 
-    this.documentService.addDocument(document).subscribe(
-      (res) => {
-        console.log("addDocument res:", res);
-        alert("Document added successfully!");
-        this.userService
-          .addOwnProject(user.email, res["id"])
-          .subscribe((res2) => {
-            console.log("addOwnDocument res:", res2);
-            this.router.navigate(["/dashboard"]);
-            (err2) => {
+      this.documentService.addDocument(document).subscribe(
+        res => {
+          console.log("addDocument res:", res);
+          alert("Document added successfully!");
+          this.userService.addOwnProject(user.email, res['id']).subscribe(
+            res2 => {
+              console.log("addOwnDocument res:", res2);
+              this.router.navigate(['/dashboard']);
+            err2 => {
               console.log(err2);
               alert("Error adding document to user");
-            };
+            }
           });
-      },
-      (err) => {
-        console.log(err);
-        alert("Error adding document");
-      }
-    );
+        },
+        err => {
+          console.log(err);
+          alert("Error adding document");
+        }
+      );
+    });
   }
 
-  async convertTempUrlToBase64(url: any) {
+
+  public async convertTempUrlToBase64(url: any) {
     const base64 = await this.scaleAndEncodeImage(url);
     return base64;
   }
 
   async scaleAndEncodeImage(url: any): Promise<string> {
-    const width = 256;
-    const height = 256;
+    let width = 512;
+    let height = width;
     const img = new Image();
+
     const reader = new FileReader();
     reader.readAsDataURL(await fetch(url).then((r) => r.blob()));
     const base64 = await new Promise<string>((resolve, reject) => {
@@ -247,7 +256,13 @@ export class FinishSetupComponent {
     });
     return new Promise<string>((resolve, reject) => {
       img.onload = () => {
-        const canvas = document.createElement("canvas");
+        const canvas = document.createElement('canvas');
+        const aspect = img.width / img.height;
+        if (img.width > img.height) {
+          height = width / aspect;
+        } else {
+          width = height * aspect;
+        }
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext("2d");

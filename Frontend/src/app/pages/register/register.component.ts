@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { Router } from '@angular/router';
+import { UserService } from "src/app/services/user.service";
 
 @Component({
   selector: "app-register",
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ["./register.component.scss"],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) { }
 
   currentUser: null;
   formSubmitted: boolean = false;
@@ -25,7 +26,7 @@ export class RegisterComponent implements OnInit {
     this.formSubmitted = true;
     if (this.registerForm.valid) {
       const email = this.registerForm.value.email;
-      this.http.get(`/api/users/get/${email}/`).subscribe((response) => {
+      this.userService.checkUserExists(email).subscribe((response) => {
         if (response) {
           alert("This email is already registered");
           return;

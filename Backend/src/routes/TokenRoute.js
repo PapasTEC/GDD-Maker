@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { backendValidation } = require('../controllers/tokenController');
+const { backendValidation } = require('../controllers/TokenController');
 
 const tokenController = require('../controllers/TokenController');
 // Endpoint para generar un token JWT

@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const userController = require('../controllers/UserController');
-const { backendValidation } = require('../controllers/tokenController');
+const { backendValidation } = require('../controllers/TokenController');
 
 router.get('/get', backendValidation, userController.getUsers);
 router.post('/add', userController.createUser);

@@ -1,7 +1,7 @@
 const userController = {};
 const Users = require("../models/UserModel");
 const { generatePasswordCode, sendEmail } = require("../functions/utils");
-const { generateToken } = require("./tokenController");
+const { generateToken } = require("./TokenController");
 
 userController.getUsers = async (req, res) => {
   const users = await Users.find();

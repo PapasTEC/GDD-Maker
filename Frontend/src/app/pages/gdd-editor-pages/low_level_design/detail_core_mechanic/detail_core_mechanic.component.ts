@@ -12,6 +12,8 @@ import { filter, map, take } from "rxjs/operators";
 export class DetailCoreMechanicComponent {
   constructor(private editingDocumentService: EditingDocumentService, private route: ActivatedRoute) { this.route = route; }
 
+  detailsIds = ["tokens", "resources", "additionalElements", "decisions", "intermediate", "local", "global"];
+
   details = {
     tokens : "",
     resources : "",
@@ -35,37 +37,58 @@ export class DetailCoreMechanicComponent {
   subSection = "Detail of the Core Mechanic";
   documentSubSection: any;
 
-  async getTextMeasurements() {
-    let style = window.getComputedStyle(this.textArea, null).getPropertyValue("line-height");
-    let lineHeight = parseFloat(style);
+  lineHeight = 0.3;
 
-    style = window.getComputedStyle(this.textArea, null).getPropertyValue("min-height");
-    let minHeight = parseFloat(style);
+  resetAreasSize(area, _var, decisions = false){
+    
+    const targ = area as HTMLTextAreaElement;
+    let rows = _var.split("\n").length;
 
-    style = window.getComputedStyle(this.textArea, null).getPropertyValue("padding");
-    let padding = parseFloat(style);
+    let heightLine = this.lineHeight;
 
-    style = window.getComputedStyle(this.textArea, null).getPropertyValue("border");
-    let border = parseFloat(style);
+    targ.rows = rows;
+    targ.value = _var;
+    
+    if (!decisions || rows > 8) {
+      targ.style.height = `${rows * heightLine}em`;
+    
+      while(targ.scrollHeight > targ.clientHeight){
+        targ.style.height = `${parseFloat(targ.style.height) + heightLine}em`;
+      }
 
-    // console.log("lineHeight2: ", lineHeight2);
-    // console.log("minHeight: ", minHeight);
-    // console.log("padding: ", padding);
-    // console.log("border: ", border);
-
-    this.textMeasurements.lineHeight = lineHeight;
-    this.textMeasurements.minHeight = minHeight;
-    this.textMeasurements.padding = padding;
-    this.textMeasurements.border = border;
+      while(targ.scrollHeight < targ.clientHeight){
+        targ.style.height = `${parseFloat(targ.style.height) - heightLine}em`;
+      }
+    }
   }
 
-  calcHeight(value: any) {
-    let numberOfLineBreaks = (value.match(/\n/g) || []).length;
-    // min-height + lines x line-height + padding + border
-    let newHeight = this.textMeasurements.minHeight + numberOfLineBreaks *
-      this.textMeasurements.lineHeight + this.textMeasurements.padding +
-      this.textMeasurements.border;
-    return newHeight;
+  breakLines(ev: Event, rows?:number, decisions = false) {
+    const targ = ev.target as HTMLTextAreaElement;
+    const heightLine = this.lineHeight;
+
+    if (!decisions || rows > 8) {
+
+      targ.style.height = `${rows * this.lineHeight}em`;
+    
+      while(targ.scrollHeight > targ.clientHeight){
+        targ.style.height = `${parseFloat(targ.style.height) + heightLine}em`;
+      }
+
+      while(targ.scrollHeight < targ.clientHeight){
+        targ.style.height = `${parseFloat(targ.style.height) - heightLine}em`;
+      }
+    } else {
+      targ.style.height = `${12.2}em`;
+    }
+  }
+
+  growShrink(ev: Event, var_: String, decisions = false) {
+    let rows = var_.split("\n").length;
+    let targ = ev.target as HTMLTextAreaElement;
+    targ.rows = rows;
+    
+    this.breakLines(ev, rows, decisions);
+    this.updateDocument();
   }
 
   updateDocument() {
@@ -87,21 +110,6 @@ export class DetailCoreMechanicComponent {
   ngOnInit() {
     this.getSectionAndSubSection(this.route);
 
-    this.textArea = document.getElementById("textarea") as HTMLTextAreaElement;
-    window.addEventListener("resize", () => {
-      this.getTextMeasurements();
-    });
-    
-    this.getTextMeasurements();
-
-    let textareas = document.getElementsByClassName("resize-ta");
-    for (let i = 0; i < textareas.length; i++) {
-      let textarea = textareas[i] as HTMLTextAreaElement;
-      textarea.addEventListener("keyup", () => {
-        textarea.style.height = this.calcHeight(textarea.value) + "px";
-      });
-    }
-
     this.editingDocumentService.document$
       .pipe(
         filter((document) => document !== null),
@@ -113,9 +121,19 @@ export class DetailCoreMechanicComponent {
             )
         ),
         take(1)
-      ).subscribe((document) => {
-        this.documentSubSection = document;
+      ).subscribe((subsection) => {
+        this.documentSubSection = subsection;
         this.details = this.documentSubSection.subSectionContent;
+
+        const textareas = document.getElementsByClassName("resize-ta");
+        for (let i = 0; i < textareas.length; i++) {
+          let textarea = textareas[i] as HTMLTextAreaElement;
+          if (this.detailsIds[i] === "decisions") {
+            this.resetAreasSize(textarea, this.details[this.detailsIds[i]], true);
+          } else {
+            this.resetAreasSize(textarea, this.details[this.detailsIds[i]]);
+          }
+        }
       });
   }
 }

@@ -1,12 +1,24 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
-import { ActivatedRoute, Router, Routes } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ChangeDetectorRef,
+  HostListener,
+} from "@angular/core";
+import { ActivatedRoute, Router, Routes } from "@angular/router";
 import { Location } from "@angular/common";
 import { DocumentService } from "src/app/services/document.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
-import { filter } from 'rxjs/operators';
-import { faThumbTack } from '@fortawesome/free-solid-svg-icons';
+import { filter } from "rxjs/operators";
+import { faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { layout } from "./docLayoutInterface";
 import { EditorLayoutRoutes } from "./editor-layout.routing";
+
+interface SectionSubsectionPath {
+  section: string;
+  subSection: string;
+  path: string;
+}
 
 @Component({
   selector: "app-editor-layout",
@@ -33,54 +45,69 @@ export class EditorLayoutComponent implements OnInit {
 
   // documentLayout:layout[];
 
-  sectionsSubSectionsPath = EditorLayoutRoutes.map( route => {
-    return {section: route.data.section, subSection: route.data.subSection, path: route.path}
-  } );
-
-  uniqueSections:Set<String> = new Set( 
-    this.sectionsSubSectionsPath.map( route => route.section) 
+  sectionsSubSectionsPath: SectionSubsectionPath[] = EditorLayoutRoutes.map(
+    (route) => {
+      return {
+        section: route.data.section,
+        subSection: route.data.subSection,
+        path: route.path,
+      };
+    }
   );
-  documentLayout = [...this.uniqueSections].map( section => { return {section: section, subSections: [], paths:[]} } );
 
-  
-  
+  uniqueSections: Set<String> = new Set(
+    this.sectionsSubSectionsPath.map((route) => route.section)
+  );
+  documentLayout = [...this.uniqueSections].map((section) => {
+    return { section: section, subSections: [], paths: [] };
+  });
 
-  fillLayout = this.sectionsSubSectionsPath.forEach( route => {
-
+  fillLayout = this.sectionsSubSectionsPath.forEach((route) => {
     let currentSection = route.section;
     let curretnSubSection = route.subSection;
     let currentPath = route.path;
 
-    
-
-    let oldSection = this.documentLayout.find( section => section.section === currentSection);
+    let oldSection = this.documentLayout.find(
+      (section) => section.section === currentSection
+    );
     let index = this.documentLayout.indexOf(oldSection);
-    if(currentSection !== curretnSubSection)
+    if (currentSection !== curretnSubSection)
       oldSection.subSections.push(curretnSubSection);
-    
+
     oldSection.paths.push(currentPath);
     this.documentLayout[index] = oldSection;
   });
-  
 
-  a = [/*{section: "High Level Design", subSections: ["Theme", "Aesthetics", "Core Mechanic"]}, {section: "Narrative and Worldbuilding", subSections: ["Characters"]}*/]
+  a = [
+    /*{section: "High Level Design", subSections: ["Theme", "Aesthetics", "Core Mechanic"]}, {section: "Narrative and Worldbuilding", subSections: ["Characters"]}*/
+  ];
 
-
-
-  constructor(private location: Location, private route: ActivatedRoute,
+  constructor(
+    private location: Location,
+    private route: ActivatedRoute,
     private router: Router,
     private documentService: DocumentService,
     private editingDocumentService: EditingDocumentService,
     private cdRef: ChangeDetectorRef
-    ) { 
-      console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath)
+  ) {
+    console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath);
 
-      console.log("uniqueSections: ", this.uniqueSections)
-      console.log("layout: ", this.documentLayout)
-    }
+    console.log("uniqueSections: ", this.uniqueSections);
+    console.log("layout: ", this.documentLayout);
+  }
 
+  @HostListener("window:keydown.alt.o", ["$event"])
   openSidebar() {
     document.getElementById("sidebar").focus();
+  }
+
+  @HostListener("window:keydown.alt.c", ["$event"])
+  closeSidebar() {
+    // this.toggleKeepSidebarOpen();
+    if (document.getElementById("pin").classList.contains("pinned")) {
+      this.toggleKeepSidebarOpen();
+    }
+    document.getElementById("sidebar").blur();
   }
 
   keepSidebarOpen() {
@@ -90,6 +117,7 @@ export class EditorLayoutComponent implements OnInit {
   pinnedSidebarColor: string = "#007bff";
   unpinnedSidebarColor: string = "#6c757d";
 
+  @HostListener("window:keydown.alt.k", ["$event"])
   toggleKeepSidebarOpen() {
     const sidebar = document.getElementById("sidebar");
 
@@ -119,7 +147,7 @@ export class EditorLayoutComponent implements OnInit {
 
   startAutoSaveTimer() {
     this.autoSaveTimer = setInterval(() => {
-      console.log('Auto save..');
+      console.log("Auto save..");
       if (this.isDocumentEdited) {
         if (this.saveDocument()) {
           this.isDocumentEdited = false;
@@ -149,20 +177,21 @@ export class EditorLayoutComponent implements OnInit {
   saveDocument(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.document.frontPage.lastUpdated = new Date();
-      this.documentService.updateDocument(this.documentId, this.document).subscribe(
-        res => {
+      this.documentService
+        .updateDocument(this.documentId, this.document)
+        .subscribe((res) => {
           console.log("Update res: ", res);
           resolve(true);
-          err => {
+          (err) => {
             console.log("Update err: ", err);
             reject(false);
-          }
+          };
         });
     });
   }
 
   manualSave() {
-    console.log('Manual save..');
+    console.log("Manual save..");
     if (this.isDocumentEdited) {
       if (this.saveDocument()) {
         this.isDocumentEdited = false;
@@ -183,7 +212,7 @@ export class EditorLayoutComponent implements OnInit {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
       console.log("data:", data);
       this.editingDocumentService.changeDocument(data);
-      this.documentTitle = data['frontPage']['documentTitle'];
+      this.documentTitle = data["frontPage"]["documentTitle"];
       this.document = data;
     });
   }
@@ -201,16 +230,142 @@ export class EditorLayoutComponent implements OnInit {
         }
       }
     }
-  
+
     this.currentTitle = sectionTitle;
   }
-  
 
   getSectionRegex(section: string) {
     const regex = /\/editor\/(\w+)\?pjt=/;
     const match = section.match(regex);
     const result = match ? match[1] : null;
     return result;
+  }
+
+  @HostListener("window:keydown.control.s", ["$event"])
+  saveDocumentShortcut(event: KeyboardEvent) {
+    event.preventDefault();
+    this.manualSave();
+    // TODO: Show a message that the document has been saved
+  }
+
+  changeSection(
+    currentSubsection: SectionSubsectionPath,
+    previousSubsection: SectionSubsectionPath,
+    currentContentIndex: number,
+    toContentIndex: number
+  ) {
+    // change color of the focused section/subsection
+    var links = document.getElementsByTagName("a");
+
+    for (let i = 0; i < links.length; i++) {
+      // look for the section that was active
+      if (links[i].className == "active") {
+        // change the class of the section that was active
+        links[i].className = "nActive";
+      }
+      if (i == toContentIndex) {
+        // change the class of the section that is now active
+        links[i].className = "active";
+      }
+    }
+
+    if (currentSubsection.section === previousSubsection.section) {
+      return;
+    }
+
+    // if last condition was not met, change the section
+
+    // close the current section and open the previous section
+
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+
+    for (let i = 0; i < dropdown.length; i++) {
+      const thisSectionTitle = dropdown[i].textContent;
+      console.log(thisSectionTitle + ", " + currentSubsection.section);
+      if (thisSectionTitle === currentSubsection.section) {
+        console.log("SECTION FOUND");
+        dropdown[i].classList.toggle("active");
+        var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
+        dropdownContent.style.display = "none";
+      }
+
+      // open the previous section
+      if (thisSectionTitle === previousSubsection.section) {
+        console.log("SECTION FOUND");
+        dropdown[i].classList.toggle("active");
+        var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
+        dropdownContent.style.display = "block";
+      }
+    }
+  }
+
+  // alt + up arrow
+  @HostListener("window:keydown.alt.arrowup", ["$event"])
+  moveSubsectionUp(event: KeyboardEvent) {
+    event.preventDefault();
+
+    let currentContentIndex = this.sectionsSubSectionsPath.findIndex(
+      (section) => section.subSection === this.currentTitle
+    );
+
+    if (!currentContentIndex) {
+      currentContentIndex = 1;
+    }
+
+    if (currentContentIndex > 0) {
+      let currentSubsection = this.sectionsSubSectionsPath[currentContentIndex];
+      let previousSubsection =
+        this.sectionsSubSectionsPath[currentContentIndex - 1];
+
+      this.switchSection(previousSubsection.subSection);
+      this.router.navigate(["/editor/" + previousSubsection.path]);
+
+      this.changeSection(
+        currentSubsection,
+        previousSubsection,
+        currentContentIndex,
+        currentContentIndex - 1
+      );
+    }
+  }
+
+  //   }
+  // }
+
+  // alt + down arrow
+  @HostListener("window:keydown.alt.arrowdown", ["$event"])
+  moveSubsectionDown(event: KeyboardEvent) {
+    event.preventDefault();
+
+    let currentContentIndex = this.sectionsSubSectionsPath.findIndex(
+      (section) => section.subSection === this.currentTitle
+    );
+    if (!currentContentIndex) {
+      currentContentIndex = 0;
+    }
+
+    if (currentContentIndex < this.sectionsSubSectionsPath.length - 1) {
+      let currentSubsection = this.sectionsSubSectionsPath[currentContentIndex];
+      let nextSubsection =
+        this.sectionsSubSectionsPath[currentContentIndex + 1];
+
+      this.switchSection(nextSubsection.subSection);
+      this.router.navigate(["/editor/" + nextSubsection.path]);
+
+      this.changeSection(
+        currentSubsection,
+        nextSubsection,
+        currentContentIndex,
+        currentContentIndex + 1
+      );
+    }
+  }
+
+  // alt + Esc to go to the dashboard
+  @HostListener("window:keydown.alt.d", ["$event"])
+  goToDashboard(event: KeyboardEvent) {
+    event.preventDefault();
+    this.returnDashboard();
   }
 
   ngOnInit() {
@@ -225,25 +380,23 @@ export class EditorLayoutComponent implements OnInit {
     this.updateLastManualSaveTime();
     this.startAutoSaveTimer();
 
-    this.editingDocumentService.document$.pipe(
-      filter(document => document !== null),
-    ).subscribe((document) => {
-      console.log("documentEditado");
-      this.isDocumentEdited = true;
-      this.document = document;
-    });
+    this.editingDocumentService.document$
+      .pipe(filter((document) => document !== null))
+      .subscribe((document) => {
+        console.log("documentEditado");
+        this.isDocumentEdited = true;
+        this.document = document;
+      });
 
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-background");
 
     document.getElementById("sidebar").focus();
-
-    
   }
 
   ngAfterViewInit() {
     this.cdRef.detectChanges();
-    
+
     var dropdown = document.getElementsByClassName("dropdown-btn");
     var i;
     for (i = 0; i < dropdown.length; i++) {
@@ -269,7 +422,7 @@ export class EditorLayoutComponent implements OnInit {
     var links = document.getElementsByTagName("a");
     for (i = 0; i < links.length; i++) {
       links[i].addEventListener("click", function () {
-        console.log(this.className);        
+        console.log(this.className);
         if (this.className == "nActive") {
           var otherLinks = document.getElementsByClassName("active");
           for (var j = 0; j < otherLinks.length; j++) {

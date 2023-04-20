@@ -1,3 +1,4 @@
 # ignore env config files
 *.crt
 .env
+Frontend/src/app/layouts/editor-layout/copy.ts

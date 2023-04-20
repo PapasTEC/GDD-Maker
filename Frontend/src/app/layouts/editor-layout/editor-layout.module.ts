@@ -16,6 +16,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_cover/document-cover/document-cover.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TechnicalInfoComponent } from 'src/app/pages/gdd-editor-pages/technical-info/technical-info.component';
+import { CoreGameplayLoopComponent } from 'src/app/pages/gdd-editor-pages/low_level_design/coreGameplayLoop/core_gameplay_loop.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { TechnicalInfoComponent } from 'src/app/pages/gdd-editor-pages/technical
     BasicInfoComponent,
     TechnicalInfoComponent,
     DetailCoreMechanicComponent,
+    CoreGameplayLoopComponent,
     DocumentCoverComponent,
   ]
 })

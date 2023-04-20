@@ -8,6 +8,7 @@ import { BasicInfoComponent } from 'src/app/pages/gdd-editor-pages/basic-info/ba
 import { DetailCoreMechanicComponent } from 'src/app/pages/gdd-editor-pages/low_level_design/detail_core_mechanic/detail_core_mechanic.component';
 import { EventsComponent } from 'src/app/pages/gdd-editor-pages/narrative_and_worldbuilding/events/events.component';
 import { DocumentCoverComponent } from 'src/app/pages/gdd-editor-pages/document_cover/document-cover/document-cover.component';
+import { CoreGameplayLoopComponent } from 'src/app/pages/gdd-editor-pages/low_level_design/coreGameplayLoop/core_gameplay_loop.component';
 import { TechnicalInfoComponent } from 'src/app/pages/gdd-editor-pages/technical-info/technical-info.component';
 
 export const EditorLayoutRoutes: Routes = [
@@ -19,6 +20,7 @@ export const EditorLayoutRoutes: Routes = [
     { path: 'coreMechanic', component: CoreMechanicComponent, data: {section: "High Level Design", subSection: "Core Mechanic Diagram"} },
     { path: 'detailCoreMechanic', component: DetailCoreMechanicComponent, data: {section: "Low Level Design", subSection: "Detail of the Core Mechanic"} },
     { path: 'detailSecondaryMechanic', component: VditorComponent, data: {section: "Low Level Design", subSection: "Detail of the Secondary Mechanic", upload: false} },
+    { path: 'coreGameplayLoop', component: CoreGameplayLoopComponent, data: {section: "Low Level Design", subSection: "Core Gameplay Loop", upload: false} },
     { path: 'setting', component: VditorComponent, data: {section: "Narrative and Worldbuilding", subSection: "Setting", upload: false} },
     { path: 'characters', component: CharactersComponent, data: {section: "Narrative and Worldbuilding", subSection: "Characters"} },
     { path: 'events', component: EventsComponent, data: {section: "Narrative and Worldbuilding", subSection: "Events"} },

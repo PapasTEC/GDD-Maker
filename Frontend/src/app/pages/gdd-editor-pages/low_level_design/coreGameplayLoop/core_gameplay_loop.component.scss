@@ -1,0 +1,114 @@
+$diagram__color: #17415b;
+$text-box-width: 300px;
+
+.cgl-diagram {
+  width: 50vw;
+  height: 70vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.cgl-diagram {
+  width: 50vw;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 2fr 1fr 2fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "A1L T1 A1R"
+    "A1L . A1R"
+    "T2 . T3"
+    "A2L . A2R"
+    "A2L T4 A2R";
+}
+
+.text-box {
+  align-self: center;
+  justify-self: center;
+  display: block;
+  background-color: $diagram__color;
+  color: white;
+  width: $text-box-width;
+  // height: 160px;
+  height: 196px;
+  padding: 10px;
+  border-radius: 20px;
+
+  &__textarea {
+    background-color: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    outline: none;
+
+    // target the placeholder text
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.61);
+    }
+  }
+}
+
+.T1 {
+  grid-area: T1;
+}
+.T4 {
+  grid-area: T4;
+}
+.T2 {
+  grid-area: T2;
+}
+.T3 {
+  grid-area: T3;
+}
+
+.left-arrow,
+.right-arrow {
+  // width: 50px;
+  height: 35%;
+  width: auto;
+  // align-self: center;
+  // justify-self: center;
+  // margin: auto;
+  justify-self: right;
+  filter: brightness(0) saturate(100%) invert(17%) sepia(10%) saturate(6128%) hue-rotate(169deg) brightness(98%) contrast(85%);;
+}
+
+.A1L {
+  margin-bottom: 20px;
+  grid-area: A1L;
+  // transform: rotate(180deg);
+  // padding-right: 20px;
+  align-self: end;
+  justify-self: right;
+  margin-right: 10px;
+  margin-top: 150px;
+}
+
+.A1R {
+  margin-bottom: 20px;
+  grid-area: A1R;
+  // transform: rotate(-90deg);
+  align-self: end;
+  justify-self: left;
+  margin-left: 10px;
+}
+
+.A2L {
+  margin-top: 20px;
+  grid-area: A2L;
+  margin-bottom: 150px;
+  margin-right: 10px;
+  // transform: rotate(90deg);
+}
+.A2R {
+  margin-top: 20px;
+  grid-area: A2R;
+  justify-self: left;
+  margin-left: 10px;
+  // padding-right: 50px;
+}

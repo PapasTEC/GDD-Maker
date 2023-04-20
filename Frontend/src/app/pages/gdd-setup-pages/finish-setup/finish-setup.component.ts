@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { DocumentService } from '../../../services/document.service';
+import { DocumentService } from "../../../services/document.service";
 import { UserService } from 'src/app/services/user.service';
 import { TokenService } from 'src/app/services/token.service';
 
 @Component({
-  selector: 'app-finish-setup',
-  templateUrl: './finish-setup.component.html',
-  styleUrls: ['./finish-setup.component.scss', '../setupStyles.scss']
+  selector: "app-finish-setup",
+  templateUrl: "./finish-setup.component.html",
+  styleUrls: ["./finish-setup.component.scss", "../setupStyles.scss"],
 })
 
 
@@ -27,7 +27,7 @@ export class FinishSetupComponent {
     "Windows",
     "Playstation",
     "Xbox",
-    "Nintendo Switch"
+    "Nintendo Switch",
   ];
 
   aesthetics = [
@@ -40,7 +40,7 @@ export class FinishSetupComponent {
     "Exploration",
     "Discovery",
     "Expression",
-    "Submission"
+    "Submission",
   ];
 
   async finishSetup() {
@@ -157,7 +157,17 @@ export class FinishSetupComponent {
             subSectionContent: {
               text: ""
             }
-          }]
+          },
+          {
+            subSectionTitle: "Core Gameplay Loop",
+            subSectionContent: {
+              first: "",
+              second: "",
+              third: "",
+              fourth: "",
+            }
+          }
+        ]
         },
         {
           sectionTitle: "Narrative and Worldbuilding",
@@ -237,7 +247,7 @@ export class FinishSetupComponent {
     });
   }
 
-  
+
   public async convertTempUrlToBase64(url: any) {
     const base64 = await this.scaleAndEncodeImage(url);
     return base64;
@@ -247,9 +257,9 @@ export class FinishSetupComponent {
     let width = 512;
     let height = width;
     const img = new Image();
-  
+
     const reader = new FileReader();
-    reader.readAsDataURL(await fetch(url).then(r => r.blob()));
+    reader.readAsDataURL(await fetch(url).then((r) => r.blob()));
     const base64 = await new Promise<string>((resolve, reject) => {
       reader.onloadend = () => resolve(reader.result as string);
       reader.onerror = () => reject(reader.error);
@@ -265,12 +275,12 @@ export class FinishSetupComponent {
         }
         canvas.width = width;
         canvas.height = height;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
         const scaledBase64 = canvas.toDataURL();
         resolve(scaledBase64);
       };
-      img.onerror = () => reject(new Error('Failed to load image'));
+      img.onerror = () => reject(new Error("Failed to load image"));
       img.src = base64;
     });
   }

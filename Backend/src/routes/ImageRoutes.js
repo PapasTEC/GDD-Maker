@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const imageController = require('../controllers/ImageController');
-const { backendValidation } = require('../controllers/tokenController');
+const { backendValidation } = require('../controllers/TokenController');
 // const upload = require('../middleware/upload');
 
 // Ruta para cargar una imagen

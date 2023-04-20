@@ -1,0 +1,38 @@
+<div class="cgl-diagram">
+  <div class="text-box tb-center T1">
+    <textarea
+      class="text-box__textarea"
+      placeholder="Enter text here"
+      (input)="onValueChange($event, 'first')"
+      [value]="coreGameplayLoopContent.first || ''"
+    ></textarea>
+  </div>
+  <img src="assets/img/A1L.svg" class="left-arrow A1L" alt="red arrow" />
+  <img src="assets/img/A1R.svg" class="right-arrow A1R" alt="red arrow" />
+  <div class="text-box tb-left T2">
+    <textarea
+      class="text-box__textarea"
+      placeholder="Enter text here"
+      (input)="onValueChange($event, 'second')"
+      [value]="coreGameplayLoopContent.second || ''"
+    ></textarea>
+  </div>
+  <div class="text-box tb-right T3">
+    <textarea
+      class="text-box__textarea"
+      placeholder="Enter text here"
+      (input)="onValueChange($event, 'third')"
+      [value]="coreGameplayLoopContent.third || ''"
+    ></textarea>
+  </div>
+  <img src="assets/img/A2L.svg" class="left-arrow A2L" alt="red arrow" />
+  <img src="assets/img/A2R.svg" class="right-arrow A2R" alt="red arrow" />
+  <div class="text-box tb-center T4">
+    <textarea
+      class="text-box__textarea"
+      placeholder="Enter text here"
+      (input)="onValueChange($event, 'fourth')"
+      [value]="coreGameplayLoopContent.fourth || ''"
+    ></textarea>
+  </div>
+</div>

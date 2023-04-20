@@ -18,13 +18,14 @@ documentController.createDocument = async (req, res) => {
         frontPage,
         documentContent
     });
-    console.log("Inserting document: " + newDocument);
+    // console.log("Inserting document: " + newDocument);
     await newDocument.save().then((document) => {
         if (!document) {
             return res.status(404).json({ message: "Document not found" });
         }
         res.status(200).json({ message: "Document created", id: document._id });
     }).catch((error) => {
+        console.log(error);
         res.status(500).json({ message: error });
     });
 };

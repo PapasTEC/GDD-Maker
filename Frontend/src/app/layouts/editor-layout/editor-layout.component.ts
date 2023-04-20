@@ -98,15 +98,18 @@ export class EditorLayoutComponent implements OnInit {
 
   @HostListener("window:keydown.alt.o", ["$event"])
   openSidebar() {
-    if (!this.pinned) {
-      if (this.workspace.classList.contains("sidebarHide")) {
-        this.workspace.classList.replace("sidebarHide", "sidebarShow");
-        this.hideSideBarButton.classList.add("flipHorizontal");
-      } else if (this.workspace.classList.contains("sidebarShow")) {
-        this.workspace.classList.replace("sidebarShow", "sidebarHide");
-        this.hideSideBarButton.classList.remove("flipHorizontal");
+    // if (!this.pinned) {
+    if (this.workspace.classList.contains("sidebarHide")) {
+      this.workspace.classList.replace("sidebarHide", "sidebarShow");
+      this.hideSideBarButton.classList.add("flipHorizontal");
+    } else if (this.workspace.classList.contains("sidebarShow")) {
+      this.workspace.classList.replace("sidebarShow", "sidebarHide");
+      this.hideSideBarButton.classList.remove("flipHorizontal");
+      if (this.pinned) {
+        this.toggleKeepSidebarOpen();
       }
     }
+    // }
   }
 
   keepSidebarClosed() {
@@ -135,6 +138,13 @@ export class EditorLayoutComponent implements OnInit {
   unpinnedSidebarColor: string = "#6c757d";
 
   @HostListener("window:keydown.alt.k", ["$event"])
+  toggleKeepSidebarOpenShortcut() {
+    if (this.workspace.classList.contains("sidebarHide")) {
+      return;
+    }
+    this.toggleKeepSidebarOpen();
+  }
+
   toggleKeepSidebarOpen() {
     if (this.pinned) {
       document.getElementById("pin").classList.remove("pinned");
@@ -265,7 +275,7 @@ export class EditorLayoutComponent implements OnInit {
 
   changeSection(
     currentSubsection: SectionSubsectionPath,
-    previousSubsection: SectionSubsectionPath,
+    newSection: SectionSubsectionPath,
     currentContentIndex: number,
     toContentIndex: number
   ) {
@@ -284,7 +294,7 @@ export class EditorLayoutComponent implements OnInit {
       }
     }
 
-    if (currentSubsection.section === previousSubsection.section) {
+    if (currentSubsection.section === newSection.section) {
       return;
     }
 
@@ -298,17 +308,27 @@ export class EditorLayoutComponent implements OnInit {
       const thisSectionTitle = dropdown[i].textContent;
       console.log(thisSectionTitle + ", " + currentSubsection.section);
       if (thisSectionTitle === currentSubsection.section) {
-        console.log("SECTION FOUND");
         dropdown[i].classList.toggle("active");
         var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
+        // dropdownContent.style.display = "none";
+        console.log("CURRENT SECTION", dropdownContent);
+        dropdownContent.classList.remove("showDropdown");
+        dropdownContent.classList.add("hideDropdown");
+        // style shoud be display: none; height: 0px;
+        dropdownContent.style.height = "0px";
         dropdownContent.style.display = "none";
       }
 
       // open the previous section
-      if (thisSectionTitle === previousSubsection.section) {
-        console.log("SECTION FOUND");
+      if (thisSectionTitle === newSection.section) {
         dropdown[i].classList.toggle("active");
         var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
+        // dropdownContent.style.display = "block";
+        console.log("NeWWWWW SECTION", dropdownContent);
+        dropdownContent.classList.remove("hideDropdown");
+        dropdownContent.classList.add("showDropdown");
+        // style shoud be display: block; height: fit-content;
+        dropdownContent.style.height = "fit-content";
         dropdownContent.style.display = "block";
       }
     }
@@ -333,7 +353,9 @@ export class EditorLayoutComponent implements OnInit {
         this.sectionsSubSectionsPath[currentContentIndex - 1];
 
       this.switchSection(previousSubsection.subSection);
-      this.router.navigate(["/editor/" + previousSubsection.path]);
+      this.router.navigate(["/editor/" + previousSubsection.path],
+        { queryParams: { pjt: this.documentId } }
+      );
 
       this.changeSection(
         currentSubsection,
@@ -365,7 +387,9 @@ export class EditorLayoutComponent implements OnInit {
         this.sectionsSubSectionsPath[currentContentIndex + 1];
 
       this.switchSection(nextSubsection.subSection);
-      this.router.navigate(["/editor/" + nextSubsection.path]);
+      this.router.navigate(["/editor/" + nextSubsection.path],
+      { queryParams: { pjt: this.documentId } }
+    );
 
       this.changeSection(
         currentSubsection,

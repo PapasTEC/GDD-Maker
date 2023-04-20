@@ -157,7 +157,17 @@ export class FinishSetupComponent {
             subSectionContent: {
               text: ""
             }
-          }]
+          },
+          {
+            subSectionTitle: "Core Gameplay Loop",
+            subSectionContent: {
+              first: "",
+              second: "",
+              third: "",
+              fourth: "",
+            }
+          }
+        ]
         },
         {
           sectionTitle: "Narrative and Worldbuilding",

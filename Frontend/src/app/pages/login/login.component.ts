@@ -30,7 +30,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     code: new FormControl("", [Validators.required]),
   });
 
-  ngOnInit() { }
+  
+  imagePath: string = "/assets/img/regLog/";
+  image:Blob;
+  backG:string;
+
+  loadBackground(imageName: string) {
+    let path = this.imagePath + imageName;
+    this.backG = "url(" + path + ")";
+  }
+
+  ngOnInit() { 
+    this.loadBackground("log.jpg");
+  }
+
   ngOnDestroy() { }
 
   checkEmail() {

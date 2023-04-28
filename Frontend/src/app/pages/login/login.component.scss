@@ -8,10 +8,9 @@
     flex-direction: row;
 }
 
-$imageWidth: 40%;
+$imageWidth: 35%;
 $marginTop: 12vh;
 .imageContainer{
-    background-image: url('https://www.virtru.com/hubfs/Imported_Blog_Media/digital-files-1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -98,31 +97,42 @@ $marginTop: 12vh;
     font-size: 0.9rem;
     
 }
+::ng-deep :root{
+    --font: 1.5vw;
+}
 
-$font: 1.45rem;
+// @media only screen and (min-width: 3840px) {
+//     ::ng-deep :root{
+//         --font: 3rem;
+//     }
+// }
+
 .wlcmText{
     position: relative;
     
-    font-size: calc(#{$font} + 0.7rem);
+    font-size: calc(var(--font) + var(--font)*0.5);
     color: white;
     font-weight: 600;
     margin-bottom: $marginTop;
 }
+
+
+
 
 .cardBdy{
     width: 30%;
 }
 
 .cardBdy{
-    font-size: $font;
+    font-size: var(--font);
 }
 
 .smallButtTxt{
-    font-size: calc(#{$font} - 0.5rem);
+    font-size: calc(#{var(--font)} - var(--font)*0.5);
 }
 
 .text-light{
-    font-size: calc(#{$font} - 0.3rem);
+    font-size: calc(#{var(--font)} - var(--font)*0.3);
 }
 
 .backGAnim {
@@ -134,6 +144,15 @@ $font: 1.45rem;
     -o-animation: AnimationName 43s ease infinite;
     animation: AnimationName 43s ease infinite;
 }
+
+// Set a media screen for the most common resolutions, HD, Full HD, 2k, 4k. Change font size accordingly
+
+
+//Double font size for 4k
+
+
+
+    
 
 @-webkit-keyframes AnimationName {
     0%{background-position:0% 14%}

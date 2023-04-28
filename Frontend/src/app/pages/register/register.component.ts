@@ -15,7 +15,18 @@ export class RegisterComponent implements OnInit {
   currentUser: null;
   formSubmitted: boolean = false;
 
-  ngOnInit() { }
+  imagePath: string = "/assets/img/regLog/";
+  image:Blob;
+  backG:string;
+
+  loadBackground(imageName: string) {
+    let path = this.imagePath + imageName;
+    this.backG = "url(" + path + ")";
+  }
+
+  ngOnInit() { 
+    this.loadBackground("reg.jpg");
+  }
 
   registerForm = new FormGroup({
     name: new FormControl("", [Validators.required]),

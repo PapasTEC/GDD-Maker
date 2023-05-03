@@ -42,6 +42,11 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
       Error 401: Unauthorized
       */
       catchError((error: HttpErrorResponse) => {
+        // if status is  200 ignore and return the response
+        if (error.status === 200) {
+          return throwError(error);
+        }
+
       // Client Error
         if(error.status === 400){
           alert('The request was not understood by the server. Please try again later.');

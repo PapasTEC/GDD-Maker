@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { io } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +9,8 @@ export class EditingDocumentService {
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
 
-  // private socket = io('http://localhost:3070');
-
   constructor() { }
+
   changeDocument(document: any) {
     this.document.next(document)
   }
@@ -37,7 +35,6 @@ export class EditingDocumentService {
     console.log(secId, subSecId);
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
-
   }
 
   updateDocumentFrontPage(content: any) {

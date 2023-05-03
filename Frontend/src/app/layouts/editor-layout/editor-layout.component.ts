@@ -8,11 +8,9 @@ import {
 import { ActivatedRoute, Router, Routes } from "@angular/router";
 import { Location } from "@angular/common";
 import { DocumentService } from "src/app/services/document.service";
-import { TokenService } from 'src/app/services/token.service';
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { filter, timeout } from "rxjs/operators";
-import { io } from "socket.io-client";
 
 import { EditorLayoutRoutes } from "./editor-layout.routing";
 
@@ -48,10 +46,6 @@ export class EditorLayoutComponent implements OnInit {
 
   workspace: HTMLElement;
   hideSideBarButton: HTMLElement;
-
-  socket = io("http://localhost:3080");
-
-  localUser = { email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
 
   // documentLayout:layout[];
 
@@ -94,8 +88,7 @@ export class EditorLayoutComponent implements OnInit {
     private router: Router,
     private documentService: DocumentService,
     private editingDocumentService: EditingDocumentService,
-    private cdRef: ChangeDetectorRef,
-    private tokenService: TokenService
+    private cdRef: ChangeDetectorRef
   ) {
     console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath);
     this.route = route;
@@ -238,6 +231,15 @@ export class EditorLayoutComponent implements OnInit {
       this.resetAutoSaveTimer();
       this.changeButtonText();
     }
+  }
+
+  setDocumentData() {
+    this.documentService.getDocument(this.documentId).subscribe((data) => {
+      console.log("data:", data);
+      this.editingDocumentService.changeDocument(data);
+      this.documentTitle = data["frontPage"]["documentTitle"];
+      this.document = data;
+    });
   }
 
   switchSection(sectionTitle: string = null) {
@@ -405,37 +407,9 @@ export class EditorLayoutComponent implements OnInit {
     this.returnDashboard();
   }
 
-  // updateSocket() {
-
-  // }
-
-  setDocumentData() {
-    this.documentService.getDocument(this.documentId).subscribe((data) => {
-      console.log("data:", data);
-      this.editingDocumentService.changeDocument(data);
-      this.documentTitle = data["frontPage"]["documentTitle"];
-      this.document = data;
-    });
-
-    this.socket.on("connect", () => {
-      console.log("connected");
-    });
-
-    this.socket.emit("join-document", this.documentId, this.localUser.email);
-
-    // this.socket.once("get-document", (document) => {
-    //   console.log("get-document");
-    //   this.document = document;
-    //   this.editingDocumentService.changeDocument(document);
-    // });
-  }
-
   ngOnInit() {
 
-    this.tokenService.decodeToken().subscribe((data: any) => {
-      this.localUser = data.decoded;
-      this.localUser.image = localStorage.getItem('ImageUser');
-    });
+    
     
 
     this.route.queryParams.subscribe((params) => {
@@ -653,9 +627,5 @@ export class EditorLayoutComponent implements OnInit {
     clearInterval(this.lastManualSaveTimer);
 
     this.editingDocumentService.changeDocument(null);
-
-    this.socket.disconnect();
   }
-
-
 }

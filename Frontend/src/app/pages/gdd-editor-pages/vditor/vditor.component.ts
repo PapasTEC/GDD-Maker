@@ -63,6 +63,17 @@ export class VditorComponent {
         this.vditor = new Vditor("vditor", this.changeVditorConfig(this.showUpload, this.documentSubSection.subSectionContent.text));
       }, 5);
     });
+
+    this.editingDocumentService.updateDocumentSocket().pipe(
+      // filter(document => document !== null && this.vditor.getValue() !== document.documentContent.find(section => section.sectionTitle === this.section).subSections.find(subsection => subsection.subSectionTitle === this.subSection).subSectionContent.text),
+    ).subscribe((document) => {
+
+      this.documentSubSection = document.documentContent.find(section =>
+        section.sectionTitle === this.section).subSections.find(subsection =>
+          subsection.subSectionTitle === this.subSection);
+      console.log("documentSub:", this.documentSubSection);
+      this.vditor.updateValue(this.documentSubSection.subSectionContent.text);
+    });
   }
 
   // Funciones para subir imagenes

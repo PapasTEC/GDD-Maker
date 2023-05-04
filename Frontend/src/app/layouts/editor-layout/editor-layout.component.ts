@@ -49,9 +49,9 @@ export class EditorLayoutComponent implements OnInit {
   workspace: HTMLElement;
   hideSideBarButton: HTMLElement;
 
-  socket = io("http://localhost:3080");
+  // socket = io("http://localhost:3080");
 
-  localUser = { email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
+  firstChange = true;
 
   // documentLayout:layout[];
 
@@ -417,12 +417,6 @@ export class EditorLayoutComponent implements OnInit {
       this.document = data;
     });
 
-    this.socket.on("connect", () => {
-      console.log("connected");
-    });
-
-    this.socket.emit("join-document", this.documentId, this.localUser.email);
-
     // this.socket.once("get-document", (document) => {
     //   console.log("get-document");
     //   this.document = document;
@@ -432,16 +426,20 @@ export class EditorLayoutComponent implements OnInit {
 
   ngOnInit() {
 
-    this.tokenService.decodeToken().subscribe((data: any) => {
-      this.localUser = data.decoded;
-      this.localUser.image = localStorage.getItem('ImageUser');
-    });
-    
 
     this.route.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
-    });    
 
+      this.tokenService.decodeToken().subscribe((data: any) => {
+        let localUser = data.decoded;
+        localUser.image = localStorage.getItem('ImageUser');
+  
+        this.editingDocumentService.setUserData(localUser, this.documentId);
+  
+        this.editingDocumentService.joinDocument();
+
+      });
+    });    
 
     this.setDocumentData();
 
@@ -451,10 +449,20 @@ export class EditorLayoutComponent implements OnInit {
     this.editingDocumentService.document$
       .pipe(filter((document) => document !== null))
       .subscribe((document) => {
-        console.log("documentEditado");
-        this.isDocumentEdited = true;
-        this.document = document;
+        if (this.firstChange) {
+          this.firstChange = false;
+        } else {
+          console.log("documentEditado");
+          // this.socket.emit("edit-document", this.documentId, document);
+          this.isDocumentEdited = true;
+          this.document = document;
+        }
       });
+
+    // this.editingDocumentService.updateDocumentSocket().subscribe((document) => {
+    //   console.log("updateDocumentSocket");
+    //   this.document = document;
+    // });
 
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-background");
@@ -654,7 +662,7 @@ export class EditorLayoutComponent implements OnInit {
 
     this.editingDocumentService.changeDocument(null);
 
-    this.socket.disconnect();
+    this.editingDocumentService.disconnectSocket();
   }
 
 

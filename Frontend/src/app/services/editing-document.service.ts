@@ -10,11 +10,26 @@ export class EditingDocumentService {
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
 
-  // private socket = io('http://localhost:3070');
+  private socket = io('http://localhost:3080');
+
+  localUser = {email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
+  documentId = "";
 
   constructor() { }
   changeDocument(document: any) {
     this.document.next(document)
+  }
+
+  joinDocument() {
+    console.log("join document");
+    console.log(this.documentId, this.localUser.email);
+    this.socket.emit('join-document', this.documentId, this.localUser.email);
+
+  }
+
+  setUserData(user: any, documentId: any) {
+    this.localUser = user;
+    this.documentId = documentId;
   }
 
   addDocumentSection(section: any) {
@@ -38,11 +53,25 @@ export class EditingDocumentService {
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
 
+    this.socket.emit('edit-document', this.documentId, document);
   }
 
   updateDocumentFrontPage(content: any) {
     const document = this.document.getValue();
     document.frontPage = content;
     this.document.next(document);
+  }
+
+  updateDocumentSocket() {
+    this.socket.on('sync-data', (data: any) => {
+      console.log("sync data");
+      this.document.next(data);
+    });
+
+    return this.document$;
+  }
+
+  disconnectSocket() {
+    this.socket.disconnect();
   }
 }

@@ -15,7 +15,13 @@ export class EditingDocumentService {
   localUser = {email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
   documentId = "";
 
-  constructor() { }
+  constructor() {
+    this.socket.on('sync-data', (data: any) => {
+      console.log("sync data");
+      this.document.next(data);
+    });
+
+   }
   changeDocument(document: any) {
     this.document.next(document)
   }
@@ -24,7 +30,6 @@ export class EditingDocumentService {
     console.log("join document");
     console.log(this.documentId, this.localUser.email);
     this.socket.emit('join-document', this.documentId, this.localUser.email);
-
   }
 
   setUserData(user: any, documentId: any) {
@@ -63,10 +68,10 @@ export class EditingDocumentService {
   }
 
   updateDocumentSocket() {
-    this.socket.on('sync-data', (data: any) => {
-      console.log("sync data");
-      this.document.next(data);
-    });
+    // this.socket.on('sync-data', (data: any) => {
+    //   console.log("sync data");
+    //   this.document.next(data);
+    // });
 
     return this.document$;
   }

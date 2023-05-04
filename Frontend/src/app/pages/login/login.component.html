@@ -1,135 +1,139 @@
 <div class="bodyClass bodyClassRL">
-  <div class="imageContainer" id="imCnt" [ngStyle]="{ 'background-image': backG }">
-
-  </div>
+  <div
+    class="imageContainer"
+    id="imCnt"
+    [ngStyle]="{ 'background-image': backG }"
+  ></div>
 
   <!-- <video autoplay muted loop id="myVideo" class="videoContainer">
     <source src="https://cdn.pixabay.com/vimeo/616430996/video-games-89894.mp4?width=1280&expiry=1681689953&hash=bad1b30ce762a17e36430a386d4febe8414ce074" type="video/mp4">
   </video> -->
   <div class="loginContainer backGAnim">
-        <div class="wlcmText">
-          Welcome to GDD Maker!
+    <div class="wlcmText">Welcome to GDD Maker!</div>
+    <div class="cardBdy">
+      <div *ngIf="isLogin">
+        <div class="text-center text-muted mb-4">
+          <small>Sign in with your email</small>
         </div>
-        <div class="cardBdy">
-          <div *ngIf="isLogin">
-            <div class="text-center text-muted mb-4">
-              <small>Sign in with your email</small>
-            </div>
-            <form
-              class="needs-validation was-validated"
-              [formGroup]="emailForm"
-            >
-              <div class="form-group"  >
-                <div class=" input-group input-group-alternative mb-3">
-                  
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="ni ni-email-83"></i
-                    ></span>
-                  </div>
-                  <input
-                    class="form-control"
-                    formControlName="email"
-                    placeholder="Email"
-                    type="email"
-                    required
-                    style="border-top-right-radius: .25rem; border-bottom-right-radius: .25rem;"
-                  />
-                  <div class="inv"
-                    *ngIf="
-                      emailForm.get('email').invalid &&
-                      (emailForm.get('email').touched || emailSubmitted)
-                      ; else l"
-                    class="invalid-feedback"
-                  >
-                  
-                    <div *ngIf="emailForm.get('email').errors.required">
-                      Please enter your email to continue!
-                    </div>
-                    <div *ngIf="emailForm.get('email').errors.email">
-                      The email address is invalid!
-                    </div>
-                  </div>
-                  <ng-template #l>
-                    <div class="always"><div></div></div>
-                  </ng-template>
+        <form class="needs-validation was-validated" [formGroup]="emailForm">
+          <div class="form-group">
+            <div class="input-group input-group-alternative mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="ni ni-email-83"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                formControlName="email"
+                placeholder="Email"
+                type="email"
+                required
+                style="
+                  border-top-right-radius: 0.25rem;
+                  border-bottom-right-radius: 0.25rem;
+                "
+              />
+              <div
+                class="inv"
+                *ngIf="
+                  emailForm.get('email').invalid &&
+                    (emailForm.get('email').touched || emailSubmitted);
+                  else l
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="emailForm.get('email').errors.required">
+                  Please enter your email to continue!
+                </div>
+                <div *ngIf="emailForm.get('email').errors.email">
+                  The email address is invalid!
                 </div>
               </div>
-  
+              <ng-template #l>
+                <div class="always"><div></div></div>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button
+              (click)="checkEmail()"
+              type="button"
+              class="btn btn-primary my-4 smallButtTxt"
+            >
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="!isLogin">
+        <div class="text-center text-muted mb-4">
+          <small
+            >We have sent a code to your email. Please enter it and press Sign
+            in to continue</small
+          >
+        </div>
+        <form class="needs-validation was-validated" [formGroup]="codeForm">
+          <div class="form-group">
+            <div class="input-group input-group-alternative mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="ni ni-lock-circle-open"></i
+                ></span>
+              </div>
+              <input
+                class="form-control"
+                formControlName="code"
+                placeholder="Single-use code"
+                type="password"
+                required
+              />
+              <div
+                *ngIf="
+                  codeForm.get('code').invalid &&
+                  (codeForm.get('code').touched || codeSubmitted)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="codeForm.get('code').errors.required">
+                  Single-use code is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
               <div class="text-center">
                 <button
-                  (click)="checkEmail()"
+                  (click)="signIn()"
                   type="button"
-                  class="btn btn-primary my-4 smallButtTxt"
+                  class="btn btn-primary my-4"
                 >
                   Sign in
                 </button>
               </div>
-            </form>
-          </div>
-          <div *ngIf="!isLogin">
-            <div class="text-center text-muted mb-4">
-              <small
-                >We have sent a code to your email. Please enter it and press
-                Sign in to continue</small
-              >
             </div>
-            <form class="needs-validation was-validated" [formGroup]="codeForm">
-              <div class="form-group">
-                <div class="input-group input-group-alternative mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="ni ni-lock-circle-open"></i
-                    ></span>
-                  </div>
-                  <input
-                    class="form-control"
-                    formControlName="code"
-                    placeholder="Single-use code"
-                    type="password"
-                    required
-                  />
-                  <div
-                    *ngIf="
-                      codeForm.get('code').invalid &&
-                      (codeForm.get('code').touched || codeSubmitted)
-                    "
-                    class="invalid-feedback"
-                  >
-                    <div *ngIf="codeForm.get('code').errors.required">
-                      Single-use code is required
-                    </div>
-                  </div>
-                </div>
+            <div class="col">
+              <div class="text-center">
+                <button
+                  (click)="returnToLogin()"
+                  type="button"
+                  class="btn btn-primary my-4"
+                >
+                  Return
+                </button>
               </div>
-              <div class="row">
-                <div class="col">
-                  <div class="text-center">
-                    <button
-                      (click)="returnToLogin()"
-                      type="button"
-                      class="btn btn-primary my-4"
-                    >
-                      Return
-                    </button>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="text-center">
-                    <button (click)="signIn()" type="button" class="btn btn-primary my-4">
-                      Sign in
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
+            </div>
           </div>
-        
-        <div class="text-center">
-          <a routerLink="/register" class="text-light"
-            ><small>No account yet? Create one!</small></a
-          >
-        </div>
-      
+        </form>
+      </div>
+
+      <div class="text-center">
+        <a routerLink="/register" class="text-light"
+          ><small>No account yet? Create one!</small></a
+        >
+      </div>
+    </div>
   </div>
 </div>

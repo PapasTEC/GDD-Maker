@@ -52,7 +52,6 @@ io.on('connection', (socket) => {
         // })
     })
     socket.on('edit-document', (documentId, data) => {
-      console.log(documentId + ": " + data)
       socket.broadcast.to(documentId).emit('sync-data', data)
         // socket.to(documentId).broadcast.emit('update-data', data)
     })

@@ -20,13 +20,35 @@ export class VditorComponent {
   vditor: Vditor | null = null;
   showUpload = true;
 
+  myInput: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private editingDocumentService: EditingDocumentService,
     private documentService: DocumentService
-  ) { }
+  ) {
+  //   function cursor_position() {
+  //     var sel = document.getSelection();
+  //     sel.modify("extend", "backward", "paragraphboundary");
+  //     var pos = sel.toString().length;
+  //     if(sel.anchorNode != undefined) sel.collapseToEnd();
+
+  //     return pos;
+  // }
+
+  // // Demo:
+  // var elm = document.querySelector('[contenteditable]');
+  // elm.addEventListener('click', printCaretPosition)
+  // elm.addEventListener('keydown', printCaretPosition)
+
+  // function printCaretPosition(){
+  //   console.log( cursor_position(), 'length:', this.textContent.trim().length )
+  // }
+
+  }
 
   updateDocument(value: any) {
+    this.myInput = true;
     console.log("currentValue: ", value);
     this.documentSubSection.subSectionContent.text = value;
     this.editingDocumentService.updateDocumentSubSection(
@@ -67,12 +89,18 @@ export class VditorComponent {
     this.editingDocumentService.updateDocumentSocket().pipe(
       // filter(document => document !== null && this.vditor.getValue() !== document.documentContent.find(section => section.sectionTitle === this.section).subSections.find(subsection => subsection.subSectionTitle === this.subSection).subSectionContent.text),
     ).subscribe((document) => {
-
+      if (this.myInput) {
+        this.myInput = false;
+        return;
+      }
       this.documentSubSection = document.documentContent.find(section =>
         section.sectionTitle === this.section).subSections.find(subsection =>
           subsection.subSectionTitle === this.subSection);
       console.log("documentSub:", this.documentSubSection);
-      this.vditor.updateValue(this.documentSubSection.subSectionContent.text);
+      console.log(this.documentSubSection.subSectionContent.text)
+      console.log(this.vditor)
+      this.vditor.setValue(this.documentSubSection.subSectionContent.text)
+      // this.vditor.updateValue("UPDATE");
     });
   }
 
@@ -318,7 +346,7 @@ export class VditorComponent {
             suffix: "](https://)",
             tipPosition: "s",
           },
-          { 
+          {
             icon: '<svg><use xlink:href="#vditor-icon-upload"></use></svg>',
             name: "newUpload",
             tip: "Upload Image",
@@ -530,6 +558,8 @@ export class VditorComponent {
       },
       after: () => { },
       input: (value: string) => {
+        console.log("******************* INPUT VALUE ****************");
+        this.myInput = true;
         this.updateDocument(value);
       },
       theme: "dark",

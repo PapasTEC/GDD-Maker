@@ -29,7 +29,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/uploads"
-              
+
             ],
             "styles": [
               "src/styles.scss",
@@ -77,7 +77,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "GDDMaker:build",
-            "liveReload": false
+            "liveReload": true
           },
           "configurations": {
             "production": {

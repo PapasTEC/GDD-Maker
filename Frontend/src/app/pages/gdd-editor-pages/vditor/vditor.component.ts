@@ -576,7 +576,7 @@ export class VditorComponent {
       },
       after: () => { 
         this.resetCaretToLastPosition(this.lastRow,this.lastCol);
-        this.getMaxColandRow();
+        this.setCaretCursorPosition();
       },
       input: (value: string) => {
         console.log("******************* INPUT VALUE ****************");
@@ -589,22 +589,7 @@ export class VditorComponent {
     };
   }
 
-  getMaxColandRow() {
-    var el = document.getElementsByClassName("vditor-ir")[0]
-    let lines = el.children[0]
-    let row = lines.children.length;
-    let col = 0;
-
-    try {
-      col = lines.children[row].textContent.length  - 1;
-    } catch (error) {
-      col = 0;
-    }
-
-    console.log("Max", row, col)
-    
-    return { row, col };
-  }
+  
 
   resetTo0() {
     this.lastCol = 0;
@@ -627,19 +612,24 @@ export class VditorComponent {
     sel.addRange(range)
   }
 
-  setCaretCursorPosition() {
-    var sel = document.getSelection();
+  vditorLinesParent: any;
+  selection: any;
+  lines: any;
 
-    var el = document.getElementsByClassName("vditor-ir")[0]
+  setCaretCursorPosition() {
+    this.selection = document.getSelection();
+
+    this.vditorLinesParent = document.getElementsByClassName("vditor-ir")[0]
     
-    let lines = el.children[0]
+    this.lines = this.vditorLinesParent.children[0]
 
     let row = 0;
     let col = 0;
-    for (let i = 0; i < lines.children.length; i++) {
-      if (lines.children[i].contains(sel.anchorNode)) {
+    let leng =  this.lines.children.length;
+    for (let i = 0; i < leng; i++) {
+      if (this.lines.children[i].contains(this.selection.anchorNode)) {
         row = i;
-        col = sel.anchorOffset;
+        col = this.selection.anchorOffset;
         break;
       }
     }
@@ -647,9 +637,25 @@ export class VditorComponent {
     this.lastCol = col;
     this.lastRow = row;
 
+    console.log("Cursor on:", row, col)
+
     this.getMaxColandRow();
 
-    return sel;
+  }
+
+  getMaxColandRow() {
+    let row = this.lines.children.length;
+    let col = 0;
+
+    try {
+      col = this.lines.children[row].textContent.length  - 1;
+    } catch (error) {
+      col = 0;
+    }
+
+    console.log("Maximum position:", row, col)
+    
+    return { row, col };
   }
 
 }

@@ -51,8 +51,8 @@ io.on('connection', (socket) => {
         //     socket.to(documentId).broadcast.emit('user-disconnected', userId)
         // })
     })
-    socket.on('edit-document', (documentId, data) => {
-      socket.broadcast.to(documentId).emit('sync-data', data)
+    socket.on('edit-document', ({documentId, secId, subSecId, content}) => {
+      socket.broadcast.to(documentId).emit('sync-data', {secId, subSecId, content})
         // socket.to(documentId).broadcast.emit('update-data', data)
     })
 })

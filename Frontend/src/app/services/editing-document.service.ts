@@ -16,9 +16,13 @@ export class EditingDocumentService {
   documentId = "";
 
   constructor() {
-    this.socket.on('sync-data', (data: any) => {
-      console.log("sync data");
-      this.document.next(data);
+    this.socket.on('sync-data', ({secId, subSecId, content}) => {
+      // console.log("sync data");
+      const document = this.document.getValue();
+      document.documentContent[secId].subSections[subSecId] = content;
+      this.document.next(document);
+
+      // this.document.next(data);
     });
 
    }
@@ -58,7 +62,8 @@ export class EditingDocumentService {
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
 
-    this.socket.emit('edit-document', this.documentId, document);
+
+    this.socket.emit('edit-document', {documentId: this.documentId, secId, subSecId, content});
   }
 
   updateDocumentFrontPage(content: any) {

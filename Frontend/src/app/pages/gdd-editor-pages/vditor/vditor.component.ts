@@ -59,6 +59,15 @@ export class VditorComponent {
   }
 
   ngOnInit() {
+    // setInterval(() => {
+    //   if (this.vditor) {
+    //     console.log("UPDATE", this.lastRow)
+    //     console.log("UPDATE", this.lastCol)
+    //   }
+    // }, 1000);
+
+    
+
     this.activatedRoute.data.subscribe((_value) => {
       this.section = _value.section;
       this.subSection = _value.subSection;
@@ -83,7 +92,12 @@ export class VditorComponent {
       console.log("documentSub:", this.documentSubSection);
       setTimeout(() => {
         this.vditor = new Vditor("vditor", this.changeVditorConfig(this.showUpload, this.documentSubSection.subSectionContent.text));
-      }, 5);
+        var el = document.getElementsByClassName("vditor-ir")[0]
+
+    el.addEventListener("click", () => {
+      this.setCaretCursorPosition();
+    });
+      });
     });
 
     this.editingDocumentService.updateDocumentSocket().pipe(
@@ -100,11 +114,15 @@ export class VditorComponent {
       console.log(this.documentSubSection.subSectionContent.text)
       console.log(this.vditor)
       this.vditor.setValue(this.documentSubSection.subSectionContent.text)
+      this.resetCaretToLastPosition(this.lastRow,this.lastCol);
       // this.vditor.updateValue("UPDATE");
     });
   }
 
   // Funciones para subir imagenes
+
+  lastCol = 0;
+  lastRow = 0;
 
   async scaleImage(file: File): Promise<File> {
     const img = new Image();
@@ -556,13 +574,88 @@ export class VditorComponent {
       cache: {
         enable: false,
       },
-      after: () => { },
+      after: () => { 
+        this.resetCaretToLastPosition(this.lastRow,this.lastCol);
+        this.setCaretCursorPosition();
+      },
       input: (value: string) => {
         console.log("******************* INPUT VALUE ****************");
+        this.setCaretCursorPosition();
         this.myInput = true;
+
         this.updateDocument(value);
       },
       theme: "dark",
     };
   }
+
+  
+
+  resetTo0() {
+    this.lastCol = 0;
+    this.lastRow = 0;
+  }
+  
+  resetCaretToLastPosition(row:number, col:number) {
+    var el = document.getElementsByClassName("vditor-ir")[0]
+    el.addEventListener("click", () => {
+      this.setCaretCursorPosition();
+    });
+    let lines = el.children[0]
+    var range = document.createRange()
+    var sel = window.getSelection()
+
+    range.setStart(lines.children[row].firstChild, col)
+    range.collapse(true)
+    
+    sel.removeAllRanges()
+    sel.addRange(range)
+  }
+
+  vditorLinesParent: any;
+  selection: any;
+  lines: any;
+
+  setCaretCursorPosition() {
+    this.selection = document.getSelection();
+
+    this.vditorLinesParent = document.getElementsByClassName("vditor-ir")[0]
+    
+    this.lines = this.vditorLinesParent.children[0]
+
+    let row = 0;
+    let col = 0;
+    let leng =  this.lines.children.length;
+    for (let i = 0; i < leng; i++) {
+      if (this.lines.children[i].contains(this.selection.anchorNode)) {
+        row = i;
+        col = this.selection.anchorOffset;
+        break;
+      }
+    }
+
+    this.lastCol = col;
+    this.lastRow = row;
+
+    console.log("Cursor on:", row, col)
+
+    this.getMaxColandRow();
+
+  }
+
+  getMaxColandRow() {
+    let row = this.lines.children.length;
+    let col = 0;
+
+    try {
+      col = this.lines.children[row].textContent.length  - 1;
+    } catch (error) {
+      col = 0;
+    }
+
+    console.log("Maximum position:", row, col)
+    
+    return { row, col };
+  }
+
 }

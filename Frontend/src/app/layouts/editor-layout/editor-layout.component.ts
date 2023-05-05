@@ -456,6 +456,7 @@ export class EditorLayoutComponent implements OnInit {
           // this.socket.emit("edit-document", this.documentId, document);
           this.isDocumentEdited = true;
           this.document = document;
+          
         }
       });
 
@@ -483,7 +484,11 @@ export class EditorLayoutComponent implements OnInit {
 
   }
 
+  
+
   ngAfterViewInit() {
+    
+    
     this.navToStartingSection();
 
     this.cdRef.detectChanges();
@@ -512,8 +517,9 @@ export class EditorLayoutComponent implements OnInit {
       this.add(dropdown[i], true);
     }
 
-    for (i = 0; i < singleSections.length; i++) {
-      this.add(singleSection[i], false);
+    for (i = 0; i < singleSection.length; i++) {
+      if(singleSection[i].id === "singleSec")
+        this.add(singleSection[i], false);
     }
 
     var links = document.getElementsByTagName("a");
@@ -651,6 +657,7 @@ export class EditorLayoutComponent implements OnInit {
         }
       }
     });
+    
   }
 
   ngOnDestroy() {

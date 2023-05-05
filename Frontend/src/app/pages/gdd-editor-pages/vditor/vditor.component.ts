@@ -59,6 +59,15 @@ export class VditorComponent {
   }
 
   ngOnInit() {
+    // setInterval(() => {
+    //   if (this.vditor) {
+    //     console.log("UPDATE", this.lastRow)
+    //     console.log("UPDATE", this.lastCol)
+    //   }
+    // }, 1000);
+
+    
+
     this.activatedRoute.data.subscribe((_value) => {
       this.section = _value.section;
       this.subSection = _value.subSection;
@@ -83,7 +92,12 @@ export class VditorComponent {
       console.log("documentSub:", this.documentSubSection);
       setTimeout(() => {
         this.vditor = new Vditor("vditor", this.changeVditorConfig(this.showUpload, this.documentSubSection.subSectionContent.text));
-      }, 5);
+        var el = document.getElementsByClassName("vditor-ir")[0]
+
+    el.addEventListener("click", () => {
+      this.setCaretCursorPosition();
+    });
+      });
     });
 
     this.editingDocumentService.updateDocumentSocket().pipe(
@@ -100,11 +114,15 @@ export class VditorComponent {
       console.log(this.documentSubSection.subSectionContent.text)
       console.log(this.vditor)
       this.vditor.setValue(this.documentSubSection.subSectionContent.text)
+      this.resetCaretToLastPosition(this.lastRow,this.lastCol);
       // this.vditor.updateValue("UPDATE");
     });
   }
 
   // Funciones para subir imagenes
+
+  lastCol = 0;
+  lastRow = 0;
 
   async scaleImage(file: File): Promise<File> {
     const img = new Image();
@@ -556,13 +574,82 @@ export class VditorComponent {
       cache: {
         enable: false,
       },
-      after: () => { },
+      after: () => { 
+        this.resetCaretToLastPosition(this.lastRow,this.lastCol);
+        this.getMaxColandRow();
+      },
       input: (value: string) => {
         console.log("******************* INPUT VALUE ****************");
+        this.setCaretCursorPosition();
         this.myInput = true;
+
         this.updateDocument(value);
       },
       theme: "dark",
     };
   }
+
+  getMaxColandRow() {
+    var el = document.getElementsByClassName("vditor-ir")[0]
+    let lines = el.children[0]
+    let row = lines.children.length;
+    let col = 0;
+
+    try {
+      col = lines.children[row].textContent.length  - 1;
+    } catch (error) {
+      col = 0;
+    }
+
+    console.log("Max", row, col)
+    
+    return { row, col };
+  }
+
+  resetTo0() {
+    this.lastCol = 0;
+    this.lastRow = 0;
+  }
+  
+  resetCaretToLastPosition(row:number, col:number) {
+    var el = document.getElementsByClassName("vditor-ir")[0]
+    el.addEventListener("click", () => {
+      this.setCaretCursorPosition();
+    });
+    let lines = el.children[0]
+    var range = document.createRange()
+    var sel = window.getSelection()
+
+    range.setStart(lines.children[row].firstChild, col)
+    range.collapse(true)
+    
+    sel.removeAllRanges()
+    sel.addRange(range)
+  }
+
+  setCaretCursorPosition() {
+    var sel = document.getSelection();
+
+    var el = document.getElementsByClassName("vditor-ir")[0]
+    
+    let lines = el.children[0]
+
+    let row = 0;
+    let col = 0;
+    for (let i = 0; i < lines.children.length; i++) {
+      if (lines.children[i].contains(sel.anchorNode)) {
+        row = i;
+        col = sel.anchorOffset;
+        break;
+      }
+    }
+
+    this.lastCol = col;
+    this.lastRow = row;
+
+    this.getMaxColandRow();
+
+    return sel;
+  }
+
 }

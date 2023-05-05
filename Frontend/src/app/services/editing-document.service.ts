@@ -10,7 +10,8 @@ export class EditingDocumentService {
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
 
-  private socket = io('http://localhost:3080');
+  private socket = io('http://129.159.124.235:3080');
+
 
   localUser = {email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
   documentId = "";

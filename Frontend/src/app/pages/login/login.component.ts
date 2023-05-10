@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     code: new FormControl("", [Validators.required]),
   });
 
-  
+
   imagePath: string = "/assets/img/regLog/";
   image:Blob;
   backG:string;
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.backG = "url(" + path + ")";
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.loadBackground("log.jpg");
   }
 
@@ -92,7 +92,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log(response.token);
           alert("You are logged in");
           localStorage.setItem("ImageUser", response.image);
-          this.cookieService.set("Token", response.token);
+
+          const expirationDate = new Date();
+          expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+          this.cookieService.set("Token", response.token, expirationDate);
 
           this.router.navigate(["/dashboard"]);
           return;
@@ -105,7 +108,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         (error) => {
           console.log(error);
           if (error.status == 500) {
-            
+
             alert("Wrong code");
           }
         });

@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
 function generatePasswordCode(length) {
-  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const charset = "0123456789";
   let result = "";
   for (let i = 0; i < length; i++) {
     result += charset.charAt(Math.floor(Math.random() * charset.length));

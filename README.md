@@ -18,7 +18,7 @@ Profesor: Rodolfo De Jesús Mora Zamora
 + Fabricio Delgado Morales - Coordinador
 + Abiel Porras Garro - Desarrollador
 + Elías Castro Montero - Desarrollador
-+ Roy Vinicio GarcÍA Alvarado - Desarrollador
++ Roy Vinicio GarcÍa Alvarado - Desarrollador
 + Rodolfo Mora Zamora - Product Owner
 
 Semestre I 2023

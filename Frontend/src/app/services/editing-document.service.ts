@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { io } from 'socket.io-client';
+import { apiSocket } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,10 @@ export class EditingDocumentService {
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
   userEditing: string = null;
-  private socket = io('http://localhost:3080');
+  private socket = io(apiSocket);
+
+  // private socket = io('http://129.159.124.235:3080');
+
 
   localUser = {email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
   documentId = "";

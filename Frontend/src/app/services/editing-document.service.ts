@@ -9,25 +9,41 @@ export class EditingDocumentService {
 
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
-
+  userEditing: string = null;
   private socket = io('http://localhost:3080');
 
   localUser = {email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
   documentId = "";
+  private timer: any;
+  private countdownSeconds: number = 4;
 
   constructor() {
     this.socket.on('sync-data', ({secId, subSecId, content}) => {
-      // console.log("sync data");
+      // console.log("================ sync data ================ ");
       const document = this.document.getValue();
       document.documentContent[secId].subSections[subSecId] = content;
       this.document.next(document);
 
       // this.document.next(data);
     });
+    this.socket.on('user-Editing', ({user}) => {
+      console.log("user editing: ", user);
+      this.userEditing = user;
+    })
 
    }
   changeDocument(document: any) {
     this.document.next(document)
+  }
+
+  updateUserEditing() {
+    clearTimeout(this.timer);
+
+    this.socket.emit('edit-User', { documentId: this.documentId, user: this.localUser.email });
+  
+    this.timer = setTimeout(() => {
+      this.socket.emit('edit-User', { documentId: this.documentId, user: null });
+    }, 1000 * this.countdownSeconds);
   }
 
   joinDocument() {
@@ -61,9 +77,8 @@ export class EditingDocumentService {
     console.log(secId, subSecId);
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
-
-
     this.socket.emit('edit-document', {documentId: this.documentId, secId, subSecId, content});
+    
   }
 
   updateDocumentFrontPage(content: any) {

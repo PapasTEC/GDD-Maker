@@ -92,11 +92,6 @@ export class EditingDocumentService {
   }
 
   updateDocumentSocket() {
-    // this.socket.on('sync-data', (data: any) => {
-    //   console.log("sync data");
-    //   this.document.next(data);
-    // });
-
     return this.document$;
   }
 

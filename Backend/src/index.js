@@ -56,9 +56,9 @@ io.on('connection', (socket) => {
         // socket.to(documentId).broadcast.emit('update-data', data)
     })
 
-    socket.on('edit-User', ({documentId,user}) => {
+    socket.on('edit-User', ({documentId,content,user}) => {
       console.log("\nuser-Editing:", user)
-      socket.broadcast.to(documentId).emit('user-Editing', {user})
+      socket.broadcast.to(documentId).emit('user-Editing', {content,user})
     })
 })
 

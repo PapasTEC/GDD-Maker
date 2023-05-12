@@ -68,7 +68,7 @@ export class DocumentCoverComponent {
     });
     this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
 
-    console.log(this.companyName)
+    // console.log(this.companyName)
 
     this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
   }
@@ -126,7 +126,7 @@ export class DocumentCoverComponent {
     const targ = area as HTMLTextAreaElement;
     let rows = _var.split("\n").length;
 
-    console.log("rows: ", _var);
+    // console.log("rows: ", _var);
     
     targ.style.height = `${rows * 1.5}em`;
     targ.rows = rows;
@@ -134,12 +134,12 @@ export class DocumentCoverComponent {
     targ.value = _var;
     
     while(targ.scrollHeight > targ.clientHeight){
-      console.log("targ.scrollHeight B: ", targ.style.height);
+      // console.log("targ.scrollHeight B: ", targ.style.height);
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
     }
 
     while(targ.scrollHeight < targ.clientHeight){
-      console.log("targ.scrollHeight A: ", targ.style.height);
+      // console.log("targ.scrollHeight A: ", targ.style.height);
       targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
     }
 
@@ -220,12 +220,12 @@ export class DocumentCoverComponent {
 
     
     while(targ.scrollHeight > targ.clientHeight){
-      console.log("targ.scrollHeight B: ", targ.style.height);
+      // console.log("targ.scrollHeight B: ", targ.style.height);
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
     }
 
     while(targ.scrollHeight < targ.clientHeight){
-      console.log("targ.scrollHeight A: ", targ.style.height);
+      // console.log("targ.scrollHeight A: ", targ.style.height);
       targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
     }
   }

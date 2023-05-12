@@ -45,8 +45,8 @@ export class BasicInfoComponent {
 
     this.getSectionAndSubSection(this.route);
 
-    console.log("section: ", this.section);
-    console.log("subSection: ", this.subSection);
+    // console.log("section: ", this.section);
+    // console.log("subSection: ", this.subSection);
 
     // this.addDocSectionIfItDoesntExist(this.section);
     // this.addDocSubSectionIfItDoesntExist(this.section, this.subSection, {characters: []} );
@@ -77,7 +77,7 @@ export class BasicInfoComponent {
     this.basicInfo.genres = this.genres;
     this.basicInfo.tags = this.tags;
 
-    console.log("Basic Info: ", this.basicInfo);
+    // console.log("Basic Info: ", this.basicInfo);
     this.documentSubSection.subSectionContent = this.basicInfo;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
@@ -101,14 +101,14 @@ export class BasicInfoComponent {
     }
     this.genres.push(genreTextBox.value);
     genreTextBox.value = "";
-    console.log("genres:", this.genres);
+    // console.log("genres:", this.genres);
     //this.updateStorage();
     this.updateDocument();
   }
   public deleteGenre(id: number): void {
     // Delete at index
     this.genres.splice(id, 1);
-    console.log(this.genres);
+    // console.log(this.genres);
     this.updateDocument();
     //this.updateStorage();
   }
@@ -124,14 +124,14 @@ export class BasicInfoComponent {
     }
     this.tags.push(tagTextBox.value);
     tagTextBox.value = "";
-    console.log("tags:", this.tags);
+    // console.log("tags:", this.tags);
     //this.updateStorage();
     this.updateDocument();
   }
   public deleteTag(id: number): void {
     // Delete at index
     this.tags.splice(id, 1);
-    console.log(this.tags);
+    // console.log(this.tags);
     //this.updateStorage();
     this.updateDocument();
   }

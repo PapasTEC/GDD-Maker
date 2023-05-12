@@ -104,9 +104,9 @@ export class CoreMechanicComponent {
       },
       after: () => {},
       input: (value: string) => {
-        console.log("value: ", value);
+        // console.log("value: ", value);
         this.coreMechanicContent[index] = value;
-        console.log("coreMechanicContent: ", this.coreMechanicContent);
+        // console.log("coreMechanicContent: ", this.coreMechanicContent);
         this.updateDocument(this.coreMechanicContent);
 
       },

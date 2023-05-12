@@ -44,13 +44,13 @@ export class DashboardComponent implements OnInit {
     this.tableMode = 'My Projects';
 
     this.tokenService.decodeToken().subscribe((data: any) => {
-      console.log(`${JSON.stringify(data.decoded)}`);
+      // console.log(`${JSON.stringify(data.decoded)}`);
       this.email = data.decoded.email;
 
       this.userService.getUser(this.email).subscribe((data: any) => {
         this.sharedProjects = data.shared_with_me_documents ;
         this.documentService.getMyProjects(this.email).subscribe((data: any) => {
-          console.log(data);
+          // console.log(data);
           this.MyProjectsData = data.map((project: any) => {
             return {
               documentTitle: project.frontPage.documentTitle,
@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit {
   }
 
   goToEditor(idProject: string) {
-    console.log(idProject);
+    // console.log(idProject);
     this.router.navigate(['/editor'], { queryParams: { pjt: idProject } });
   }
 
@@ -105,9 +105,9 @@ export class DashboardComponent implements OnInit {
         this.MyProjectsData = this.MyProjectsData.filter((project: Project) => project._id != id);
         this.data = this.Projects;
         this.userService.removeOwnProject(this.email, id).subscribe((data2: any) => {
-          console.log(data2);
+          // console.log(data2);
           this.documentService.deleteFolderImages(id).subscribe((data3: any) => {
-            console.log(data3);
+            // console.log(data3);
           });
         });
       });

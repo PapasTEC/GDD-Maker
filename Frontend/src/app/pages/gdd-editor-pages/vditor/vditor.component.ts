@@ -135,11 +135,11 @@ export class VditorComponent {
       this.documentSubSection = document.documentContent.find(section =>
         section.sectionTitle === this.section).subSections.find(subsection =>
           subsection.subSectionTitle === this.subSection);
-      console.log("documentSub mapache:", this.documentSubSection);
-      console.log(this.documentSubSection.subSectionContent.text)
-      console.log(this.vditor)
-      
-      this.isBlocked = (this.editingDocumentService.userEditing && this.editingDocumentService.userEditing !== this.localUser);
+      //  console.log("documentSub mapache:", this.documentSubSection);
+     //  console.log(this.documentSubSection.subSectionContent.text)
+      // console.log(this.vditor)
+      const userEditing = this.editingDocumentService.userEditingByComponent[this.subSection];
+      this.isBlocked = (userEditing && userEditing !== this.localUser);
 
       this.vditor.setValue(this.documentSubSection.subSectionContent.text)
       this.resetCaretToLastPosition(this.lastRow,this.lastCol);
@@ -148,14 +148,16 @@ export class VditorComponent {
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    this.isBlocked = (this.editingDocumentService.userEditing && this.editingDocumentService.userEditing !== this.localUser);
+    const userEditing = this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked = (userEditing && userEditing !== this.localUser);
     if (this.isBlocked) {
       event.preventDefault();
     }   
     
   }
   onContextMenu(event: MouseEvent) {
-    this.isBlocked = (this.editingDocumentService.userEditing && this.editingDocumentService.userEditing !== this.localUser);
+    const userEditing = this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked = (userEditing && userEditing !== this.localUser);
     if (this.isBlocked) {
       event.preventDefault();
     } 
@@ -412,7 +414,6 @@ export class VditorComponent {
           tip: "Upload Image",
           tipPosition: "s",
           click() {
-            console.log("Hola")
             document.getElementById("fileSelector").click();
           }
         },
@@ -624,7 +625,6 @@ export class VditorComponent {
         console.log("******************* INPUT VALUE ****************");
         this.setCaretCursorPosition();
         this.myInput = true;
-        this.editingDocumentService.updateUserEditing();
         this.updateDocument(value);
       },
       theme: "dark",
@@ -679,7 +679,7 @@ export class VditorComponent {
     this.lastCol = col;
     this.lastRow = row;
 
-    console.log("Cursor on:", row, col)
+    // console.log("Cursor on:", row, col)
 
     this.getMaxColandRow();
 
@@ -695,7 +695,7 @@ export class VditorComponent {
       col = 0;
     }
 
-    console.log("Maximum position:", row, col)
+    // console.log("Maximum position:", row, col)
     
     return { row, col };
   }

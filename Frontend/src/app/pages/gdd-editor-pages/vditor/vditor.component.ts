@@ -120,7 +120,8 @@ export class VditorComponent {
       // filter(document => document !== null && this.vditor.getValue() !== document.documentContent.find(section => section.sectionTitle === this.section).subSections.find(subsection => subsection.subSectionTitle === this.subSection).subSectionContent.text),
     ).subscribe((document) => {
 
-      
+      console.log("AAAAA UPDATE");
+
       //   this.vditor = new Vditor("vditor", this.changeVditorConfig(this.showUpload, this.documentSubSection.subSectionContent.text, false));
       //   this.lastMyUpdate = false;
       // }else if (!this.lastMyUpdate && (!this.editingDocumentService.userEditing || this.editingDocumentService.userEditing === this.localUser)){

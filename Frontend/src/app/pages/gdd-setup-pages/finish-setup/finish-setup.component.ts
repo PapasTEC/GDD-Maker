@@ -75,6 +75,7 @@ export class FinishSetupComponent {
 
       const document = {
         owner: user.email,
+        invited: [],
         frontPage: {
           documentTitle: currentSetup.gameTitle,
           documentLogo: myGameLogo,

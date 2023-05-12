@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { io } from 'socket.io-client';
+import { apiSocket } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,45 @@ export class EditingDocumentService {
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
   userEditing: string = null;
-  private socket = io('http://localhost:3080');
+  private socket = io(apiSocket);
+
+  documentState = {
+    cover: {
+      title: null,
+      companyName: null,
+      collaborators: null
+    },
+    basicInfo: {
+      elevatorPitch: null,
+      tagline: null,
+      genres: null,
+      tags: null
+    },
+    techInfo: {
+      platforms: null,
+      generalData: null
+    },
+    theme: null,
+    aesthetics: null,
+    coreMechanic: null,
+    detailCoreMechanic: {
+      representation: null,
+      decisions: null,
+      goals: null
+    },
+    secondMechanic: null,
+    gameplayLoop: null,
+    setting: null,
+    characters: null,
+    events: null,
+    visualStyle: null,
+    userInterface: null,
+    musicSound: null,
+    gameReferences: null
+  }
+
+  // private socket = io('http://129.159.124.235:3080');
+
 
   localUser = { email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
   documentId = "";
@@ -113,11 +152,6 @@ export class EditingDocumentService {
   }
 
   updateDocumentSocket() {
-    // this.socket.on('sync-data', (data: any) => {
-    //   console.log("sync data");
-    //   this.document.next(data);
-    // });
-
     return this.document$;
   }
 

@@ -13,6 +13,41 @@ export class EditingDocumentService {
   userEditing: string = null;
   private socket = io(apiSocket);
 
+  documentState = {
+    cover: {
+      title: null,
+      companyName: null,
+      collaborators: null
+    },
+    basicInfo: {
+      elevatorPitch: null,
+      tagline: null,
+      genres: null,
+      tags: null
+    },
+    techInfo: {
+      platforms: null,
+      generalData: null
+    },
+    theme: null,
+    aesthetics: null,
+    coreMechanic: null,
+    detailCoreMechanic: {
+      representation: null,
+      decisions: null,
+      goals: null
+    },
+    secondMechanic: null,
+    gameplayLoop: null,
+    setting: null,
+    characters: null,
+    events: null,
+    visualStyle: null,
+    userInterface: null,
+    musicSound: null,
+    gameReferences: null
+  }
+
   // private socket = io('http://129.159.124.235:3080');
 
 

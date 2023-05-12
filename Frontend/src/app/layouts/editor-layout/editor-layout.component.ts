@@ -15,6 +15,7 @@ import { filter, timeout } from "rxjs/operators";
 import { io } from "socket.io-client";
 
 import { EditorLayoutRoutes } from "./editor-layout.routing";
+import { ToastrService } from "ngx-toastr";
 
 interface SectionSubsectionPath {
   section: string;
@@ -31,7 +32,7 @@ interface SectionSubsectionPath {
 export class EditorLayoutComponent implements OnInit {
   documentTitle = "";
   documentId = "";
-  document: any;
+  document: any = null;
   isDocumentEdited = false;
 
   autoSaveTimer: any;
@@ -96,7 +97,8 @@ export class EditorLayoutComponent implements OnInit {
     private documentService: DocumentService,
     private editingDocumentService: EditingDocumentService,
     private cdRef: ChangeDetectorRef,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private toastr: ToastrService
   ) {
     console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath);
     this.route = route;
@@ -269,6 +271,9 @@ export class EditorLayoutComponent implements OnInit {
   saveDocumentShortcut(event: KeyboardEvent) {
     event.preventDefault();
     this.manualSave();
+    this.toastr.success("Document saved!", "", {
+      timeOut: 500,
+    });
     // TODO: Show a message that the document has been saved
   }
 
@@ -427,7 +432,7 @@ export class EditorLayoutComponent implements OnInit {
 
   ngOnInit() {
 
-
+    console.log("LOADING")
     this.route.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
 
@@ -438,7 +443,7 @@ export class EditorLayoutComponent implements OnInit {
         this.editingDocumentService.setUserData(localUser, this.documentId);
 
         this.editingDocumentService.joinDocument();
-
+        console.log("************************** FINAL1 **************************")
       });
     });
 
@@ -459,6 +464,7 @@ export class EditorLayoutComponent implements OnInit {
           this.document = document;
 
         }
+
       });
 
     // this.editingDocumentService.updateDocumentSocket().subscribe((document) => {
@@ -468,6 +474,8 @@ export class EditorLayoutComponent implements OnInit {
 
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-background");
+
+    console.log("************************** FINAL3 **************************")
   }
 
   navToStartingSection() {

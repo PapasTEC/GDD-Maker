@@ -59,4 +59,8 @@ export class DocumentService {
   removeUser(id: string, email: string) {
     return this.http.delete<any>(this.API + 'revokeInvitation/' + id + '/' + email);
   }
+
+  inviteUser(id: string, email: string) {
+    return this.http.post<any>(this.API + 'invite/' + id + '/' + email, {});
+  }
 }

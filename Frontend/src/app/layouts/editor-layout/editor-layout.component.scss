@@ -23,7 +23,9 @@ $resizeTitleFont: calc($resizeFontSize * 1.75);
 
 $rotatingArrowsTransition: 0.3s ease transform;
 
-
+body {
+  overflow: hidden;
+}
 
 .header-margin {
   margin-top: -19vh;
@@ -34,6 +36,7 @@ $rotatingArrowsTransition: 0.3s ease transform;
   height: 92%;
   width: 100%;
   overflow: hidden;
+
 }
 
 .subSectionTitleShowedInEditor {

@@ -30,7 +30,7 @@ documentController.createDocument = async (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).json({ message: error });
+      res.status(200).json({ message: error, error: true });
     });
 };
 
@@ -200,6 +200,33 @@ documentController.deleteDocument = async (req, res) => {
 documentController.inviteUser = async (req, res) => {
   const { id, email } = req.params;
 
+  const user = await Users.findOne({ email: req.params.email });
+
+  if (!user)
+    return res.status(200).json({ message: "User not found", success: false });
+
+  // Check if user is already invited
+  if (user.shared_with_me_documents.includes(id)) {
+    return res
+      .status(200)
+      .json({ message: "User already invited", success: false });
+  }
+
+  await Users.updateOne(
+    { email: req.params.email },
+    { $push: { shared_with_me_documents: req.params.id } }
+  );
+
+  const documentWithId = await Documents.findById(id);
+  
+  // Owner cannot be invited
+
+  if (documentWithId.owner === email) {
+    return res
+      .status(200)
+      .json({ message: "Owner cannot be invited", success: false });
+  }
+
   const document = await Documents.findByIdAndUpdate(id, {
     $push: { invited: email },
   });
@@ -216,17 +243,11 @@ documentController.inviteUser = async (req, res) => {
       .json({ message: "User already invited", success: false });
   }
 
-  const user = await Users.findOne({ email: req.params.email });
-
-  if (!user)
-    return res.status(200).json({ message: "User not found", success: false });
-
-  await Users.updateOne(
-    { email: req.params.email },
-    { $push: { shared_with_me_documents: req.params.id } }
-  );
-
-  res.status(200).json({ message: "User invited", success: true });
+  res.status(200).json({
+    message: "User invited",
+    users: await getUsersFromDocument(id),
+    success: true,
+  });
 };
 
 /*

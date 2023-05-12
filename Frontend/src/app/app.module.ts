@@ -18,6 +18,7 @@ import * as dotenv from 'dotenv';
 import { JwtInterceptorInterceptor } from './token/jwt-interceptor.interceptor';
 import { ShareDocumentComponent } from './components/share-document/share-document.component';
 
+import { ToastrModule } from 'ngx-toastr';
 
 //dotenv.config();
 
@@ -25,6 +26,9 @@ import { ShareDocumentComponent } from './components/share-document/share-docume
   imports: [
     FontAwesomeModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass :'toast-bottom-center'
+    }),
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,

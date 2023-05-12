@@ -113,3 +113,4 @@
 
 <app-share-document *ngIf="showShareDocument" [documentId]="documentId" (updateShowShareDocument)="showShareDocument = $event"></app-share-document>
 
+<app-loading-screen *ngIf="!document" [message]="'Loading Document'"></app-loading-screen>

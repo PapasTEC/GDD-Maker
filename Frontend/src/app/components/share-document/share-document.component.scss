@@ -48,20 +48,29 @@
 
     &__users {
       margin: 2rem 2rem;
+      max-height: 35vh;
+      overflow: auto;
 
-      &__loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        height: 100%;
-        font-size: 1.5rem;
-        margin: 3rem 0;
+      @media screen and (max-width: 1500px) {
+        padding-right: 10px;
+      }
+      padding-right: 10px;
 
-        i {
-          font-size: 2rem;
-          margin-top: 1rem;
-        }
+      $scrollbar-width: max(10px, 0.5vw);
+
+      &::-webkit-scrollbar {
+        width: $scrollbar-width;
+        background-color: #e9e9e9;
+        z-index: 2;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+
+        background-color: #d3d3d3;
       }
 
       &__user {
@@ -100,6 +109,8 @@
           }
 
           &-email {
+            display: flex;
+            align-items: center;
             font-weight: bold;
             color: rgba(0, 0, 0, 0.75);
             // width: 65%;
@@ -117,6 +128,8 @@
           cursor: pointer;
           background-color: rgb(155, 6, 6);
           border-color: transparent;
+
+          margin: 0 auto;
 
           &:active {
             background-color: rgb(199, 27, 27) !important;
@@ -173,6 +186,7 @@
     background-color: red;
 
     &__dialog {
+      min-width: 70vw;
       &__users {
         margin: 1.5rem 1.5rem;
         &__user {

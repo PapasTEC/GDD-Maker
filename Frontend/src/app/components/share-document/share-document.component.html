@@ -19,10 +19,10 @@
           alt="user image"
         />
         <div class="share-container__dialog__users__user__name">
-          <div
-            class="share-container__dialog__users__user__name-status status--online"
-          ></div>
           <div class="share-container__dialog__users__user__name-email">
+            <div
+              class="share-container__dialog__users__user__name-status status--online"
+            ></div>
             {{usersObj.owner.email}}
           </div>
           <div class="share-container__dialog__users__user__name-role">
@@ -39,10 +39,11 @@
             alt="user image"
           />
           <div class="share-container__dialog__users__user__name">
-            <div
+
+            <div class="share-container__dialog__users__user__name-email">
+              <div
               class="share-container__dialog__users__user__name-status status--offline"
             ></div>
-            <div class="share-container__dialog__users__user__name-email">
               {{user.email}}
             </div>
             <div class="share-container__dialog__users__user__name-role">
@@ -59,28 +60,26 @@
         </div>
       </ng-container>
     </div>
-    <div class="share-container__dialog__users__loading" *ngIf="!usersObj?.owner">
-      <i class="fas fa-spinner fa-spin"></i>
+    <!-- <div class="share-container__dialog__users__loading" *ngIf="!usersObj?.owner">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
       <div>Loading users...</div>
-    </div>
+    </div> -->
+    <app-loading-section [message]="'Loading users...'" *ngIf="!usersObj?.owner"></app-loading-section>
     <div class="share-container__dialog__br"></div>
     <div class="share-container__dialog__box">
       <div class="share-container__dialog__box__title">
         Invite people to collaborate
       </div>
       <div class="share-container__dialog__box__input">
-        <input type="text" placeholder="john@example.com" />
-        <button class="btn btn-sm btn-primary">Invite</button>
+        <input type="text" placeholder="john@example.com" [(ngModel)]="inputEmail" type="email" />
+        <button class="btn btn-sm btn-primary" (click)="inviteUser()"
+        >Invite</button>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-  <div class="d-flex">
-    <div class="toast-body">
-    Hello, world! This is a toast message.
-   </div>
-    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
   </div>
 </div>

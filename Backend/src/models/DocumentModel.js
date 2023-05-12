@@ -3,6 +3,7 @@ const {Schema, model} = require('mongoose');
 const DocumentSchema = new Schema({
     // id: {type: String, required: true},  mongo ya genera una llave unica para cada elemento
     "owner": {type: String, required: true},
+    "invited": {type: [String], required: true},
     "frontPage": {
         "documentTitle": {type: String, required: true},
         "documentLogo": {type: String, required: true},

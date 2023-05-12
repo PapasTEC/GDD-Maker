@@ -7,6 +7,7 @@ import { TogglebarComponent } from './togglebar/togglebar.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditorWorkspaceComponent } from './editor-workspace/editor-workspace.component';
+import { ShareDocumentComponent } from './share-document/share-document.component';
 
 @NgModule({
   imports: [
@@ -19,13 +20,15 @@ import { EditorWorkspaceComponent } from './editor-workspace/editor-workspace.co
     NavbarComponent,
     SidebarComponent,
     TogglebarComponent,
-    EditorWorkspaceComponent
+    EditorWorkspaceComponent,
+    ShareDocumentComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    TogglebarComponent
+    TogglebarComponent,
+    ShareDocumentComponent
   ]
 })
 export class ComponentsModule { }

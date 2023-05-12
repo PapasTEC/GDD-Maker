@@ -87,6 +87,7 @@ export class EditorLayoutComponent implements OnInit {
     oldSection.paths.push(currentPath);
     this.documentLayout[index] = oldSection;
   });
+  showShareDocument: boolean = false;
 
   constructor(
     private location: Location,
@@ -433,13 +434,13 @@ export class EditorLayoutComponent implements OnInit {
       this.tokenService.decodeToken().subscribe((data: any) => {
         let localUser = data.decoded;
         localUser.image = localStorage.getItem('ImageUser');
-  
+
         this.editingDocumentService.setUserData(localUser, this.documentId);
-  
+
         this.editingDocumentService.joinDocument();
 
       });
-    });    
+    });
 
     this.setDocumentData();
 
@@ -456,7 +457,7 @@ export class EditorLayoutComponent implements OnInit {
           // this.socket.emit("edit-document", this.documentId, document);
           this.isDocumentEdited = true;
           this.document = document;
-          
+
         }
       });
 
@@ -484,11 +485,11 @@ export class EditorLayoutComponent implements OnInit {
 
   }
 
-  
+
 
   ngAfterViewInit() {
-    
-    
+
+
     this.navToStartingSection();
 
     this.cdRef.detectChanges();
@@ -657,8 +658,18 @@ export class EditorLayoutComponent implements OnInit {
         }
       }
     });
-    
+
   }
+
+  openShareDocument() {
+    this.showShareDocument = true;
+  }
+
+  closeShareDocument() {
+    this.showShareDocument = false;
+  }
+
+
 
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];

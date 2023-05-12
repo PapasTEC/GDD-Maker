@@ -51,4 +51,12 @@ export class DocumentService {
   deleteFolderImages(id: string) {
     return this.http.delete<any>(this.APImage + 'delete/' + id);
   }
+
+  getUsers(id: string) {
+    return this.http.get<any>(this.API + 'getUsers/' + id);
+  }
+
+  removeUser(id: string, email: string) {
+    return this.http.delete<any>(this.API + 'revokeInvitation/' + id + '/' + email);
+  }
 }

@@ -63,7 +63,7 @@ export class DashboardComponent implements OnInit {
           this.Projects = this.MyProjectsData;
           this.data = this.Projects;
         });
-  
+
         this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
           this.SharedProjectsData = data.map((project: any) => {
             return {
@@ -78,8 +78,6 @@ export class DashboardComponent implements OnInit {
       });
 
     });
-    
-    
   }
 
   goToEditor(idProject: string) {

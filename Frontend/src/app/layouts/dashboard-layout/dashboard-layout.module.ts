@@ -10,6 +10,7 @@ import { SortableHeaderDirective } from '../../pages/dashboard/sortable.header.d
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
     FormsModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    ComponentsModule
   ],
   declarations: [
     DashboardComponent,

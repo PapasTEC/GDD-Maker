@@ -12,6 +12,9 @@ router.delete('/delete/:id', backendValidation, documentController.deleteDocumen
 router.get('/getInfoByOwner/:owner', backendValidation, documentController.getDocumentsByOwner);
 router.post('/getInfoShared', backendValidation, documentController.getSharedDocuments);
 router.put('/updateOwner/:owner', backendValidation, documentController.updateOwnerInDocuments);
+router.post('/invite/:id/:email', backendValidation, documentController.inviteUser);
+router.get('/getUsers/:id', backendValidation, documentController.getUsers);
+router.delete('/revokeInvitation/:id/:email', backendValidation, documentController.revokeInvitation);
 router.put('/updateOnlySubSectionByIds/:id/:sectionId/:subSectionId', backendValidation, documentController.updateOnlySubSectionByIds);
 router.put('/updateOnlySubSectionByTitles/:id/:sectionTitle/:subSectionTitle', backendValidation, documentController.updateOnlySubSectionByTitles);
 

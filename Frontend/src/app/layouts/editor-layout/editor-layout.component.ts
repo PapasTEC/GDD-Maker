@@ -102,10 +102,10 @@ export class EditorLayoutComponent implements OnInit {
     private tokenService: TokenService,
     private toastr: ToastrService
   ) {
-    console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath);
+    // console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath);
     this.route = route;
-    console.log("uniqueSections: ", this.uniqueSections);
-    console.log("layout: ", this.documentLayout);
+    // console.log("uniqueSections: ", this.uniqueSections);
+    // console.log("layout: ", this.documentLayout);
   }
 
   @HostListener("window:keydown.alt.o", ["$event"])
@@ -125,7 +125,7 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   keepSidebarClosed() {
-    console.log("this.pinned");
+    // console.log("this.pinned");
     if (!this.pinned) {
       this.workspace.classList.replace("sidebarShow", "sidebarHide");
       this.hideSideBarButton.classList.remove("flipHorizontal");
@@ -326,12 +326,12 @@ export class EditorLayoutComponent implements OnInit {
 
     for (let i = 0; i < dropdown.length; i++) {
       const thisSectionTitle = dropdown[i].textContent;
-      console.log(thisSectionTitle + ", " + currentSubsection.section);
+      // console.log(thisSectionTitle + ", " + currentSubsection.section);
       if (thisSectionTitle === currentSubsection.section) {
         dropdown[i].classList.toggle("active");
         var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
         // dropdownContent.style.display = "none";
-        console.log("CURRENT SECTION", dropdownContent);
+        // console.log("CURRENT SECTION", dropdownContent);
         dropdownContent.classList.remove("showDropdown");
         dropdownContent.classList.add("hideDropdown");
         // style shoud be display: none; height: 0px;
@@ -344,7 +344,7 @@ export class EditorLayoutComponent implements OnInit {
         dropdown[i].classList.toggle("active");
         var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
         // dropdownContent.style.display = "block";
-        console.log("NeWWWWW SECTION", dropdownContent);
+        // console.log("NeWWWWW SECTION", dropdownContent);
         dropdownContent.classList.remove("hideDropdown");
         dropdownContent.classList.add("showDropdown");
         // style shoud be display: block; height: fit-content;
@@ -433,10 +433,13 @@ export class EditorLayoutComponent implements OnInit {
 
   setDocumentData() {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
-      console.log("data:", data);
-      this.editingDocumentService.changeDocument(data);
-      this.documentTitle = data["frontPage"]["documentTitle"];
-      this.document = data;
+      // console.log("data:", data);
+      const document = data;
+      document.socketSubSection = '';
+      console.log("document:", document);
+      this.editingDocumentService.changeDocument(document);
+      this.documentTitle = document["frontPage"]["documentTitle"];
+      this.document = document;
     });
 
     // this.socket.once("get-document", (document) => {
@@ -515,7 +518,7 @@ export class EditorLayoutComponent implements OnInit {
     this.workspace = document.getElementById("workspace");
     this.hideSideBarButton = document.getElementById("showHideSBButton");
 
-    console.log("workspace", this.workspace);
+    // console.log("workspace", this.workspace);
 
     this.workspace.addEventListener("click", (ev) => {
       const targ = ev.target as HTMLElement;
@@ -530,7 +533,7 @@ export class EditorLayoutComponent implements OnInit {
       return el.id === "singleSec";
     });
 
-    console.log("dropdown", singleSection, singleSections);
+    // ("dropdown", singleSection, singleSections);
     var i;
     for (i = 0; i < dropdown.length; i++) {
       this.add(dropdown[i], true);
@@ -544,7 +547,7 @@ export class EditorLayoutComponent implements OnInit {
     var links = document.getElementsByTagName("a");
     for (i = 0; i < links.length; i++) {
       links[i].addEventListener("click", function () {
-        console.log(this.className);
+        // console.log(this.className);
         if (this.className == "nActive") {
           var otherLinks = document.getElementsByClassName("active");
           for (var j = 0; j < otherLinks.length; j++) {
@@ -557,7 +560,7 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   showHideDropDown(ddElement: any, show: boolean) {
-    console.log("showHideDropDown", ddElement, show);
+    // console.log("showHideDropDown", ddElement, show);
     if (show) {
       ddElement.classList.remove("hideDropdown");
       ddElement.classList.add("showDropdown");

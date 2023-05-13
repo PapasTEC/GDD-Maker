@@ -9,7 +9,7 @@ $icon-size: min(4vh, 4vw);
     background-color: #bdbdbd;
     //border: red $borderState;
     z-index: 20;
-    pointer-events: none;
+    //pointer-events: none;
     display: flex;
     justify-content: center;
 
@@ -64,3 +64,8 @@ $icon-size: min(4vh, 4vw);
 .hide-toolbar:hover {
     filter: none;
 }
+
+.blocked-div {
+    pointer-events: none;
+  }
+  

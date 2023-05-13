@@ -33,7 +33,7 @@ export class AestheticsComponent {
   documentSubSection: any;
 
   updateDocument(aestheticsInDocument: any) {
-    console.log("aestheticsInDocument: ", aestheticsInDocument);
+    // console.log("aestheticsInDocument: ", aestheticsInDocument);
     this.documentSubSection.subSectionContent.aesthetics = aestheticsInDocument;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
@@ -58,7 +58,7 @@ export class AestheticsComponent {
       ).subscribe((document) => {
         this.documentSubSection = document;
         this.aestheticsInDocument = this.documentSubSection.subSectionContent.aesthetics;
-        console.log("aestheticsInDocument:", this.aestheticsInDocument);
+        // console.log("aestheticsInDocument:", this.aestheticsInDocument);
         this.cardsInDocument = this.aestheticsInDocument.length;
       });
   }
@@ -79,8 +79,8 @@ export class AestheticsComponent {
     }
 
     if(this.aestheticsInDocument.length < this.limitOfCards){
-      console.log("showAesthetics");
-      console.log(evt);
+      // console.log("showAesthetics");
+      // console.log(evt);
 
 
       let subMenu = subMenuBase.firstChild as HTMLElement;
@@ -91,7 +91,7 @@ export class AestheticsComponent {
         subMenuBase.style.display = "none";
       });
 
-      console.log(subMenuBase.style.display);
+      // console.log(subMenuBase.style.display);
 
       if(subMenuBase.style.display != "none"){
         subMenuBase.style.display = "none";
@@ -155,8 +155,8 @@ export class AestheticsComponent {
     let grandparent = parent.parentElement as HTMLElement;
     let beforeGrandparent = grandparent.previousSibling as HTMLElement;
 
-
-    console.log("beforeGrandparent: ", beforeGrandparent);
+    
+    // console.log("beforeGrandparent: ", beforeGrandparent);
     beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(oldAesthetic, newAesthetic);
 
     menu.style.display = "none";
@@ -189,7 +189,7 @@ export class AestheticsComponent {
 
     this.aestheticsInDocument.push({name:availableAesthetics[Math.floor(Math.random() * (availableAesthetics.length-1) )], content:""});
 
-    console.log(this.aestheticsInDocument);
+    // console.log(this.aestheticsInDocument);
   }
 
   updateTxtContent(txtArea: HTMLTextAreaElement, aesthetic: string){
@@ -199,7 +199,7 @@ export class AestheticsComponent {
 
     this.aestheticsInDocument[aestheticsNames.indexOf(aesthetic)].content = txtArea.value;
 
-    console.log(this.aestheticsInDocument);
+    // console.log(this.aestheticsInDocument);
     this.updateDocument(this.aestheticsInDocument);
   }
 
@@ -217,9 +217,9 @@ export class AestheticsComponent {
 
     let cardAesthetic = beforeCard.children[0].innerHTML.trim();
 
-    console.log(aestheticsNames);
+    // console.log(aestheticsNames);
 
-    console.log("cardAesthetic: " + cardAesthetic);
+    // console.log("cardAesthetic: " + cardAesthetic);
 
     let index = aestheticsNames.indexOf(cardAesthetic);
 
@@ -227,10 +227,10 @@ export class AestheticsComponent {
       // alert("Error: Aesthetic not found");
       this.tostr.error("Error: Aesthetic not found", "Error");
     }
+    
+    // console.log(index);
 
-    console.log(index);
-
-    console.log(this.aestheticsInDocument);
+    // console.log(this.aestheticsInDocument);
 
     this.aestheticsInDocument.splice(index, 1);
 

@@ -67,7 +67,7 @@ export class EventsComponent {
 
     this.canvas = document.getElementById("canvasContainer");
     this.canvas.addEventListener("resize", () => {
-      console.log("resize")
+      // console.log("resize")
     })
 
     // intElement.style.height = (intElement.parentElement.clientHeight).toString() + "px";
@@ -80,9 +80,9 @@ export class EventsComponent {
     this.addPanAndZoom(this.canvas, 1, 5, 0, 20);
     this.getSectionAndSubSection(this.route);
 
-    console.log(this.section, this.subSection)
+    // console.log(this.section, this.subSection)
 
-    console.log(this.editingDocumentService)
+    // console.log(this.editingDocumentService)
 
     this.editingDocumentService.document$
       .pipe(
@@ -110,7 +110,7 @@ export class EventsComponent {
       this.subSection = data.subSection;
     });
 
-    console.log(this.section, this.subSection)
+    // console.log(this.section, this.subSection)
   }
 
   rerenderButtons() {
@@ -162,7 +162,7 @@ export class EventsComponent {
   }
 
   editEntryName(id: string, content: string) {
-    console.log(content)
+    // console.log(content)
     this.timeline[parseInt(id)].name = content;
   }
 
@@ -225,7 +225,7 @@ export class EventsComponent {
   pointerDownAction(element: HTMLElement, e: PointerEvent) {
 
     if (!this.allowPan) {
-      console.log("panning not allowed")
+      // console.log("panning not allowed")
       return;
     }
 
@@ -253,7 +253,7 @@ export class EventsComponent {
     element.onpointermove = (e) => {
 
       if (!this.allowPan) {
-        console.log("panning not allowed")
+        // console.log("panning not allowed")
         return;
       }
 
@@ -273,7 +273,7 @@ export class EventsComponent {
 
       element.onpointerleave = (e) => {
         if (!this.allowPan) {
-          console.log("panning not allowed")
+          // console.log("panning not allowed")
           return;
         }
         element.style.cursor = "initial";
@@ -292,7 +292,7 @@ export class EventsComponent {
 
     element.onpointerup = (e) => {
       if (!this.allowPan) {
-        console.log("panning not allowed")
+        // console.log("panning not allowed")
         return;
       }
 

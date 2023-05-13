@@ -42,8 +42,8 @@ export class TechnicalInfoComponent {
 
     this.getSectionAndSubSection();
 
-    console.log("section: ", this.section);
-    console.log("subSection: ", this.subSection);
+    // console.log("section: ", this.section);
+    // console.log("subSection: ", this.subSection);
 
     this.editingDocumentService.document$
       .pipe(

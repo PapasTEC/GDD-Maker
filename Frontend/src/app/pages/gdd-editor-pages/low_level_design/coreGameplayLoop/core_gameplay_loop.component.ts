@@ -63,10 +63,10 @@ export class CoreGameplayLoopComponent {
   }
 
   onValueChange(event: Event, name: string): void {
-    console.log(event.target);
+    // console.log(event.target);
     const value = (event.target as any).value;
     this.coreGameplayLoopContent[name] = value;
-    console.log("coreGameplayLoopContent:", this.coreGameplayLoopContent);
+    // console.log("coreGameplayLoopContent:", this.coreGameplayLoopContent);
     this.updateDocument(this.coreGameplayLoopContent);
   }
 }

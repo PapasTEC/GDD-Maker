@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GddSetupLayoutRoutes } from './gdd-setup-layout.routing';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-gdd-setup-layout',
   templateUrl: './gdd-setup-layout.component.html',
@@ -35,7 +37,7 @@ export class GddSetupLayoutComponent {
 
   currentTitle = "";
 
-  constructor(private router: Router, private route: ActivatedRoute) { 
+  constructor(private router: Router, private route: ActivatedRoute) {
     this.path = this.routes[this.routesIndex].path;
   }
 
@@ -65,7 +67,7 @@ export class GddSetupLayoutComponent {
   }
 
   previousPage(){
-    
+
     if(this.routesIndex > 0){
       this.routesIndex--;
     }
@@ -76,24 +78,36 @@ export class GddSetupLayoutComponent {
   }
 
   nextPage(){
-  
+
     if(this.routesIndex < this.routesQuantity - 1){
       this.routesIndex++;
     }
 
     this.path = this.routes[this.routesIndex].path;
     this.changePath();
-    
+
   }
 
-  backHome(){
-    let decision= confirm("Are you sure you want to leave the setup? All progress will be lost.");
+  async backHome(){
+    // let decision= confirm("Are you sure you want to leave the setup? All progress will be lost.");
 
-    if(decision){
-      this.router.navigateByUrl('/dashboard');
+    // if(decision){
+    //   this.router.navigateByUrl('/dashboard');
+    // }
+
+    let { isConfirmed } = await Swal.fire({
+      title: "Setup has not been completed",
+      html: "<div>Are you sure you want to leave the setup?<br/>All progress will be lost.</div>",
+      icon: "warning",
+      confirmButtonText: "Yes, leave setup",
+      showDenyButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    });
+
+    if (isConfirmed) {
+      this.router.navigateByUrl("/dashboard");
     }
-
-    
   }
 
   ngOnDestroy() {

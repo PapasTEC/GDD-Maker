@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { UserService } from "src/app/services/user.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-register",
@@ -10,21 +11,26 @@ import { UserService } from "src/app/services/user.service";
   styleUrls: ["../login/login.component.scss", "./register.component.scss"],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router, private userService: UserService) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private userService: UserService,
+    private toastr: ToastrService
+  ) {}
 
   currentUser: null;
   formSubmitted: boolean = false;
 
   imagePath: string = "/assets/img/regLog/";
-  image:Blob;
-  backG:string;
+  image: Blob;
+  backG: string;
 
   loadBackground(imageName: string) {
     let path = this.imagePath + imageName;
     this.backG = "url(" + path + ")";
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.loadBackground("reg.jpg");
   }
 
@@ -39,10 +45,11 @@ export class RegisterComponent implements OnInit {
       const email = this.registerForm.value.email;
       this.userService.checkUserExists(email).subscribe((response) => {
         if (response) {
-          alert("This email is already registered");
+          // alert("This email is already registered");
+          this.toastr.error("This email is already register");
           return;
         } else {
-          alert("Your account has been created successfully")
+          // alert("Your account has been created successfully")
           this.submit();
         }
       });
@@ -50,10 +57,19 @@ export class RegisterComponent implements OnInit {
   }
 
   submit() {
-    const newUser = this.registerForm.value;
-    this.http.post("/api/users/add/", newUser).subscribe((response) => {
-      console.log("Usuario creado:", response);
-    });
-    this.router.navigate(['/login']);
+    try {
+      const newUser = this.registerForm.value;
+      this.http.post("/api/users/add/", newUser).subscribe((response) => {
+        console.log("Usuario creado:", response);
+      });
+      this.toastr.success("Your account has been created successfully", "", {
+        timeOut: 800,
+      });
+      setTimeout(() => {
+        this.router.navigate(["/login"]);
+      }, 1000);
+    } catch (err) {
+      this.toastr.error("Error creating your account");
+    }
   }
 }

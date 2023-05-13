@@ -11,6 +11,8 @@ import { UserService } from '../../services/user.service';
 import { TokenService } from '../../services/token.service';
 import { CookieService } from 'ngx-cookie-service';
 
+import Swal from 'sweetalert2';
+
 export interface Project {
   documentTitle: string;
   documentLogo: string;
@@ -96,8 +98,19 @@ export class DashboardComponent implements OnInit {
     this.data = this.Projects;
   }
 
-  deleteDocument(id: string) {
-    if (confirm("Are you sure you want to delete this document?")) {
+  async deleteDocument(id: string) {
+    // if (confirm("Are you sure you want to delete this document?")) {
+
+    let {isConfirmed} = await Swal.fire({
+      title: "Are you sure you want to delete this document?",
+      icon: "question",
+      confirmButtonText: "Yes, delete it",
+      showDenyButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    });
+
+    if (isConfirmed) {
       this.documentService.deleteDocument(id).subscribe((data1: any) => {
         this.Projects = this.Projects.filter((project: Project) => project._id != id);
         this.MyProjectsData = this.MyProjectsData.filter((project: Project) => project._id != id);

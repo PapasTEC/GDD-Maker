@@ -63,6 +63,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   provideCode() {
+    this.codeForm.patchValue({
+      code: ""
+    });
+    this.codeSubmitted = false;
+    this.codeForm.reset();
     this.isLogin = false;
     const email = this.emailForm.value.email;
     this.userService.provideCodeUser(email).subscribe((response) => {
@@ -78,7 +83,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   returnToLogin() {
+    this.emailSubmitted = false;
+    this.emailForm.reset();
     this.isLogin = true;
+  }
+  showPassword: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   signIn() {
@@ -89,7 +101,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.userService.login(email, code).subscribe((response) => {
         console.log("response ",response);
         if (response.token) {
-          console.log(response.token);
+          this.codeForm.patchValue({
+            code: ""
+          });
           alert("You are logged in");
           localStorage.setItem("ImageUser", response.image);
 

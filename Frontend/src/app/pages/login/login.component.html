@@ -78,17 +78,11 @@
           <div class="form-group">
             <div class="input-group input-group-alternative mb-3">
               <div class="input-group-prepend">
-                <span class="input-group-text"
-                  ><i class="ni ni-lock-circle-open"></i
-                ></span>
+                <span class="input-group-text" (click)="togglePasswordVisibility()">
+                  <i class="fas" [ngClass]="{ 'fa-eye-slash': !showPassword, 'fa-eye': showPassword }"></i>
+                </span>
               </div>
-              <input
-                class="form-control"
-                formControlName="code"
-                placeholder="Single-use code"
-                type="password"
-                required
-              />
+              <input class="form-control" formControlName="code" [type]="showPassword ? 'text' : 'password'" required autocomplete="nope"/>
               <div
                 *ngIf="
                   codeForm.get('code').invalid &&

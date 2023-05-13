@@ -6,6 +6,8 @@ export const environment = {
   production: true
 };
 
+export const apiSocket = "http://129.159.124.235:3080";
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

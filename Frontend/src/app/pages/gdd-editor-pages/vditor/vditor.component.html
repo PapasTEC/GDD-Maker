@@ -1,8 +1,8 @@
 <div id="markdown-editor" class="markdown-wrapper">
-    <div class="toolbarBar">
+    <div [class.blocked-div]="!isBlocked" class="toolbarBar">
         <i class="fas fa-chevron-down icon"></i>
     </div> 
-    <div id="vditor"></div>
+    <div (keydown)="onKeyDown($event)" (contextmenu)="onContextMenu($event)" id="vditor"></div>
 </div>
 <input
   type="file"

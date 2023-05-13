@@ -55,6 +55,11 @@ io.on('connection', (socket) => {
       socket.broadcast.to(documentId).emit('sync-data', {secId, subSecId, content})
         // socket.to(documentId).broadcast.emit('update-data', data)
     })
+
+    socket.on('edit-User', ({documentId,content,user}) => {
+      console.log("\nuser-Editing:", user)
+      socket.broadcast.to(documentId).emit('user-Editing', {content,user})
+    })
 })
 
 // app.listen(process.env.PORT || port, () => {

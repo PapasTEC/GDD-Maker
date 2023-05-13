@@ -2,3 +2,5 @@
 *.crt
 .env
 Frontend/src/app/layouts/editor-layout/copy.ts
+Backend/node_modules/
+node_modules/

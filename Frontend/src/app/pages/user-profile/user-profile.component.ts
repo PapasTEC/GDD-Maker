@@ -6,6 +6,8 @@ import { DocumentService } from "../../services/document.service";
 import { TokenService } from 'src/app/services/token.service';
 import { UserService } from 'src/app/services/user.service';
 import { CookieService } from 'ngx-cookie-service';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-profile',
@@ -14,7 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(private cookieService: CookieService, private userService: UserService, private tokenService: TokenService, private formBuilder: FormBuilder, private http: HttpClient, private documentService: DocumentService) { }
+  constructor(private cookieService: CookieService, private userService: UserService, private tokenService: TokenService, private formBuilder: FormBuilder, private http: HttpClient, private documentService: DocumentService, private tostr: ToastrService) { }
 
   @ViewChild('fileInput') fileInput;
   profileImage: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -53,17 +55,30 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  confirmUpdate() {
+  async confirmUpdate() {
     this.formSubmitted = true;
     if (this.editUserForm.valid) {
-      if (confirm("Do you want to update your profile?")) {
+      // if (confirm("Do you want to update your profile?")) {
+
+      let { isConfirmed } = await Swal.fire({
+        title: 'Do you want to update your profile?',
+        icon: 'question',
+        showDenyButton: true,
+        confirmButtonText: `Yes`,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      });
+
+      if (isConfirmed) {
         this.http.get(`/api/users/get/${this.editUserForm.value.email}/`).subscribe((response: any) => {
           if (response && response._id != this.userID) {
-            alert("This email is already registered in another account");
+            // alert("This email is already registered in another account");
+            this.tostr.error("This email is already registered in another account");
             return;
           } else {
-            alert("Your account has been updated successfully")
+            // alert("Your account has been updated successfully")
             this.submit();
+            this.tostr.success("Your account has been updated successfully");
           }
         });
       }
@@ -86,7 +101,7 @@ export class UserProfileComponent implements OnInit {
           location.reload();
         });
 
-        
+
       });
     });
   }

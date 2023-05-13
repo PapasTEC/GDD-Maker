@@ -4,6 +4,8 @@ import { Router } from "@angular/router";
 import { DocumentService } from "../../../services/document.service";
 import { UserService } from 'src/app/services/user.service';
 import { TokenService } from 'src/app/services/token.service';
+import { ToastrService } from "ngx-toastr";
+
 
 @Component({
   selector: "app-finish-setup",
@@ -14,9 +16,10 @@ import { TokenService } from 'src/app/services/token.service';
 
 export class FinishSetupComponent {
   tempImage: string;
+  status: string = 'creating';
 
   constructor(private tokenService: TokenService,private documentService: DocumentService, private userService: UserService,
-    private router: Router) { }
+    private router: Router, private toastr: ToastrService) { }
 
   platforms = [
     "Android",
@@ -44,6 +47,7 @@ export class FinishSetupComponent {
   ];
 
   async finishSetup() {
+    this.status = 'saving';
     let user;
     this.tokenService.decodeToken().subscribe(async (data: any) => {
       console.log("text: ",`${JSON.stringify(data.decoded)}`);
@@ -227,22 +231,43 @@ export class FinishSetupComponent {
       console.log("document:", document);
 
       this.documentService.addDocument(document).subscribe(
-        res => {
+        (res: any) => {
           console.log("addDocument res:", res);
-          alert("Document added successfully!");
+          if (res?.error) {
+            this.status = 'creating';
+            this.toastr.error("Error adding document. Make sure you have filled all the fields", "", {
+              timeOut: 10000,
+              closeButton: true,
+            });
+            return;
+          }
+          // alert("Document added successfully!");
           this.userService.addOwnProject(user.email, res['id']).subscribe(
             res2 => {
+              this.status = 'success';
+              setTimeout(() => {
               console.log("addOwnDocument res:", res2);
               this.router.navigate(['/dashboard']);
+              }, 2000);
             err2 => {
               console.log(err2);
-              alert("Error adding document to user");
+              // alert("Error adding document to user");
+              this.status = 'creating';
+              this.toastr.error("Error adding document to user", "", {
+                timeOut: 10000,
+                closeButton: true,
+              });
             }
           });
         },
         err => {
           console.log(err);
-          alert("Error adding document");
+          // alert("Error adding document");
+          this.status = 'creating';
+          this.toastr.error("Error adding document", "", {
+            timeOut: 10000,
+            closeButton: true,
+          });
         }
       );
     });

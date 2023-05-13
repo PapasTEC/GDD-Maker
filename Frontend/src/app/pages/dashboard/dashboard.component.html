@@ -1,6 +1,5 @@
-<div class="header bg-gradient-tertiary" style="height: 19vh;">
-  <div class="container-fluid">
-  </div>
+<div class="header bg-gradient-tertiary" style="height: 19vh">
+  <div class="container-fluid"></div>
 </div>
 
 <!-- Page content -->
@@ -10,79 +9,150 @@
     <div class="row">
       <div class="col">
         <div class="card card-table bg-default shadow">
-          <div class="card-header bg-transparent border-0">
-            <div class="row align-items-center">
-              <div class="col">
-                <ul class="nav nav-pills">
-                  <li class="nav-item mr-3 mr-md-4">
-                    <h3 class="text-white mb-0">Projects</h3>
-                  </li>
-                  <li class="nav-item" (click)="toggleTable()">
-                    <a class="btn btn-sm btn-primary">{{tableMode}}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col">
-                <ul class="nav nav-pills justify-content-end">
-                  <li class="nav-item nav-item mr-3 mr-md-1">
-                    <div class="search-container">
-                        <input class="search expandright" id="searchright" type="search" name="q" placeholder="Search" [(ngModel)]="tableFilter">
-                        <label class="button searchbutton" for="searchright"><span class=""><i class="fas fa-search"></i></span></label>
-                    </div>
-                  </li>
-                  <li class="nav-item">
-                    <a [routerLink]="['/setup']" class="btn btn-sm btn-secondary">New</a>
-                  </li>
-                </ul>
+          <div class="loading" *ngIf="!Projects">
+            <!-- <i class="fas fa-spinner fa-spin"></i> -->
+            <div class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div>Loading Projects...</div>
+          </div>
+          <ng-container *ngIf="Projects">
+            <div class="card-header bg-transparent border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <ul class="nav nav-pills">
+                    <li class="nav-item mr-3 mr-md-4">
+                      <h3 class="text-white mb-0">Projects</h3>
+                    </li>
+                    <li class="nav-item" (click)="toggleTable()">
+                      <a class="btn btn-sm btn-primary">{{ tableMode }}</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col">
+                  <ul class="nav nav-pills justify-content-end">
+                    <li class="nav-item nav-item mr-3 mr-md-1">
+                      <div class="search-container">
+                        <input
+                          class="search expandright"
+                          id="searchright"
+                          type="search"
+                          name="q"
+                          placeholder="Search"
+                          [(ngModel)]="tableFilter"
+                        />
+                        <label class="button searchbutton" for="searchright"
+                          ><span class=""><i class="fas fa-search"></i></span
+                        ></label>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        [routerLink]="['/setup']"
+                        class="btn btn-sm btn-secondary"
+                        >New</a
+                      >
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="table-wrapper">
-            <table class="table align-items-center table-dark table-flush">
-              <thead class="thead-dark" id="thead">
-                <tr>
-                  <th scope="col" sortable="title" (sort)="onSort($event)">Project</th>
-                  <th scope="col" sortable="lastUpdated" (sort)="onSort($event)">Last Updated</th>
-                  <th scope="col" *ngIf="tableMode == 'My Projects'"></th>
-                  <th scope="col" *ngIf="tableMode == 'Shared Projects'" sortable="owner" (sort)="onSort($event)">Owner</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody class="tbody-dark" id="tbody">
-                <ng-container *ngFor="let project of Projects | project:tableFilter">
-                  <tr class="tr-item">
-                    <th scope="row" (click)="goToEditor(project._id)">
-                      <div class="media align-items-center">
-                        <a href="#" class="avatar rounded-circle mr-3">
-                          <img alt="Image placeholder" src={{project.documentLogo}}>
-                        </a>
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">{{project.documentTitle}}</span>
-                        </div>
-                      </div>
+            <div class="table-wrapper">
+              <table class="table align-items-center table-dark table-flush">
+                <thead class="thead-dark" id="thead">
+                  <tr>
+                    <th scope="col" sortable="title" (sort)="onSort($event)">
+                      Project
                     </th>
-                    <td (click)="goToEditor(project._id)">
-                      {{project.lastUpdated}}
-                    </td>
-                    <td>
-                      {{project.owner}}
-                    </td>
-                    <td class="text-right">
-                      <div class="dropleft">
-                        <button type="button" class="btn btn-sm btn-icon-only text-light" data-toggle="dropdown" aria-expanded="false" data-offset="-3, 6">
-                          <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                          <a class="dropdown-item bg-danger text-white" (click)="tableMode == 'My Projects' ? deleteDocument(project._id) : deleteSharedDocument(project._id)">Delete</a>
-                        </div>
-                      </div>
-                    </td>
+                    <th
+                      scope="col"
+                      sortable="lastUpdated"
+                      (sort)="onSort($event)"
+                    >
+                      Last Updated
+                    </th>
+                    <th scope="col" *ngIf="tableMode == 'My Projects'"></th>
+                    <th
+                      scope="col"
+                      *ngIf="tableMode == 'Shared Projects'"
+                      sortable="owner"
+                      (sort)="onSort($event)"
+                    >
+                      Owner
+                    </th>
+                    <th scope="col"></th>
                   </tr>
-                </ng-container>
-                <tr><th></th><td></td><td></td><td></td></tr>
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody class="tbody-dark" id="tbody">
+                  <ng-container
+                    *ngFor="let project of Projects | project : tableFilter"
+                  >
+                    <tr class="tr-item">
+                      <th scope="row" (click)="goToEditor(project._id)">
+                        <div class="media align-items-center">
+                          <a href="#" class="avatar rounded-circle mr-3">
+                            <img
+                              alt="Image placeholder"
+                              src="{{ project.documentLogo }}"
+                            />
+                          </a>
+                          <div class="media-body">
+                            <span class="mb-0 text-sm">{{
+                              project.documentTitle
+                            }}</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td (click)="goToEditor(project._id)">
+                        {{ project.lastUpdated }}
+                      </td>
+                      <td>
+                        {{ project.owner }}
+                      </td>
+                      <td class="text-right">
+                        <div class="dropleft">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-icon-only text-light"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                            data-offset="-3, 6"
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a
+                              class="dropdown-item bg-danger text-white"
+                              (click)="
+                                tableMode == 'My Projects'
+                                  ? deleteDocument(project._id)
+                                  : deleteSharedDocument(project._id)
+                              "
+                              >{{
+                                tableMode == 'My Projects'
+                                  ? 'Delete'
+                                  : 'Exit Project'
+                              }}
+                              </a
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <tr>
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>

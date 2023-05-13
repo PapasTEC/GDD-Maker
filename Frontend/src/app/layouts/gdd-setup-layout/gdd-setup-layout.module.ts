@@ -13,6 +13,7 @@ import { GameTitleComponent } from "../../pages/gdd-setup-pages/game-title/game-
 import { MainAestheticComponent } from "../../pages/gdd-setup-pages/main-aesthetic/main-aesthetic.component";
 import { FinishSetupComponent } from "../../pages/gdd-setup-pages/finish-setup/finish-setup.component";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NgbModule,
     ClipboardModule,
     FontAwesomeModule,
+    ComponentsModule
   ],
   declarations: [
     ElevatorPitchComponent,
@@ -32,7 +34,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     GameTitleComponent,
     MainAestheticComponent,
     FinishSetupComponent,
-
   ]
 })
 

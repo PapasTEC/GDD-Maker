@@ -28,11 +28,12 @@
           </div>
         </div>
         <div id="share-export-buttons" class="shareButtonContainerClass">
-          <!-- <img
+          <img
             class="share-export-buttons__share-icon"
             src="assets/img/icons/common/share.svg"
             alt="share"
-          /> -->
+            (click)="openShareDocument()"
+          />
         </div>
       </div>
       <div id="sidebar-bottom" class="leftModuleBottomClass">
@@ -62,7 +63,7 @@
 
           </div>
         </div>
-        
+
       </div>
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
@@ -107,3 +108,9 @@
     </div>
   </div>
 </div>
+
+<!-- when showShareDocument is true, show app-share-document -->
+
+<app-share-document *ngIf="showShareDocument" [documentId]="documentId" (updateShowShareDocument)="showShareDocument = $event"></app-share-document>
+
+<app-loading-screen *ngIf="!document" [message]="'Loading Document'"></app-loading-screen>

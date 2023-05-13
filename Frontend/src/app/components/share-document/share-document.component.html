@@ -1,0 +1,85 @@
+<div class="share-container">
+  <div class="share-container__backdrop"></div>
+  <div class="share-container__dialog">
+    <div class="share-container__dialog__title">
+      <h2 class="share-container__dialog__title-name">Share Document</h2>
+      <img
+        src="assets/img/X.svg"
+        class="share-container__dialog__title-X"
+        alt="exit"
+        (click)="closeShareDocumentModal()"
+      />
+    </div>
+    <div class="share-container__dialog__br"></div>
+    <div class="share-container__dialog__users" *ngIf="usersObj?.owner">
+      <div class="share-container__dialog__users__user">
+        <img
+          [src]="usersObj.owner.image ? usersObj.owner.image : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+          class="share-container__dialog__users__user__img"
+          alt="user image"
+        />
+        <div class="share-container__dialog__users__user__name">
+          <div class="share-container__dialog__users__user__name-email">
+            <div
+              class="share-container__dialog__users__user__name-status status--online"
+            ></div>
+            {{usersObj.owner.email}}
+          </div>
+          <div class="share-container__dialog__users__user__name-role">
+            (Owner)
+          </div>
+        </div>
+        <!-- <button class="share-container__dialog__users__user__remove btn btn-sm btn-primary">Remove</button> -->
+      </div>
+      <ng-container *ngFor="let user of usersObj?.invited">
+        <div class="share-container__dialog__users__user">
+          <img
+            [src]="user.image ? user.image : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+            class="share-container__dialog__users__user__img"
+            alt="user image"
+          />
+          <div class="share-container__dialog__users__user__name">
+
+            <div class="share-container__dialog__users__user__name-email">
+              <div
+              class="share-container__dialog__users__user__name-status status--offline"
+            ></div>
+              {{user.email}}
+            </div>
+            <div class="share-container__dialog__users__user__name-role">
+              (Invited)
+            </div>
+          </div>
+          <button
+            class="share-container__dialog__users__user__remove btn btn-sm btn-primary"
+            (click)="removeUser(user.email)"
+            *ngIf="isOwner"
+          >
+            Remove
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <!-- <div class="share-container__dialog__users__loading" *ngIf="!usersObj?.owner">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div>Loading users...</div>
+    </div> -->
+    <app-loading-section [message]="'Loading users...'" *ngIf="!usersObj?.owner"></app-loading-section>
+    <div class="share-container__dialog__br"></div>
+    <div class="share-container__dialog__box">
+      <div class="share-container__dialog__box__title">
+        Invite people to collaborate
+      </div>
+      <div class="share-container__dialog__box__input">
+        <input type="text" placeholder="john@example.com" [(ngModel)]="inputEmail" type="email" />
+        <button class="btn btn-sm btn-primary" (click)="inviteUser()"
+        >Invite</button>
+      </div>
+    </div>
+  </div>
+</div>

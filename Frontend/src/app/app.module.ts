@@ -16,7 +16,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import * as dotenv from 'dotenv';
 import { JwtInterceptorInterceptor } from './token/jwt-interceptor.interceptor';
+import { ShareDocumentComponent } from './components/share-document/share-document.component';
 
+import { ToastrModule } from 'ngx-toastr';
 
 //dotenv.config();
 
@@ -24,6 +26,9 @@ import { JwtInterceptorInterceptor } from './token/jwt-interceptor.interceptor';
   imports: [
     FontAwesomeModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass :'toast-bottom-center'
+    }),
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -39,6 +44,7 @@ import { JwtInterceptorInterceptor } from './token/jwt-interceptor.interceptor';
     AuthLayoutComponent,
     DashboardLayoutComponent,
     GddSetupLayoutComponent,
+    // ShareDocumentComponent,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true

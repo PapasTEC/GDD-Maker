@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import { io } from 'socket.io-client';
 import { apiSocket } from 'src/environments/environment';
 
@@ -10,60 +10,72 @@ export class EditingDocumentService {
 
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
+
   userEditing: string = null;
   public isConnected: boolean = false;
   private socket = null;
 
-  documentState = {
-    cover: {
-      title: null,
-      companyName: null,
-      collaborators: null
-    },
-    basicInfo: {
+  documentSections: any = [
+    //["Document Cover"],
+    ["Basic Information"],
+    ["Technical Information"],
+    ["Theme", "Aesthetic", "Core Mechanic"],
+    ["Detail of the Core Mechanic", "Detail of the Secondary Mechanic", "Core Gameplay Loop"],
+    ["Setting", "Characters", "Events"],
+    ["Visual Style", "User Interface", "Music and Sound"],
+    ["Game References"]
+  ];
+
+  // documentSections: any = {
+  //   cover: "Document Cover",
+  //   basicInfo: "Basic Information",
+  //   techInfo: "Technical Information",
+  //   highLevel: {
+  //     theme: "Theme",
+  //     aesthetic: "Aesthetic",
+  //     coreMechanic: "Core Mechanic",
+  //   },
+  //   lowLevel: {
+  //     detailCoreMechanic: "Detail of the Core Mechanic",
+  //     secondaryCoreMechanic: "Detail of the Secondary Mechanic",
+  //     gameplayLoop: "Core Gameplay Loop"
+  //   },
+  //   NarAndWorld: {
+  //     setting: "Setting",
+  //     characters: "Characters",
+  //     events: "Events"
+  //   },
+  //   visualStyle: "Visual Style",
+  //   userInterface: "User Interface",
+  //   musicSound: "Music and Sound",
+  //   gameReferences: "Game References"
+  // };
+
+  userEditingByComponent: any = {
+    // "Document Cover": {
+    //   title: null,
+    //   companyName: null,
+    //   collaborators: null
+    // },
+    "Document Cover": null,
+    "Basic Information": {
       elevatorPitch: null,
       tagline: null,
       genres: null,
       tags: null
     },
-    techInfo: {
+    "Technical Information": {
       platforms: null,
       generalData: null
     },
-    theme: null,
-    aesthetics: null,
-    coreMechanic: null,
-    detailCoreMechanic: {
+    "Theme": null,
+    "Aesthetic": null,
+    "Core Mechanic": null,
+    "Detail of the Core Mechanic": {
       representation: null,
       decisions: null,
       goals: null
     },
-    secondMechanic: null,
-    gameplayLoop: null,
-    setting: null,
-    characters: null,
-    events: null,
-    visualStyle: null,
-    userInterface: null,
-    musicSound: null,
-    gameReferences: null
-  }
-
-  // private socket = io('http://129.159.124.235:3080');
-
-
-  localUser = { email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
-  documentId = "";
-  private timer: any;
-  private countdownSeconds: number = 4;
-
-  userEditingByComponent: any = {
-    "Basic Information": null,
-    "Technical Information": null,
-    "Theme": null,
-    "Aesthetic": null,
-    "Core Mechanic": null,
-    "Detail of the Core Mechanic": null,
     "Detail of the Secondary Mechanic": null,
     "Core Gameplay Loop": null,
     "Setting": null,
@@ -74,7 +86,14 @@ export class EditingDocumentService {
     "Music and Sound": null,
     "Game References": null
   };
-  
+
+  // private socket = io('http://129.159.124.235:3080');
+
+
+  localUser = { email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
+  documentId = "";
+  private timer: any;
+  private countdownSeconds: number = 4;
 
   constructor() {
     this.socket = io(apiSocket);
@@ -84,9 +103,10 @@ export class EditingDocumentService {
     });
 
     this.socket.on('sync-data', ({ secId, subSecId, content }) => {
-      // console.log("================ sync data ================ ");
+      console.log("================ sync data ================ ");
       const document = this.document.getValue();
       document.documentContent[secId].subSections[subSecId] = content;
+      document.socketSubSection = this.documentSections[secId][subSecId];
       this.document.next(document);
 
       // this.document.next(data);
@@ -94,9 +114,9 @@ export class EditingDocumentService {
     this.socket.on('user-Editing', ({ content, user }) => {
       //console.log("user editing: ", user);
       //this.userEditing = user;
-      console.log(`user editing: ${user} in section ${content}`)
+      //console.log(`user editing: ${user} in section ${content}`)
       this.userEditingByComponent[content] = user;
-      console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
+      //console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
     })
 
   }
@@ -146,7 +166,7 @@ export class EditingDocumentService {
   }
 
   updateDocumentSubSection(section: any, subSection: any, content: any) {
-    console.log(`subSection: ${subSection}`)
+    // console.log(`subSection: ${subSection}`)
     this.updateUserEditing(subSection);
 
     const document = this.document.getValue();
@@ -167,6 +187,10 @@ export class EditingDocumentService {
 
   updateDocumentSocket() {
     return this.document$;
+    // console.log("update document socket");
+    //return forkJoin([this.document$, this.currentSocketUpdateSubsection$]);
+    // return forkJoin(this.document$,;
+    //return this.currentSocketUpdateSubsection$;
   }
 
   ngOnDestroy() {

@@ -117,10 +117,12 @@ export class VditorComponent {
 
 
     this.editingDocumentService.updateDocumentSocket().pipe(
+      filter(document => document.socketSubSection === this.subSection),
       // filter(document => document !== null && this.vditor.getValue() !== document.documentContent.find(section => section.sectionTitle === this.section).subSections.find(subsection => subsection.subSectionTitle === this.subSection).subSectionContent.text),
     ).subscribe((document) => {
 
-      console.log("AAAAA UPDATE");
+      //console.log("subSectionSocket:", this.editingDocumentService.currentSocketUpdateSubsection)
+      console.log("subSectionSocket:", document.socketSubSection, "this.subSection:", this.subSection)
 
       //   this.vditor = new Vditor("vditor", this.changeVditorConfig(this.showUpload, this.documentSubSection.subSectionContent.text, false));
       //   this.lastMyUpdate = false;

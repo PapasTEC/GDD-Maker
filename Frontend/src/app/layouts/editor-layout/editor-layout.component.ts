@@ -412,9 +412,12 @@ export class EditorLayoutComponent implements OnInit {
   setDocumentData() {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
       // console.log("data:", data);
-      this.editingDocumentService.changeDocument(data);
-      this.documentTitle = data["frontPage"]["documentTitle"];
-      this.document = data;
+      const document = data;
+      document.socketSubSection = '';
+      console.log("document:", document);
+      this.editingDocumentService.changeDocument(document);
+      this.documentTitle = document["frontPage"]["documentTitle"];
+      this.document = document;
     });
 
     // this.socket.once("get-document", (document) => {

@@ -16,8 +16,23 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    return true;
-
+    try {
+      this.tokenService.verifyToken().subscribe(response => {
+        const isValidToken = response.isValidToken;
+        if (isValidToken) {
+          this.router.navigate(['/dashboard']);
+          return true;
+        } else {
+          this.router.navigate(['/login']);
+          return true;
+        }
+      }, error => {
+        // maneja el error
+      });
+    } catch (err) {
+      this.router.navigate(['/login']);
+      return false;
+    }
   }
 
   async canActivateChild( childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {

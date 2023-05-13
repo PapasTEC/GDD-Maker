@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation  } from '@angular/core';
 import { faTrash, faAdd, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { filter, map, take } from "rxjs/operators";
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { filter, map, take } from "rxjs/operators";
 
 export class AestheticsComponent {
 
-  constructor(private editingDocumentService: EditingDocumentService) { }
+  constructor(private editingDocumentService: EditingDocumentService, private tostr: ToastrService) { }
 
   allAesthetics = ["Sensation", "Fantasy", "Narrative", "Challenge", "Puzzle","Fellowship", "Discovery", "Expression", "Submission" ];
   aestheticsInDocument:[{name: String, content:String}] = [{name:"", content:""}];
@@ -81,7 +82,7 @@ export class AestheticsComponent {
       console.log("showAesthetics");
       console.log(evt);
 
-      
+
       let subMenu = subMenuBase.firstChild as HTMLElement;
 
 
@@ -110,12 +111,12 @@ export class AestheticsComponent {
 
 
   loadAesthetics(subMenuBase: HTMLElement, currentAestheticButton: HTMLElement,open:boolean){
-    
+
     let child = subMenuBase.firstChild as HTMLElement;
     child.innerHTML = "";
 
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
-    
+
     let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
 
     if(open){
@@ -125,7 +126,7 @@ export class AestheticsComponent {
         if(index!=0){
           child.innerHTML += `<div class="horizontalLine"></div>`;
         }
-        
+
         const newButton = document.createElement("button");
         newButton.setAttribute("type", "button");
         newButton.setAttribute("id", index.toString());
@@ -154,7 +155,7 @@ export class AestheticsComponent {
     let grandparent = parent.parentElement as HTMLElement;
     let beforeGrandparent = grandparent.previousSibling as HTMLElement;
 
-    
+
     console.log("beforeGrandparent: ", beforeGrandparent);
     beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(oldAesthetic, newAesthetic);
 
@@ -163,10 +164,10 @@ export class AestheticsComponent {
     oldAesthetic = oldAesthetic.trim();
 
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
-    
+
     let index = aestheticsNames.indexOf(oldAesthetic);
     this.aestheticsInDocument[index].name = newAesthetic;
- 
+
   }
 
   addCard(){
@@ -177,7 +178,8 @@ export class AestheticsComponent {
     this.cardsInDocument = usedQuantity;
 
     if(this.cardsInDocument == this.limitOfCards){
-      alert("You can't add more cards");
+      // alert("You can't add more cards");
+      this.tostr.warning("You can't add more cards", "Warning");
       return;
     }
 
@@ -191,7 +193,7 @@ export class AestheticsComponent {
   }
 
   updateTxtContent(txtArea: HTMLTextAreaElement, aesthetic: string){
-    
+
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
     aesthetic = aesthetic.trim();
 
@@ -206,7 +208,7 @@ export class AestheticsComponent {
   removeCard(card: HTMLElement){
 
 
-    
+
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
 
     // element before
@@ -222,9 +224,10 @@ export class AestheticsComponent {
     let index = aestheticsNames.indexOf(cardAesthetic);
 
     if(index == -1){
-      alert("Error: Aesthetic not found");
+      // alert("Error: Aesthetic not found");
+      this.tostr.error("Error: Aesthetic not found", "Error");
     }
-    
+
     console.log(index);
 
     console.log(this.aestheticsInDocument);

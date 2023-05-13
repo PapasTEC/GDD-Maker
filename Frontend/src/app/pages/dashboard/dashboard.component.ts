@@ -11,6 +11,9 @@ import { UserService } from '../../services/user.service';
 import { TokenService } from '../../services/token.service';
 import { CookieService } from 'ngx-cookie-service';
 
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+
 export interface Project {
   documentTitle: string;
   documentLogo: string;
@@ -26,7 +29,7 @@ export interface Project {
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private tokenService: TokenService, private documentService: DocumentService, private userService: UserService, private router: Router) { }
+  constructor(private tokenService: TokenService, private documentService: DocumentService, private userService: UserService, private router: Router, private toastr: ToastrService) { }
 
   tableMode: string = 'My Projects';
   Projects: Project[];
@@ -96,8 +99,19 @@ export class DashboardComponent implements OnInit {
     this.data = this.Projects;
   }
 
-  deleteDocument(id: string) {
-    if (confirm("Are you sure you want to delete this document?")) {
+  async deleteDocument(id: string) {
+    // if (confirm("Are you sure you want to delete this document?")) {
+
+    let {isConfirmed} = await Swal.fire({
+      title: "Are you sure you want to delete this document?",
+      icon: "question",
+      confirmButtonText: "Yes, delete it",
+      showDenyButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    });
+
+    if (isConfirmed) {
       this.documentService.deleteDocument(id).subscribe((data1: any) => {
         this.Projects = this.Projects.filter((project: Project) => project._id != id);
         this.MyProjectsData = this.MyProjectsData.filter((project: Project) => project._id != id);
@@ -113,7 +127,28 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteSharedDocument(id: string) {
-    alert("delete Shared" + id);
+    // alert("delete Shared" + id);
+    this.documentService
+      .removeUser(id, this.email)
+      .subscribe((data: any) => {
+        // console.log(data);
+        // this.usersObj = data;
+        let success = false;
+        let message;
+        if (data.users) {
+          console.log(data.users);
+          success = true;
+          this.toastr.success("Left the document successfully!");
+          this.SharedProjectsData = this.SharedProjectsData.filter((project: Project) => project._id != id);
+          if (this.tableMode == 'Shared Projects') {
+            this.Projects = this.SharedProjectsData;
+            this.data = this.Projects;
+          }
+        } else {
+          success = false;
+          this.toastr.error("Couldn't leave the document!");
+        }
+      });
   }
 
   @ViewChildren(SortableHeaderDirective)

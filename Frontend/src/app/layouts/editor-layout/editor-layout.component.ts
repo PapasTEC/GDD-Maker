@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Router, Routes } from "@angular/router";
 import { Location } from "@angular/common";
 import { DocumentService } from "src/app/services/document.service";
-import { TokenService } from 'src/app/services/token.service';
+import { TokenService } from "src/app/services/token.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { filter, timeout } from "rxjs/operators";
@@ -16,6 +16,8 @@ import { io } from "socket.io-client";
 
 import { EditorLayoutRoutes } from "./editor-layout.routing";
 import { ToastrService } from "ngx-toastr";
+
+import Swal from "sweetalert2";
 
 interface SectionSubsectionPath {
   section: string;
@@ -187,7 +189,8 @@ export class EditorLayoutComponent implements OnInit {
         if (this.saveDocument()) {
           this.isDocumentEdited = false;
         } else {
-          alert("Error auto-updating document");
+          // alert("Error auto-updating document");
+          this.toastr.error("Error auto-updating document");
         }
       }
       // this.startAutoSaveTimer();
@@ -199,9 +202,21 @@ export class EditorLayoutComponent implements OnInit {
     this.startAutoSaveTimer();
   }
 
-  returnDashboard() {
+  async returnDashboard() {
     if (this.isDocumentEdited) {
-      if (confirm("You have unsaved changes. Do you want to leave?")) {
+      // if (confirm("You have unsaved changes. Do you want to leave?")) {
+      //   this.router.navigate(["/dashboard"]);
+      // }
+      const { isConfirmed } = await Swal.fire({
+        title: "You have unsaved changes.",
+        text: "Do you want to leave?",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonText: `Yes`,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      });
+      if (isConfirmed) {
         this.router.navigate(["/dashboard"]);
       }
     } else {
@@ -234,7 +249,8 @@ export class EditorLayoutComponent implements OnInit {
         this.resetAutoSaveTimer();
         this.changeButtonText();
       } else {
-        alert("Error updating document");
+        // alert("Error updating document");
+        this.toastr.error("Error updating document");
       }
     } else {
       this.lastManualSaveTimeInMinutes = 0;
@@ -357,9 +373,9 @@ export class EditorLayoutComponent implements OnInit {
         this.sectionsSubSectionsPath[currentContentIndex - 1];
 
       this.switchSection(previousSubsection.subSection);
-      this.router.navigate(["/editor/" + previousSubsection.path],
-        { queryParams: { pjt: this.documentId } }
-      );
+      this.router.navigate(["/editor/" + previousSubsection.path], {
+        queryParams: { pjt: this.documentId },
+      });
 
       this.changeSection(
         currentSubsection,
@@ -391,9 +407,9 @@ export class EditorLayoutComponent implements OnInit {
         this.sectionsSubSectionsPath[currentContentIndex + 1];
 
       this.switchSection(nextSubsection.subSection);
-      this.router.navigate(["/editor/" + nextSubsection.path],
-      { queryParams: { pjt: this.documentId } }
-    );
+      this.router.navigate(["/editor/" + nextSubsection.path], {
+        queryParams: { pjt: this.documentId },
+      });
 
       this.changeSection(
         currentSubsection,
@@ -431,19 +447,20 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    console.log("LOADING")
+    console.log("LOADING");
     this.route.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
 
       this.tokenService.decodeToken().subscribe((data: any) => {
         let localUser = data.decoded;
-        localUser.image = localStorage.getItem('ImageUser');
+        localUser.image = localStorage.getItem("ImageUser");
 
         this.editingDocumentService.setUserData(localUser, this.documentId);
 
         this.editingDocumentService.joinDocument();
-        console.log("************************** FINAL1 **************************")
+        console.log(
+          "************************** FINAL1 **************************"
+        );
       });
     });
 
@@ -462,9 +479,7 @@ export class EditorLayoutComponent implements OnInit {
           // this.socket.emit("edit-document", this.documentId, document);
           this.isDocumentEdited = true;
           this.document = document;
-
         }
-
       });
 
     // this.editingDocumentService.updateDocumentSocket().subscribe((document) => {
@@ -475,7 +490,7 @@ export class EditorLayoutComponent implements OnInit {
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-background");
 
-    console.log("************************** FINAL3 **************************")
+    console.log("************************** FINAL3 **************************");
   }
 
   navToStartingSection() {
@@ -490,14 +505,9 @@ export class EditorLayoutComponent implements OnInit {
       relativeTo: this.route,
       queryParams: { pjt: this.documentId },
     });
-
   }
 
-
-
   ngAfterViewInit() {
-
-
     this.navToStartingSection();
 
     this.cdRef.detectChanges();
@@ -527,7 +537,7 @@ export class EditorLayoutComponent implements OnInit {
     }
 
     for (i = 0; i < singleSection.length; i++) {
-      if(singleSection[i].id === "singleSec")
+      if (singleSection[i].id === "singleSec")
         this.add(singleSection[i], false);
     }
 
@@ -666,7 +676,6 @@ export class EditorLayoutComponent implements OnInit {
         }
       }
     });
-
   }
 
   openShareDocument() {
@@ -676,8 +685,6 @@ export class EditorLayoutComponent implements OnInit {
   closeShareDocument() {
     this.showShareDocument = false;
   }
-
-
 
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
@@ -690,6 +697,4 @@ export class EditorLayoutComponent implements OnInit {
 
     this.editingDocumentService.disconnectSocket();
   }
-
-
 }

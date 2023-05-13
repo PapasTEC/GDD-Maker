@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy, Query } from '@angular/core';
+import { Component, OnInit, OnDestroy, Query } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { UserService } from 'src/app/services/user.service';
+import { Router } from "@angular/router";
+import { CookieService } from "ngx-cookie-service";
+import { UserService } from "src/app/services/user.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-login",
@@ -15,8 +16,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private http: HttpClient,
     private router: Router,
-    private cookieService: CookieService
-  ) { }
+    private cookieService: CookieService,
+    private tostr: ToastrService
+  ) {}
 
   isLogin: boolean = true;
   signInText: string = "Sign in with credentials";
@@ -30,10 +32,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     code: new FormControl("", [Validators.required]),
   });
 
-
   imagePath: string = "/assets/img/regLog/";
-  image:Blob;
-  backG:string;
+  image: Blob;
+  backG: string;
 
   loadBackground(imageName: string) {
     let path = this.imagePath + imageName;
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loadBackground("log.jpg");
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {}
 
   checkEmail() {
     this.emailSubmitted = true;
@@ -55,7 +56,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.provideCode();
           return;
         } else {
-          alert("This email is not registered");
+          // alert("This email is not registered");
+          this.tostr.error("This email is not registered");
           return;
         }
       });
@@ -67,11 +69,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     const email = this.emailForm.value.email;
     this.userService.provideCodeUser(email).subscribe((response) => {
       if (response) {
-        console.log(response)
-        alert("Code sent to your email");
+        console.log(response);
+        // alert("Code sent to your email");
+        this.tostr.success("Code sent to your email");
         return;
       } else {
-        alert("Error sending code");
+        // alert("Error sending code");
+        this.tostr.error("Error sending code");
         return;
       }
     });
@@ -86,32 +90,42 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.codeForm.valid) {
       const email = this.emailForm.value.email;
       const code = this.codeForm.value.code;
-      this.userService.login(email, code).subscribe((response) => {
-        console.log("response ",response);
-        if (response.token) {
-          console.log(response.token);
-          alert("You are logged in");
-          localStorage.setItem("ImageUser", response.image);
+      this.userService.login(email, code).subscribe(
+        (response) => {
+          console.log("response ", response);
+          if (response.token) {
+            console.log(response.token);
+            // alert("You are logged in");
 
-          const expirationDate = new Date();
-          expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-          this.cookieService.set("Token", response.token, expirationDate);
+            localStorage.setItem("ImageUser", response.image);
 
-          this.router.navigate(["/dashboard"]);
-          return;
-        } else {
-          alert("Wrong code");
-          return;
-        }
-      },
+            const expirationDate = new Date();
+            expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+            this.cookieService.set("Token", response.token, expirationDate);
+
+            this.tostr.success("You are logged in", "", {
+              timeOut: 750,
+            });
+
+            setTimeout(() => {
+              this.router.navigate(["/dashboard"]);
+            }, 900);
+            return;
+          } else {
+            // alert("Wrong code");
+            this.tostr.error("Wrong code");
+            return;
+          }
+        },
 
         (error) => {
           console.log(error);
           if (error.status == 500) {
-
-            alert("Wrong code");
+            // alert("Wrong code");
+            this.tostr.error("Wrong code");
           }
-        });
+        }
+      );
     }
   }
 }

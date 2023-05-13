@@ -107,7 +107,7 @@ imageController.deleteFolder = async (req, res) => {
       }
     });
   } else {
-    res.status(404).send('The folder does not exist');
+    res.status(200).send('Folder deleted successfully');
   }
 };
 

@@ -17,6 +17,11 @@
 // // boostrap 5
 // @import 'ngx-toastr/toastr-bs5-alert';
 
+#toast-container > div {
+  width: fit-content !important;
+  max-width: 80vw !important;
+}
+
 $mobile-width: 700px;
 @mixin mobile {
   @media (max-width: #{$mobile-width}) {

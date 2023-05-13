@@ -23,7 +23,9 @@ $resizeTitleFont: calc($resizeFontSize * 1.75);
 
 $rotatingArrowsTransition: 0.3s ease transform;
 
-
+body {
+  overflow: hidden;
+}
 
 .header-margin {
   margin-top: -19vh;
@@ -34,6 +36,7 @@ $rotatingArrowsTransition: 0.3s ease transform;
   height: 92%;
   width: 100%;
   overflow: hidden;
+
 }
 
 .subSectionTitleShowedInEditor {
@@ -323,10 +326,10 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 
   border: black $borderState;
 
-  
+
 
   font-size: $resizeFontSize;
-  
+
 }
 
 .sidebarShow {
@@ -441,7 +444,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   position: relative;
   overflow: hidden;
   background-color: inherit;
-  
+
 
   border: #d15706 $borderState;
 }
@@ -450,7 +453,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   width: 100%;
 
   // padding: 3% 6%;
-  
+
   margin-top: 3%;
   padding-left: max(16px, 6%);
 
@@ -465,7 +468,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 
   justify-content: center;
 
-  
+
 
   position: relative;
   overflow: hidden;
@@ -598,8 +601,8 @@ $layoutHoverFontColor: #000000;
 .sidebar a{
   transition: $layoutTransitionTime;
   position: sticky;
-  
-  
+
+
 }
 
 
@@ -641,9 +644,9 @@ $sectionDefaultPadding: 1vw;
   position: relative;
   z-index: 5;
   background-color: inherit;
-  
+
   width: 100%;
-  
+
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: auto;
@@ -668,13 +671,13 @@ $sectionDefaultPadding: 1vw;
 
 .dropdown-container a.nActive{
   background-color: $layoutSubsectionDefaultBGColor;
-  
+
   position: relative;
 
   span {
     padding-left: $sectionDefaultPadding;
   }
-  
+
 }
 
 .noSubSections.active:hover {
@@ -772,9 +775,9 @@ $percentageOfScreen720: 0.7;
 
   .dropdown-container {
     font-size: calc($resizeFontSize * 0.3 * 0.8);
-    
+
   }
-  
+
 }
 
 @media screen and (min-width: 500px) and (max-width: 769px) {
@@ -789,9 +792,9 @@ $percentageOfScreen720: 0.7;
 
   .dropdown-container {
     font-size: calc($resizeFontSize * $percentageOfScreen720 * 0.8);
-    
+
   }
-  
+
 }
 
 @media screen and (min-width: 769px) and (max-width: 1200px) {
@@ -805,7 +808,7 @@ $percentageOfScreen720: 0.7;
 
   .dropdown-container {
     font-size: calc($resizeFontSize * ($percentageOfScreen1080 - 0.1)  * 0.8);
-    
+
   }
 }
 
@@ -820,7 +823,7 @@ $percentageOfScreen720: 0.7;
 
   .dropdown-container {
     font-size: calc($resizeFontSize * $percentageOfScreen1080 * 0.8);
-    
+
   }
 }
 
@@ -864,4 +867,10 @@ $percentageOfScreen720: 0.7;
   .dropdown-container {
     font-size: calc($resizeFontSize * $percentageOfScreenBeyond4k * 0.8);
   }
+}
+
+.share-export-buttons__share-icon {
+  cursor: pointer;
+  height: 2.5vh;
+  width: 2vw;
 }

@@ -3,6 +3,7 @@ import { DocumentService } from "src/app/services/document.service";
 import { TokenService } from "src/app/services/token.service";
 import { ToastrService } from "ngx-toastr";
 import { ChangeDetectorRef } from "@angular/core";
+import { EditingDocumentService } from "src/app/services/editing-document.service";
 
 @Component({
   selector: "app-share-document",
@@ -13,6 +14,7 @@ export class ShareDocumentComponent implements OnInit {
   @Output() updateShowShareDocument: EventEmitter<boolean> =
     new EventEmitter<boolean>();
   @Input() documentId: any;
+  usersInDocument: any[];
 
   usersObj: any = {};
 
@@ -26,23 +28,33 @@ export class ShareDocumentComponent implements OnInit {
     private changeDetectorRefs: ChangeDetectorRef,
     private tokenService: TokenService,
     private documentService: DocumentService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private editingDocumentService: EditingDocumentService
   ) {}
 
   ngOnInit() {
-    this.tokenService.decodeToken().subscribe((data: any) => {
-      console.log(`${JSON.stringify(data.decoded)}`);
-      this.currentUserEmail = data.decoded.email;
-    });
-
     this.documentService.getUsers(this.documentId).subscribe((data: any) => {
       this.usersObj = data;
       console.log(this.documentId, this.usersObj);
+      this.tokenService.decodeToken().subscribe((data: any) => {
+        console.log(`${JSON.stringify(data.decoded)}`);
+        this.currentUserEmail = data.decoded.email;
+        console.log(
+          "this.currentUserEmail",
+          this.currentUserEmail,
+          "this.usersObj.owner",
+          this.usersObj.owner
+        );
+        if (this.currentUserEmail === this.usersObj.owner.email) {
+          this.isOwner = true;
+        }
+      });
     });
 
-    if (this.currentUserEmail == this.usersObj.owner) {
-      this.isOwner = true;
-    }
+    this.editingDocumentService.onlineUsers$.subscribe((onlineUsers) => {
+      console.log(`********************** Online users: `, onlineUsers);
+      this.usersInDocument = onlineUsers;
+    });
   }
 
   closeShareDocumentModal() {

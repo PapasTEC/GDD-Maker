@@ -56,6 +56,8 @@ export class EditorLayoutComponent implements OnInit {
 
   firstChange = true;
 
+  onlineUsers: any[] = [];
+
   // documentLayout:layout[];
 
   sectionsSubSectionsPath: SectionSubsectionPath[] = EditorLayoutRoutes.map(
@@ -483,6 +485,12 @@ export class EditorLayoutComponent implements OnInit {
           this.isDocumentEdited = true;
           this.document = document;
         }
+      });
+
+      this.editingDocumentService.onlineUsers$.subscribe((onlineUsers) => {
+        this.onlineUsers = onlineUsers;
+        console.log("----------------- Updated online users -----------------");
+        console.log(this.onlineUsers);
       });
 
     // this.editingDocumentService.updateDocumentSocket().subscribe((document) => {

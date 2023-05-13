@@ -1,8 +1,19 @@
-<div id="markdown-editor" class="markdown-wrapper">
-    <div [class.blocked-div]="!isBlocked" class="toolbarBar">
-        <i class="fas fa-chevron-down icon"></i>
-    </div> 
-    <div (keydown)="onKeyDown($event)" (contextmenu)="onContextMenu($event)" id="vditor"></div>
+<div
+  id="markdown-editor"
+  class="markdown-wrapper"
+>
+  <div [class.blocked-div]="!isBlocked" class="toolbarBar">
+    <i class="fas fa-chevron-down icon"></i>
+  </div>
+  <div
+    (keydown)="onKeyDown($event)"
+    (contextmenu)="onContextMenu($event)"
+    (paste)="onKeyDown($event)"
+    (input)="onKeyDown($event)"
+    id="vditor"
+    [ngClass]="isBlocked ? 'disabled-component' : ''"
+
+  ></div>
 </div>
 <input
   type="file"

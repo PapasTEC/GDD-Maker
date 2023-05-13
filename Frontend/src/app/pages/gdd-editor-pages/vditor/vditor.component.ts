@@ -5,7 +5,7 @@ import Vditor from "vditor";
 import { ActivatedRoute, Router } from "@angular/router";
 import { filter, map, take } from "rxjs/operators";
 import { TokenService } from "src/app/services/token.service";
-import detectUrlChange from 'detect-url-change'; 
+import detectUrlChange from 'detect-url-change';
 //import { Buffer } from '../../../../../../Backend/uploads/234/1681252566007-1274551.jpg';
 //import { HttpClient } from '@angular/common/http';
 
@@ -31,7 +31,7 @@ export class VditorComponent {
   updateSocket: any;
   getParams: any;
   getDocumentId: any;
-  
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -114,6 +114,7 @@ export class VditorComponent {
       // console.log(this.vditor)
       const userEditing = this.editingDocumentService.userEditingByComponent[this.subSection];
       this.isBlocked = (userEditing && userEditing !== this.localUser);
+      console.log("IS BLOCKED:", this.isBlocked, this.localUser);
 
       this.vditor.setValue(this.documentSubSection.subSectionContent.text)
       this.resetCaretToLastPosition(this.lastRow,this.lastCol);
@@ -145,15 +146,15 @@ export class VditorComponent {
     this.isBlocked = (userEditing && userEditing !== this.localUser);
     if (this.isBlocked) {
       event.preventDefault();
-    }   
-    
+    }
+
   }
   onContextMenu(event: MouseEvent) {
     const userEditing = this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isBlocked = (userEditing && userEditing !== this.localUser);
     if (this.isBlocked) {
       event.preventDefault();
-    } 
+    }
   }
 
   // Funciones para subir imagenes
@@ -610,7 +611,7 @@ export class VditorComponent {
       cache: {
         enable: false,
       },
-      after: () => { 
+      after: () => {
         this.resetCaretToLastPosition(this.lastRow,this.lastCol);
         this.setCaretCursorPosition();
       },
@@ -624,13 +625,13 @@ export class VditorComponent {
     };
   }
 
-  
+
 
   resetTo0() {
     this.lastCol = 0;
     this.lastRow = 0;
   }
-  
+
   resetCaretToLastPosition(row:number, col:number) {
     var el = document.getElementsByClassName("vditor-ir")[0]
     el.addEventListener("click", () => {
@@ -642,7 +643,7 @@ export class VditorComponent {
 
     range.setStart(lines.children[row].firstChild, col)
     range.collapse(true)
-    
+
     sel.removeAllRanges()
     sel.addRange(range)
   }
@@ -655,7 +656,7 @@ export class VditorComponent {
     this.selection = document.getSelection();
 
     this.vditorLinesParent = document.getElementsByClassName("vditor-ir")[0]
-    
+
     this.lines = this.vditorLinesParent.children[0]
 
     let row = 0;
@@ -689,7 +690,7 @@ export class VditorComponent {
     }
 
     // console.log("Maximum position:", row, col)
-    
+
     return { row, col };
   }
 

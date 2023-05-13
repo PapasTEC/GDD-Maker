@@ -58,6 +58,8 @@ export class EditorLayoutComponent implements OnInit {
 
   firstChange = true;
 
+
+
   // documentLayout:layout[];
 
   sectionsSubSectionsPath: SectionSubsectionPath[] = EditorLayoutRoutes.map(

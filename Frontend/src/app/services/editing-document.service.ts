@@ -124,7 +124,7 @@ export class EditingDocumentService {
   //   if (this.isConnected) {
   //     return;
   //   }
-    
+
   // }
 
   changeDocument(document: any) {

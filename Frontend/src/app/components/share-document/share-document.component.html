@@ -21,7 +21,8 @@
         <div class="share-container__dialog__users__user__name">
           <div class="share-container__dialog__users__user__name-email">
             <div
-              class="share-container__dialog__users__user__name-status status--online"
+              class="share-container__dialog__users__user__name-status"
+              [ngClass]="{'status--online': usersInDocument?.includes(usersObj.owner.email), 'status--offline': !usersInDocument?.includes(usersObj.owner.email)}"
             ></div>
             {{usersObj.owner.email}}
           </div>
@@ -43,6 +44,7 @@
             <div class="share-container__dialog__users__user__name-email">
               <div
               class="share-container__dialog__users__user__name-status status--offline"
+              [ngClass]="{'status--online': usersInDocument?.includes(user.email), 'status--offline': !usersInDocument?.includes(user.email)}"
             ></div>
               {{user.email}}
             </div>

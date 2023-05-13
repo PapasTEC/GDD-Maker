@@ -38,19 +38,59 @@ app.set("frontend-port", 3090)
 
 const port = app.get("server-port")
 
+let onlineUsersInDocuments = new Map();
+let onlineUsers = new Map();
+
 io.on('connection', (socket) => {
     console.log('a user connected');
+
     socket.on('disconnect', () => {
         console.log("user disconnected")
+        if (onlineUsers.has(socket.id)) {
+          let {documentId, email} = onlineUsers.get(socket.id)
+          let users = onlineUsersInDocuments.get(documentId)
+          users = users.filter(user => user !== email)
+          onlineUsersInDocuments.set(documentId, users)
+          socket.to(documentId).emit('update-online-users', onlineUsersInDocuments.get(documentId))
+        }
     })
-    socket.on('join-document', (documentId, userId) => {
+
+    socket.on('join-document', (documentId, email) => {
         socket.join(documentId)
         console.log("document connected")
+        if (onlineUsersInDocuments.has(documentId)) {
+          let users = onlineUsersInDocuments.get(documentId)
+          users.push(email)
+          onlineUsersInDocuments.set(documentId, users)
+        } else {
+          onlineUsersInDocuments.set(documentId, [email])
+        }
+        // print sockets in room
+        console.log(io.sockets.adapter.rooms.get(documentId))
+        console.log(`ROOM ${documentId} USERS:`, onlineUsersInDocuments.get(documentId))
+        io.sockets.in(documentId).emit('update-online-users',onlineUsersInDocuments.get(documentId))
+
+        onlineUsers.set(socket.id, {documentId, email})
         // socket.to(documentId).broadcast.emit('user-connected', userId)
         // socket.on('disconnect', () => {
         //     socket.to(documentId).broadcast.emit('user-disconnected', userId)
         // })
     })
+    
+    socket.on('leave-document', (documentId, email) => {
+      console.log("document disconnected")
+      if (onlineUsersInDocuments.has(documentId)) {
+        let users = onlineUsersInDocuments.get(documentId)
+        users = users.filter(user => user !== email)
+        onlineUsersInDocuments.set(documentId, users)
+      }
+      console.log(`ROOM ${documentId} USERS:`, onlineUsersInDocuments.get(documentId))
+      socket.to(documentId).emit('update-online-users', onlineUsersInDocuments.get(documentId))
+      socket.leave(documentId)
+
+      onlineUsers.delete(socket.id)
+    })
+
     socket.on('edit-document', ({documentId, secId, subSecId, content}) => {
       socket.broadcast.to(documentId).emit('sync-data', {secId, subSecId, content})
         // socket.to(documentId).broadcast.emit('update-data', data)

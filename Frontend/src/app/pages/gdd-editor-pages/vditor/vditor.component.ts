@@ -2,9 +2,10 @@ import { Component } from "@angular/core";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { DocumentService } from "src/app/services/document.service";
 import Vditor from "vditor";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { filter, map, take } from "rxjs/operators";
 import { TokenService } from "src/app/services/token.service";
+import detectUrlChange from 'detect-url-change'; 
 //import { Buffer } from '../../../../../../Backend/uploads/234/1681252566007-1274551.jpg';
 //import { HttpClient } from '@angular/common/http';
 
@@ -26,33 +27,19 @@ export class VditorComponent {
 
   isBlocked: boolean = false;
 
+  decodeToken: any;
+  updateSocket: any;
+  getParams: any;
+  getDocumentId: any;
   
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private editingDocumentService: EditingDocumentService,
     private documentService: DocumentService,
     private tokenService: TokenService
   ) {
-
-
-  //   function cursor_position() {
-  //     var sel = document.getSelection();
-  //     sel.modify("extend", "backward", "paragraphboundary");
-  //     var pos = sel.toString().length;
-  //     if(sel.anchorNode != undefined) sel.collapseToEnd();
-
-  //     return pos;
-  // }
-
-  // // Demo:
-  // var elm = document.querySelector('[contenteditable]');
-  // elm.addEventListener('click', printCaretPosition)
-  // elm.addEventListener('keydown', printCaretPosition)
-
-  // function printCaretPosition(){
-  //   console.log( cursor_position(), 'length:', this.textContent.trim().length )
-  // }
 
   }
 
@@ -67,6 +54,17 @@ export class VditorComponent {
     );
   }
 
+  ngOnDestroy() {
+    console.log("destroy");
+
+    this.editingDocumentService.userEditingByComponent[this.subSection] = null;
+
+    this.decodeToken.unsubscribe();
+    this.updateSocket.unsubscribe();
+    this.getParams.unsubscribe();
+    this.getDocumentId.unsubscribe();
+  }
+
   ngOnInit() {
     // setInterval(() => {
     //   if (this.vditor) {
@@ -75,15 +73,13 @@ export class VditorComponent {
     //   }
     // }, 1000);
 
-    
 
-
-    this.tokenService.decodeToken().subscribe((data: any) => {
+    this.decodeToken = this.tokenService.decodeToken().subscribe((data: any) => {
       this.localUser = data.decoded.email;
     }
     )
 
-    this.activatedRoute.data.subscribe((_value) => {
+    this.getParams = this.activatedRoute.data.subscribe((_value) => {
       this.section = _value.section;
       this.subSection = _value.subSection;
       this.showUpload = _value.upload;
@@ -92,8 +88,36 @@ export class VditorComponent {
       console.log("showUpload:", this.showUpload);
     });
 
-    this.activatedRoute.queryParams.subscribe((params) => {
+    this.getDocumentId = this.activatedRoute.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
+    });
+
+
+    this.updateSocket = this.editingDocumentService.updateDocumentSocket().pipe(
+      filter(document => document.socketSubSection === this.subSection),
+    ).subscribe((document) => {
+
+      console.log("subSectionSocket:", document.socketSubSection, "this.subSection:", this.subSection);
+      console.log("url:", this.router.routerState.snapshot.url);
+
+      if (this.myInput) {
+        this.myInput = false;
+        return;
+      }
+
+      console.log("this.subSection2:", this.subSection);
+      this.documentSubSection = document.documentContent.find(section =>
+        section.sectionTitle === this.section).subSections.find(subsection =>
+          subsection.subSectionTitle === this.subSection);
+      //  console.log("documentSub mapache:", this.documentSubSection);
+     //  console.log(this.documentSubSection.subSectionContent.text)
+      // console.log(this.vditor)
+      const userEditing = this.editingDocumentService.userEditingByComponent[this.subSection];
+      this.isBlocked = (userEditing && userEditing !== this.localUser);
+
+      this.vditor.setValue(this.documentSubSection.subSectionContent.text)
+      this.resetCaretToLastPosition(this.lastRow,this.lastCol);
+      // this.vditor.updateValue("UPDATE");
     });
 
     this.editingDocumentService.document$.pipe(
@@ -113,40 +137,6 @@ export class VditorComponent {
       this.setCaretCursorPosition();
     });
       });
-    });
-
-
-    this.editingDocumentService.updateDocumentSocket().pipe(
-      filter(document => document.socketSubSection === this.subSection),
-      // filter(document => document !== null && this.vditor.getValue() !== document.documentContent.find(section => section.sectionTitle === this.section).subSections.find(subsection => subsection.subSectionTitle === this.subSection).subSectionContent.text),
-    ).subscribe((document) => {
-
-      //console.log("subSectionSocket:", this.editingDocumentService.currentSocketUpdateSubsection)
-      console.log("subSectionSocket:", document.socketSubSection, "this.subSection:", this.subSection)
-
-      //   this.vditor = new Vditor("vditor", this.changeVditorConfig(this.showUpload, this.documentSubSection.subSectionContent.text, false));
-      //   this.lastMyUpdate = false;
-      // }else if (!this.lastMyUpdate && (!this.editingDocumentService.userEditing || this.editingDocumentService.userEditing === this.localUser)){
-      //   this.vditor = new Vditor("vditor", this.changeVditorConfig(this.showUpload, this.documentSubSection.subSectionContent.text, true));
-      //   this.lastMyUpdate = true;
-      // }
-
-      if (this.myInput) {
-        this.myInput = false;
-        return;
-      }
-      this.documentSubSection = document.documentContent.find(section =>
-        section.sectionTitle === this.section).subSections.find(subsection =>
-          subsection.subSectionTitle === this.subSection);
-      //  console.log("documentSub mapache:", this.documentSubSection);
-     //  console.log(this.documentSubSection.subSectionContent.text)
-      // console.log(this.vditor)
-      const userEditing = this.editingDocumentService.userEditingByComponent[this.subSection];
-      this.isBlocked = (userEditing && userEditing !== this.localUser);
-
-      this.vditor.setValue(this.documentSubSection.subSectionContent.text)
-      this.resetCaretToLastPosition(this.lastRow,this.lastCol);
-      // this.vditor.updateValue("UPDATE");
     });
   }
 

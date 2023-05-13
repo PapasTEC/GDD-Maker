@@ -13,6 +13,7 @@ import { EditingDocumentService } from "src/app/services/editing-document.servic
 import { faThumbTack } from "@fortawesome/free-solid-svg-icons";
 import { filter, timeout } from "rxjs/operators";
 import { io } from "socket.io-client";
+import { apiSocket } from "src/environments/environment";
 
 import { EditorLayoutRoutes } from "./editor-layout.routing";
 import { ToastrService } from "ngx-toastr";
@@ -52,6 +53,7 @@ export class EditorLayoutComponent implements OnInit {
   workspace: HTMLElement;
   hideSideBarButton: HTMLElement;
 
+  // socket = io(apiSocket);
   // socket = io("http://localhost:3080");
 
   firstChange = true;
@@ -106,8 +108,15 @@ export class EditorLayoutComponent implements OnInit {
   ) {
     // console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath);
     this.route = route;
+
+    this.editingDocumentService.connectSocket();
+
     // console.log("uniqueSections: ", this.uniqueSections);
     // console.log("layout: ", this.documentLayout);
+
+    // this.socket.on("connect", () => {
+    //   console.log("connected to socket");
+    // });
   }
 
   @HostListener("window:keydown.alt.o", ["$event"])
@@ -452,6 +461,8 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.editingDocumentService.connectSocket();
+
     console.log("LOADING");
     this.route.queryParams.subscribe((params) => {
       this.documentId = params.pjt;
@@ -707,5 +718,6 @@ export class EditorLayoutComponent implements OnInit {
     this.editingDocumentService.changeDocument(null);
 
     this.editingDocumentService.disconnectSocket();
+    // this.socket.disconnect();
   }
 }

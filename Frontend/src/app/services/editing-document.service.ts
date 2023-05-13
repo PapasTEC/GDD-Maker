@@ -15,7 +15,8 @@ export class EditingDocumentService {
   onlineUsers$ = this.onlineUsers.asObservable();
 
   userEditing: string = null;
-  private socket = io(apiSocket);
+  public isConnected: boolean = false;
+  private socket = null;
 
   documentSections: any = [
     //["Document Cover"],
@@ -98,6 +99,12 @@ export class EditingDocumentService {
   private countdownSeconds: number = 4;
 
   constructor() {
+    this.socket = io(apiSocket);
+    this.socket.on('connect', () => {
+      this.isConnected = true;
+      console.log('Conectado al servidor Socket.IO');
+    });
+
     this.socket.on('sync-data', ({ secId, subSecId, content }) => {
       console.log("================ sync data ================ ");
       const document = this.document.getValue();
@@ -190,8 +197,21 @@ export class EditingDocumentService {
     //return this.currentSocketUpdateSubsection$;
   }
 
+  ngOnDestroy() {
+    console.log("destroy");
+    this.socket.disconnect();
+  }
+
+
   disconnectSocket() {
     this.socket.emit("leave-document", this.documentId, this.localUser.email)
+    this.isConnected = false;
     this.socket.disconnect();
+  }
+
+  connectSocket() {
+    if (!this.isConnected) {
+      this.socket.connect();
+    }
   }
 }

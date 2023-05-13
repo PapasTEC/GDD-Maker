@@ -11,6 +11,9 @@ export class EditingDocumentService {
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
 
+  private onlineUsers = new BehaviorSubject<any>(null);
+  onlineUsers$ = this.onlineUsers.asObservable();
+
   userEditing: string = null;
   private socket = io(apiSocket);
 
@@ -112,7 +115,16 @@ export class EditingDocumentService {
       //console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
     })
 
+    this.socket.on("update-online-users", (onlineUsers) => {
+      console.log(`********************** Online users: `, this.onlineUsers);
+      this.onlineUsers.next(onlineUsers);
+    })
   }
+
+  getOnlineUsers() {
+    return this.onlineUsers$;
+  }
+
   changeDocument(document: any) {
     this.document.next(document)
   }
@@ -162,7 +174,6 @@ export class EditingDocumentService {
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
     this.socket.emit('edit-document', { documentId: this.documentId, secId, subSecId, content });
-
   }
 
   updateDocumentFrontPage(content: any) {
@@ -180,6 +191,7 @@ export class EditingDocumentService {
   }
 
   disconnectSocket() {
+    this.socket.emit("leave-document", this.documentId, this.localUser.email)
     this.socket.disconnect();
   }
 }

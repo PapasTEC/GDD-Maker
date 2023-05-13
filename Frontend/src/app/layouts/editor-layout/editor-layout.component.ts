@@ -189,7 +189,8 @@ export class EditorLayoutComponent implements OnInit {
         if (this.saveDocument()) {
           this.isDocumentEdited = false;
         } else {
-          alert("Error auto-updating document");
+          // alert("Error auto-updating document");
+          this.toastr.error("Error auto-updating document");
         }
       }
       // this.startAutoSaveTimer();
@@ -248,7 +249,8 @@ export class EditorLayoutComponent implements OnInit {
         this.resetAutoSaveTimer();
         this.changeButtonText();
       } else {
-        alert("Error updating document");
+        // alert("Error updating document");
+        this.toastr.error("Error updating document");
       }
     } else {
       this.lastManualSaveTimeInMinutes = 0;

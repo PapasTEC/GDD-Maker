@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { CookieService } from "ngx-cookie-service";
 import { UserService } from "src/app/services/user.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-login",
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private http: HttpClient,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private tostr: ToastrService
   ) {}
 
   isLogin: boolean = true;
@@ -54,7 +56,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.provideCode();
           return;
         } else {
-          alert("This email is not registered");
+          // alert("This email is not registered");
+          this.tostr.error("This email is not registered");
           return;
         }
       });
@@ -67,10 +70,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.userService.provideCodeUser(email).subscribe((response) => {
       if (response) {
         console.log(response);
-        alert("Code sent to your email");
+        // alert("Code sent to your email");
+        this.tostr.success("Code sent to your email");
         return;
       } else {
-        alert("Error sending code");
+        // alert("Error sending code");
+        this.tostr.error("Error sending code");
         return;
       }
     });
@@ -90,17 +95,25 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log("response ", response);
           if (response.token) {
             console.log(response.token);
-            alert("You are logged in");
+            // alert("You are logged in");
+
             localStorage.setItem("ImageUser", response.image);
 
             const expirationDate = new Date();
             expirationDate.setFullYear(expirationDate.getFullYear() + 1);
             this.cookieService.set("Token", response.token, expirationDate);
 
-            this.router.navigate(["/dashboard"]);
+            this.tostr.success("You are logged in", "", {
+              timeOut: 750,
+            });
+
+            setTimeout(() => {
+              this.router.navigate(["/dashboard"]);
+            }, 900);
             return;
           } else {
-            alert("Wrong code");
+            // alert("Wrong code");
+            this.tostr.error("Wrong code");
             return;
           }
         },
@@ -108,7 +121,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         (error) => {
           console.log(error);
           if (error.status == 500) {
-            alert("Wrong code");
+            // alert("Wrong code");
+            this.tostr.error("Wrong code");
           }
         }
       );

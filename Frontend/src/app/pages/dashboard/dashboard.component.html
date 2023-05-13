@@ -131,7 +131,12 @@
                                   ? deleteDocument(project._id)
                                   : deleteSharedDocument(project._id)
                               "
-                              >Delete</a
+                              >{{
+                                tableMode == 'My Projects'
+                                  ? 'Delete'
+                                  : 'Exit Project'
+                              }}
+                              </a
                             >
                           </div>
                         </div>

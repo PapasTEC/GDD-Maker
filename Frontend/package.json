@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open --proxy-config proxy.conf.json ",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development --open",
+    "build": "ng build --prod",
+    "watch": "ng build --watch --configuration development --open --prod",
     "test": "ng test"
   },
   "private": true,

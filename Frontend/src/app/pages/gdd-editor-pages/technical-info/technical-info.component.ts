@@ -1,49 +1,144 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { filter, map, take } from 'rxjs';
-import { EditingDocumentService } from 'src/app/services/editing-document.service';
+import { Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { filter, map, take } from "rxjs";
+import { EditingDocumentService } from "src/app/services/editing-document.service";
+import { TokenService } from "src/app/services/token.service";
 
 @Component({
-  selector: 'app-technical-info',
-  templateUrl: './technical-info.component.html',
-  styleUrls: ['./technical-info.component.scss',"../editorGlobalStyles.scss",]
+  selector: "app-technical-info",
+  templateUrl: "./technical-info.component.html",
+  styleUrls: ["./technical-info.component.scss", "../editorGlobalStyles.scss"],
 })
 export class TechnicalInfoComponent {
-
   platforms = [
-    { "name": "Android", "image": "../../assets/img/platformIcons/android.png" },
-    { "name": "iOS", "image": "../../assets/img/platformIcons/ios.png" },
-    { "name": "Web", "image": "../../assets/img/platformIcons/web.png" },
-    { "name": "Linux", "image": "../../assets/img/platformIcons/linux.png" },
-    { "name": "MacOS", "image": "../../assets/img/platformIcons/mac.png" },
-    { "name": "Windows", "image": "../../assets/img/platformIcons/windows.png" },
-    { "name": "Playstation", "image": "../../assets/img/platformIcons/playstation.png" },
-    { "name": "Xbox", "image": "../../assets/img/platformIcons/xbox.png" },
-    { "name": "Nintendo Switch", "image": "../../assets/img/platformIcons/switch.png" },
+    { name: "Android", image: "../../assets/img/platformIcons/android.png" },
+    { name: "iOS", image: "../../assets/img/platformIcons/ios.png" },
+    { name: "Web", image: "../../assets/img/platformIcons/web.png" },
+    { name: "Linux", image: "../../assets/img/platformIcons/linux.png" },
+    { name: "MacOS", image: "../../assets/img/platformIcons/mac.png" },
+    { name: "Windows", image: "../../assets/img/platformIcons/windows.png" },
+    {
+      name: "Playstation",
+      image: "../../assets/img/platformIcons/playstation.png",
+    },
+    { name: "Xbox", image: "../../assets/img/platformIcons/xbox.png" },
+    {
+      name: "Nintendo Switch",
+      image: "../../assets/img/platformIcons/switch.png",
+    },
   ];
 
   section: any;
   subSection: any;
   documentSubSection: any;
-  techInfo = { platforms: [], ageClassification: "", targetAudience: "", releaseDate: "", price: ""};
+  techInfo = {
+    platforms: [],
+    ageClassification: "",
+    targetAudience: "",
+    releaseDate: "",
+    price: "",
+  };
   today: Date = new Date();
 
-  constructor(private editingDocumentService: EditingDocumentService, private route: ActivatedRoute) {}
+  /* Collaborative Editing */
+  isBlocked: any = {
+    platforms: false,
+    generalData: false,
+  };
 
-  getSectionAndSubSection(){
+  userBlocking: any = {
+    platforms: null,
+    generalData: null,
+  };
+
+  localUser = null;
+  decodeToken: any;
+  updateSocket: any;
+  myInput: boolean = false;
+  updateBlockedInterval: any = null;
+
+  constructor(
+    private editingDocumentService: EditingDocumentService,
+    private route: ActivatedRoute,
+    private tokenService: TokenService
+  ) {}
+
+  getSectionAndSubSection() {
     this.route.data.subscribe((data) => {
       this.section = data.section;
       this.subSection = data.subSection;
     });
-    
   }
 
-  ngOnInit(){
-
+  ngOnInit() {
     this.getSectionAndSubSection();
+
+    this.decodeToken = this.tokenService
+      .decodeToken()
+      .subscribe((data: any) => {
+        this.localUser = data.decoded.email;
+      });
 
     // console.log("section: ", this.section);
     // console.log("subSection: ", this.subSection);
+
+    // this.editingDocumentService.document$
+    //   .pipe(
+    //     filter((document) => document !== null),
+    //     map((document) =>
+    //       document.documentContent
+    //         .find((section) => section.sectionTitle === this.section)
+    //         .subSections.find(
+    //           (subsection) => subsection.subSectionTitle === this.subSection
+    //         )
+    //     ),
+    //     take(1)
+    //   ).subscribe((document) => {
+    //     console.log("Document: ", document);
+    //     this.documentSubSection = document;
+    //     this.techInfo = document.subSectionContent;
+    // });
+
+    this.updateSocket = this.editingDocumentService
+      .updateDocumentSocket()
+      .pipe(filter((document) => document.socketSubSection === this.subSection))
+      .subscribe((document) => {
+        // if the user is editing the document, do not update the document
+        if (this.myInput) {
+          this.myInput = false;
+          return;
+        }
+
+        const userEditing =
+          this.editingDocumentService.userEditingByComponent[this.subSection];
+
+        this.isBlocked.platforms =
+          userEditing.platforms &&
+          userEditing.platforms.email !== this.localUser;
+        if (this.isBlocked.platforms) {
+          this.userBlocking.platforms = userEditing.platforms;
+        }
+
+        this.isBlocked.generalData =
+          userEditing.generalData &&
+          userEditing.generalData.email !== this.localUser;
+        if (this.isBlocked.generalData) {
+          this.userBlocking.generalData = userEditing.generalData;
+        }
+
+        // filter the document to get the section and subsection
+        // and set the techInfo to the subSectionContent to update the information in real time
+        this.documentSubSection = document.documentContent
+          .find((section) => section.sectionTitle === this.section)
+          .subSections.find(
+            (subsection) => subsection.subSectionTitle === this.subSection
+          );
+        this.techInfo = this.documentSubSection.subSectionContent;
+
+        console.log(this.documentSubSection);
+        // this.techInfo = document.documentSubSection.subSectionContent;
+
+      });
 
     this.editingDocumentService.document$
       .pipe(
@@ -56,26 +151,97 @@ export class TechnicalInfoComponent {
             )
         ),
         take(1)
-      ).subscribe((document) => {
-        console.log("Document: ", document);
+      )
+      .subscribe((document) => {
         this.documentSubSection = document;
         this.techInfo = document.subSectionContent;
+        console.log("Tech Info: ", this.techInfo);
 
-        
-    });
+
+        this.updateBlockedInterval = setInterval(() => {
+          this.updateIsBlocked1s();
+        }, 1000);
+
+      });
   }
 
-  updateDocument() {
+  updateIsBlocked1s() {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+
+    // this.isBlocked = userEditing && userEditing.email !== this.localUser;
+    // if (this.isBlocked) {
+    //   console.log("BLOCKED:", userEditing);
+    //   this.userBlocking = userEditing;
+    // }
+    this.isBlocked.platforms =
+      userEditing.platforms && userEditing.platforms.email !== this.localUser;
+    if (this.isBlocked.platforms) {
+      this.userBlocking.platforms = userEditing.platforms;
+    }
+
+    this.isBlocked.generalData =
+      userEditing.generalData &&
+      userEditing.generalData.email !== this.localUser;
+    if (this.isBlocked.generalData) {
+      this.userBlocking.generalData = userEditing.generalData;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+  }
+
+  onPlatformsChange(event: KeyboardEvent): void {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked.platforms =
+      userEditing.platforms && userEditing.platforms.email !== this.localUser;
+    if (this.isBlocked.platforms) {
+      this.userBlocking.platforms = userEditing.platforms;
+      event.preventDefault();
+    }
+  }
+
+  onGeneralDataChange(event: KeyboardEvent): void {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked.generalData =
+      userEditing.generalData &&
+      userEditing.generalData.email !== this.localUser;
+    if (this.isBlocked.generalData) {
+      this.userBlocking.generalData = userEditing.generalData;
+      event.preventDefault();
+    }
+  }
+
+  updateDocument(part: string) {
+    // set this.myInput to true to avoid the updateSocket to update the document
+    this.myInput = true;
     console.log("Tech Info: ", this.techInfo);
     this.documentSubSection.subSectionContent = this.techInfo;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
       this.subSection,
-      this.documentSubSection
+      this.documentSubSection,
+      part
     );
   }
 
   public addOrRemove(platformID: number) {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked.platforms =
+      userEditing.platforms && userEditing.platforms.email !== this.localUser;
+    if (this.isBlocked.platforms) {
+      this.userBlocking.platforms = userEditing.platforms;
+      return;
+    }
+
     if (this.techInfo.platforms.includes(platformID)) {
       this.techInfo.platforms.splice(
         this.techInfo.platforms.indexOf(platformID),
@@ -84,7 +250,22 @@ export class TechnicalInfoComponent {
     } else {
       this.techInfo.platforms.push(platformID);
     }
-    this.updateDocument();
+    this.updateDocument("platforms");
   }
 
+  updateGeneralData(event: KeyboardEvent) {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+
+    this.isBlocked.generalData =
+      userEditing.generalData &&
+      userEditing.generalData.email !== this.localUser;
+      console.log("isBlocked: ", this.isBlocked.generalData)
+    if (this.isBlocked.generalData) {
+      this.userBlocking.generalData = userEditing.generalData;
+      event.preventDefault();
+      return;
+    }
+    this.updateDocument("generalData");
+  }
 }

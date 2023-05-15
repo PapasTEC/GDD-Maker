@@ -7,7 +7,7 @@
 
     border: none 1px rgb(0, 0, 0);
 
-    
+
 }
 
 .innerBodyClass{
@@ -55,7 +55,7 @@ $fontSize: 2vmax;
         color:black;
         border-left: solid 1vw #16425b;
     }
-    
+
     .intermediateText{
         font-size: calc($fontSize * 0.5);
         font-weight: 7000;
@@ -114,7 +114,7 @@ $fontSize: 2vmax;
     position: relative;
 
     transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    
+
     // padding: clamp(25%, 1vh ,40%);
     /* padding-top: 0.56%; */
     /* height: fit-content; */
@@ -145,9 +145,9 @@ $fontSize: 2vmax;
       width: calc($photoDim*2);
       height: $photoDim;
     }
-    
 
-    
+
+
 }
 
 .authorsContainer{
@@ -176,8 +176,8 @@ $fontSize: 2vmax;
     display: flex;
     justify-content: center;
     align-items: center;
-  
-    
+
+
   }
 
 
@@ -229,3 +229,12 @@ $fontSize: 2vmax;
       display: none;
     }
   }
+
+.editing-box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 1.5px solid #16425b;
+  z-index: 500000;
+  margin-right: 1.25rem
+}

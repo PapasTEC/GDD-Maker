@@ -122,12 +122,15 @@ $scrollbar-width: max(10px, 0.5vw);
   margin-left: 1.25rem;
   border: 1.5px solid #16425b;
   border-radius: 7px;
-  height: 70%;
+  height: fit-content;
+  width: fit-content;
   display: flex;
   align-items: center;
-  font-size: 1.25rem;
-  padding: 0 .5rem;
+  font-size: 1.2rem;
+  padding: .3rem .5rem;
   color: #16425b !important;
+  background-color: white;
+  margin-right: 2rem;
 
   &__text {
     font-weight: 400;
@@ -141,6 +144,7 @@ $scrollbar-width: max(10px, 0.5vw);
   }
 
   &__user {
+    font-weight: 700;
   }
 }
 
@@ -153,4 +157,8 @@ $scrollbar-width: max(10px, 0.5vw);
   -webkit-user-select: none;
   user-select: none;
   cursor: not-allowed;
+
+  * {
+    cursor: not-allowed;
+  }
 }

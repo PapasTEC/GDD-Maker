@@ -8,7 +8,7 @@
 <div class="textArea3"><div>TEXT!!!</div></div>
 <div class="textArea4"></div>
 <div class="textArea5"></div> -->
-  <div class="diagram">
+  <div class="diagram" [ngClass]="isBlocked ? 'disabled-component' : ''">
     <img
       src="assets/img/Core_Diagram.svg"
       alt="Core Diagram"
@@ -17,20 +17,58 @@
 
     <div class="diagram__text-container">
       <div class="diagram__text-container__text">
-        <div class="core-diagram__vditor1 scrollBar" id="vditor1"></div>
+        <div
+          class="core-diagram__vditor1 scrollBar"
+          id="vditor1"
+          (keydown)="onChange($event)"
+          (contextmenu)="onChange($event)"
+          (paste)="onChange($event)"
+          (input)="onChange($event)"
+        ></div>
       </div>
       <div class="diagram__text-container__text">
-        <div class="core-diagram__vditor2" id="vditor2"></div>
+        <div
+          class="core-diagram__vditor2"
+          id="vditor2"
+          (keydown)="onChange($event)"
+          (contextmenu)="onChange($event)"
+          (paste)="onChange($event)"
+          (input)="onChange($event)"
+        ></div>
       </div>
       <div class="diagram__text-container__text">
-        <div class="core-diagram__vditor3" id="vditor3"></div>
+        <div
+          class="core-diagram__vditor3"
+          id="vditor3"
+          (keydown)="onChange($event)"
+          (contextmenu)="onChange($event)"
+          (paste)="onChange($event)"
+          (input)="onChange($event)"
+        ></div>
       </div>
       <div class="diagram__text-container__text fourth">
-        <div class="core-diagram__vditor4" id="vditor4"></div>
+        <div
+          class="core-diagram__vditor4"
+          id="vditor4"
+          (keydown)="onChange($event)"
+          (contextmenu)="onChange($event)"
+          (paste)="onChange($event)"
+          (input)="onChange($event)"
+        ></div>
       </div>
       <div class="diagram__text-container__text empty"></div>
       <div class="diagram__text-container__text empty"></div>
       <div class="diagram__text-container__text empty"></div>
     </div>
   </div>
+</div>
+
+<div class="editing-box elevatorPitch" *ngIf="isBlocked">
+  <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
+  <span class="editing-box__user">{{ userBlocking?.name }}</span>
+  <span class="editing-box__text">
+    <span *ngIf="userBlocking.name.toLowerCase().endsWith('s')">' </span>
+    <span *ngIf="!userBlocking.name.toLowerCase().endsWith('s')">'s </span>
+    editing</span
+  >
 </div>

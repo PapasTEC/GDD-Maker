@@ -1,7 +1,4 @@
-<div
-  id="markdown-editor"
-  class="markdown-wrapper"
->
+<div id="markdown-editor" class="markdown-wrapper">
   <div [class.blocked-div]="!isBlocked" class="toolbarBar">
     <i class="fas fa-chevron-down icon"></i>
   </div>
@@ -10,10 +7,17 @@
     (contextmenu)="onContextMenu($event)"
     (paste)="onKeyDown($event)"
     (input)="onKeyDown($event)"
-    id="vditor"
     [ngClass]="isBlocked ? 'disabled-component' : ''"
-
+    id="vditor"
   ></div>
+  <div class="editing-box" *ngIf="isBlocked">
+    <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
+    <span class="editing-box__user">{{ userBlocking?.name }}</span>
+    <span class="editing-box__text"
+      ><span *ngIf="usersBlocking?.name[-1].lower() != 's'">'s</span>
+      editing</span
+    >
+  </div>
 </div>
 <input
   type="file"
@@ -21,4 +25,5 @@
   accept="image/*"
   id="fileSelector"
   (change)="onFileSelected($event)"
+  [disabled]="isBlocked"
 />

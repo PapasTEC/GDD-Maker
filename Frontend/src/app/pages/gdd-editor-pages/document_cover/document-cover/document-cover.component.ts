@@ -6,6 +6,7 @@ import { FinishSetupComponent } from '../../../gdd-setup-pages/finish-setup/fini
 import { filter, map, take } from "rxjs/operators";
 
 import { ActivatedRoute } from '@angular/router';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-document-cover',
@@ -36,9 +37,20 @@ export class DocumentCoverComponent {
 
   loaded = true;
 
-  ;
+  /* Collaborative Editing */
+  isBlocked: boolean = false;
 
-  constructor(private editingDocumentService: EditingDocumentService, route: ActivatedRoute, private finishSetup: FinishSetupComponent ) {
+  userBlocking: any = null;
+
+  localUser = null;
+  decodeToken: any;
+  updateSocket: any;
+  myInput: boolean = false;
+  updateBlockedInterval: any = null;
+
+  firstLoad = false;
+
+  constructor(private editingDocumentService: EditingDocumentService, route: ActivatedRoute, private finishSetup: FinishSetupComponent, private tokenService: TokenService ) {
     this.route = route;
   }
 
@@ -47,45 +59,68 @@ export class DocumentCoverComponent {
       this.section = data.section;
       this.subSection = data.subSection;
     });
-    
   }
 
   updateDocument() {
-    
+    console.log("SENDING FRONT PAGE", this.frontPage)
+    console.log(this.frontPage.documentLogo.length)
+    this.myInput = true;
+    this.frontPage.lastUpdated = new Date().toISOString();
     this.frontPage.documentTitle = this.cover.GameName;
 
     this.finishSetup.convertTempUrlToBase64(this.cover.GameLogo).then((result) => {
       this.frontPage.documentLogo = result;
+
+      this.frontPage.companyName = this.cover.CompanyName;
+      this.finishSetup.convertTempUrlToBase64(this.cover.CompanyLogo).then((result) => {
+        this.frontPage.companyLogo = result;
+        this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
+
+        // console.log(this.companyName)
+
+        this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
+      }).catch((err) => {
+        console.log(err);
+      });
     }).catch((err) => {
       console.log(err);
     });
+  }
 
-    this.frontPage.companyName = this.cover.CompanyName;
-    this.finishSetup.convertTempUrlToBase64(this.cover.CompanyLogo).then((result) => {
-      this.frontPage.companyLogo = result;
-    }).catch((err) => {
-      console.log(err);
-    });
-    this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
-
-    // console.log(this.companyName)
-
-    this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
+  public canBeEdited(): boolean {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked =
+      userEditing && userEditing.email !== this.localUser;
+    if (this.isBlocked) {
+      this.userBlocking = userEditing;
+    }
+    return !this.isBlocked;
   }
 
   ngOnInit(){
     this.getSectionAndSubSection(this.route);
 
-    
-    
-    this.editingDocumentService.document$
-      .pipe(
-        filter((document) => document !== null),
-        map((document) =>
-          document.frontPage
-        ),
-        take(1)
-      ).subscribe((frontPage) => {
+      this.decodeToken = this.tokenService
+      .decodeToken()
+      .subscribe((data: any) => {
+        this.localUser = data.decoded.email;
+      });
+
+      this.updateSocket = this.editingDocumentService
+      .updateDocumentSocket()
+      .pipe(filter((document) => document !== null),
+      map((document) =>
+        document.frontPage
+      ))
+      .subscribe((frontPage) => {
+        // if the user is editing the document, do not update the document
+        if (this.myInput) {
+          this.myInput = false;
+          return;
+        }
+
+        this.canBeEdited();
 
         this.frontPage = frontPage;
         this.gameName = frontPage.documentTitle;
@@ -99,40 +134,129 @@ export class DocumentCoverComponent {
 
         this.cover.Authors = this.authors;
         this.cover.CompanyLogo = this.companyLogo;
-        this.cover.GameLogo = this.gameLogo;
 
-        this.updateLogo(this.gameLogo, gameLogoDoc);
-        this.updateLogo(this.companyLogo, companyLogoDoc);
-        
+        this.updateLogo(this.gameLogo, gameLogoDoc, false);
+
+        this.updateLogo(this.companyLogo, companyLogoDoc, false);
+
         this.setLastUpdate(new Date(frontPage.lastUpdated));
-        
+
         const titleArea = document.getElementById("titl") as HTMLElement;
         const companyArea = document.getElementById("comp") as HTMLElement;
 
-        this.resetAreasSize(titleArea, this.gameName);
-        this.resetAreasSize(companyArea, this.companyName);
-        this.loaded = true;
+        this.resetAreasSize(titleArea, this.gameName, false);
+        this.resetAreasSize(companyArea, this.companyName, false);
+        this.cover.GameName = this.gameName;
+        this.cover.CompanyName = this.companyName;
+        // this.loaded = true;
 
+
+
+        // filter the document to get the section and subsection
+        // and set the techInfo to the subSectionContent to update the information in real time
+        // this.documentSubSection = document.documentContent
+        //   .find((section) => section.sectionTitle === this.section)
+        //   .subSections.find(
+        //     (subsection) => subsection.subSectionTitle === this.subSection
+        //   );
+
+        // this.elevatorPitch = this.documentSubSection.subSectionContent.elevatorPitch;
+        // this.tagline = this.documentSubSection.subSectionContent.tagline;
+        // this.genres = this.documentSubSection.subSectionContent.genres;
+        // this.tags = this.documentSubSection.subSectionContent.tags;
+
+        console.log("UPDATE FRONT PAGE", frontPage)
+        console.log(this.frontPage.documentLogo.length)
       });
 
-      this.cover.GameName = this.gameName;
-      this.cover.CompanyName = this.companyName;
+      this.updateBlockedInterval = setInterval(() => {
+        this.updateIsBlocked1s();
+      }, 1000);
+    // this.editingDocumentService.document$
+    //   .pipe(
+    //     filter((document) => document !== null),
+    //     map((document) =>
+    //       document.frontPage
+    //     ),
+    //     take(1)
+    //   )
+    //   .subscribe((frontPage) => {
+    //     // this.documentSubSection = document;
+
+    //     // this.elevatorPitch = this.documentSubSection.subSectionContent.elevatorPitch;
+    //     // this.tagline = this.documentSubSection.subSectionContent.tagline;
+    //     // this.genres = this.documentSubSection.subSectionContent.genres;
+    //     // this.tags = this.documentSubSection.subSectionContent.tags;
+
+    //     // console.log("DOCUMENTOVICH", document);
+
+    //     this.frontPage = frontPage;
+    //     this.gameName = frontPage.documentTitle;
+    //     this.gameLogo = frontPage.documentLogo;
+    //     this.companyName = frontPage.companyName;
+    //     this.companyLogo = frontPage.companyLogo;
+    //     this.authors = frontPage.collaborators.map((collab:string) => { return {name: collab} });
+
+    //     const gameLogoDoc = document.getElementById("gl") as HTMLElement;
+    //     const companyLogoDoc = document.getElementById("cl") as HTMLElement;
+
+    //     this.cover.Authors = this.authors;
+    //     this.cover.CompanyLogo = this.companyLogo;
+    //     this.cover.GameLogo = this.gameLogo;
+
+    //     this.updateLogo(this.gameLogo, gameLogoDoc, false);
+    //     this.updateLogo(this.companyLogo, companyLogoDoc, false);
+
+    //     this.setLastUpdate(new Date(frontPage.lastUpdated));
+
+    //     const titleArea = document.getElementById("titl") as HTMLElement;
+    //     const companyArea = document.getElementById("comp") as HTMLElement;
+
+    //     this.resetAreasSize(titleArea, this.gameName, false);
+    //     this.resetAreasSize(companyArea, this.companyName, false);
+    //     this.cover.GameName = this.gameName;
+    //     this.cover.CompanyName = this.companyName;
+
+
+    //     this.firstLoad = true;
+
+    //     this.loaded = true;
+
+
+    //     console.log("PRIMER FRONT PAGE", frontPage);
+
+    //     this.canBeEdited();
+
+    //     this.updateBlockedInterval = setInterval(() => {
+    //       this.updateIsBlocked1s();
+    //     }, 1000);
+    //   });
   }
 
-  
+  updateIsBlocked1s() {
+    this.canBeEdited();
+  }
 
-  resetAreasSize(area, _var){
-    
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+  }
+
+  resetAreasSize(area, _var, callUpdate: boolean = true){
+
     const targ = area as HTMLTextAreaElement;
     let rows = _var.split("\n").length;
 
     // console.log("rows: ", _var);
-    
+
     targ.style.height = `${rows * 1.5}em`;
     targ.rows = rows;
 
     targ.value = _var;
-    
+
     while(targ.scrollHeight > targ.clientHeight){
       // console.log("targ.scrollHeight B: ", targ.style.height);
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
@@ -143,30 +267,34 @@ export class DocumentCoverComponent {
       targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
     }
 
-    this.updateCoverContent();
-      
-    
-
+    if (callUpdate) {
+      console.log("Call update")
+      this.updateCoverContent();
+    }
   }
 
   growShrink(ev: Event, var_:string) {
+    if (!this.canBeEdited()) {
+      ev.preventDefault();
+      return;
+    }
     let rows = var_.split("\n").length;
     let trgt = ev.target as HTMLTextAreaElement;
     trgt.style.height = `${rows * 1.5}em`;
     trgt.rows = rows;
-    
+
     this.breakLines(ev, rows);
     this.updateCoverContent();
 
   }
 
   updateCoverContent(){
+    console.log("UPDATE COVER CONTENT")
     this.cover.Authors = this.authors;
     this.cover.GameName = this.gameName;
     this.cover.CompanyName = this.companyName;
     this.cover.GameLogo = this.gameLogo;
     this.cover.CompanyLogo = this.companyLogo;
-
     this.updateDocument();
   }
 
@@ -189,18 +317,30 @@ export class DocumentCoverComponent {
   }
 
   addAuthor(){
+    if (!this.canBeEdited()) {
+      return;
+    }
+
     this.authors.push({'name': ""});
     this.updateCoverContent();
   }
 
   removeAuthor(index:number){
+    if (!this.canBeEdited()) {
+      return;
+    }
+
     this.authors.splice(index, 1);
     this.updateCoverContent();
   }
-  
+
 
   updateTXT(ev: Event, elem: HTMLTextAreaElement, indexInp:string) {
-    
+    if (!this.canBeEdited()) {
+      ev.preventDefault();
+      return;
+    }
+
     const index = parseInt(indexInp);
 
     this.authors[index].name = elem.value;
@@ -211,14 +351,14 @@ export class DocumentCoverComponent {
 
     this.breakLines(ev, rows);
     this.updateCoverContent();
-    
+
   }
 
 
   breakLines(ev: Event, rows?:number) {
     const targ = ev.target as HTMLTextAreaElement;
 
-    
+
     while(targ.scrollHeight > targ.clientHeight){
       // console.log("targ.scrollHeight B: ", targ.style.height);
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
@@ -237,17 +377,23 @@ export class DocumentCoverComponent {
         const authsTXTArea = auth.getElementsByTagName("textarea") as HTMLCollectionOf<HTMLElement>;
 
         for(let i = 0; i < authsTXTArea.length; i++){
-          this.resetAreasSize(authsTXTArea[i], this.authors[i].name);
+          this.resetAreasSize(authsTXTArea[i], this.authors[i].name, this.firstLoad);
         }
 
         this.loaded = false;
+        this.firstLoad = false;
 
     }
-    
+
   }
 
 
   public onFileSelected(event: any, element: HTMLElement, isGameLogo: any, eventB=false, newF=File): void {
+    if (!this.canBeEdited()) {
+      event.preventDefault();
+      return;
+    }
+
     const file = event.target.files[0];
     if (file) {
       const img = URL.createObjectURL(file);
@@ -259,12 +405,10 @@ export class DocumentCoverComponent {
       }
 
       this.updateLogo(img, element);
-
-
     }
   }
 
-  private updateLogo(image, target: HTMLElement): void {
+  private updateLogo(image, target: HTMLElement, callUpdate: boolean = true): void {
     let uploadButton = target;
     uploadButton.style.backgroundImage = `url(${image})`;
     uploadButton.style.backgroundSize = "100% 100%";
@@ -280,10 +424,13 @@ export class DocumentCoverComponent {
       this.companyLogo = image;
     }
 
-    this.updateCoverContent();
-    
+    if (callUpdate) {
+      console.log("Call update")
+      this.updateCoverContent();
+    }
+
     // Get photo aspect ratio
-    
+
   }
 
   transformToImageRatio(image, uploadButton, uploadButtonChild){
@@ -304,7 +451,7 @@ export class DocumentCoverComponent {
 
         uploadButton.style.paddingLeft = w;
         uploadButton.style.paddingRight = w;
-      
+
     };
   }
 

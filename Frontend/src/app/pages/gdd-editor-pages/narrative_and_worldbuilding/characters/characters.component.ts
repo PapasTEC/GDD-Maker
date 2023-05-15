@@ -297,6 +297,9 @@ export class CharactersComponent {
       }).catch((err) => {
         console.log("err", err);
       });
+
+
+
     }
   }
 
@@ -321,23 +324,22 @@ export class CharactersComponent {
     }
 
 
-    // uploadButton.style.backgroundImage = `url(${image})`;
+    uploadButton.style.backgroundImage = `url(${image})`;
 
-    // // console.log("uploadButton", uploadButton)
-    // // console.log("Id", id)
-    // // console.log("Image", image)
+    // console.log("uploadButton", uploadButton)
+    // console.log("Id", id)
+    // console.log("Image", image)
 
-    // uploadButton.style.maxHeight = "100%";
-    // uploadButton.style.maxWidth = "100%";
-    // uploadButton.style.backgroundRepeat = "no-repeat";
-    // uploadButton.style.backgroundPosition = "center";
-    // uploadButton.style.backgroundSize = "cover";
-    uploadButton.style.borderRadius = `${image.length}px`;
+    uploadButton.style.maxHeight = "100%";
+    uploadButton.style.maxWidth = "100%";
+    uploadButton.style.backgroundRepeat = "no-repeat";
+    uploadButton.style.backgroundPosition = "center";
+    uploadButton.style.backgroundSize = "cover";
 
-    // let uploadButtonChild = uploadButton.children[1] as HTMLElement;
-    // uploadButtonChild.style.display = "none";
+    let uploadButtonChild = uploadButton.children[1] as HTMLElement;
+    uploadButtonChild.style.display = "none";
 
-    // this.transformToImageRatio(image, uploadButton, uploadButtonChild);
+    this.transformToImageRatio(image, uploadButton, uploadButtonChild);
 
   }
 

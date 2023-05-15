@@ -66,56 +66,6 @@ export class CoreMechanicComponent {
   }
 
   ngOnInit() {
-    // this.editingDocumentService.document$
-    //   .pipe(
-    //     filter((document) => document !== null),
-    //     map((document) =>
-    //       document.documentContent
-    //         .find((section) => section.sectionTitle === this.section)
-    //         .subSections.find(
-    //           (subsection) => subsection.subSectionTitle === this.subSection
-    //         )
-    //     ),
-    //     take(1)
-    //   )
-    //   .subscribe((document) => {
-    //     this.documentSubSection = document;
-    //     this.coreMechanicContent = this.documentSubSection.subSectionContent;
-    //     console.log("coreMechanicContent:", this.coreMechanicContent);
-    //     (this.vditor1 = new Vditor(
-    //       "vditor1",
-    //       this.changeVditorConfig(
-    //         "Metaphore...",
-    //         this.coreMechanicContent["metaphore"],
-    //         "metaphore"
-    //       )
-    //     )),
-    //       (this.vditor2 = new Vditor(
-    //         "vditor2",
-    //         this.changeVditorConfig(
-    //           "Progression...",
-    //           this.coreMechanicContent["progression"],
-    //           "progression"
-    //         )
-    //       ));
-    //     this.vditor3 = new Vditor(
-    //       "vditor3",
-    //       this.changeVditorConfig(
-    //         "Secondary...",
-    //         this.coreMechanicContent["secondary"],
-    //         "secondary"
-    //       )
-    //     );
-    //     this.vditor4 = new Vditor(
-    //       "vditor4",
-    //       this.changeVditorConfig(
-    //         "Core Mechanic...",
-    //         this.coreMechanicContent["coreMechanic"],
-    //         "coreMechanic"
-    //       )
-    //     );
-    //   });
-
     /* NEW - COLLABORATIVE */
     this.decodeToken = this.tokenService
       .decodeToken()

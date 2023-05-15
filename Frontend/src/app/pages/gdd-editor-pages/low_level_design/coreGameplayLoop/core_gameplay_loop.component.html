@@ -1,9 +1,12 @@
-<div class="cgl-diagram">
+<div class="cgl-diagram" [ngClass]="isBlocked ? 'disabled-component' : ''">
   <div class="text-box tb-center T1">
     <textarea
       class="text-box__textarea"
       placeholder="Enter text here"
       (input)="onValueChange($event, 'first')"
+      (keydown)="onValueChange($event, 'first')"
+      (contextmenu)="onValueChange($event, 'first')"
+      (paste)="onValueChange($event, 'first')"
       [value]="coreGameplayLoopContent.first || ''"
     ></textarea>
   </div>
@@ -14,6 +17,9 @@
       class="text-box__textarea"
       placeholder="Enter text here"
       (input)="onValueChange($event, 'second')"
+      (keydown)="onValueChange($event, 'second')"
+      (contextmenu)="onValueChange($event, 'second')"
+      (paste)="onValueChange($event, 'second')"
       [value]="coreGameplayLoopContent.second || ''"
     ></textarea>
   </div>
@@ -22,6 +28,9 @@
       class="text-box__textarea"
       placeholder="Enter text here"
       (input)="onValueChange($event, 'third')"
+      (keydown)="onValueChange($event, 'third')"
+      (contextmenu)="onValueChange($event, 'third')"
+      (paste)="onValueChange($event, 'third')"
       [value]="coreGameplayLoopContent.third || ''"
     ></textarea>
   </div>
@@ -32,7 +41,19 @@
       class="text-box__textarea"
       placeholder="Enter text here"
       (input)="onValueChange($event, 'fourth')"
+      (keydown)="onValueChange($event, 'fourth')"
+      (contextmenu)="onValueChange($event, 'fourth')"
+      (paste)="onValueChange($event, 'fourth')"
       [value]="coreGameplayLoopContent.fourth || ''"
     ></textarea>
   </div>
+</div>
+<div class="editing-box elevatorPitch" *ngIf="isBlocked">
+  <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
+  <span class="editing-box__user">{{ userBlocking?.name }}</span>
+  <span class="editing-box__text">
+    <span *ngIf="userBlocking.name.toLowerCase().endsWith('s')">' </span>
+    <span *ngIf="!userBlocking.name.toLowerCase().endsWith('s')">'s </span>
+    editing</span
+  >
 </div>

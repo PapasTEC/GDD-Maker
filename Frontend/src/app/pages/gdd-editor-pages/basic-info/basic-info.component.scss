@@ -321,10 +321,10 @@ $tertiary: #c7c7c7;
     }
 }
 
-.editing-box {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  border: 1.5px solid #16425b;
-  z-index: 500000;
+div.editing-box {
+  background-color: #f4f3f6;
+  font-size: max(1vw, 1vh);
+  position: initial;
+  margin: 0;
+  margin-left: 0.3rem;
 }

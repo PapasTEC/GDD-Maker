@@ -12,7 +12,7 @@ $cardBorderRadius: 1rem;
 
     backface-visibility: hidden;
 
-    
+
 
     transition: position 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 
@@ -43,9 +43,9 @@ $cardBorderRadius: 1rem;
   }
 
   .eventsChapterContainer{
-    
+
     margin: 1rem 0;
-    
+
     position: relative;
     display: flex;
     flex-direction: column;
@@ -59,7 +59,7 @@ $cardBorderRadius: 1rem;
   }
 
   $eventsChapterTitleHeight: 3rem;
-  
+
 
   $padd: 0.75rem;
 
@@ -72,7 +72,7 @@ $cardBorderRadius: 1rem;
     width: inherit;
     height: $eventsChapterTitleHeight;
     box-sizing: border-box;
-    
+
     padding: $padd;
 
     background-color: rgba(240, 248, 255, 0.151);
@@ -146,7 +146,7 @@ $cardBorderRadius: 1rem;
       z-index: -1;
 
       margin-left: calc($lineWidth / -2);
-  
+
       border-left: none $lineWidth black;
 
     }
@@ -156,7 +156,7 @@ $cardBorderRadius: 1rem;
       position: relative;
       display: flex;
       justify-content: center;
-      
+
       width: $ballContainerWidth;
       height: 100%;
       box-sizing: border-box;
@@ -208,7 +208,7 @@ $cardBorderRadius: 1rem;
       top: calc(25% - 1.5rem);
 
       box-shadow: none;
-      
+
       &:not(hover){
         color: transparent;
         box-shadow: none;
@@ -248,23 +248,23 @@ $cardBorderRadius: 1rem;
       border: none 0.1vw rgb(0, 0, 255);
     }
 
-    
+
     .horizontalText {
       white-space: nowrap;
       overflow-y: none;
     }
-    
+
     .textAreaEvent {
       height: 100%;
       width: 100%;
-  
-  
+
+
       outline: none;
       resize: none;
       line-height: 1;
-  
+
       word-wrap: break-word;
-  
+
   }
     .textAreaEvent {
       width: 100%;
@@ -394,7 +394,7 @@ $cardBorderRadius: 1rem;
 
                 }
 
-                
+
             }
 
 
@@ -436,7 +436,7 @@ $cardBorderRadius: 1rem;
 
 }
 
-    
+
     .title{
       position: relative;
       display: flex;
@@ -452,7 +452,7 @@ $cardBorderRadius: 1rem;
       "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
 
       font-size: 2rem;
-      
+
 
       border: none 0.1vw rgb(0, 255, 0);
     }
@@ -482,7 +482,7 @@ $cardBorderRadius: 1rem;
     border: none 1px black;
   }
 
-  
+
 
 
   .eventsChapter{
@@ -589,4 +589,15 @@ $cardBorderRadius: 1rem;
 
   height: calc($resizeFont * 2);
   width: calc($resizeFont * 2);
+}
+
+.editing-box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 1.5px solid #16425b;
+  z-index: 500000;
+  margin-right: 2.5rem !important;
+  margin-bottom: 1rem;
+  transform: scale(.8);
 }

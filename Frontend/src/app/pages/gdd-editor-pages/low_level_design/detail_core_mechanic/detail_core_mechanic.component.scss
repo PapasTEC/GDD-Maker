@@ -93,6 +93,7 @@ $fontSize: 1.6vmax;
         // padding: min(0.8vh, 0.8vw);
         margin: 0;
         border: $borderState 2px #040077;
+        align-items: center;
 
       }
 
@@ -190,4 +191,12 @@ $fontSize: 1.6vmax;
   border: darkcyan $borderState 1px;
   line-height: 1.5 !important;
   word-wrap: break-word;
+}
+
+div.editing-box {
+  background-color: #f4f3f6;
+  font-size: max(1vw, 1vh);
+  position: initial;
+  margin: 0;
+  margin-left: 0.3rem;
 }

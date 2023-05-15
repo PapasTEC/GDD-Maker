@@ -1,5 +1,7 @@
 <body id="canvasContainer" class="bodyClass"
-    style="background-color:transparent; display:flex; align-items: center; justify-content: center;">
+    style="background-color:transparent; display:flex; align-items: center; justify-content: center;"
+    [ngClass]="isBlocked ? 'disabled-component' : ''"
+    >
     <div id="canvas" #A class="eventsInnerBody">
 
         <div class="eventContainerDivider" *ngFor="let entry of timeline; index as i">
@@ -7,9 +9,9 @@
 
                 <div class="eventsChapterTitle" style="border-bottom: solid 0.01rem black; margin-bottom: 2rem;">
                     <textarea class="title" #entryName rows="1" [value]="entry.name" (input)="editEntryName(i, entryName.value)"
-                    (keydown)="editEntryName(i, entryName.value)"
-                    (contextmenu)="editEntryName(i, entryName.value)"
-                    (paste)="editEntryName(i, entryName.value)"
+                    (keydown)="onChangeBlock($event)"
+                    (contextmenu)="onChangeBlock($event)"
+                    (paste)="onChangeBlock($event)"
                     class="vditor-reset  textAreaEvent  scrollBar horizontalText chapterNameTextArea "
                                         placeholder="How will you name this entry?" style="position:relative"></textarea>
                     <button #trash type="button" (click)="removeEntry(i)" #card class="btn btn-icon-only spec" style="position: absolute; top:50%; right:0; transform: translate(0, -50%);" >
@@ -24,9 +26,9 @@
                         </svg>
                         <textarea #missName rows="3" [value]="mission.name"
                         (input)="editMissionName(i, j, missName.value)"
-                        (keydown)="editMissionName(i, j, missName.value)"
-                        (contextmenu)="editMissionName(i, j, missName.value)"
-                        (paste)="editMissionName(i, j, missName.value)"
+                        (keydown)="onChangeBlock($event)"
+                        (contextmenu)="onChangeBlock($event)"
+                        (paste)="onChangeBlock($event)"
                         class="vditor-reset textAreaEvent scrollBar missionNameTextArea"
                                         placeholder="Describe this entry division" style="position:absolute; top:25%; height: 20%; transform: translate(0%, -25%);"></textarea>
 
@@ -54,9 +56,9 @@
 
                                         <textarea id="txtArea" #eventName
                                         (input)="editEventName(i, j, k, eventName.value)"
-                                        (keydown)="editEventName(i, j, k, eventName.value)"
-                                        (contextmenu)="editEventName(i, j, k, eventName.value)"
-                                        (paste)="editEventName(i, j, k, eventName.value)"
+                                        (keydown)="onChangeBlock($event)"
+                                        (contextmenu)="onChangeBlock($event)"
+                                        (paste)="onChangeBlock($event)"
                                         rows="1" [value]="event.name" class="vditor-reset textAreaEvent scrollBar horizontalText"
                                         placeholder="How is this event titled?" style="line-height: 1.5 !important;"></textarea>
 
@@ -70,9 +72,9 @@
                                 <div class="eventCardContent">
                                     <textarea id="txtArea" #eventContent
                                     (input)="editEventContent(i, j, k, eventContent.value)"
-                                    (keydown)="editEventContent(i, j, k, eventContent.value)"
-                                    (contextmenu)="editEventContent(i, j, k, eventContent.value)"
-                                    (paste)="editEventContent(i, j, k, eventContent.value)"
+                                    (keydown)="onChangeBlock($event)"
+                                    (contextmenu)="onChangeBlock($event)"
+                                    (paste)="onChangeBlock($event)"
                                     [value]="event.description" style="margin-top: 0.5rem;"class="vditor-reset textAreaEvent scrollBar"
                                         placeholder="What happens during this event?"></textarea>
                                 </div>

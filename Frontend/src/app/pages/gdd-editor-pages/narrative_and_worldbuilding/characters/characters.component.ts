@@ -200,6 +200,15 @@ export class CharactersComponent {
     this.canBeEdited();
   }
 
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+  }
+
   addDocSectionIfItDoesntExist(section:string){
     this.editingDocumentService.document$.pipe(
       filter((document) => document !== null),

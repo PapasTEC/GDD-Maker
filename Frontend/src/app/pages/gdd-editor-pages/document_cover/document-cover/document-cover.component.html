@@ -14,9 +14,9 @@
         [(ngModel)]="gameName"
         class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
         (input)="growShrink($event, gameName)"
-        (keydown)="growShrink($event, gameName)"
-        (contextmenu)="growShrink($event, gameName)"
-        (paste)="growShrink($event, gameName)"
+        (keydown)="onChangeBlock($event)"
+        (contextmenu)="onChangeBlock($event)"
+        (paste)="onChangeBlock($event)"
         placeholder="Game Title Here"
       ></textarea>
     </div>
@@ -63,9 +63,9 @@
         [(ngModel)]="companyName"
         class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
         (input)="growShrink($event, companyName)"
-        (keydown)="growShrink($event, companyName)"
-        (contextmenu)="growShrink($event, companyName)"
-        (paste)="growShrink($event, companyName)"
+        (keydown)="onChangeBlock($event)"
+        (contextmenu)="onChangeBlock($event)"
+        (paste)="onChangeBlock($event)"
         placeholder="Company Name Here"
       ></textarea>
     </div>
@@ -114,9 +114,9 @@
             class="vditor-reset textArea documentCoverTextAreasAuthors horizontalText scrollBar"
             [value]="author.name"
             (input)="updateTXT($event, el, i)"
-            (keydown)="updateTXT($event, el, i)"
-            (contextmenu)="updateTXT($event, el, i)"
-            (paste)="updateTXT($event, el, i)"
+            (keydown)="onChangeBlock($event)"
+            (contextmenu)="onChangeBlock($event)"
+            (paste)="onChangeBlock($event)"
             placeholder="Author / Alias"
           ></textarea>
         </div>

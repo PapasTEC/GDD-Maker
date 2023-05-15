@@ -112,7 +112,13 @@ export class EditingDocumentService {
     this.socket.on('sync-data', ({ secId, subSecId, content }) => {
       console.log("================ sync data ================ ");
       const document = this.document.getValue();
+      console.log(secId, subSecId, content);
+      console.log(document)
+      console.log(document.documentContent[secId])
+      console.log(document.documentContent[secId].subSections[subSecId])
+
       document.documentContent[secId].subSections[subSecId] = content;
+      console.log(this.documentSections[secId][subSecId])
       document.socketSubSection = this.documentSections[secId][subSecId];
       this.document.next(document);
 
@@ -234,7 +240,7 @@ export class EditingDocumentService {
     console.log(secId, subSecId);
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
-    this.socket.emit('edit-document', { documentId: this.documentId, secId, subSecId, content });
+    this.socket.emit('edit-document', { documentId: this.documentId, secId, subSecId, content, sectionTitle: section, subSectionTitle: subSection });
   }
 
   updateDocumentFrontPage(content: any) {

@@ -70,6 +70,17 @@ export class TechnicalInfoComponent {
     });
   }
 
+  public canBeEdited(part: string): boolean {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked[part] =
+      userEditing[part] && userEditing[part].email !== this.localUser;
+    if (this.isBlocked[part]) {
+      this.userBlocking[part] = userEditing[part];
+    }
+    return !this.isBlocked[part];
+  }
+
   ngOnInit() {
     this.getSectionAndSubSection();
 
@@ -78,26 +89,6 @@ export class TechnicalInfoComponent {
       .subscribe((data: any) => {
         this.localUser = data.decoded.email;
       });
-
-    // console.log("section: ", this.section);
-    // console.log("subSection: ", this.subSection);
-
-    // this.editingDocumentService.document$
-    //   .pipe(
-    //     filter((document) => document !== null),
-    //     map((document) =>
-    //       document.documentContent
-    //         .find((section) => section.sectionTitle === this.section)
-    //         .subSections.find(
-    //           (subsection) => subsection.subSectionTitle === this.subSection
-    //         )
-    //     ),
-    //     take(1)
-    //   ).subscribe((document) => {
-    //     console.log("Document: ", document);
-    //     this.documentSubSection = document;
-    //     this.techInfo = document.subSectionContent;
-    // });
 
     this.updateSocket = this.editingDocumentService
       .updateDocumentSocket()
@@ -109,22 +100,8 @@ export class TechnicalInfoComponent {
           return;
         }
 
-        const userEditing =
-          this.editingDocumentService.userEditingByComponent[this.subSection];
-
-        this.isBlocked.platforms =
-          userEditing.platforms &&
-          userEditing.platforms.email !== this.localUser;
-        if (this.isBlocked.platforms) {
-          this.userBlocking.platforms = userEditing.platforms;
-        }
-
-        this.isBlocked.generalData =
-          userEditing.generalData &&
-          userEditing.generalData.email !== this.localUser;
-        if (this.isBlocked.generalData) {
-          this.userBlocking.generalData = userEditing.generalData;
-        }
+        this.canBeEdited("platforms");
+        this.canBeEdited("generalData");
 
         // filter the document to get the section and subsection
         // and set the techInfo to the subSectionContent to update the information in real time
@@ -135,7 +112,7 @@ export class TechnicalInfoComponent {
           );
         this.techInfo = this.documentSubSection.subSectionContent;
 
-        console.log(this.documentSubSection);
+        console.log("Update", this.documentSubSection);
         // this.techInfo = document.documentSubSection.subSectionContent;
 
       });
@@ -194,27 +171,17 @@ export class TechnicalInfoComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
+    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
   }
 
   onPlatformsChange(event: KeyboardEvent): void {
-    const userEditing =
-      this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked.platforms =
-      userEditing.platforms && userEditing.platforms.email !== this.localUser;
-    if (this.isBlocked.platforms) {
-      this.userBlocking.platforms = userEditing.platforms;
+    if (!this.canBeEdited("platforms")) {
       event.preventDefault();
     }
   }
 
   onGeneralDataChange(event: KeyboardEvent): void {
-    const userEditing =
-      this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked.generalData =
-      userEditing.generalData &&
-      userEditing.generalData.email !== this.localUser;
-    if (this.isBlocked.generalData) {
-      this.userBlocking.generalData = userEditing.generalData;
+    if (!this.canBeEdited("generalData")) {
       event.preventDefault();
     }
   }
@@ -233,12 +200,7 @@ export class TechnicalInfoComponent {
   }
 
   public addOrRemove(platformID: number) {
-    const userEditing =
-      this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked.platforms =
-      userEditing.platforms && userEditing.platforms.email !== this.localUser;
-    if (this.isBlocked.platforms) {
-      this.userBlocking.platforms = userEditing.platforms;
+    if (!this.canBeEdited("platforms")) {
       return;
     }
 
@@ -254,18 +216,18 @@ export class TechnicalInfoComponent {
   }
 
   updateGeneralData(event: KeyboardEvent) {
-    const userEditing =
-      this.editingDocumentService.userEditingByComponent[this.subSection];
 
-    this.isBlocked.generalData =
-      userEditing.generalData &&
-      userEditing.generalData.email !== this.localUser;
-      console.log("isBlocked: ", this.isBlocked.generalData)
-    if (this.isBlocked.generalData) {
-      this.userBlocking.generalData = userEditing.generalData;
+    if (!this.canBeEdited("generalData")) {
       event.preventDefault();
       return;
     }
     this.updateDocument("generalData");
+  }
+
+  onChangeBlock(event: any, part: string) {
+    if (!this.canBeEdited(part)) {
+      event.preventDefault();
+      return;
+    }
   }
 }

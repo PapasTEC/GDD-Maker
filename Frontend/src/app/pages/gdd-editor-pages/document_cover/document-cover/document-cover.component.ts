@@ -83,6 +83,27 @@ export class DocumentCoverComponent {
         console.log(err);
       });
     }).catch((err) => {
+
+      this.frontPage.documentLogo = this.cover.GameLogo;
+
+      this.frontPage.companyName = this.cover.CompanyName;
+      this.finishSetup.convertTempUrlToBase64(this.cover.CompanyLogo).then((result) => {
+        this.frontPage.companyLogo = result;
+        this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
+
+        // console.log(this.companyName)
+
+        this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
+      }).catch((err) => {
+        this.frontPage.companyLogo = this.cover.CompanyLogo;
+        this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
+
+        // console.log(this.companyName)
+
+        this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
+        console.log(err);
+      });
+
       console.log(err);
     });
   }
@@ -148,22 +169,7 @@ export class DocumentCoverComponent {
         this.resetAreasSize(companyArea, this.companyName, false);
         this.cover.GameName = this.gameName;
         this.cover.CompanyName = this.companyName;
-        // this.loaded = true;
-
-
-
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
-        // this.documentSubSection = document.documentContent
-        //   .find((section) => section.sectionTitle === this.section)
-        //   .subSections.find(
-        //     (subsection) => subsection.subSectionTitle === this.subSection
-        //   );
-
-        // this.elevatorPitch = this.documentSubSection.subSectionContent.elevatorPitch;
-        // this.tagline = this.documentSubSection.subSectionContent.tagline;
-        // this.genres = this.documentSubSection.subSectionContent.genres;
-        // this.tags = this.documentSubSection.subSectionContent.tags;
+        this.loaded = true;
 
         console.log("UPDATE FRONT PAGE", frontPage)
         console.log(this.frontPage.documentLogo.length)
@@ -455,4 +461,10 @@ export class DocumentCoverComponent {
     };
   }
 
+  onChangeBlock(event: any) {
+    if (!this.canBeEdited()) {
+      event.preventDefault();
+      return;
+    }
+  }
 }

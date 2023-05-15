@@ -148,9 +148,10 @@
                       [value]="techInfo.ageClassification"
                       [(ngModel)]="techInfo.ageClassification"
                       (input)="updateGeneralData($event)"
-                      (keydown)="updateGeneralData($event)"
-                      (contextmenu)="updateGeneralData($event)"
-                      (paste)="updateGeneralData($event)"                    />
+                      (keydown)="onChangeBlock($event, 'generalData')"
+                      (contextmenu)="onChangeBlock($event, 'generalData')"
+                      (paste)="onChangeBlock($event, 'generalData')"
+                                        />
                   </div>
                   <div class="otherDetailsRow">
                     <input
@@ -158,9 +159,10 @@
                       [value]="techInfo.targetAudience"
                       [(ngModel)]="techInfo.targetAudience"
                       (input)="updateGeneralData($event)"
-                      (keydown)="updateGeneralData($event)"
-                      (contextmenu)="updateGeneralData($event)"
-                      (paste)="updateGeneralData($event)"                    />
+                      (keydown)="onChangeBlock($event, 'generalData')"
+                      (contextmenu)="onChangeBlock($event, 'generalData')"
+                      (paste)="onChangeBlock($event, 'generalData')"
+                    />
                   </div>
                   <div class="otherDetailsRow">
                     <input
@@ -169,9 +171,10 @@
                       [value]="techInfo.releaseDate"
                       [(ngModel)]="techInfo.releaseDate"
                       (input)="updateGeneralData($event)"
-                      (keydown)="updateGeneralData($event)"
-                      (contextmenu)="updateGeneralData($event)"
-                      (paste)="updateGeneralData($event)"                    />
+                      (keydown)="onChangeBlock($event, 'generalData')"
+                      (contextmenu)="onChangeBlock($event, 'generalData')"
+                      (paste)="onChangeBlock($event, 'generalData')"
+                    />
                   </div>
                   <div class="otherDetailsRow">
                     <input
@@ -179,9 +182,9 @@
                       [value]="techInfo.price"
                       [(ngModel)]="techInfo.price"
                       (input)="updateGeneralData($event)"
-                      (keydown)="updateGeneralData($event)"
-                      (contextmenu)="updateGeneralData($event)"
-                      (paste)="updateGeneralData($event)"
+                      (keydown)="onChangeBlock($event, 'generalData')"
+                      (contextmenu)="onChangeBlock($event, 'generalData')"
+                      (paste)="onChangeBlock($event, 'generalData')"
                     />
                   </div>
                 </div>

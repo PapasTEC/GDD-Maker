@@ -160,6 +160,7 @@ export class EventsComponent {
 
       // filter the document to get the section and subsection
       // and set the techInfo to the subSectionContent to update the information in real time
+      console.log(document.documentContent)
       this.documentSubSection = document.documentContent
         .find((section) => section.sectionTitle === this.section)
         .subSections.find(
@@ -167,9 +168,13 @@ export class EventsComponent {
         );
 
       console.log("UPDATE", this.documentSubSection)
-      this.timeline = this.documentSubSection.subsectionContent.events;
+      let events = this.documentSubSection.subSectionContent.events;
+      console.log("EVENTS", events)
+      this.timeline = events;
 
     });
+
+
 
   this.editingDocumentService.document$
     .pipe(
@@ -196,6 +201,15 @@ export class EventsComponent {
       }, 1000);
     });
 
+  }
+
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
   }
 
   updateIsBlocked1s() {
@@ -522,5 +536,11 @@ export class EventsComponent {
     element.onwheel = null;
   }
 
+  onChangeBlock(event: any) {
+    if (!this.canBeEdited()) {
+      event.preventDefault();
+      return;
+    }
+  }
 
 }

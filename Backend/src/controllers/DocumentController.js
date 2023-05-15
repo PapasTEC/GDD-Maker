@@ -152,6 +152,72 @@ documentController.updateOnlySubSectionByTitles = async (req, res) => {
     });
 };
 
+documentController.updateOnlySubSectionByTitlesBasic = async (
+  id,
+  sectionTitle,
+  subSectionTitle,
+  content
+) => {
+  console.log("Updating document: " + id);
+  console.log("Updating content: " + JSON.stringify(content));
+
+  console.log("Updating section: " + sectionTitle);
+  console.log("Updating subSection: " + subSectionTitle);
+  try {
+    let document = await Documents.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          "documentContent.$[section].subSections.$[subSection]":
+            content,
+        },
+      },
+      {
+        arrayFilters: [
+          { "section.sectionTitle": sectionTitle },
+          { "subSection.subSectionTitle": subSectionTitle },
+        ],
+      }
+    );
+    if (!document) {
+      return false;
+    }
+    console.log(document);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+documentController.updateOnlyCoverBasic = async (
+  id,
+  content
+) => {
+  console.log("Updating document: " + id);
+  console.log("Updating content: " + JSON.stringify(content));
+
+  try {
+    let document = await Documents.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          "frontPage":
+            content,
+        },
+      },
+    );
+    if (!document) {
+      return false;
+    }
+    console.log(document);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 documentController.updateOnlySubSectionByIds = async (req, res) => {
   const { id, sectionId, subSectionId } = req.params;
   console.log("Updating document: " + id);
@@ -218,7 +284,7 @@ documentController.inviteUser = async (req, res) => {
   );
 
   const documentWithId = await Documents.findById(id);
-  
+
   // Owner cannot be invited
 
   if (documentWithId.owner === email) {

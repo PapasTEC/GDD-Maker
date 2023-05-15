@@ -147,6 +147,16 @@ export class CoreGameplayLoopComponent {
     this.canBeEdited();
   }
 
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+  }
+
+
   onValueChange(event: Event, name: string): void {
     if (!this.canBeEdited()) {
       event.preventDefault();
@@ -157,5 +167,12 @@ export class CoreGameplayLoopComponent {
     this.coreGameplayLoopContent[name] = value;
     // console.log("coreGameplayLoopContent:", this.coreGameplayLoopContent);
     this.updateDocument(this.coreGameplayLoopContent);
+  }
+
+  onChangeBlock(event: any) {
+    if (!this.canBeEdited()) {
+      event.preventDefault();
+      return;
+    }
   }
 }

@@ -214,7 +214,6 @@ export class DetailCoreMechanicComponent {
             }
           }
 
-
         });
 
       this.editingDocumentService.document$
@@ -245,8 +244,6 @@ export class DetailCoreMechanicComponent {
             }
           }
 
-
-
           console.log(this.documentSubSection);
 
           this.updateBlockedInterval = setInterval(() => {
@@ -270,6 +267,22 @@ export class DetailCoreMechanicComponent {
           this.userBlocking[key] = userEditing[key];
         }
       }
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+  }
+
+  onChangeBlock(event: any, part: string) {
+    if (!this.canBeEdited(part)) {
+      event.preventDefault();
+      return;
     }
   }
 }

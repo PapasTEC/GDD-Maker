@@ -9,6 +9,7 @@ const express = require("express");
 const http = require("http");
 const { instrument } = require("@socket.io/admin-ui");
 const { Server, Socket } = require("socket.io");
+const documentController = require('./controllers/DocumentController');
 
 const morgan = require("morgan");
 const path = require("path");
@@ -103,17 +104,20 @@ io.on("connection", (socket) => {
     onlineUsers.delete(socket.id);
   });
 
-  socket.on("edit-document", ({ documentId, secId, subSecId, content }) => {
+  socket.on("edit-document", async ({ documentId, secId, subSecId, content, sectionTitle, subSectionTitle }) => {
     socket.broadcast
       .to(documentId)
       .emit("sync-data", { secId, subSecId, content });
+    console.log('edit-document', { documentId, secId, subSecId, content })
+    console.log(await documentController.updateOnlySubSectionByTitlesBasic(documentId, sectionTitle, subSectionTitle, content));
     // socket.to(documentId).broadcast.emit('update-data', data)
   });
 
-  socket.on('edit-document-front-page', ({ documentId, content }) => {
+  socket.on('edit-document-front-page', async ({ documentId, content }) => {
     socket.broadcast
       .to(documentId)
       .emit("sync-data-front-page", { content });
+      console.log(await documentController.updateOnlyCoverBasic(documentId, content));
   });
 
   socket.on("edit-User", ({ documentId, content, user, part }) => {

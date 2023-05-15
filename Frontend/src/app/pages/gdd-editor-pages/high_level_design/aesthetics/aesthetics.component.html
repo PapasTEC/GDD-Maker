@@ -34,15 +34,15 @@
                     <div class="aestheticsCardContent">
                         <textarea id="txtArea" #txtArea class="vditor-reset vditor-resetAes textArea textAreaAes scrollBar" [value]="docAesthetics.content" placeholder="Describe your game's main aesthetic here." *ngIf="i == 0"
                         (input)="updateTxtContent(txtArea, docAesthetics.name, $event)"
-                        (keydown)="updateTxtContent(txtArea, docAesthetics.name, $event)"
-                        (contextmenu)="updateTxtContent(txtArea, docAesthetics.name, $event)"
-                        (paste)="updateTxtContent(txtArea, docAesthetics.name, $event)"
+                        (keydown)="onChangeBlock($event)"
+                        (contextmenu)="onChangeBlock($event)"
+                        (paste)="onChangeBlock($event)"
                         ></textarea>
                         <textarea id="txtArea" #txtArea class="vditor-reset vditor-resetAes textArea textAreaAes scrollBar" [value]="docAesthetics.content" placeholder="Describe your game's aesthetic here." *ngIf="i != 0"
                         (input)="updateTxtContent(txtArea, docAesthetics.name, $event)"
-                        (keydown)="updateTxtContent(txtArea, docAesthetics.name, $event)"
-                        (contextmenu)="updateTxtContent(txtArea, docAesthetics.name, $event)"
-                        (paste)="updateTxtContent(txtArea, docAesthetics.name, $event)"
+                        (keydown)="onChangeBlock($event)"
+                        (contextmenu)="onChangeBlock($event)"
+                        (paste)="onChangeBlock($event)"
                         ></textarea>
                     </div>
                 </div>

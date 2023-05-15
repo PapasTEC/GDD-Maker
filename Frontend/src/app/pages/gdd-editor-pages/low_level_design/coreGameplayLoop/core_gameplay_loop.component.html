@@ -4,9 +4,9 @@
       class="text-box__textarea"
       placeholder="Enter text here"
       (input)="onValueChange($event, 'first')"
-      (keydown)="onValueChange($event, 'first')"
-      (contextmenu)="onValueChange($event, 'first')"
-      (paste)="onValueChange($event, 'first')"
+      (keydown)="onChangeBlock($event)"
+      (contextmenu)="onChangeBlock($event)"
+      (paste)="onChangeBlock($event)"
       [value]="coreGameplayLoopContent.first || ''"
     ></textarea>
   </div>
@@ -17,9 +17,9 @@
       class="text-box__textarea"
       placeholder="Enter text here"
       (input)="onValueChange($event, 'second')"
-      (keydown)="onValueChange($event, 'second')"
-      (contextmenu)="onValueChange($event, 'second')"
-      (paste)="onValueChange($event, 'second')"
+      (keydown)="onChangeBlock($event)"
+      (contextmenu)="onChangeBlock($event)"
+      (paste)="onChangeBlock($event)"
       [value]="coreGameplayLoopContent.second || ''"
     ></textarea>
   </div>
@@ -28,9 +28,9 @@
       class="text-box__textarea"
       placeholder="Enter text here"
       (input)="onValueChange($event, 'third')"
-      (keydown)="onValueChange($event, 'third')"
-      (contextmenu)="onValueChange($event, 'third')"
-      (paste)="onValueChange($event, 'third')"
+      (keydown)="onChangeBlock($event)"
+      (contextmenu)="onChangeBlock($event)"
+      (paste)="onChangeBlock($event)"
       [value]="coreGameplayLoopContent.third || ''"
     ></textarea>
   </div>
@@ -41,9 +41,9 @@
       class="text-box__textarea"
       placeholder="Enter text here"
       (input)="onValueChange($event, 'fourth')"
-      (keydown)="onValueChange($event, 'fourth')"
-      (contextmenu)="onValueChange($event, 'fourth')"
-      (paste)="onValueChange($event, 'fourth')"
+      (keydown)="onChangeBlock($event)"
+      (contextmenu)="onChangeBlock($event)"
+      (paste)="onChangeBlock($event)"
       [value]="coreGameplayLoopContent.fourth || ''"
     ></textarea>
   </div>

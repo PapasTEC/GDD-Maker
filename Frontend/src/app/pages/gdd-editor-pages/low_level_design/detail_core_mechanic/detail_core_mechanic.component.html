@@ -29,24 +29,25 @@
             <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
               [(ngModel)]="this.details.tokens"
               (input)='this.growShrink($event, this.details.tokens, false, "representation")'
-              (keydown)="this.growShrink($event, this.details.tokens, false, 'representation')"
-              (contextmenu)="this.growShrink($event, this.details.tokens, false, 'representation')"
-              (paste)="this.growShrink($event, this.details.tokens, false, 'representation')"
+              (keydown)="this.onChangeBlock($event, 'representation')"
+              (contextmenu)="this.onChangeBlock($event, 'representation')"
+              (paste)="this.onChangeBlock($event, 'representation')"
             ></textarea>
             <div class="detailSubTitleGrid detailCharacterInfoText">Resources</div>
             <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
               [(ngModel)]="this.details.resources"
               (input)='this.growShrink($event, this.details.resources, false, "representation")'
-              (keydown)="this.growShrink($event, this.details.resources, false, 'representation')"
-              (contextmenu)="this.growShrink($event, this.details.resources, false, 'representation')"
-              (paste)="this.growShrink($event, this.details.resources, false, 'representation')"
+              (keydown)="this.onChangeBlock($event, 'representation')"
+              (contextmenu)="this.onChangeBlock($event, 'representation')"
+              (paste)="this.onChangeBlock($event, 'representation')"
             ></textarea>
             <div class="detailSubTitleGrid detailCharacterInfoText">Additional<br> Elements</div>
             <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
               [(ngModel)]="this.details.additionalElements"
               (input)='this.growShrink($event, this.details.additionalElements, false, "representation")'
-              (keydown)="this.growShrink($event, this.details.additionalElements, false, 'representation')"
-              (contextmenu)="this.growShrink($event, this.details.additionalElements, false, 'representation')"
+              (keydown)="this.onChangeBlock($event, 'representation')"
+              (contextmenu)="this.onChangeBlock($event, 'representation')"
+              (paste)="this.onChangeBlock($event, 'representation')"
             ></textarea>
           </div>
         </div>
@@ -76,9 +77,9 @@
           <textarea class="vditor-reset detailTextArea scrollBar resize-ta"
             [(ngModel)]="this.details.decisions"
             (input)='this.growShrink($event, this.details.decisions, true, "decisions")'
-            (keydown)="this.growShrink($event, this.details.decisions, true, 'decisions')"
-            (contextmenu)="this.growShrink($event, this.details.decisions, true, 'decisions')"
-            (paste)="this.growShrink($event, this.details.decisions, true, 'decisions')"
+            (keydown)="this.onChangeBlock($event, 'decisions')"
+            (contextmenu)="this.onChangeBlock($event, 'decisions')"
+            (paste)="this.onChangeBlock($event, 'decisions')"
           ></textarea>
         </div>
       </div>
@@ -109,25 +110,25 @@
             <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
               [(ngModel)]="this.details.intermediate"
               (input)='this.growShrink($event, this.details.intermediate, false, "goals")'
-              (keydown)="this.growShrink($event, this.details.intermediate, false, 'goals')"
-              (contextmenu)="this.growShrink($event, this.details.intermediate, false, 'goals')"
-              (paste)="this.growShrink($event, this.details.intermediate, false, 'goals')"
+              (keydown)="this.onChangeBlock($event, 'goals')"
+              (contextmenu)="this.onChangeBlock($event, 'goals')"
+              (paste)="this.onChangeBlock($event, 'goals')"
             ></textarea>
             <div class="detailSubTitleGrid detailCharacterInfoText">Local</div>
             <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
               [(ngModel)]="this.details.local"
               (input)='this.growShrink($event, this.details.local, false, "goals")'
-              (keydown)="this.growShrink($event, this.details.local, false, 'goals')"
-              (contextmenu)="this.growShrink($event, this.details.local, false, 'goals')"
-              (paste)="this.growShrink($event, this.details.local, false, 'goals')"
+              (keydown)="this.onChangeBlock($event, 'goals')"
+              (contextmenu)="this.onChangeBlock($event, 'goals')"
+              (paste)="this.onChangeBlock($event, 'goals')"
             ></textarea>
             <div class="detailSubTitleGrid detailCharacterInfoText">Global</div>
             <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
               [(ngModel)]="this.details.global"
               (input)='this.growShrink($event, this.details.global, false, "goals")'
-              (keydown)="this.growShrink($event, this.details.global, false, 'goals')"
-              (contextmenu)="this.growShrink($event, this.details.global, false, 'goals')"
-              (paste)="this.growShrink($event, this.details.global, false, 'goals')"
+              (keydown)="this.onChangeBlock($event, 'goals')"
+              (contextmenu)="this.onChangeBlock($event, 'goals')"
+              (paste)="this.onChangeBlock($event, 'goals')"
             ></textarea>
           </div>
         </div>

@@ -31,9 +31,9 @@
               placeholder=""
               [(ngModel)]="elevatorPitch"
               (input)="updateDocument('elevatorPitch', $event)"
-              (keydown)="updateDocument('elevatorPitch', $event)"
-              (contextmenu)="updateDocument('elevatorPitch', $event)"
-              (paste)="updateDocument('elevatorPitch', $event)"
+              (keydown)="onChangeBlock($event, 'elevatorPitch')"
+              (contextmenu)="onChangeBlock($event, 'elevatorPitch')"
+              (paste)="onChangeBlock($event, 'elevatorPitch')"
             ></textarea>
           </div>
         </div>
@@ -71,9 +71,9 @@
               placeholder=""
               [(ngModel)]="tagline"
               (input)="updateDocument('tagline', $event)"
-              (keydown)="updateDocument('tagline', $event)"
-              (contextmenu)="updateDocument('tagline', $event)"
-              (paste)="updateDocument('tagline', $event)"
+              (keydown)="onChangeBlock($event, 'tagline')"
+              (contextmenu)="onChangeBlock($event, 'tagline')"
+              (paste)="onChangeBlock($event, 'tagline')"
             ></textarea>
           </div>
         </div>

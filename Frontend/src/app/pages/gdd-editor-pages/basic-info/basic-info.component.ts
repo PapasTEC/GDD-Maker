@@ -88,19 +88,10 @@ export class BasicInfoComponent {
       const userEditing =
         this.editingDocumentService.userEditingByComponent[this.subSection];
 
-      this.isBlocked.platforms =
-        userEditing.platforms &&
-        userEditing.platforms.email !== this.localUser;
-      if (this.isBlocked.platforms) {
-        this.userBlocking.platforms = userEditing.platforms;
-      }
-
-      this.isBlocked.generalData =
-        userEditing.generalData &&
-        userEditing.generalData.email !== this.localUser;
-      if (this.isBlocked.generalData) {
-        this.userBlocking.generalData = userEditing.generalData;
-      }
+      this.canBeChanged("elevatorPitch");
+      this.canBeChanged("tagline");
+      this.canBeChanged("genres");
+      this.canBeChanged("tags");
 
       // filter the document to get the section and subsection
       // and set the techInfo to the subSectionContent to update the information in real time
@@ -115,7 +106,7 @@ export class BasicInfoComponent {
       this.genres = this.documentSubSection.subSectionContent.genres;
       this.tags = this.documentSubSection.subSectionContent.tags;
 
-
+          console.log("Update", this.documentSubSection)
     });
 
   this.editingDocumentService.document$
@@ -266,5 +257,12 @@ export class BasicInfoComponent {
     //this.updateStorage();
     // this.updateDocument();
     this.updateDocument("tags");
+  }
+
+  onChangeBlock(event: any, part: string) {
+    if (!this.canBeChanged(part)) {
+      event.preventDefault();
+      return;
+    }
   }
 }

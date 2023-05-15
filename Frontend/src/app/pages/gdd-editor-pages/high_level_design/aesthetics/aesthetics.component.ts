@@ -143,6 +143,15 @@ export class AestheticsComponent {
       });
   }
 
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+  }
+
   updateIsBlocked1s() {
     this.canBeEdited();
   }
@@ -354,5 +363,12 @@ export class AestheticsComponent {
 
     this.updateDocument(this.aestheticsInDocument);
 
+  }
+
+  onChangeBlock(event: any) {
+    if (!this.canBeEdited()) {
+      event.preventDefault();
+      return;
+    }
   }
 }

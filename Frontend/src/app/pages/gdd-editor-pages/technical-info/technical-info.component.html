@@ -2,11 +2,27 @@
   <div class="techInfoInnerBody">
     <div class="techInfoContainer scrollBar">
       <!-- Platforms -->
-      <div class="techInfoCard">
+      <div
+        class="techInfoCard plaforms"
+        (keydown)="onPlatformsChange($event)"
+        (contextmenu)="onPlatformsChange($event)"
+        (paste)="onPlatformsChange($event)"
+        (input)="onPlatformsChange($event)"
+        [ngClass]="isBlocked.platforms ? 'disabled-component' : ''"
+      >
         <div class="cardBody">
           <div class="cardHeader">
             <div class="title">
               <span> Platforms </span>
+              <div class="editing-box platforms" *ngIf="isBlocked.platforms">
+              <img class="editing-box__icon" [src]="userBlocking.platforms?.image" alt="user" />
+              <span class="editing-box__user">{{ userBlocking.platforms?.name }}</span>
+              <span class="editing-box__text"
+                >
+                <span *ngIf="userBlocking.platforms.name.toLowerCase().endsWith('s')">' </span>
+                <span *ngIf="!userBlocking.platforms.name.toLowerCase().endsWith('s')">'s </span>
+                 editing</span>
+              </div>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -86,8 +102,28 @@
           </div>
         </div>
       </div>
-      <div class="techInfoCard">
+      <div
+        class="techInfoCard details"
+        (keydown)="onGeneralDataChange($event)"
+        (contextmenu)="onGeneralDataChange($event)"
+        (paste)="onGeneralDataChange($event)"
+        (input)="onGeneralDataChange($event)"
+        [ngClass]="isBlocked.generalData ? 'disabled-component' : ''"
+      >
         <div class="cardBody">
+          <div class="cardHeader">
+            <div class="editing-box details" *ngIf="isBlocked.generalData">
+              <!-- <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" /> -->
+              <!-- <span class="editing-box__user">ghfhgg</span> -->
+              <img class="editing-box__icon" [src]="userBlocking.generalData?.image" alt="user" />
+              <span class="editing-box__user">{{ userBlocking.generalData?.name }}</span>
+              <span class="editing-box__text"
+                >
+                <span *ngIf="userBlocking.generalData.name.toLowerCase().endsWith('s')">' </span>
+                <span *ngIf="!userBlocking.generalData.name.toLowerCase().endsWith('s')">'s </span>
+                 editing</span>
+            </div>
+          </div>
           <div class="techInfoCardContent">
             <div class="otherDetailsContent">
               <div class="otherDetailsBody">
@@ -111,24 +147,33 @@
                       type="text"
                       [value]="techInfo.ageClassification"
                       [(ngModel)]="techInfo.ageClassification"
-                      (input)="updateDocument()"
-                    />
+                      (input)="updateGeneralData($event)"
+                      (keydown)="onChangeBlock($event, 'generalData')"
+                      (contextmenu)="onChangeBlock($event, 'generalData')"
+                      (paste)="onChangeBlock($event, 'generalData')"
+                                        />
                   </div>
                   <div class="otherDetailsRow">
                     <input
                       type="text"
                       [value]="techInfo.targetAudience"
                       [(ngModel)]="techInfo.targetAudience"
-                      (input)="updateDocument()"
+                      (input)="updateGeneralData($event)"
+                      (keydown)="onChangeBlock($event, 'generalData')"
+                      (contextmenu)="onChangeBlock($event, 'generalData')"
+                      (paste)="onChangeBlock($event, 'generalData')"
                     />
                   </div>
                   <div class="otherDetailsRow">
                     <input
                       type="date"
-                      min="{{today | date:'yyyy-MM-dd'}}"
+                      min="{{ today | date : 'yyyy-MM-dd' }}"
                       [value]="techInfo.releaseDate"
                       [(ngModel)]="techInfo.releaseDate"
-                      (input)="updateDocument()"
+                      (input)="updateGeneralData($event)"
+                      (keydown)="onChangeBlock($event, 'generalData')"
+                      (contextmenu)="onChangeBlock($event, 'generalData')"
+                      (paste)="onChangeBlock($event, 'generalData')"
                     />
                   </div>
                   <div class="otherDetailsRow">
@@ -136,7 +181,10 @@
                       type="text"
                       [value]="techInfo.price"
                       [(ngModel)]="techInfo.price"
-                      (input)="updateDocument()"
+                      (input)="updateGeneralData($event)"
+                      (keydown)="onChangeBlock($event, 'generalData')"
+                      (contextmenu)="onChangeBlock($event, 'generalData')"
+                      (paste)="onChangeBlock($event, 'generalData')"
                     />
                   </div>
                 </div>

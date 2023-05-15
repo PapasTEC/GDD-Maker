@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true
+  production: true,
 };
 
 export const apiSocket = "http://129.159.124.235:3080";

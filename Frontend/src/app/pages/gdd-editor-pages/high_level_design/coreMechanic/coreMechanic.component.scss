@@ -134,3 +134,14 @@ h1 {
 @media (max-width: 800px) {
   $svg-height: 400px;
 }
+
+.editing-box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 1.5px solid #16425b;
+  z-index: 500000;
+  margin-right: 2.5rem !important;
+  margin-bottom: 1rem;
+  transform: scale(.8);
+}

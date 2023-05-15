@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.codeForm.patchValue({
             code: ""
           });
-          alert("You are logged in");
+          // alert("You are logged in");
           localStorage.setItem("ImageUser", response.image);
 
             localStorage.setItem("ImageUser", response.image);

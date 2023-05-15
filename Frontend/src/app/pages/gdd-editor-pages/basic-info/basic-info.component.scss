@@ -320,3 +320,11 @@ $tertiary: #c7c7c7;
         background-color: red;
     }
 }
+
+div.editing-box {
+  background-color: #f4f3f6;
+  font-size: max(1vw, 1vh);
+  position: initial;
+  margin: 0;
+  margin-left: 0.3rem;
+}

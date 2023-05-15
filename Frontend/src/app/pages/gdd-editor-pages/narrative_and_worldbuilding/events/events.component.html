@@ -1,12 +1,18 @@
 <body id="canvasContainer" class="bodyClass"
-    style="background-color:transparent; display:flex; align-items: center; justify-content: center;">
+    style="background-color:transparent; display:flex; align-items: center; justify-content: center;"
+    [ngClass]="isBlocked ? 'disabled-component' : ''"
+    >
     <div id="canvas" #A class="eventsInnerBody">
 
         <div class="eventContainerDivider" *ngFor="let entry of timeline; index as i">
             <div class="eventsChapterContainer" >
 
                 <div class="eventsChapterTitle" style="border-bottom: solid 0.01rem black; margin-bottom: 2rem;">
-                    <textarea class="title" #entryName rows="1" [value]="entry.name" (input)="editEntryName(i, entryName.value)" class="vditor-reset  textAreaEvent  scrollBar horizontalText chapterNameTextArea "
+                    <textarea class="title" #entryName rows="1" [value]="entry.name" (input)="editEntryName(i, entryName.value)"
+                    (keydown)="onChangeBlock($event)"
+                    (contextmenu)="onChangeBlock($event)"
+                    (paste)="onChangeBlock($event)"
+                    class="vditor-reset  textAreaEvent  scrollBar horizontalText chapterNameTextArea "
                                         placeholder="How will you name this entry?" style="position:relative"></textarea>
                     <button #trash type="button" (click)="removeEntry(i)" #card class="btn btn-icon-only spec" style="position: absolute; top:50%; right:0; transform: translate(0, -50%);" >
                         <fa-icon [icon]="trashIcon"></fa-icon>
@@ -16,11 +22,16 @@
                 <div class="eventsChapterContentDivider" *ngFor="let mission of entry.missions; index as j">
                     <div class="missionNameContainer">
                         <svg width="fit-content" height="100%" top="0">
-                                            
-                        </svg>  
-                        <textarea #missName rows="3" [value]="mission.name" (input)="editMissionName(i, j, missName.value)" class="vditor-reset textAreaEvent scrollBar missionNameTextArea"
+
+                        </svg>
+                        <textarea #missName rows="3" [value]="mission.name"
+                        (input)="editMissionName(i, j, missName.value)"
+                        (keydown)="onChangeBlock($event)"
+                        (contextmenu)="onChangeBlock($event)"
+                        (paste)="onChangeBlock($event)"
+                        class="vditor-reset textAreaEvent scrollBar missionNameTextArea"
                                         placeholder="Describe this entry division" style="position:absolute; top:25%; height: 20%; transform: translate(0%, -25%);"></textarea>
-                                                   
+
                     </div>
                     <div class="timelineContainer">
                         <svg width="fit-content" height="100%" style="position:absolute; z-index:-1">
@@ -32,10 +43,10 @@
                             </button>
                             <svg width="fit-content" height="100%" top="0">
                                 <circle cx="50%" cy="25%" r="1.5rem" stroke="#CFC8C8" stroke-width="0.75%" fill="#16425B" />
-                                
+
                             </svg>
                         </div>
-                        
+
                     </div>
                     <div class="content">
                         <div class="eventCard" *ngFor="let event of mission.events; index as k">
@@ -43,7 +54,12 @@
                                 <div class="cardHeader">
                                     <div class="cardName">
 
-                                        <textarea id="txtArea" #eventName (input)="editEventName(i, j, k, eventName.value)" rows="1" [value]="event.name" class="vditor-reset textAreaEvent scrollBar horizontalText"
+                                        <textarea id="txtArea" #eventName
+                                        (input)="editEventName(i, j, k, eventName.value)"
+                                        (keydown)="onChangeBlock($event)"
+                                        (contextmenu)="onChangeBlock($event)"
+                                        (paste)="onChangeBlock($event)"
+                                        rows="1" [value]="event.name" class="vditor-reset textAreaEvent scrollBar horizontalText"
                                         placeholder="How is this event titled?" style="line-height: 1.5 !important;"></textarea>
 
                                         <button #trash type="button" #card  (click)="removeEvent(i,j,k)" class="btn btn-icon-only spec" *ngIf="k != 0">
@@ -54,12 +70,17 @@
                                 </div>
                                 <div class="horizontalLine"></div>
                                 <div class="eventCardContent">
-                                    <textarea id="txtArea" #eventContent (input)="editEventContent(i, j, k, eventContent.value)" [value]="event.description" style="margin-top: 0.5rem;"class="vditor-reset textAreaEvent scrollBar"
+                                    <textarea id="txtArea" #eventContent
+                                    (input)="editEventContent(i, j, k, eventContent.value)"
+                                    (keydown)="onChangeBlock($event)"
+                                    (contextmenu)="onChangeBlock($event)"
+                                    (paste)="onChangeBlock($event)"
+                                    [value]="event.description" style="margin-top: 0.5rem;"class="vditor-reset textAreaEvent scrollBar"
                                         placeholder="What happens during this event?"></textarea>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="addEventButtonContainer">
                             <button #trash type="button" (click)="addEvent(i,j)" class="btn btn-icon-only spec">
                                 <fa-icon [icon]="plusIcon"></fa-icon>
@@ -67,9 +88,9 @@
                         </div>
                     </div>
 
-                    
+
                 </div>
-                
+
                 <div class="eventsChapterContentDivider">
                     <div class="missionNameContainer">
                     </div>
@@ -81,18 +102,18 @@
                         </div>
                     </div>
                     <div class="content">
-                        
-                        
-                        
+
+
+
                     </div>
 
-                    
+
                 </div>
 
-                
+
             </div>
 
-            
+
         </div>
         <div *ngIf="timeline.length == 0"style="margin: 5% 5%; text-align:center;">
             <span class="characterInfoText">Nothing to see here! Click the plus button to add your first entry to your event timeline.</span>
@@ -102,11 +123,19 @@
                 <fa-icon [icon]="plusIcon"></fa-icon>
             </button>
         </div>
-        
+
 
     </div>
 
 
     <!-- (pointerdown)="setInteractiveElement(B)" -->
-
+    <div class="editing-box elevatorPitch" *ngIf="isBlocked">
+      <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
+      <span class="editing-box__user">{{ userBlocking?.name }}</span>
+      <span class="editing-box__text"
+        >
+        <span *ngIf="userBlocking.name.toLowerCase().endsWith('s')">' </span>
+        <span *ngIf="!userBlocking.name.toLowerCase().endsWith('s')">'s </span>
+         editing</span>
+    </div>
 </body>

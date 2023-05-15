@@ -1,4 +1,4 @@
-<div class="bodyClass scrollBar">
+<div class="bodyClass scrollBar" [ngClass]="isBlocked ? 'disabled-component' : ''">
   <div class="innerBodyClass">
     <div class="textContainer">
       <span class="titleText"> GAME DESIGN DOCUMENT </span>
@@ -14,6 +14,9 @@
         [(ngModel)]="gameName"
         class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
         (input)="growShrink($event, gameName)"
+        (keydown)="onChangeBlock($event)"
+        (contextmenu)="onChangeBlock($event)"
+        (paste)="onChangeBlock($event)"
         placeholder="Game Title Here"
       ></textarea>
     </div>
@@ -23,8 +26,8 @@
           type="file"
           accept="image/*"
 
-          
-          
+
+
           style="
             position: absolute;
             opacity: 0;
@@ -34,6 +37,7 @@
             height: 100%;
           "
           (change)="onFileSelected($event, gameLogo, 1)"
+          [disabled]="isBlocked"
         />
         <svg
           class="icon"
@@ -59,6 +63,9 @@
         [(ngModel)]="companyName"
         class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
         (input)="growShrink($event, companyName)"
+        (keydown)="onChangeBlock($event)"
+        (contextmenu)="onChangeBlock($event)"
+        (paste)="onChangeBlock($event)"
         placeholder="Company Name Here"
       ></textarea>
     </div>
@@ -67,7 +74,7 @@
         <input
           type="file"
           accept="image/*"
-          
+
           style="
             position: absolute;
             opacity: 0;
@@ -77,6 +84,7 @@
             height: 100%;
           "
           (change)="onFileSelected($event, compLogo, 0)"
+          [disabled]="isBlocked"
         />
         <svg
           class="icon"
@@ -106,6 +114,9 @@
             class="vditor-reset textArea documentCoverTextAreasAuthors horizontalText scrollBar"
             [value]="author.name"
             (input)="updateTXT($event, el, i)"
+            (keydown)="onChangeBlock($event)"
+            (contextmenu)="onChangeBlock($event)"
+            (paste)="onChangeBlock($event)"
             placeholder="Author / Alias"
           ></textarea>
         </div>
@@ -132,4 +143,12 @@
       </span>
     </div>
   </div>
+</div>
+<div class="editing-box" *ngIf="isBlocked">
+<img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
+<span class="editing-box__user">{{ userBlocking?.name }}</span>
+<span class="editing-box__text"
+  ><span *ngIf="usersBlocking?.name[-1].lower() != 's'">'s</span>
+  editing</span
+>
 </div>

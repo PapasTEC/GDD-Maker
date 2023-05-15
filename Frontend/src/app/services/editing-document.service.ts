@@ -90,6 +90,10 @@ export class EditingDocumentService {
     "Game References": null
   };
 
+  currentUserEditing: any = null;
+
+  partsTimers: any = new Map();
+
   // private socket = io('http://129.159.124.235:3080');
 
 
@@ -108,18 +112,61 @@ export class EditingDocumentService {
     this.socket.on('sync-data', ({ secId, subSecId, content }) => {
       console.log("================ sync data ================ ");
       const document = this.document.getValue();
+      console.log(secId, subSecId, content);
+      console.log(document)
+      console.log(document.documentContent[secId])
+      console.log(document.documentContent[secId].subSections[subSecId])
+
       document.documentContent[secId].subSections[subSecId] = content;
+      console.log(this.documentSections[secId][subSecId])
       document.socketSubSection = this.documentSections[secId][subSecId];
       this.document.next(document);
 
       // this.document.next(data);
     });
-    this.socket.on('user-Editing', ({ content, user }) => {
+
+    this.socket.on('sync-data-front-page', ({ content }) => {
+      console.log("================ sync data front page ================ ");
+      const document = this.document.getValue();
+      document.frontPage = content;
+      this.document.next(document);
+    });
+
+    this.socket.on('user-Editing', ({ content, user, part }) => {
       //console.log("user editing: ", user);
       //this.userEditing = user;
       //console.log(`user editing: ${user} in section ${content}`)
-      this.userEditingByComponent[content] = user;
-      //console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
+      // this.userEditingByComponent[content] = user;
+      // use onlineUsers to get the user editing by their email
+      if (user == null) {
+        if (part != null) {
+          this.userEditingByComponent[content][part] = null;
+          console.log("UserEditingByComponent", this.userEditingByComponent)
+          return;
+        } else {
+          this.userEditingByComponent[content] = null;
+          console.log("UserEditingByComponent", this.userEditingByComponent)
+          return;
+        }
+      }
+      if (part != null) {
+        this.userEditingByComponent[content][part] = this.onlineUsers
+          .getValue()
+          .find((userOnline) => userOnline.email == user) || {
+          email: user,
+          name: user,
+          image: null,
+        };
+      } else {
+        this.userEditingByComponent[content] = this.onlineUsers
+          .getValue()
+          .find((userOnline) => userOnline.email == user) || {
+          email: user,
+          name: user,
+          image: null,
+        };
+      }
+      console.log("UserEditingByComponent", this.userEditingByComponent)      //console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
     })
 
     this.socket.on("update-online-users", (onlineUsers) => {
@@ -136,20 +183,33 @@ export class EditingDocumentService {
     this.document.next(document)
   }
 
-  updateUserEditing(userEditing: string) {
-    clearTimeout(this.timer);
+  updateUserEditing(userEditing: string, part?: string) {
+    // clearTimeout(this.timer);
 
-    this.socket.emit('edit-User', { documentId: this.documentId, content: userEditing, user: this.localUser.email });
+    this.socket.emit('edit-User', { documentId: this.documentId, content: userEditing, user: this.localUser.email, part: part });
 
-    this.timer = setTimeout(() => {
-      this.socket.emit('edit-User', { documentId: this.documentId, content: userEditing, user: null });
-    }, 1000 * this.countdownSeconds);
+    if (part) {
+      if (this.partsTimers.has(part)) {
+        clearTimeout(this.partsTimers.get(part));
+      }
+      this.partsTimers.set(part, setTimeout(() => {
+        this.socket.emit('edit-User', { documentId: this.documentId, content: userEditing, user: null, part: part });
+      }, 1000 * this.countdownSeconds));
+    } else {
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
+
+      this.timer = setTimeout(() => {
+        this.socket.emit('edit-User', { documentId: this.documentId, content: userEditing, user: null, part: part });
+      }, 1000 * this.countdownSeconds);
+    }
   }
 
   joinDocument() {
     // console.log("join document");
     // console.log(this.documentId, this.localUser.email);
-    this.socket.emit('join-document', this.documentId, this.localUser.email);
+    this.socket.emit('join-document', this.documentId, this.localUser);
   }
 
   setUserData(user: any, documentId: any) {
@@ -170,9 +230,9 @@ export class EditingDocumentService {
     this.document.next(document);
   }
 
-  updateDocumentSubSection(section: any, subSection: any, content: any) {
+  updateDocumentSubSection(section: any, subSection: any, content: any, part?: string) {
     // console.log(`subSection: ${subSection}`)
-    this.updateUserEditing(subSection);
+    this.updateUserEditing(subSection, part || null);
 
     const document = this.document.getValue();
     const secId = document.documentContent.findIndex((obj => obj.sectionTitle == section));
@@ -180,13 +240,15 @@ export class EditingDocumentService {
     console.log(secId, subSecId);
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
-    this.socket.emit('edit-document', { documentId: this.documentId, secId, subSecId, content });
+    this.socket.emit('edit-document', { documentId: this.documentId, secId, subSecId, content, sectionTitle: section, subSectionTitle: subSection });
   }
 
   updateDocumentFrontPage(content: any) {
+    this.updateUserEditing("Document Cover");
     const document = this.document.getValue();
     document.frontPage = content;
     this.document.next(document);
+    this.socket.emit('edit-document-front-page', { documentId: this.documentId, content });
   }
 
   updateDocumentSocket() {

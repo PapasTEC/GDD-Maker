@@ -2,11 +2,23 @@
   <div class="basicInfoInnerBody">
     <div class="basicInfoContainer scrollBar">
       <!-- Elevator Pitch -->
-      <div class="basicInfoCard">
+      <div
+        class="basicInfoCard"
+        [ngClass]="isBlocked.elevatorPitch ? 'disabled-component' : ''"
+      >
         <div class="cardBody">
           <div class="cardHeader">
             <div class="title">
               <span> Elevator Pitch </span>
+              <div class="editing-box elevatorPitch" *ngIf="isBlocked.elevatorPitch">
+                <img class="editing-box__icon" [src]="userBlocking.elevatorPitch?.image" alt="user" />
+                <span class="editing-box__user">{{ userBlocking.elevatorPitch?.name }}</span>
+                <span class="editing-box__text"
+                  >
+                  <span *ngIf="userBlocking.elevatorPitch.name.toLowerCase().endsWith('s')">' </span>
+                  <span *ngIf="!userBlocking.elevatorPitch.name.toLowerCase().endsWith('s')">'s </span>
+                   editing</span>
+                </div>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -18,7 +30,10 @@
               [value]="elevatorPitch"
               placeholder=""
               [(ngModel)]="elevatorPitch"
-              (input)="updateDocument()"
+              (input)="updateDocument('elevatorPitch', $event)"
+              (keydown)="onChangeBlock($event, 'elevatorPitch')"
+              (contextmenu)="onChangeBlock($event, 'elevatorPitch')"
+              (paste)="onChangeBlock($event, 'elevatorPitch')"
             ></textarea>
           </div>
         </div>
@@ -29,11 +44,21 @@
         [ngStyle]="{
           'min-height': 'max(20vh, 20vw)'
         }"
+        [ngClass]="isBlocked.tagline ? 'disabled-component' : ''"
       >
         <div class="cardBody">
           <div class="cardHeader">
             <div class="title">
               <span> Tagline </span>
+              <div class="editing-box tagline" *ngIf="isBlocked.tagline">
+                <img class="editing-box__icon" [src]="userBlocking.tagline?.image" alt="user" />
+                <span class="editing-box__user">{{ userBlocking.tagline?.name }}</span>
+                <span class="editing-box__text"
+                  >
+                  <span *ngIf="userBlocking.tagline.name.toLowerCase().endsWith('s')">' </span>
+                  <span *ngIf="!userBlocking.tagline.name.toLowerCase().endsWith('s')">'s </span>
+                   editing</span>
+                </div>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -45,7 +70,10 @@
               [value]="tagline"
               placeholder=""
               [(ngModel)]="tagline"
-              (input)="updateDocument()"
+              (input)="updateDocument('tagline', $event)"
+              (keydown)="onChangeBlock($event, 'tagline')"
+              (contextmenu)="onChangeBlock($event, 'tagline')"
+              (paste)="onChangeBlock($event, 'tagline')"
             ></textarea>
           </div>
         </div>
@@ -56,11 +84,21 @@
         [ngStyle]="{
           'min-height': 'max(20vh, 30vw)'
         }"
+        [ngClass]="isBlocked.genres ? 'disabled-component' : ''"
       >
         <div class="cardBody">
           <div class="cardHeader">
             <div class="title">
               <span> Genres </span>
+              <div class="editing-box genres" *ngIf="isBlocked.genres">
+                <img class="editing-box__icon" [src]="userBlocking.genres?.image" alt="user" />
+                <span class="editing-box__user">{{ userBlocking.genres?.name }}</span>
+                <span class="editing-box__text"
+                  >
+                  <span *ngIf="userBlocking.genres.name.toLowerCase().endsWith('s')">' </span>
+                  <span *ngIf="!userBlocking.genres.name.toLowerCase().endsWith('s')">'s </span>
+                   editing</span>
+                </div>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -148,11 +186,21 @@
         [ngStyle]="{
           'min-height': 'max(20vh, 30vw)'
         }"
+        [ngClass]="isBlocked.tags ? 'disabled-component' : ''"
       >
         <div class="cardBody">
           <div class="cardHeader">
             <div class="title">
               <span> Tags </span>
+              <div class="editing-box tags" *ngIf="isBlocked.tags">
+                <img class="editing-box__icon" [src]="userBlocking.tags?.image" alt="user" />
+                <span class="editing-box__user">{{ userBlocking.tags?.name }}</span>
+                <span class="editing-box__text"
+                  >
+                  <span *ngIf="userBlocking.tags.name.toLowerCase().endsWith('s')">' </span>
+                  <span *ngIf="!userBlocking.tags.name.toLowerCase().endsWith('s')">'s </span>
+                   editing</span>
+                </div>
             </div>
           </div>
           <div class="horizontalLine"></div>

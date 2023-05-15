@@ -5,6 +5,7 @@ import { EditingDocumentService } from 'src/app/services/editing-document.servic
 import { filter, map, take } from "rxjs/operators";
 
 import { TimelineEntry } from './event';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-events',
@@ -42,7 +43,43 @@ export class EventsComponent {
 
   documentSubSection: any;
 
-  constructor(private route: ActivatedRoute, private editingDocumentService: EditingDocumentService) { }
+    /* Collaborative Editing */
+    isBlocked: boolean = false;
+
+    userBlocking: any = null;
+
+    localUser = null;
+    decodeToken: any;
+    updateSocket: any;
+    myInput: boolean = false;
+    updateBlockedInterval: any = null;
+
+  constructor(private route: ActivatedRoute, private editingDocumentService: EditingDocumentService, private tokenService: TokenService) { }
+
+  public canBeEdited(): boolean {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked =
+      userEditing && userEditing.email !== this.localUser;
+    if (this.isBlocked) {
+      this.userBlocking = userEditing;
+    }
+    return !this.isBlocked;
+  }
+
+  updateDocument(timeline: any) {
+    // console.log("aestheticsInDocument: ", aestheticsInDocument);
+    this.myInput = true;
+    console.log("BRO YOU HAVE TO UPDATE ", this.documentSubSection)
+    // this.documentSubSection.subSectionContent.events = timeline;
+    console.log("UPDATE", this.documentSubSection)
+    this.editingDocumentService.updateDocumentSubSection(
+      this.section,
+      this.subSection,
+      this.documentSubSection
+    );
+  }
+
 
   ngOnInit() {
 
@@ -84,24 +121,99 @@ export class EventsComponent {
 
     // console.log(this.editingDocumentService)
 
-    this.editingDocumentService.document$
-      .pipe(
-        filter((document) => document !== null),
-        map((document) =>
-          document.documentContent
-            .find((section) => section.sectionTitle === this.section)
-            .subSections.find(
-              (subsection) => subsection.subSectionTitle === this.subSection
-            )
-        ),
-        take(1)
-      ).subscribe((document) => {
+    // this.editingDocumentService.document$
+    //   .pipe(
+    //     filter((document) => document !== null),
+    //     map((document) =>
+    //       document.documentContent
+    //         .find((section) => section.sectionTitle === this.section)
+    //         .subSections.find(
+    //           (subsection) => subsection.subSectionTitle === this.subSection
+    //         )
+    //     ),
+    //     take(1)
+    //   ).subscribe((document) => {
 
-        this.documentSubSection = document;
-        this.timeline = document.subSectionContent.events;
+    //     this.documentSubSection = document;
+    //     this.timeline = document.subSectionContent.events;
 
-      });
+      // });
 
+          /* NEW - COLLABORATIVE */
+    this.decodeToken = this.tokenService
+    .decodeToken()
+    .subscribe((data: any) => {
+      this.localUser = data.decoded.email;
+    });
+
+  this.updateSocket = this.editingDocumentService
+    .updateDocumentSocket()
+    .pipe(filter((document) => document.socketSubSection === this.subSection))
+    .subscribe((document) => {
+      // if the user is editing the document, do not update the document
+      if (this.myInput) {
+        this.myInput = false;
+        return;
+      }
+
+      this.canBeEdited()
+
+      // filter the document to get the section and subsection
+      // and set the techInfo to the subSectionContent to update the information in real time
+      console.log(document.documentContent)
+      this.documentSubSection = document.documentContent
+        .find((section) => section.sectionTitle === this.section)
+        .subSections.find(
+          (subsection) => subsection.subSectionTitle === this.subSection
+        );
+
+      console.log("UPDATE", this.documentSubSection)
+      let events = this.documentSubSection.subSectionContent.events;
+      console.log("EVENTS", events)
+      this.timeline = events;
+
+    });
+
+
+
+  this.editingDocumentService.document$
+    .pipe(
+      filter((document) => document !== null),
+      map((document) =>
+        document.documentContent
+          .find((section) => section.sectionTitle === this.section)
+          .subSections.find(
+            (subsection) => subsection.subSectionTitle === this.subSection
+          )
+      ),
+      take(1)
+    )
+    .subscribe((document) => {
+      this.documentSubSection = document;
+
+
+      this.timeline = document.subSectionContent.events;
+
+      console.log("NEW", this.documentSubSection)
+
+      this.updateBlockedInterval = setInterval(() => {
+        this.updateIsBlocked1s();
+      }, 1000);
+    });
+
+  }
+
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+  }
+
+  updateIsBlocked1s() {
+    this.canBeEdited();
   }
 
   getSectionAndSubSection(route: ActivatedRoute) {
@@ -128,46 +240,86 @@ export class EventsComponent {
   }
 
   addEvent(id: string, missionId: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline[parseInt(id)].missions[parseInt(missionId)].events.push({ name: "", description: "" });
+    this.updateDocument(this.timeline);
   }
 
   editEventName(id: string, missionId: string, eventId: string, content: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline[parseInt(id)].missions[parseInt(missionId)].events[parseInt(eventId)].name = content;
+    this.updateDocument(this.timeline);
   }
 
   editEventContent(id: string, missionId: string, eventId: string, content: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline[parseInt(id)].missions[parseInt(missionId)].events[parseInt(eventId)].description = content;
+    this.updateDocument(this.timeline);
   }
 
   removeEvent(id: string, missionId: string, eventId: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline[parseInt(id)].missions[parseInt(missionId)].events.splice(parseInt(eventId), 1);
+    this.updateDocument(this.timeline);
   }
 
   addMission(id: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline[parseInt(id)].missions.push({ name: "", events: [] })
     this.addEvent(id, (this.timeline[parseInt(id)].missions.length - 1).toString())
+    this.updateDocument(this.timeline);
   }
 
   editMissionName(id: string, missionId: string, content: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline[parseInt(id)].missions[parseInt(missionId)].name = content;
+    this.updateDocument(this.timeline);
   }
 
   removeMission(id: string, missionId: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline[parseInt(id)].missions.splice(parseInt(missionId), 1);
+    this.updateDocument(this.timeline);
   }
 
   addEntry() {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline.push({ name: "", missions: [] })
     this.addMission((this.timeline.length - 1).toString())
+    this.updateDocument(this.timeline);
   }
 
   editEntryName(id: string, content: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     // console.log(content)
     this.timeline[parseInt(id)].name = content;
+    this.updateDocument(this.timeline);
   }
 
   removeEntry(id: string) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     this.timeline.splice(parseInt(id), 1);
+    this.updateDocument(this.timeline);
   }
 
   addPanAndZoom(element: HTMLElement, panSpeed: number, zoomSpeed: number, minZoom: number, maxZoom: number) {
@@ -186,7 +338,7 @@ export class EventsComponent {
       this.elementsPositions.push({ lastXTranslation: 0, lastYTranslation: 0 })
       this.elementsZooms.push({ lastZoom: 1 })
     }
-    
+
   }
 
   translateCanvasPositionToNewDimensions(x: number, y: number, oldWidth: number, oldHeight: number, newWidth: number, newHeight: number) {
@@ -384,5 +536,11 @@ export class EventsComponent {
     element.onwheel = null;
   }
 
+  onChangeBlock(event: any) {
+    if (!this.canBeEdited()) {
+      event.preventDefault();
+      return;
+    }
+  }
 
 }

@@ -15,6 +15,7 @@ export class ShareDocumentComponent implements OnInit {
     new EventEmitter<boolean>();
   @Input() documentId: any;
   usersInDocument: any[];
+  usersInDocumentObj: any[];
 
   usersObj: any = {};
 
@@ -53,7 +54,8 @@ export class ShareDocumentComponent implements OnInit {
 
     this.editingDocumentService.onlineUsers$.subscribe((onlineUsers) => {
       console.log(`********************** Online users: `, onlineUsers);
-      this.usersInDocument = onlineUsers;
+      this.usersInDocumentObj = onlineUsers;
+      this.usersInDocument = onlineUsers.map((user) => user.email);
     });
   }
 

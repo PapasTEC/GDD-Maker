@@ -27,7 +27,7 @@ $icon-size: min(4vh, 4vw);
 //         border: red solid 2px !important;
 //         // background-color: aqua;
 //     }
-    
+
 //     .vditor-content {
 //         border: rgb(32, 177, 88) solid 2px !important;
 //     }
@@ -68,4 +68,12 @@ $icon-size: min(4vh, 4vw);
 .blocked-div {
     pointer-events: none;
   }
-  
+
+
+.editing-box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 1.5px solid #16425b;
+  z-index: 500000;
+}

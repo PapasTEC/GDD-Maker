@@ -1,25 +1,42 @@
-import { Component, ViewEncapsulation  } from '@angular/core';
+import { Component, ViewEncapsulation } from "@angular/core";
 import { faTrash, faAdd, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { filter, map, take } from "rxjs/operators";
-import { ToastrService } from 'ngx-toastr';
-
+import { ToastrService } from "ngx-toastr";
+import { TokenService } from "src/app/services/token.service";
 
 @Component({
-  selector: 'app-aesthetics',
-  templateUrl: './aesthetics.component.html',
-  styleUrls: ['./aesthetics.component.scss', '../../editorGlobalStyles.scss', '../../vditor/vditor.component.scss', '../coreMechanic/coreMechanic.component.scss'],
+  selector: "app-aesthetics",
+  templateUrl: "./aesthetics.component.html",
+  styleUrls: [
+    "./aesthetics.component.scss",
+    "../../editorGlobalStyles.scss",
+    "../../vditor/vditor.component.scss",
+    "../coreMechanic/coreMechanic.component.scss",
+  ],
   encapsulation: ViewEncapsulation.None,
 })
-
-
-
 export class AestheticsComponent {
+  constructor(
+    private editingDocumentService: EditingDocumentService,
+    private tostr: ToastrService,
+    private tokenService: TokenService
+  ) {}
 
-  constructor(private editingDocumentService: EditingDocumentService, private tostr: ToastrService) { }
-
-  allAesthetics = ["Sensation", "Fantasy", "Narrative", "Challenge", "Puzzle","Fellowship", "Discovery", "Expression", "Submission" ];
-  aestheticsInDocument:[{name: String, content:String}] = [{name:"", content:""}];
+  allAesthetics = [
+    "Sensation",
+    "Fantasy",
+    "Narrative",
+    "Challenge",
+    "Puzzle",
+    "Fellowship",
+    "Discovery",
+    "Expression",
+    "Submission",
+  ];
+  aestheticsInDocument: [{ name: String; content: String }] = [
+    { name: "", content: "" },
+  ];
 
   trashIcon = faTrash;
   plusIcon = faAdd;
@@ -32,8 +49,20 @@ export class AestheticsComponent {
   subSection = "Aesthetic";
   documentSubSection: any;
 
+  /* Collaborative Editing */
+  isBlocked: boolean = false;
+
+  userBlocking: any = null;
+
+  localUser = null;
+  decodeToken: any;
+  updateSocket: any;
+  myInput: boolean = false;
+  updateBlockedInterval: any = null;
+
   updateDocument(aestheticsInDocument: any) {
     // console.log("aestheticsInDocument: ", aestheticsInDocument);
+    this.myInput = true;
     this.documentSubSection.subSectionContent.aesthetics = aestheticsInDocument;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
@@ -42,7 +71,50 @@ export class AestheticsComponent {
     );
   }
 
-  ngOnInit(){
+  public canBeEdited(): boolean {
+    const userEditing =
+      this.editingDocumentService.userEditingByComponent[this.subSection];
+    this.isBlocked =
+      userEditing && userEditing.email !== this.localUser;
+    if (this.isBlocked) {
+      this.userBlocking = userEditing;
+    }
+    return !this.isBlocked;
+  }
+
+  ngOnInit() {
+    /* NEW - COLLABORATIVE */
+    this.decodeToken = this.tokenService
+      .decodeToken()
+      .subscribe((data: any) => {
+        this.localUser = data.decoded.email;
+      });
+
+    this.updateSocket = this.editingDocumentService
+      .updateDocumentSocket()
+      .pipe(filter((document) => document.socketSubSection === this.subSection))
+      .subscribe((document) => {
+        // if the user is editing the document, do not update the document
+        if (this.myInput) {
+          this.myInput = false;
+          return;
+        }
+
+        this.canBeEdited()
+
+        // filter the document to get the section and subsection
+        // and set the techInfo to the subSectionContent to update the information in real time
+        this.documentSubSection = document.documentContent
+          .find((section) => section.sectionTitle === this.section)
+          .subSections.find(
+            (subsection) => subsection.subSectionTitle === this.subSection
+          );
+
+
+        this.aestheticsInDocument = this.documentSubSection.subSectionContent.aesthetics;
+
+        this.cardsInDocument = this.aestheticsInDocument.length;
+      });
 
     this.editingDocumentService.document$
       .pipe(
@@ -55,36 +127,54 @@ export class AestheticsComponent {
             )
         ),
         take(1)
-      ).subscribe((document) => {
+      )
+      .subscribe((document) => {
         this.documentSubSection = document;
+
         this.aestheticsInDocument = this.documentSubSection.subSectionContent.aesthetics;
-        // console.log("aestheticsInDocument:", this.aestheticsInDocument);
+
         this.cardsInDocument = this.aestheticsInDocument.length;
+
+        console.log(this.documentSubSection);
+
+        this.updateBlockedInterval = setInterval(() => {
+          this.updateIsBlocked1s();
+        }, 1000);
       });
   }
 
-  functionalComboBox(){}
+  ngOnDestroy() {
+    if (this.updateBlockedInterval) {
+      clearInterval(this.updateBlockedInterval);
+    }
+    if (this.decodeToken) this.decodeToken.unsubscribe();
+    if (this.updateSocket) this.updateSocket.unsubscribe();
+    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+  }
 
-  showAesthetics(evt: Event, currentAestheticButton: HTMLElement){
+  updateIsBlocked1s() {
+    this.canBeEdited();
+  }
 
-    let allAestheticsSelectors = document.getElementsByClassName("aestheticsSelector");
+  functionalComboBox() {}
+
+  showAesthetics(evt: Event, currentAestheticButton: HTMLElement) {
+    let allAestheticsSelectors =
+      document.getElementsByClassName("aestheticsSelector");
     let subMenuBase = currentAestheticButton.nextSibling as HTMLElement;
 
-    for(let i = 0; i < allAestheticsSelectors.length; i++){
+    for (let i = 0; i < allAestheticsSelectors.length; i++) {
       let subM = allAestheticsSelectors[i] as HTMLElement;
-      if(subM != subMenuBase){
+      if (subM != subMenuBase) {
         subM.style.display = "none";
-
       }
     }
 
-    if(this.aestheticsInDocument.length < this.limitOfCards){
+    if (this.aestheticsInDocument.length < this.limitOfCards) {
       // console.log("showAesthetics");
       // console.log(evt);
 
-
       let subMenu = subMenuBase.firstChild as HTMLElement;
-
 
       subMenuBase.focus();
       subMenuBase.addEventListener("focusout", () => {
@@ -93,9 +183,9 @@ export class AestheticsComponent {
 
       // console.log(subMenuBase.style.display);
 
-      if(subMenuBase.style.display != "none"){
+      if (subMenuBase.style.display != "none") {
         subMenuBase.style.display = "none";
-      }else{
+      } else {
         subMenuBase.style.display = "block";
 
         this.loadAesthetics(subMenuBase, currentAestheticButton, true);
@@ -103,27 +193,30 @@ export class AestheticsComponent {
     }
   }
 
-  convertToNameArray(array: any[]){
-    let nameArray = array.map(aestheticsCard => aestheticsCard.name);
+  convertToNameArray(array: any[]) {
+    let nameArray = array.map((aestheticsCard) => aestheticsCard.name);
 
     return nameArray;
   }
 
-
-  loadAesthetics(subMenuBase: HTMLElement, currentAestheticButton: HTMLElement,open:boolean){
-
+  loadAesthetics(
+    subMenuBase: HTMLElement,
+    currentAestheticButton: HTMLElement,
+    open: boolean
+  ) {
     let child = subMenuBase.firstChild as HTMLElement;
     child.innerHTML = "";
 
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
 
-    let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
+    let availableAesthetics = this.allAesthetics.filter(
+      (aesthetic) => !aestheticsNames.includes(aesthetic)
+    );
 
-    if(open){
-      let index:number = 0;
-      availableAesthetics.forEach(aesthetic => {
-
-        if(index!=0){
+    if (open) {
+      let index: number = 0;
+      availableAesthetics.forEach((aesthetic) => {
+        if (index != 0) {
           child.innerHTML += `<div class="horizontalLine"></div>`;
         }
 
@@ -135,29 +228,41 @@ export class AestheticsComponent {
         child.appendChild(newButton);
 
         index++;
-
       });
 
       let buttons = child.getElementsByTagName("button");
 
-      for(let i = 0; i < buttons.length; i++){
+      for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener("click", () => {
-          this.chooseAesthetic(subMenuBase, buttons[i], buttons[i].innerHTML, currentAestheticButton.children[0].innerHTML);
+          this.chooseAesthetic(
+            subMenuBase,
+            buttons[i],
+            buttons[i].innerHTML,
+            currentAestheticButton.children[0].innerHTML
+          );
         });
       }
     }
   }
 
-
-  chooseAesthetic(menu:HTMLElement, item: HTMLElement, newAesthetic: string, oldAesthetic: string){
-
+  chooseAesthetic(
+    menu: HTMLElement,
+    item: HTMLElement,
+    newAesthetic: string,
+    oldAesthetic: string
+  ) {
+    if (!this.canBeEdited()) {
+      return;
+    }
     let parent = item.parentElement as HTMLElement;
     let grandparent = parent.parentElement as HTMLElement;
     let beforeGrandparent = grandparent.previousSibling as HTMLElement;
 
-    
     // console.log("beforeGrandparent: ", beforeGrandparent);
-    beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(oldAesthetic, newAesthetic);
+    beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(
+      oldAesthetic,
+      newAesthetic
+    );
 
     menu.style.display = "none";
 
@@ -168,16 +273,23 @@ export class AestheticsComponent {
     let index = aestheticsNames.indexOf(oldAesthetic);
     this.aestheticsInDocument[index].name = newAesthetic;
 
+    console.log("Actualizacion de estetica: ", this.aestheticsInDocument);
+
+    this.updateDocument(this.aestheticsInDocument);
+
   }
 
-  addCard(){
+  addCard() {
+    if (!this.canBeEdited()) {
+      return;
+    }
 
     let usedQuantity = this.aestheticsInDocument.length;
     let allQuantity = this.allAesthetics.length;
 
     this.cardsInDocument = usedQuantity;
 
-    if(this.cardsInDocument == this.limitOfCards){
+    if (this.cardsInDocument == this.limitOfCards) {
       // alert("You can't add more cards");
       this.tostr.warning("You can't add more cards", "Warning");
       return;
@@ -185,29 +297,44 @@ export class AestheticsComponent {
 
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
 
-    let availableAesthetics = this.allAesthetics.filter(aesthetic => !aestheticsNames.includes(aesthetic));
+    let availableAesthetics = this.allAesthetics.filter(
+      (aesthetic) => !aestheticsNames.includes(aesthetic)
+    );
 
-    this.aestheticsInDocument.push({name:availableAesthetics[Math.floor(Math.random() * (availableAesthetics.length-1) )], content:""});
+    this.aestheticsInDocument.push({
+      name: availableAesthetics[
+        Math.floor(Math.random() * (availableAesthetics.length - 1))
+      ],
+      content: "",
+    });
+
+    this.updateDocument(this.aestheticsInDocument);
 
     // console.log(this.aestheticsInDocument);
   }
 
-  updateTxtContent(txtArea: HTMLTextAreaElement, aesthetic: string){
+  updateTxtContent(txtArea: HTMLTextAreaElement, aesthetic: string, event: any) {
+    if (!this.canBeEdited()) {
+      console.log("can't be edited")
+      event.preventDefault();
+      console.log(event)
+      return;
+    }
 
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
     aesthetic = aesthetic.trim();
 
-    this.aestheticsInDocument[aestheticsNames.indexOf(aesthetic)].content = txtArea.value;
+    this.aestheticsInDocument[aestheticsNames.indexOf(aesthetic)].content =
+      txtArea.value;
 
     // console.log(this.aestheticsInDocument);
     this.updateDocument(this.aestheticsInDocument);
   }
 
-
-
-  removeCard(card: HTMLElement){
-
-
+  removeCard(card: HTMLElement) {
+    if (!this.canBeEdited()) {
+      return;
+    }
 
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
 
@@ -223,17 +350,25 @@ export class AestheticsComponent {
 
     let index = aestheticsNames.indexOf(cardAesthetic);
 
-    if(index == -1){
+    if (index == -1) {
       // alert("Error: Aesthetic not found");
       this.tostr.error("Error: Aesthetic not found", "Error");
     }
-    
+
     // console.log(index);
 
     // console.log(this.aestheticsInDocument);
 
     this.aestheticsInDocument.splice(index, 1);
 
+    this.updateDocument(this.aestheticsInDocument);
 
+  }
+
+  onChangeBlock(event: any) {
+    if (!this.canBeEdited()) {
+      event.preventDefault();
+      return;
+    }
   }
 }

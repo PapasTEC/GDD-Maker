@@ -5,8 +5,8 @@ const path = require('path');
 const imageController = {};
 
 
-const folderPath = '../Frontend/src/uploads/';
-//const folderPath = 'src/uploads/';
+// const folderPath = '../Frontend/src/uploads/';
+const folderPath = 'src/uploads/';
 
 async function checkExistsWithTimeout(filePath, timeout) {
   return new Promise((resolve, reject) => {

@@ -269,10 +269,10 @@ export class VditorComponent {
         (res) => {},
         (err) => {
           if (err.status === 200) {
-            //this.vditor.insertValue(`![](../uploads/${this.documentId}/${fixName})`);
-            this.vditor.insertValue(
-              `![](uploads/${this.documentId}/${fixName})`
-            );
+            this.vditor.insertValue(`![](../uploads/${this.documentId}/${fixName})`);
+            // this.vditor.insertValue(
+            //   `![](uploads/${this.documentId}/${fixName})`
+            // );
             this.updateDocument(this.vditor.getValue());
             this.editingDocumentService.document$
               .pipe(take(1))

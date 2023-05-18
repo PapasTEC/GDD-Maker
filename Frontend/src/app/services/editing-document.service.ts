@@ -103,7 +103,8 @@ export class EditingDocumentService {
   private countdownSeconds: number = 4;
 
   constructor() {
-    this.socket = io(apiSocket);
+    // this.socket = io(apiSocket);
+    this.socket = io('http://129.159.124.235:3080');
     this.socket.on('connect', () => {
       this.isConnected = true;
       console.log('Conectado al servidor Socket.IO');

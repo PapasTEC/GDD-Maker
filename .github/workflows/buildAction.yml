@@ -26,7 +26,7 @@ jobs:
           cd ../../Frontend
           sudo npm i
           echo "UPDATING FRONTEND DEPENDENCIES"
-          npm run build
+          ng build
           echo "NEW APP BUILT"
           mv frontendBuild ../Backend/src/frontendBuild
           echo "MOVING"  

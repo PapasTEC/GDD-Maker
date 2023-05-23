@@ -52,11 +52,13 @@ export class CharactersComponent {
   myInput: boolean = false;
   updateBlockedInterval: any = null;
 
+  imagesInfo = [];
+
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isBlocked =
-      userEditing && userEditing.email !== this.localUser;
+      userEditing && userEditing?.email !== this.localUser;
     if (this.isBlocked) {
       this.userBlocking = userEditing;
     }
@@ -88,6 +90,68 @@ export class CharactersComponent {
   }
 
   images = []
+
+  public loadImage = src =>
+  new Promise((resolve, reject) => {
+    if (!src) {
+      resolve(null);
+    }
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  })
+;
+
+async reloadImages(oldImages?: any){
+  this.images  = this.documentSubSection.subSectionContent.characters.map((character) => {
+    return character.image;
+  }
+  );
+
+  // if old images is equal to current then do nothing
+  if (oldImages && oldImages.length === this.images.length) {
+    let equal = true;
+    for (let i = 0; i < oldImages.length; i++) {
+      if (oldImages[i] !== this.images[i]) {
+        equal = false;
+        break;
+      }
+    }
+    if (equal) {
+      return;
+    }
+  }
+
+  this.imagesInfo = []
+        let loadedImages = await Promise.all(this.images.map(this.loadImage))
+        loadedImages.forEach((img: any, i: number) => {
+          if (!img) {
+            return null;
+          }
+        let aspectRatio = img.width / img.height;
+    // console.log("aspectRatio: ", aspectRatio);
+    let w;
+    let h;
+
+    if(aspectRatio > 1){
+      w = "10vmax";
+      h = "calc(10vmax * " + (1/aspectRatio) + ")"
+    }else{
+      w = "calc(10vmax * " + (aspectRatio) + ")"
+      h = "10vmax";
+    }
+
+      let info = {}
+      info["width"] = w;
+      info["height"] = h;
+
+        this.imagesInfo[i] = info;
+
+      });
+
+      console.log("this.imagesInfo", this.imagesInfo)
+}
 
   ngOnInit(){
 
@@ -132,7 +196,7 @@ export class CharactersComponent {
     this.updateSocket = this.editingDocumentService
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
-      .subscribe((document) => {
+      .subscribe(async(document) => {
         // if the user is editing the document, do not update the document
         if (this.myInput) {
           this.myInput = false;
@@ -140,7 +204,7 @@ export class CharactersComponent {
         }
 
         this.canBeEdited()
-
+        let oldImages = this.images;
         // filter the document to get the section and subsection
         // and set the techInfo to the subSectionContent to update the information in real time
         this.documentSubSection = document.documentContent
@@ -153,16 +217,16 @@ export class CharactersComponent {
 
         this.charactersInDocument = this.documentSubSection.subSectionContent.characters;
 
-        this.images  = this.documentSubSection.subSectionContent.characters.map((character) => {
-          return character.image;
-        }
-        );
+        // this.images  = this.documentSubSection.subSectionContent.characters.map((character) => {
+        //   return character.image;
+        // }
+        // );
 
-        this.loadSavedImages();
+        // this.loadSavedImages();
 
+        await this.reloadImages(oldImages);
         console.log("charactersInDocument", this.charactersInDocument)
-
-      });
+  });
 
     this.editingDocumentService.document$
       .pipe(
@@ -176,7 +240,8 @@ export class CharactersComponent {
         ),
         take(1)
       )
-      .subscribe((document) => {
+      .subscribe(async (document) => {
+        let oldImages = this.images;
         this.documentSubSection = document;
 
         this.charactersInDocument = document.subSectionContent.characters;
@@ -185,7 +250,8 @@ export class CharactersComponent {
           return character.image;
         });
 
-        this.loadSavedImages();
+        // this.loadSavedImages();
+        await this.reloadImages(oldImages);
 
         this.load = true;
 
@@ -280,7 +346,7 @@ export class CharactersComponent {
 
   uploadedImage: string = "";
 
-  public onFileSelected(event: any, field:string, id:string): void {
+  public async onFileSelected(event: any, field:string, id:string): Promise<void> {
     if (!this.canBeEdited()) {
       event.preventDefault();
       return;
@@ -295,17 +361,15 @@ export class CharactersComponent {
       // console.log("uploadedImage", uploadedImage);
 
 
-      this.finishSetup.convertTempUrlToBase64(uploadedImage).then((base64) => {
-        this.charactersInDocument[parseInt(id)][field] = base64;
+      const base64 = await this.finishSetup.convertTempUrlToBase64(uploadedImage)
+      this.charactersInDocument[parseInt(id)][field] = base64;
 
-        this.updateLogo(id, uploadedImage);
+      // this.updateLogo(id, uploadedImage);
+      await this.reloadImages();
 
-        //console.log("asassasd", this.charactersInDocument)
+      //console.log("asassasd", this.charactersInDocument)
 
-        this.updateDocument(this.charactersInDocument);
-      }).catch((err) => {
-        console.log("err", err);
-      });
+      this.updateDocument(this.charactersInDocument);
 
 
 
@@ -335,9 +399,9 @@ export class CharactersComponent {
 
     uploadButton.style.backgroundImage = `url(${image})`;
 
-    // console.log("uploadButton", uploadButton)
-    // console.log("Id", id)
-    // console.log("Image", image)
+    console.log("uploadButton", uploadButton)
+    console.log("Id", id)
+    console.log("Image", image)
 
     uploadButton.style.maxHeight = "100%";
     uploadButton.style.maxWidth = "100%";
@@ -372,11 +436,8 @@ export class CharactersComponent {
         h = "10vmax";
       }
 
-
         uploadButton.style.width = w;
         uploadButton.style.height = h;
-
-
     };
 
   }

@@ -14,7 +14,6 @@ import { TokenService } from "src/app/services/token.service";
   ],
 })
 export class BasicInfoComponent {
-
   elevatorPitch = "";
   tagline = "";
   genres: string[] = [];
@@ -23,14 +22,14 @@ export class BasicInfoComponent {
   genreName: string;
   tagName: string;
 
-  section:string;
-  subSection:string;
+  section: string;
+  subSection: string;
 
-  documentSubSection:any;
+  documentSubSection: any;
 
   basicInfo = { elevatorPitch: "", tagline: "", genres: [], tags: [] };
 
-  route : ActivatedRoute;
+  route: ActivatedRoute;
 
   /* Collaborative Editing */
   isBlocked: any = {
@@ -53,89 +52,114 @@ export class BasicInfoComponent {
   myInput: boolean = false;
   updateBlockedInterval: any = null;
 
+  constructor(
+    private editingDocumentService: EditingDocumentService,
+    route: ActivatedRoute,
+    private tokenService: TokenService
+  ) {
+    this.route = route;
+  }
 
-  constructor(private editingDocumentService: EditingDocumentService, route: ActivatedRoute, private tokenService: TokenService) { this.route = route; }
-
-  getSectionAndSubSection(route:ActivatedRoute){
+  getSectionAndSubSection(route: ActivatedRoute) {
     route.data.subscribe((data) => {
       this.section = data.section;
       this.subSection = data.subSection;
     });
-
   }
 
-  ngOnInit(){
-
+  ngOnInit() {
     this.getSectionAndSubSection(this.route);
 
     /* NEW - COLLABORATIVE */
     this.decodeToken = this.tokenService
-    .decodeToken()
-    .subscribe((data: any) => {
-      this.localUser = data.decoded.email;
-    });
+      .decodeToken()
+      .subscribe((data: any) => {
+        this.localUser = data.decoded.email;
+      });
 
     this.updateSocket = this.editingDocumentService
-    .updateDocumentSocket()
-    .pipe(filter((document) => document.socketSubSection === this.subSection))
-    .subscribe((document) => {
-      // if the user is editing the document, do not update the document
-      if (this.myInput) {
-        this.myInput = false;
-        return;
-      }
+      .updateDocumentSocket()
+      .pipe(filter((document) => document.socketSubSection === this.subSection))
+      .subscribe((document) => {
+        // if the user is editing the document, do not update the document
+        if (this.myInput) {
+          this.myInput = false;
+          return;
+        }
 
-      const userEditing =
-        this.editingDocumentService.userEditingByComponent[this.subSection];
+        this.canBeChanged("elevatorPitch");
+        this.canBeChanged("tagline");
+        this.canBeChanged("genres");
+        this.canBeChanged("tags");
 
-      this.canBeChanged("elevatorPitch");
-      this.canBeChanged("tagline");
-      this.canBeChanged("genres");
-      this.canBeChanged("tags");
-
-      // filter the document to get the section and subsection
-      // and set the techInfo to the subSectionContent to update the information in real time
-      this.documentSubSection = document.documentContent
-        .find((section) => section.sectionTitle === this.section)
-        .subSections.find(
-          (subsection) => subsection.subSectionTitle === this.subSection
-        );
-
-      this.elevatorPitch = this.documentSubSection.subSectionContent.elevatorPitch;
-      this.tagline = this.documentSubSection.subSectionContent.tagline;
-      this.genres = this.documentSubSection.subSectionContent.genres;
-      this.tags = this.documentSubSection.subSectionContent.tags;
-
-          console.log("Update", this.documentSubSection)
-    });
-
-  this.editingDocumentService.document$
-    .pipe(
-      filter((document) => document !== null),
-      map((document) =>
-        document.documentContent
+        // filter the document to get the section and subsection
+        // and set the techInfo to the subSectionContent to update the information in real time
+        this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
-          )
-      ),
-      take(1)
-    )
-    .subscribe((document) => {
-      this.documentSubSection = document;
+          );
 
-      this.elevatorPitch = this.documentSubSection.subSectionContent.elevatorPitch;
-      this.tagline = this.documentSubSection.subSectionContent.tagline;
-      this.genres = this.documentSubSection.subSectionContent.genres;
-      this.tags = this.documentSubSection.subSectionContent.tags;
 
-      console.log(this.documentSubSection);
+        // if (!this.isBlocked.elevatorPitch) {
+        //   this.elevatorPitch =
+        //     this.documentSubSection.subSectionContent.elevatorPitch;
+        // }
+        // if (!this.isBlocked.tagline) {
+        //   this.tagline = this.documentSubSection.subSectionContent.tagline;
+        // }
+        // if (!this.isBlocked.genres) {
+        //   this.genres = this.documentSubSection.subSectionContent.genres;
+        // }
+        // if (!this.isBlocked.tags) {
+        //   this.tags = this.documentSubSection.subSectionContent.tags;
+        // }
+        const userEditing =
+        this.editingDocumentService.userEditingByComponent[this.subSection];
 
-      this.updateBlockedInterval = setInterval(() => {
-        this.updateIsBlocked1s();
-      }, 1000);
-    });
+        if (userEditing.elevatorPitch?.email !== this.localUser) {
+          this.elevatorPitch = this.documentSubSection.subSectionContent.elevatorPitch;
+        }
+        if (userEditing.tagline?.email !== this.localUser) {
+          this.tagline = this.documentSubSection.subSectionContent.tagline;
+        }
+        if (userEditing.genres?.email !== this.localUser) {
+          this.genres = this.documentSubSection.subSectionContent.genres;
+        }
+        if (userEditing.tags?.email !== this.localUser) {
+          this.tags = this.documentSubSection.subSectionContent.tags;
+        }
 
+        console.log("Update", this.documentSubSection);
+      });
+
+    this.editingDocumentService.document$
+      .pipe(
+        filter((document) => document !== null),
+        map((document) =>
+          document.documentContent
+            .find((section) => section.sectionTitle === this.section)
+            .subSections.find(
+              (subsection) => subsection.subSectionTitle === this.subSection
+            )
+        ),
+        take(1)
+      )
+      .subscribe((document) => {
+        this.documentSubSection = document;
+
+        this.elevatorPitch =
+          this.documentSubSection.subSectionContent.elevatorPitch;
+        this.tagline = this.documentSubSection.subSectionContent.tagline;
+        this.genres = this.documentSubSection.subSectionContent.genres;
+        this.tags = this.documentSubSection.subSectionContent.tags;
+
+        console.log(this.documentSubSection);
+
+        this.updateBlockedInterval = setInterval(() => {
+          this.updateIsBlocked1s();
+        }, 1000);
+      });
   }
 
   ngOnDestroy() {
@@ -153,7 +177,7 @@ export class BasicInfoComponent {
     for (const key in this.isBlocked) {
       if (this.isBlocked.hasOwnProperty(key)) {
         this.isBlocked[key] =
-          userEditing[key] && userEditing[key].email !== this.localUser;
+          userEditing[key] && userEditing[key]?.email !== this.localUser;
         if (this.isBlocked[key]) {
           this.userBlocking[key] = userEditing[key];
         }

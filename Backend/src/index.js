@@ -104,11 +104,11 @@ io.on("connection", (socket) => {
     onlineUsers.delete(socket.id);
   });
 
-  socket.on("edit-document", async ({ documentId, secId, subSecId, content, sectionTitle, subSectionTitle }) => {
+  socket.on("edit-document", async ({ documentId, secId, subSecId, content, sectionTitle, subSectionTitle, part }) => {
     socket.broadcast
       .to(documentId)
-      .emit("sync-data", { secId, subSecId, content });
-    console.log('edit-document', { documentId, secId, subSecId, content })
+      .emit("sync-data", { secId, subSecId, content, part });
+    console.log('edit-document', { documentId, secId, subSecId, content, part })
     console.log(await documentController.updateOnlySubSectionByTitlesBasic(documentId, sectionTitle, subSectionTitle, content));
     // socket.to(documentId).broadcast.emit('update-data', data)
   });

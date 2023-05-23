@@ -105,9 +105,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.userService.login(email, code).subscribe((response) => {
         console.log("response ",response);
         if (response.token) {
-          this.codeForm.patchValue({
-            code: ""
-          });
+          // this.codeForm.patchValue({
+          //   code: ""
+          // });
           // alert("You are logged in");
           localStorage.setItem("ImageUser", response.image);
 

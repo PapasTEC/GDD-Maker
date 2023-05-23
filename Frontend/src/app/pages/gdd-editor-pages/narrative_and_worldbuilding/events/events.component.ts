@@ -60,7 +60,7 @@ export class EventsComponent {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isBlocked =
-      userEditing && userEditing.email !== this.localUser;
+      userEditing && userEditing?.email !== this.localUser;
     if (this.isBlocked) {
       this.userBlocking = userEditing;
     }

@@ -58,7 +58,7 @@ export class CoreMechanicComponent {
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing.email !== this.localUser;
+    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
     if (this.isBlocked) {
       this.userBlocking = userEditing;
     }

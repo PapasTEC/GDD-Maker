@@ -1,36 +1,54 @@
-import { Component, ViewEncapsulation  } from '@angular/core';
+import { Component, ViewEncapsulation } from "@angular/core";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { ActivatedRoute } from "@angular/router";
 import { filter, map, take } from "rxjs/operators";
-import { TokenService } from 'src/app/services/token.service';
+import { TokenService } from "src/app/services/token.service";
 
 @Component({
-  selector: 'app-detail_core_mechanic',
-  templateUrl: './detail_core_mechanic.component.html',
-  styleUrls: ['../../editorGlobalStyles.scss', '../../vditor/vditor.component.scss', './detail_core_mechanic.component.scss'],
+  selector: "app-detail_core_mechanic",
+  templateUrl: "./detail_core_mechanic.component.html",
+  styleUrls: [
+    "../../editorGlobalStyles.scss",
+    "../../vditor/vditor.component.scss",
+    "./detail_core_mechanic.component.scss",
+  ],
   encapsulation: ViewEncapsulation.None,
 })
 export class DetailCoreMechanicComponent {
-  constructor(private editingDocumentService: EditingDocumentService, private route: ActivatedRoute, private tokenService: TokenService) { this.route = route; }
+  constructor(
+    private editingDocumentService: EditingDocumentService,
+    private route: ActivatedRoute,
+    private tokenService: TokenService
+  ) {
+    this.route = route;
+  }
 
-  detailsIds = ["tokens", "resources", "additionalElements", "decisions", "intermediate", "local", "global"];
+  detailsIds = [
+    "tokens",
+    "resources",
+    "additionalElements",
+    "decisions",
+    "intermediate",
+    "local",
+    "global",
+  ];
 
   details = {
-    tokens : "",
-    resources : "",
-    additionalElements : "",
-    decisions : "",
-    intermediate : "",
-    local : "",
-    global : ""
-  }
+    tokens: "",
+    resources: "",
+    additionalElements: "",
+    decisions: "",
+    intermediate: "",
+    local: "",
+    global: "",
+  };
 
   textMeasurements = {
     minHeight: 20,
     lineHeight: 29,
     padding: 12,
-    border: 2
-  }
+    border: 2,
+  };
 
   textArea: any;
 
@@ -44,14 +62,14 @@ export class DetailCoreMechanicComponent {
   isBlocked: any = {
     representation: null,
     decisions: null,
-    goals: null
-  }
+    goals: null,
+  };
 
   userBlocking: any = {
     representation: null,
     decisions: null,
-    goals: null
-  }
+    goals: null,
+  };
 
   localUser = null;
   decodeToken: any;
@@ -59,8 +77,7 @@ export class DetailCoreMechanicComponent {
   myInput: boolean = false;
   updateBlockedInterval: any = null;
 
-  resetAreasSize(area, _var, decisions = false){
-
+  resetAreasSize(area, _var, decisions = false) {
     const targ = area as HTMLTextAreaElement;
     let rows = _var.split("\n").length;
 
@@ -72,29 +89,28 @@ export class DetailCoreMechanicComponent {
     if (!decisions || rows > 8) {
       targ.style.height = `${rows * heightLine}em`;
 
-      while(targ.scrollHeight > targ.clientHeight){
+      while (targ.scrollHeight > targ.clientHeight) {
         targ.style.height = `${parseFloat(targ.style.height) + heightLine}em`;
       }
 
-      while(targ.scrollHeight < targ.clientHeight){
+      while (targ.scrollHeight < targ.clientHeight) {
         targ.style.height = `${parseFloat(targ.style.height) - heightLine}em`;
       }
     }
   }
 
-  breakLines(ev: Event, rows?:number, decisions = false) {
+  breakLines(ev: Event, rows?: number, decisions = false) {
     const targ = ev.target as HTMLTextAreaElement;
     const heightLine = this.lineHeight;
 
     if (!decisions || rows > 8) {
-
       targ.style.height = `${rows * this.lineHeight}em`;
 
-      while(targ.scrollHeight > targ.clientHeight){
+      while (targ.scrollHeight > targ.clientHeight) {
         targ.style.height = `${parseFloat(targ.style.height) + heightLine}em`;
       }
 
-      while(targ.scrollHeight < targ.clientHeight){
+      while (targ.scrollHeight < targ.clientHeight) {
         targ.style.height = `${parseFloat(targ.style.height) - heightLine}em`;
       }
     } else {
@@ -126,7 +142,7 @@ export class DetailCoreMechanicComponent {
     );
   }
 
-  getSectionAndSubSection(route:ActivatedRoute){
+  getSectionAndSubSection(route: ActivatedRoute) {
     route.data.subscribe((data) => {
       this.section = data.section;
       this.subSection = data.subSection;
@@ -173,96 +189,134 @@ export class DetailCoreMechanicComponent {
     //     }
     //   });
 
-        /* NEW - COLLABORATIVE */
-        this.decodeToken = this.tokenService
-        .decodeToken()
-        .subscribe((data: any) => {
-          this.localUser = data.decoded.email;
-        });
+    /* NEW - COLLABORATIVE */
+    this.decodeToken = this.tokenService
+      .decodeToken()
+      .subscribe((data: any) => {
+        this.localUser = data.decoded.email;
+      });
 
-        this.updateSocket = this.editingDocumentService
-        .updateDocumentSocket()
-        .pipe(filter((document) => document.socketSubSection === this.subSection))
-        .subscribe((document) => {
-          // if the user is editing the document, do not update the document
-          if (this.myInput) {
-            this.myInput = false;
-            return;
+    this.updateSocket = this.editingDocumentService
+      .updateDocumentSocket()
+      .pipe(filter((document) => document.socketSubSection === this.subSection))
+      .subscribe((document) => {
+        // if the user is editing the document, do not update the document
+        if (this.myInput) {
+          this.myInput = false;
+          return;
+        }
+
+        this.canBeEdited("representation");
+        this.canBeEdited("decisions");
+        this.canBeEdited("goals");
+
+        // filter the document to get the section and subsection
+        // and set the techInfo to the subSectionContent to update the information in real time
+        this.documentSubSection = document.documentContent
+          .find((section) => section.sectionTitle === this.section)
+          .subSections.find(
+            (subsection) => subsection.subSectionTitle === this.subSection
+          );
+
+        // this.details = this.documentSubSection.subSectionContent;
+
+        const userEditing =
+          this.editingDocumentService.userEditingByComponent[this.subSection];
+
+        if (userEditing.representation?.email !== this.localUser) {
+          this.details.tokens =
+            this.documentSubSection.subSectionContent.tokens;
+          this.details.resources =
+            this.documentSubSection.subSectionContent.resources;
+          this.details.additionalElements =
+            this.documentSubSection.subSectionContent.additionalElements;
+        }
+
+        if (userEditing.decisions?.email !== this.localUser) {
+          this.details.decisions =
+            this.documentSubSection.subSectionContent.decisions;
+        }
+
+        if (userEditing.goals?.email !== this.localUser) {
+          this.details.intermediate =
+            this.documentSubSection.subSectionContent.intermediate;
+          this.details.local = this.documentSubSection.subSectionContent.local;
+          this.details.global =
+            this.documentSubSection.subSectionContent.global;
+        }
+
+        // if (this.isBlocked.representation) {
+
+        const textareas = document.getElementsByClassName("resize-ta");
+        for (let i = 0; i < textareas.length; i++) {
+          let textarea = textareas[i] as HTMLTextAreaElement;
+          if (this.detailsIds[i] === "decisions") {
+            this.resetAreasSize(
+              textarea,
+              this.details[this.detailsIds[i]],
+              true
+            );
+          } else {
+            this.resetAreasSize(textarea, this.details[this.detailsIds[i]]);
           }
+        }
+      });
 
-          this.canBeEdited("representation");
-          this.canBeEdited("decisions");
-          this.canBeEdited("goals");
-
-          // filter the document to get the section and subsection
-          // and set the techInfo to the subSectionContent to update the information in real time
-          this.documentSubSection = document.documentContent
+    this.editingDocumentService.document$
+      .pipe(
+        filter((document) => document !== null),
+        map((document) =>
+          document.documentContent
             .find((section) => section.sectionTitle === this.section)
             .subSections.find(
               (subsection) => subsection.subSectionTitle === this.subSection
+            )
+        ),
+        take(1)
+      )
+      .subscribe((document) => {
+        this.documentSubSection = document;
+
+        this.details = this.documentSubSection.subSectionContent;
+
+        const textareas = document.getElementsByClassName("resize-ta");
+
+        for (let i = 0; i < textareas.length; i++) {
+          let textarea = textareas[i] as HTMLTextAreaElement;
+          if (this.detailsIds[i] === "decisions") {
+            this.resetAreasSize(
+              textarea,
+              this.details[this.detailsIds[i]],
+              true
             );
-
-          this.details = this.documentSubSection.subSectionContent;
-
-          const textareas = document.getElementsByClassName("resize-ta");
-          for (let i = 0; i < textareas.length; i++) {
-            let textarea = textareas[i] as HTMLTextAreaElement;
-            if (this.detailsIds[i] === "decisions") {
-              this.resetAreasSize(textarea, this.details[this.detailsIds[i]], true);
-            } else {
-              this.resetAreasSize(textarea, this.details[this.detailsIds[i]]);
-            }
+          } else {
+            this.resetAreasSize(textarea, this.details[this.detailsIds[i]]);
           }
+        }
 
-        });
+        console.log(this.documentSubSection);
+      });
 
-      this.editingDocumentService.document$
-        .pipe(
-          filter((document) => document !== null),
-          map((document) =>
-            document.documentContent
-              .find((section) => section.sectionTitle === this.section)
-              .subSections.find(
-                (subsection) => subsection.subSectionTitle === this.subSection
-              )
-          ),
-          take(1)
-        )
-        .subscribe((document) => {
-          this.documentSubSection = document;
-
-          this.details = this.documentSubSection.subSectionContent;
-
-          const textareas = document.getElementsByClassName("resize-ta");
-
-          for (let i = 0; i < textareas.length; i++) {
-            let textarea = textareas[i] as HTMLTextAreaElement;
-            if (this.detailsIds[i] === "decisions") {
-              this.resetAreasSize(textarea, this.details[this.detailsIds[i]], true);
-            } else {
-              this.resetAreasSize(textarea, this.details[this.detailsIds[i]]);
-            }
-          }
-
-          console.log(this.documentSubSection);
-
-          this.updateBlockedInterval = setInterval(() => {
-            this.updateIsBlocked1s();
-          }, 1000);
-        });
-
+    this.updateBlockedInterval = setInterval(() => {
+      this.updateIsBlocked1s();
+    }, 1000);
   }
 
   updateIsBlocked1s() {
+    console.log("updateIsBlocked1s");
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
     for (const key in this.isBlocked) {
       if (this.isBlocked.hasOwnProperty(key)) {
-        console.log("key: ", key)
-        console.log(this.isBlocked[key], userEditing[key], userEditing[key].email)
+        console.log("key: ", key);
+        console.log(
+          this.isBlocked[key],
+          userEditing[key],
+          userEditing[key]?.email
+        );
         this.isBlocked[key] =
-          userEditing[key] && userEditing[key].email !== this.localUser;
+          userEditing[key] && userEditing[key]?.email !== this.localUser;
         if (this.isBlocked[key]) {
           this.userBlocking[key] = userEditing[key];
         }
@@ -286,4 +340,3 @@ export class DetailCoreMechanicComponent {
     }
   }
 }
-

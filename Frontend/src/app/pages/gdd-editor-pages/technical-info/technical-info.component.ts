@@ -110,7 +110,20 @@ export class TechnicalInfoComponent {
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
-        this.techInfo = this.documentSubSection.subSectionContent;
+        // this.techInfo = this.documentSubSection.subSectionContent;
+
+        const userEditing =
+        this.editingDocumentService.userEditingByComponent[this.subSection];
+
+        if (userEditing.platforms?.email !== this.localUser) {
+          this.techInfo.platforms = this.documentSubSection.subSectionContent.platforms;
+        }
+        if (userEditing.generalData?.email !== this.localUser) {
+          this.techInfo.ageClassification = this.documentSubSection.subSectionContent.ageClassification;
+          this.techInfo.targetAudience = this.documentSubSection.subSectionContent.targetAudience;
+          this.techInfo.releaseDate = this.documentSubSection.subSectionContent.releaseDate;
+          this.techInfo.price = this.documentSubSection.subSectionContent.price;
+        }
 
         console.log("Update", this.documentSubSection);
         // this.techInfo = document.documentSubSection.subSectionContent;

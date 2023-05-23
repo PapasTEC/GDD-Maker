@@ -23,6 +23,9 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
           this.router.navigate(['/dashboard']);
           return true;
         } else {
+          if (state.url === '/register') {
+            return true;
+          }
           this.router.navigate(['/login']);
           return true;
         }
@@ -30,6 +33,9 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
         // maneja el error
       });
     } catch (err) {
+      if (state.url === '/register') {
+        return true;
+      }
       this.router.navigate(['/login']);
       return false;
     }
@@ -38,10 +44,13 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
   async canActivateChild( childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
     const token = this.cookieService.get('Token');
     if (!token) {
+      if (state.url === '/register') {
+        return true;
+      }
       this.router.navigate(['/login']);
       return false;
     }
-    
+
     let isValidToken;
     try {
       this.tokenService.verifyToken().subscribe(response => {
@@ -49,6 +58,9 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
         if (isValidToken) {
           return true;
         } else {
+          if (state.url === '/register') {
+            return true;
+          }
           this.router.navigate(['/login']);
           return false;
         }
@@ -57,6 +69,9 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
         // maneja el error
       });
     } catch (err) {
+      if (state.url === '/register') {
+        return true;
+      }
       this.router.navigate(['/login']);
       return false;
     }

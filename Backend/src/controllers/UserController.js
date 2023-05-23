@@ -30,7 +30,10 @@ userController.createUser = async (req, res) => {
 };
 
 userController.addOwnProject = async (req, res) => {
-  Users.updateOne({ email: req.params.email }, { $push: { owned_documents: req.body.id } })
+  Users.updateOne(
+    { email: req.params.email },
+    { $push: { owned_documents: req.body.id } }
+  )
     .then((user) => {
       if (!user) return res.status(404).json({ message: "User not found" });
       res.status(200).json({ message: "Project Added" });
@@ -41,7 +44,10 @@ userController.addOwnProject = async (req, res) => {
 };
 
 userController.addSharedProject = async (req, res) => {
-  Users.updateOne({ email: req.params.email }, { $push: { shared_with_me_documents: req.body.id } })
+  Users.updateOne(
+    { email: req.params.email },
+    { $push: { shared_with_me_documents: req.body.id } }
+  )
     .then((user) => {
       if (!user) return res.status(404).json({ message: "User not found" });
       res.status(200).json({ message: "Shared Project Added" });
@@ -106,7 +112,10 @@ userController.deleteUser = async (req, res) => {
 };
 
 userController.deleteOwnProject = async (req, res) => {
-  Users.updateOne({ email: req.params.email }, { $pull: { owned_documents: req.body.id } })
+  Users.updateOne(
+    { email: req.params.email },
+    { $pull: { owned_documents: req.body.id } }
+  )
     .then((user) => {
       if (!user) return res.status(404).json({ message: "User not found" });
       res.status(200).json({ message: "Project Deleted" });
@@ -117,7 +126,10 @@ userController.deleteOwnProject = async (req, res) => {
 };
 
 userController.deleteSharedProject = async (req, res) => {
-  Users.updateOne({ email: req.params.email }, { $pull: { shared_with_me_documents: req.body.id } })
+  Users.updateOne(
+    { email: req.params.email },
+    { $pull: { shared_with_me_documents: req.body.id } }
+  )
     .then((user) => {
       if (!user) return res.status(404).json({ message: "User not found" });
       res.status(200).json({ message: "Shared Project Deleted" });
@@ -134,7 +146,7 @@ userController.sendCodeUser = async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const password = generatePasswordCode(10);
-    
+
     await sendEmail(user.email, password, "reset");
 
     const newUser = { password };
@@ -149,21 +161,21 @@ userController.sendCodeUser = async (req, res) => {
 
 userController.loginUser = async (req, res) => {
   try {
-    const user = await Users.findOne({ email: req.params.email, password: req.params.password });
+    const user = await Users.findOne({
+      email: req.params.email,
+      password: req.params.password,
+    });
 
     if (!user) return res.status(200).json(false);
 
-    try{
+    try {
       const token = generateToken(user);
-      res.status(200).json({auth : true, token, image: user.image});
-    }
-    catch(error){
+      res.status(200).json({ auth: true, token, image: user.image });
+    } catch (error) {
       console.log(error);
       res.status(404).json({ message: "User not found" });
     }
-      
 
-    
     try {
       let user = await Users.findOne({ email: req.params.email });
 

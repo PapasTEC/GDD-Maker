@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
-import { io } from 'socket.io-client';
-import { apiSocket } from 'src/environments/environment';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, forkJoin } from "rxjs";
+import { io } from "socket.io-client";
+import { apiSocket } from "src/environments/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class EditingDocumentService {
-
   private document = new BehaviorSubject<any>(null);
   document$ = this.document.asObservable();
 
@@ -23,10 +22,14 @@ export class EditingDocumentService {
     ["Basic Information"],
     ["Technical Information"],
     ["Theme", "Aesthetic", "Core Mechanic"],
-    ["Detail of the Core Mechanic", "Detail of the Secondary Mechanic", "Core Gameplay Loop"],
+    [
+      "Detail of the Core Mechanic",
+      "Detail of the Secondary Mechanic",
+      "Core Gameplay Loop",
+    ],
     ["Setting", "Characters", "Events"],
     ["Visual Style", "User Interface", "Music and Sound"],
-    ["Game References"]
+    ["Game References"],
   ];
 
   // documentSections: any = {
@@ -65,29 +68,29 @@ export class EditingDocumentService {
       elevatorPitch: null,
       tagline: null,
       genres: null,
-      tags: null
+      tags: null,
     },
     "Technical Information": {
       platforms: null,
-      generalData: null
+      generalData: null,
     },
-    "Theme": null,
-    "Aesthetic": null,
+    Theme: null,
+    Aesthetic: null,
     "Core Mechanic": null,
     "Detail of the Core Mechanic": {
       representation: null,
       decisions: null,
-      goals: null
+      goals: null,
     },
     "Detail of the Secondary Mechanic": null,
     "Core Gameplay Loop": null,
-    "Setting": null,
-    "Characters": null,
-    "Events": null,
+    Setting: null,
+    Characters: null,
+    Events: null,
     "Visual Style": null,
     "User Interface": null,
     "Music and Sound": null,
-    "Game References": null
+    "Game References": null,
   };
 
   currentUserEditing: any = null;
@@ -96,8 +99,13 @@ export class EditingDocumentService {
 
   // private socket = io('http://129.159.124.235:3080');
 
-
-  localUser = { email: "", name: "", image: "", owned_documents: [], shared_with_me_documents: [] };
+  localUser = {
+    email: "",
+    name: "",
+    image: "",
+    owned_documents: [],
+    shared_with_me_documents: [],
+  };
   documentId = "";
   private timer: any;
   private countdownSeconds: number = 4;
@@ -107,33 +115,76 @@ export class EditingDocumentService {
     this.socket = io('http://129.159.124.235:3080');
     this.socket.on('connect', () => {
       this.isConnected = true;
-      console.log('Conectado al servidor Socket.IO');
+      console.log("Conectado al servidor Socket.IO");
     });
 
-    this.socket.on('sync-data', ({ secId, subSecId, content }) => {
+    this.socket.on("sync-data", ({ secId, subSecId, content, part }) => {
       console.log("================ sync data ================ ");
       const document = this.document.getValue();
       console.log(secId, subSecId, content);
-      console.log(document)
-      console.log(document.documentContent[secId])
-      console.log(document.documentContent[secId].subSections[subSecId])
+      console.log(document);
+      console.log(document.documentContent[secId]);
+      console.log(document.documentContent[secId].subSections[subSecId]);
+      console.log(part);
 
-      document.documentContent[secId].subSections[subSecId] = content;
-      console.log(this.documentSections[secId][subSecId])
+      if (part) {
+        let subParts = {
+          "Technical Information": {
+            platforms: ["platforms"],
+            generalData: [
+              "ageClassification",
+              "targetAudience",
+              "releaseDate",
+              "price",
+            ],
+          },
+          "Detail of the Core Mechanic": {
+            representation: ["tokens", "resources", "additionalElements"],
+            decisions: ["decisions"],
+            goals: ["intermediate", "local", "global"],
+          },
+        };
+
+        // if (content.subSectionTitle === 'Technical Information' && part === "generalData") {
+        //   console.log("UPDATE generalData")
+        //   document.documentContent[secId].subSections[subSecId].subSectionContent["ageClassification"] = content.subSectionContent["ageClassification"];
+        //   document.documentContent[secId].subSections[subSecId].subSectionContent["targetAudience"] = content.subSectionContent["targetAudience"];
+        //   document.documentContent[secId].subSections[subSecId].subSectionContent["releaseDate"] = content.subSectionContent["releaseDate"];
+        //   document.documentContent[secId].subSections[subSecId].subSectionContent["price"] = content.subSectionContent["price"];
+        // }
+        if (Object.hasOwn(subParts, content.subSectionTitle)) {
+          console.log("UPDATE", content.subSectionTitle, part);
+          for (let subPart of subParts[content.subSectionTitle][part]) {
+            document.documentContent[secId].subSections[
+              subSecId
+            ].subSectionContent[subPart] = content.subSectionContent[subPart];
+          }
+        } else {
+          document.documentContent[secId].subSections[
+            subSecId
+          ].subSectionContent[part] = content.subSectionContent[part];
+        }
+      } else {
+        document.documentContent[secId].subSections[subSecId] = content;
+      }
+      console.log(
+        "NEW SUBSECTION",
+        document.documentContent[secId].subSections[subSecId]
+      );
       document.socketSubSection = this.documentSections[secId][subSecId];
       this.document.next(document);
 
       // this.document.next(data);
     });
 
-    this.socket.on('sync-data-front-page', ({ content }) => {
+    this.socket.on("sync-data-front-page", ({ content }) => {
       console.log("================ sync data front page ================ ");
       const document = this.document.getValue();
       document.frontPage = content;
       this.document.next(document);
     });
 
-    this.socket.on('user-Editing', ({ content, user, part }) => {
+    this.socket.on("user-Editing", ({ content, user, part }) => {
       //console.log("user editing: ", user);
       //this.userEditing = user;
       //console.log(`user editing: ${user} in section ${content}`)
@@ -142,11 +193,11 @@ export class EditingDocumentService {
       if (user == null) {
         if (part != null) {
           this.userEditingByComponent[content][part] = null;
-          console.log("UserEditingByComponent", this.userEditingByComponent)
+          console.log("UserEditingByComponent", this.userEditingByComponent);
           return;
         } else {
           this.userEditingByComponent[content] = null;
-          console.log("UserEditingByComponent", this.userEditingByComponent)
+          console.log("UserEditingByComponent", this.userEditingByComponent);
           return;
         }
       }
@@ -167,13 +218,13 @@ export class EditingDocumentService {
           image: null,
         };
       }
-      console.log("UserEditingByComponent", this.userEditingByComponent)      //console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
-    })
+      console.log("UserEditingByComponent", this.userEditingByComponent); //console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
+    });
 
     this.socket.on("update-online-users", (onlineUsers) => {
       console.log(`********************** Online users: `, this.onlineUsers);
       this.onlineUsers.next(onlineUsers);
-    })
+    });
   }
 
   getOnlineUsers() {
@@ -181,28 +232,46 @@ export class EditingDocumentService {
   }
 
   changeDocument(document: any) {
-    this.document.next(document)
+    this.document.next(document);
   }
 
   updateUserEditing(userEditing: string, part?: string) {
     // clearTimeout(this.timer);
 
-    this.socket.emit('edit-User', { documentId: this.documentId, content: userEditing, user: this.localUser.email, part: part });
+    this.socket.emit("edit-User", {
+      documentId: this.documentId,
+      content: userEditing,
+      user: this.localUser.email,
+      part: part,
+    });
 
     if (part) {
       if (this.partsTimers.has(part)) {
         clearTimeout(this.partsTimers.get(part));
       }
-      this.partsTimers.set(part, setTimeout(() => {
-        this.socket.emit('edit-User', { documentId: this.documentId, content: userEditing, user: null, part: part });
-      }, 1000 * this.countdownSeconds));
+      this.partsTimers.set(
+        part,
+        setTimeout(() => {
+          this.socket.emit("edit-User", {
+            documentId: this.documentId,
+            content: userEditing,
+            user: null,
+            part: part,
+          });
+        }, 1000 * this.countdownSeconds)
+      );
     } else {
       if (this.timer) {
         clearTimeout(this.timer);
       }
 
       this.timer = setTimeout(() => {
-        this.socket.emit('edit-User', { documentId: this.documentId, content: userEditing, user: null, part: part });
+        this.socket.emit("edit-User", {
+          documentId: this.documentId,
+          content: userEditing,
+          user: null,
+          part: part,
+        });
       }, 1000 * this.countdownSeconds);
     }
   }
@@ -210,7 +279,7 @@ export class EditingDocumentService {
   joinDocument() {
     // console.log("join document");
     // console.log(this.documentId, this.localUser.email);
-    this.socket.emit('join-document', this.documentId, this.localUser);
+    this.socket.emit("join-document", this.documentId, this.localUser);
   }
 
   setUserData(user: any, documentId: any) {
@@ -226,22 +295,44 @@ export class EditingDocumentService {
 
   addDocumentSubSection(section: any, subSection: any, content: any) {
     const document = this.document.getValue();
-    const secId = document.documentContent.findIndex((obj => obj.sectionTitle == section));
-    document.documentContent[secId].subSections.push({ subSectionTitle: subSection, subSectionContent: content });
+    const secId = document.documentContent.findIndex(
+      (obj) => obj.sectionTitle == section
+    );
+    document.documentContent[secId].subSections.push({
+      subSectionTitle: subSection,
+      subSectionContent: content,
+    });
     this.document.next(document);
   }
 
-  updateDocumentSubSection(section: any, subSection: any, content: any, part?: string) {
+  updateDocumentSubSection(
+    section: any,
+    subSection: any,
+    content: any,
+    part?: string
+  ) {
     // console.log(`subSection: ${subSection}`)
     this.updateUserEditing(subSection, part || null);
 
     const document = this.document.getValue();
-    const secId = document.documentContent.findIndex((obj => obj.sectionTitle == section));
-    const subSecId = document.documentContent[secId].subSections.findIndex((obj => obj.subSectionTitle == subSection));
+    const secId = document.documentContent.findIndex(
+      (obj) => obj.sectionTitle == section
+    );
+    const subSecId = document.documentContent[secId].subSections.findIndex(
+      (obj) => obj.subSectionTitle == subSection
+    );
     console.log(secId, subSecId);
     document.documentContent[secId].subSections[subSecId] = content;
     this.document.next(document);
-    this.socket.emit('edit-document', { documentId: this.documentId, secId, subSecId, content, sectionTitle: section, subSectionTitle: subSection });
+    this.socket.emit("edit-document", {
+      documentId: this.documentId,
+      secId,
+      subSecId,
+      content,
+      sectionTitle: section,
+      subSectionTitle: subSection,
+      part,
+    });
   }
 
   updateDocumentFrontPage(content: any) {
@@ -249,7 +340,10 @@ export class EditingDocumentService {
     const document = this.document.getValue();
     document.frontPage = content;
     this.document.next(document);
-    this.socket.emit('edit-document-front-page', { documentId: this.documentId, content });
+    this.socket.emit("edit-document-front-page", {
+      documentId: this.documentId,
+      content,
+    });
   }
 
   updateDocumentSocket() {
@@ -265,9 +359,8 @@ export class EditingDocumentService {
     this.socket.disconnect();
   }
 
-
   disconnectSocket() {
-    this.socket.emit("leave-document", this.documentId, this.localUser.email)
+    this.socket.emit("leave-document", this.documentId, this.localUser.email);
     this.isConnected = false;
     this.socket.disconnect();
   }

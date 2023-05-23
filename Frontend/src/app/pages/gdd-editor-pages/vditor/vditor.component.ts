@@ -124,7 +124,7 @@ export class VditorComponent {
         // console.log(this.vditor)
         const userEditing =
           this.editingDocumentService.userEditingByComponent[this.subSection];
-        this.isBlocked = userEditing && userEditing.email !== this.localUser;
+        this.isBlocked = userEditing && userEditing?.email !== this.localUser;
         if (this.isBlocked) {
           this.userBlocking = userEditing;
         }
@@ -176,7 +176,7 @@ export class VditorComponent {
     console.log("BLOCKED:", this.isBlocked, this.editingDocumentService);
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing.email !== this.localUser;
+    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
     if (this.isBlocked) {
       console.log("BLOCKED:", userEditing);
       this.userBlocking = userEditing;
@@ -186,7 +186,7 @@ export class VditorComponent {
   onKeyDown(event: KeyboardEvent): void {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing.email !== this.localUser;
+    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
     if (this.isBlocked) {
       this.userBlocking = userEditing;
       event.preventDefault();
@@ -195,7 +195,7 @@ export class VditorComponent {
   onContextMenu(event: MouseEvent) {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing.email !== this.localUser;
+    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
     if (this.isBlocked) {
       this.userBlocking = userEditing;
       event.preventDefault();

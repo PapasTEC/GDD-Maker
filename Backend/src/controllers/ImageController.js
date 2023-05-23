@@ -1,24 +1,25 @@
-const Image = require('../models/ImageModel');
-const fs = require('fs');
-const multer = require('multer');
-const path = require('path');
+const Image = require("../models/ImageModel");
+const fs = require("fs");
+const multer = require("multer");
+const path = require("path");
 const imageController = {};
 
-
 // const folderPath = '../Frontend/src/uploads/';
-const folderPath = 'src/uploads/';
+const folderPath = "src/uploads/";
 
 async function checkExistsWithTimeout(filePath, timeout) {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       watcher.close();
-      reject(new Error('El archivo no se ha creado en el tiempo especificado.'));
+      reject(
+        new Error("El archivo no se ha creado en el tiempo especificado.")
+      );
     }, timeout);
 
     const dir = path.dirname(filePath);
     const basename = path.basename(filePath);
     const watcher = fs.watch(dir, (eventType, filename) => {
-      if (eventType === 'rename' && filename === basename) {
+      if (eventType === "rename" && filename === basename) {
         clearTimeout(timer);
         watcher.close();
         resolve(true);
@@ -37,8 +38,6 @@ async function checkExistsWithTimeout(filePath, timeout) {
   });
 }
 
-
-
 // Configuración de Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -50,9 +49,8 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
-  }
+  },
 });
-
 
 imageController.upload = multer({ storage: storage });
 
@@ -64,9 +62,9 @@ imageController.uploadImage = async (req, res) => {
   try {
     const exists = await checkExistsWithTimeout(path, 10000);
     if (exists) {
-      res.status(200).send('OK');
+      res.status(200).send("OK");
     } else {
-      res.status(400).send('No se ha seleccionado ningún archivo');
+      res.status(400).send("No se ha seleccionado ningún archivo");
     }
   } catch (err) {
     res.status(500).send(err.message);
@@ -75,21 +73,21 @@ imageController.uploadImage = async (req, res) => {
 
 function eliminarCarpeta(req, res) {
   const rutaCarpeta = req.params.rutaCarpeta; // obtiene la ruta de la carpeta desde los parámetros de la URL
-  const rutaCompleta = './carpetas/' + rutaCarpeta; // construye la ruta completa de la carpeta
-  
+  const rutaCompleta = "./carpetas/" + rutaCarpeta; // construye la ruta completa de la carpeta
+
   // verifica si la carpeta existe
   if (fs.existsSync(rutaCompleta)) {
     // elimina la carpeta utilizando el método rmdir de fs
     fs.rmdir(rutaCompleta, { recursive: true }, (error) => {
       if (error) {
         console.error(error);
-        res.status(500).send('Error al eliminar la carpeta');
+        res.status(500).send("Error al eliminar la carpeta");
       } else {
-        res.status(200).send('Carpeta eliminada correctamente');
+        res.status(200).send("Carpeta eliminada correctamente");
       }
     });
   } else {
-    res.status(404).send('La carpeta no existe');
+    res.status(404).send("La carpeta no existe");
   }
 }
 
@@ -101,13 +99,13 @@ imageController.deleteFolder = async (req, res) => {
     fs.rmdir(path, { recursive: true }, (error) => {
       if (error) {
         console.error(error);
-        res.status(500).send('Error deleting folder');
+        res.status(500).send("Error deleting folder");
       } else {
-        res.status(200).send('Folder deleted successfully');
+        res.status(200).send("Folder deleted successfully");
       }
     });
   } else {
-    res.status(200).send('Folder deleted successfully');
+    res.status(200).send("Folder deleted successfully");
   }
 };
 

@@ -1,0 +1,23 @@
+<div class="info-container">
+  <div class="row">
+      <img
+        class="icon"
+        src="assets/img/icons/common/accessDenied.svg"
+        alt="Access Denied"
+      />
+      <h1>Access Denied</h1>
+      <p>
+        You do not have access to document with id
+        <span class="bold"> {{ documentId }}</span>
+      </p>
+      <p>
+        Please contact the document owner to request access.
+      </p>
+      <button
+        class="btn btn-primary"
+        (click)="goToDashboard()"
+      >
+        Go to Dashboard
+      </button>
+  </div>
+</div>

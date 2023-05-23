@@ -1,0 +1,39 @@
+.info-container {
+  background-color: #16425B;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  color: white;
+
+  img {
+    margin: 0 auto;
+    filter: invert(100%) sepia(11%) saturate(674%) hue-rotate(175deg) brightness(110%) contrast(109%);
+    width: fit-content;
+    height: 25vh;
+  }
+
+  h1 {
+    color: white;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  p {
+    margin-bottom: 0.5rem;
+  }
+
+}

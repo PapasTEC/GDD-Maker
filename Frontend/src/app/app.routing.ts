@@ -8,6 +8,9 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { GddSetupLayoutComponent } from 'src/app/layouts/gdd-setup-layout/gdd-setup-layout.component';
 import { UserGuardGuard } from './guard/user-guard.guard';
+import { DocumentGuard } from './guard/document-guard.guard';
+import { DocumentAccessDeniedComponent } from './pages/document-access-denied/document-access-denied.component';
+import { DocumentNotFoundComponent } from './pages/document-not-found/document-not-found.component';
 
 const routes: Routes =[
   {
@@ -17,7 +20,7 @@ const routes: Routes =[
   }, {
     path: 'editor',
     component: EditorLayoutComponent,
-    canActivateChild: [UserGuardGuard],
+    canActivateChild: [UserGuardGuard/*, DocumentGuard*/],
     children: [
       {
         path: '',
@@ -54,7 +57,15 @@ const routes: Routes =[
       }
     ]
   },
-  
+  {
+    path: 'accessDenied',
+    component: DocumentAccessDeniedComponent,
+  },
+  {
+    path: 'notFound',
+    component: DocumentNotFoundComponent,
+  },
+
   {
     path: '**',
     redirectTo: 'dashboard',

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const Documents = require("../models/DocumentModel");
 const Users = require("../models/UserModel");
+const { sendEmail } = require("../functions/utils");
 
 documentController.getDocuments = async (req, res) => {
   const documents = await Documents.find();
@@ -309,6 +310,15 @@ documentController.inviteUser = async (req, res) => {
       .json({ message: "User already invited", success: false });
   }
 
+  let ownerObj = await Users.findOne({ email: document.owner });
+
+  let msgContent = [
+    "You have been invited to collaborate on a GDD Maker document!",
+    // "Name (email) has invited you to work in document "name"
+    `<strong>${ownerObj.name}</strong> (${ownerObj.email}) has invited you to start working on the document <strong>"${document.frontPage.documentTitle}"</strong>`,
+  ]
+  await sendEmail(user.email, "", "invite", msgContent);
+
   res.status(200).json({
     message: "User invited",
     users: await getUsersFromDocument(id),
@@ -337,7 +347,7 @@ let getUsersFromDocument = async (id) => {
   const document = await Documents.findById(id);
 
   if (!document) {
-    return res.status(404).json({ message: "Document not found" });
+    return false;
   }
 
   console.log(document.invited);
@@ -357,6 +367,19 @@ let getUsersFromDocument = async (id) => {
 documentController.getUsers = async (req, res) => {
   const { id } = req.params;
 
+  try {
+
+    // check if document exists
+    const document = await Documents.findById(id);
+    
+    if (!document) {
+      return res.status(200).json({ error: true, message: "Document not found" });
+    }
+  } catch (error) {
+    return res.status(200).json({ error: true, message: "Document not found" });
+  }
+
+
   const users = await getUsersFromDocument(id);
 
   console.log(users);
@@ -368,11 +391,17 @@ documentController.revokeInvitation = async (req, res) => {
   const { id, email } = req.params;
 
   // revoke the invitation from the document and user account
-  const document = await Documents.findById(id);
+  try {
 
-  if (!document) {
+    const document = await Documents.findById(id);
+    
+    if (!document) {
+      return res.status(404).json({ message: "Document not found" });
+    }
+  } catch (error) {
     return res.status(404).json({ message: "Document not found" });
   }
+  
 
   await Documents.updateOne({ _id: id }, { $pull: { invited: email } });
 

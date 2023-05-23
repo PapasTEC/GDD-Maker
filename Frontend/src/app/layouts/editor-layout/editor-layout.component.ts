@@ -11,7 +11,7 @@ import { DocumentService } from "src/app/services/document.service";
 import { TokenService } from "src/app/services/token.service";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { faThumbTack } from "@fortawesome/free-solid-svg-icons";
-import { filter, timeout } from "rxjs/operators";
+import { filter, findIndex, timeout } from "rxjs/operators";
 import { io } from "socket.io-client";
 import { apiSocket } from "src/environments/environment";
 
@@ -446,7 +446,7 @@ export class EditorLayoutComponent implements OnInit {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
       // console.log("data:", data);
       const document = data;
-      document.socketSubSection = '';
+      document.socketSubSection = "";
       console.log("document:", document);
       this.editingDocumentService.changeDocument(document);
       this.documentTitle = document["frontPage"]["documentTitle"];
@@ -465,54 +465,79 @@ export class EditorLayoutComponent implements OnInit {
 
     console.log("LOADING");
     this.route.queryParams.subscribe((params) => {
+      if (!params.pjt) {
+        this.router.navigate(["/dashboard"]);
+      }
       this.documentId = params.pjt;
-
       this.tokenService.decodeToken().subscribe((data: any) => {
         let localUser = data.decoded;
-        localUser.image = localStorage.getItem("ImageUser");
+        console.log("localUser", localUser);
+        this.documentService.getUsers(this.documentId).subscribe((documentUsers) => {
+          if (documentUsers.error) {
+            this.router.navigate(["/notFound"], {
+              queryParams: { pjt: this.documentId },
+            });
+            return;
+          }
+          console.log("documentUsers", documentUsers)
+          console.log(documentUsers.invited.findIndex(user => user.email === localUser.email))
+          console.log(documentUsers.invited.find(user => user.email === localUser))
+          // console.log(!documentUsers.invited.find(user => user.email === localUser)))
+          if (documentUsers.owner.email !== localUser.email && documentUsers.invited.findIndex(user => user.email === localUser.email) == -1) {
+            this.router.navigate(["/accessDenied"], {
+              queryParams: { pjt: this.documentId },
+            });
+            return;
+          }
 
-        this.editingDocumentService.setUserData(localUser, this.documentId);
+          localUser.image = localStorage.getItem("ImageUser");
 
-        this.editingDocumentService.joinDocument();
-        console.log(
-          "************************** FINAL1 **************************"
-        );
+          this.editingDocumentService.setUserData(localUser, this.documentId);
+
+          this.editingDocumentService.joinDocument();
+          console.log(
+            "************************** FINAL1 **************************"
+          );
+          this.setDocumentData();
+
+          this.updateLastManualSaveTime();
+          this.startAutoSaveTimer();
+
+          this.editingDocumentService.document$
+            .pipe(filter((document) => document !== null))
+            .subscribe((document) => {
+              if (this.firstChange) {
+                this.firstChange = false;
+              } else {
+                console.log("documentEditado");
+                // this.socket.emit("edit-document", this.documentId, document);
+                this.isDocumentEdited = true;
+                this.document = document;
+              }
+            });
+
+          this.editingDocumentService.onlineUsers$.subscribe((onlineUsers) => {
+            this.onlineUsers = onlineUsers;
+            console.log(
+              "----------------- Updated online users -----------------"
+            );
+            console.log(this.onlineUsers);
+          });
+
+          // this.editingDocumentService.updateDocumentSocket().subscribe((document) => {
+          //   console.log("updateDocumentSocket");
+          //   this.document = document;
+          // });
+
+          var body = document.getElementsByTagName("body")[0];
+          body.classList.add("bg-background");
+
+          console.log(
+            "************************** FINAL3 **************************"
+          );
+        });
       });
     });
-
-    this.setDocumentData();
-
-    this.updateLastManualSaveTime();
-    this.startAutoSaveTimer();
-
-    this.editingDocumentService.document$
-      .pipe(filter((document) => document !== null))
-      .subscribe((document) => {
-        if (this.firstChange) {
-          this.firstChange = false;
-        } else {
-          console.log("documentEditado");
-          // this.socket.emit("edit-document", this.documentId, document);
-          this.isDocumentEdited = true;
-          this.document = document;
-        }
-      });
-
-      this.editingDocumentService.onlineUsers$.subscribe((onlineUsers) => {
-        this.onlineUsers = onlineUsers;
-        console.log("----------------- Updated online users -----------------");
-        console.log(this.onlineUsers);
-      });
-
-    // this.editingDocumentService.updateDocumentSocket().subscribe((document) => {
-    //   console.log("updateDocumentSocket");
-    //   this.document = document;
-    // });
-
-    var body = document.getElementsByTagName("body")[0];
-    body.classList.add("bg-background");
-
-    console.log("************************** FINAL3 **************************");
   }
 
   navToStartingSection() {

@@ -19,6 +19,8 @@ import { JwtInterceptorInterceptor } from './token/jwt-interceptor.interceptor';
 import { ShareDocumentComponent } from './components/share-document/share-document.component';
 
 import { ToastrModule } from 'ngx-toastr';
+import { DocumentNotFoundComponent } from './pages/document-not-found/document-not-found.component';
+import { DocumentAccessDeniedComponent } from './pages/document-access-denied/document-access-denied.component';
 
 //dotenv.config();
 
@@ -44,6 +46,8 @@ import { ToastrModule } from 'ngx-toastr';
     AuthLayoutComponent,
     DashboardLayoutComponent,
     GddSetupLayoutComponent,
+    DocumentNotFoundComponent,
+    DocumentAccessDeniedComponent,
     // ShareDocumentComponent,
   ],
   providers: [{

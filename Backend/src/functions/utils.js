@@ -9,8 +9,7 @@ function generatePasswordCode(length) {
   return result;
 }
 
-
-async function sendEmail(to, code, type) {
+async function sendEmail(to, code, type, msgContent) {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -18,14 +17,28 @@ async function sendEmail(to, code, type) {
       pass: "xsothefipygozntn",
     },
   });
-
   var msg = ["", "", "", "", ""];
-  switch (type) {
-    case "reset":
-      msg = ["Welcome back to GDD Maker!", "Thank you for being a part of the GDD Maker community. We're excited to see you again!", `Your one-time use code is: <strong>${code}</strong>`, "This one-time use code will expire immediately after use.", "If you have any questions or need any assistance, please don't hesitate to contact us."]
-      break;
-    case "welcome":
-      msg = ["Welcome to GDD Maker!","Thank you for joining our community of game developers. We're excited to have you on board!", "Welcome to our website. We want to inform you that for your convenience, we do not use passwords on our platform. Instead, each time you log in, you will be sent a one-time use code.",  "This code will expire immediately after use.", "If you have any questions or need any assistance, please don't hesitate to contact us." ]
+  if (msgContent) msg = msgContent;
+  else {
+    switch (type) {
+      case "reset":
+        msg = [
+          "Welcome back to GDD Maker!",
+          "Thank you for being a part of the GDD Maker community. We're excited to see you again!",
+          `Your one-time use code is: <strong>${code}</strong>`,
+          "This one-time use code will expire immediately after use.",
+          "If you have any questions or need any assistance, please don't hesitate to contact us.",
+        ];
+        break;
+      case "welcome":
+        msg = [
+          "Welcome to GDD Maker!",
+          "Thank you for joining our community of game developers. We're excited to have you on board!",
+          "Welcome to our website. We want to inform you that for your convenience, we do not use passwords on our platform. Instead, each time you log in, you will be sent a one-time use code.",
+          "This code will expire immediately after use.",
+          "If you have any questions or need any assistance, please don't hesitate to contact us.",
+        ];
+    }
   }
 
   var mailOptions = {
@@ -43,11 +56,11 @@ async function sendEmail(to, code, type) {
             </td>
           </tr>
           <tr>
-            <td style="padding: 40px; text-align: center;">
-              <p style="color: #16425B; font-size: 18px; margin: 0 0 30px;">${msg[1]}</p>
-              <p style="color: #16425B; font-size: 16px; margin: 0 0 30px;">${msg[2]}</p>
-              <p style="color: #16425B; font-size: 18px;">${msg[3]}</p>
-              <p style="color: #16425B; font-size: 16px; margin: 0 0 30px;">${msg[4]}</p>
+            <td style="padding: ${type === "invite" ? "20px" : "40px"}; text-align: center;">
+            ${msg.length > 1 ? `<p style="color: #16425B; font-size: 18px;">${msg[1]}</p>` : ""}
+            ${msg.length > 2 ? `<p style="color: #16425B; font-size: 16px;">${msg[2]}</p>` : ""}
+            ${msg.length > 3 ? `<p style="color: #16425B; font-size: 18px;">${msg[3]}</p>` : ""}
+            ${msg.length > 4 ? `<p style="color: #16425B; font-size: 16px;">${msg[4]}</p>` : ""}
             </td>
           </tr>
         </table>

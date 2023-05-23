@@ -45,7 +45,7 @@ jobs:
         script: |
           cd proyecto/GDD-Maker/Backend
           echo "STARTING SERVER"
-          sudo service gdd stop
+          sudo service gdd start
     - name: Finish up
       uses: appleboy/ssh-action@v0.1.7
       with:

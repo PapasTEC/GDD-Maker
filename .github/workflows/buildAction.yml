@@ -22,7 +22,7 @@ jobs:
           sudo npm i
           cd src
           sudo service gdd stop
-          sudo forever-service gdd
+          sudo forever-service uninstall gdd
           echo "DELETING OLD FRONTEND BUILD"
           cd ../../Frontend
           sudo npm i

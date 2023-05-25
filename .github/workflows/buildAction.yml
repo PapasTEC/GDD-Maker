@@ -25,12 +25,13 @@ jobs:
           cd src
           sudo service gdd stop
           sudo forever-service delete gdd
+          sudo pkill -f node
           echo "DELETING OLD FRONTEND BUILD"
           cd ../../Frontend
           sudo npm i
           echo "UPDATING FRONTEND DEPENDENCIES"
           ng build
-          echo "NEW APP BUILT"
+          echo "NEW APP BUILD"
           mv frontendBuild ../Backend/src/frontendBuild
           echo "MOVING"  
           echo "APP UPDATED"

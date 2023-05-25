@@ -23,6 +23,7 @@ jobs:
           cd Backend
           sudo npm i
           cd src
+          if [ -d frontendBuild ]; then rm -r frontendBuild; fi
           sudo service gdd stop
           sudo forever-service delete gdd
           echo "DELETING OLD FRONTEND BUILD"

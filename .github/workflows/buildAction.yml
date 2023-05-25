@@ -2,7 +2,7 @@ name: Build, Deploy, Serve
 on:
   push:
     branches:
-      - main
+      - stable
 jobs:
   
   buildDep:

@@ -24,6 +24,8 @@ jobs:
           sudo npm i
           cd src
           if [ -d frontendBuild ]; then rm -r frontendBuild; fi
+          sudo service gdd stop
+          sudo forever-service delete gdd
           echo "DELETING OLD FRONTEND BUILD"
           cd ../../Frontend
           sudo npm i
@@ -47,7 +49,8 @@ jobs:
         script: |
           cd proyecto/GDD-Maker/Backend
           echo "STARTING SERVER"
-          if pgrep -x "node" > /dev/null; then     echo "Running"; else    npm run dev echo "Stopped"; fi
+          sudo forever-service install gdd -s src/index.js
+          sudo service gdd start
     - name: Finish up
       uses: appleboy/ssh-action@v0.1.7
       with:
@@ -58,5 +61,3 @@ jobs:
         script: |
           echo "SERVER RUNNING"
           echo "APP DEPLOYED"
-          
-          

@@ -1,6 +1,8 @@
 name: Build, Deploy, Serve
-on: [push]
-
+on:
+  push:
+    branches:
+      - main
 jobs:
   
   buildDep:

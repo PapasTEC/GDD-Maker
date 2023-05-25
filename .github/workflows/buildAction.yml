@@ -1,6 +1,8 @@
 name: Build, Deploy, Serve
-on: [push]
-
+on:
+  push:
+    branches:
+      - main
 jobs:
   
   buildDep:
@@ -21,6 +23,7 @@ jobs:
           cd Backend
           sudo npm i
           cd src
+          if [ -d frontendBuild ]; then rm -r frontendBuild; fi
           sudo service gdd stop
           sudo forever-service delete gdd
           echo "DELETING OLD FRONTEND BUILD"
@@ -28,7 +31,7 @@ jobs:
           sudo npm i
           echo "UPDATING FRONTEND DEPENDENCIES"
           ng build
-          echo "NEW APP BUILT"
+          echo "NEW APP BUILD"
           mv frontendBuild ../Backend/src/frontendBuild
           echo "MOVING"  
           echo "APP UPDATED"
@@ -58,5 +61,3 @@ jobs:
         script: |
           echo "SERVER RUNNING"
           echo "APP DEPLOYED"
-          
-          

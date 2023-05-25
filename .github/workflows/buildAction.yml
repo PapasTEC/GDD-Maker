@@ -25,7 +25,6 @@ jobs:
           cd src
           sudo service gdd stop
           sudo forever-service delete gdd
-          sudo pkill -f node
           echo "DELETING OLD FRONTEND BUILD"
           cd ../../Frontend
           sudo npm i

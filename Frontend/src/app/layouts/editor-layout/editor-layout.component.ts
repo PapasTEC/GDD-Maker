@@ -472,8 +472,8 @@ export class EditorLayoutComponent implements OnInit {
         this.router.navigate(["/dashboard"]);
       }
       this.documentId = params.pjt;
-      if (params.read) {
-        this.editingDocumentService.setReadOnly(params.read);
+      if (params.readOnly) {
+        this.editingDocumentService.setReadOnly(params.readOnly);
         this.queryParams = { pjt: this.documentId, read: this.editingDocumentService.read_only}
       } else {
         this.queryParams = { pjt: this.documentId }

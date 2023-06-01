@@ -23,16 +23,16 @@ jobs:
           cd Backend
           sudo npm i
           cd src
-          if [ -d frontendBuild ]; then rm -r frontendBuild; fi
+          if [ -d frontendBuild ]; then sudo rm -r frontendBuild; fi
           sudo service gdd stop
           sudo forever-service delete gdd
           echo "DELETING OLD FRONTEND BUILD"
           cd ../../Frontend
           sudo npm i
           echo "UPDATING FRONTEND DEPENDENCIES"
-          ng build --prod
+          sudo ng build
           echo "NEW APP BUILD"
-          mv frontendBuild ../Backend/src/frontendBuild
+          sudo mv frontendBuild ../Backend/src/frontendBuild
           echo "MOVING"  
           echo "APP UPDATED"
           

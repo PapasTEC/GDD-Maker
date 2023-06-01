@@ -13,7 +13,7 @@
     <div id="sidebar" class="leftModuleClass " tabindex="0" (click)="keepSidebarOpen()">
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
-          <div class="icon-container" (click)="returnDashboard()">
+          <div class="icon-container" *ngIf="!isReadOnly" (click)="returnDashboard() ">
             <div>
               <img
                 class="exit-button"
@@ -33,6 +33,7 @@
             src="assets/img/icons/common/share.svg"
             alt="share"
             (click)="openShareDocument()"
+            *ngIf="!isReadOnly"
           />
         </div>
       </div>
@@ -75,12 +76,12 @@
               alt="share"
             />
           </div> -->
-          <div class="icon-container">
+          <div class="icon-container" [style.cursor]="isReadOnly ? 'default' : 'inherit'" >
             <div>
-              <a class="save-button" (click)="manualSave()"><span>{{this.saveButtonText}}</span></a>
+              <a class="save-button" (click)="manualSave()" *ngIf="!isReadOnly"><span>{{this.saveButtonText}}</span></a>
             </div>
             <div>
-              <span class="littleTextFont">Last Updated: {{this.lastManualSaveTimeInMinutes}}m ago</span>
+              <span class="littleTextFont" >Last Updated: {{this.lastManualSaveTimeInMinutes}}m ago</span>
             </div>
           </div>
         </div>

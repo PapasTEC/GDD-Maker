@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Route, Router } from "@angular/router";
+import { ActivatedRoute, Route, Router } from "@angular/router";
 import {
   HttpRequest,
   HttpHandler,
@@ -12,13 +12,16 @@ import { CookieService } from "ngx-cookie-service";
 import { catchError } from "rxjs/operators";
 import { throwError } from "rxjs";
 import { ToastrService } from "ngx-toastr";
+import { TokenService } from "../services/token.service";
 
 @Injectable()
 export class JwtInterceptorInterceptor implements HttpInterceptor {
   constructor(
     private cookieService: CookieService,
     private router: Router,
-    private toastr: ToastrService
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private tokenService: TokenService
   ) {}
 
   intercept(
@@ -34,7 +37,18 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`,
         },
       });
+    } else{
+      this.route.queryParams.subscribe((params) => {
+        if (params.pjt && params.readOnly) {
+          newRequest = request.clone({
+            setHeaders: {
+              readOnly: "true",
+            },
+          });
+        }
+      });
     }
+    
 
     return next.handle(newRequest).pipe(
       /*

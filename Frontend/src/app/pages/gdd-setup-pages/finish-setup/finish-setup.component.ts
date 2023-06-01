@@ -46,6 +46,16 @@ export class FinishSetupComponent {
     "Submission",
   ];
 
+  generateCode() {
+    const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    let length = 12;
+    for (let i = 0; i < length; i++) {
+      result += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    return result;
+  }
+
   async finishSetup() {
     this.status = 'saving';
     let user;
@@ -80,6 +90,7 @@ export class FinishSetupComponent {
       const document = {
         owner: user.email,
         invited: [],
+        codeReadOnly: this.generateCode(),
         frontPage: {
           documentTitle: currentSetup.gameTitle,
           documentLogo: myGameLogo,
@@ -236,7 +247,7 @@ export class FinishSetupComponent {
           if (res?.error) {
             this.status = 'creating';
             this.toastr.error("Error adding document. Make sure you have filled all the fields", "", {
-              timeOut: 10000,
+              timeOut: 30000,
               closeButton: true,
             });
             return;

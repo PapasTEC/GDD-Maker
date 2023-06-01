@@ -51,6 +51,11 @@ export class TechnicalInfoComponent {
     generalData: null,
   };
 
+  isUserEditing: any = {
+    platforms: null,
+    generalData: null,
+  };
+
   localUser = null;
   decodeToken: any;
   updateSocket: any;
@@ -73,9 +78,9 @@ export class TechnicalInfoComponent {
   public canBeEdited(part: string): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked[part] =
-      userEditing[part] && userEditing[part].email !== this.localUser;
-    if (this.isBlocked[part]) {
+    this.isUserEditing[part] = userEditing[part] && userEditing[part].email !== this.localUser;
+    this.isBlocked[part] = this.isUserEditing[part] || this.editingDocumentService.read_only;
+    if (this.isUserEditing[part]) {
       this.userBlocking[part] = userEditing[part];
     }
     return !this.isBlocked[part];
@@ -83,6 +88,13 @@ export class TechnicalInfoComponent {
 
   ngOnInit() {
     this.getSectionAndSubSection();
+
+    if (this.editingDocumentService.read_only) {
+      this.isBlocked = {
+        platforms: true,
+        generalData: true,
+      };
+    }
 
     this.decodeToken = this.tokenService
       .decodeToken()

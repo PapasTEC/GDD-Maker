@@ -144,7 +144,7 @@
     </div>
   </div>
 </div>
-<div class="editing-box" *ngIf="isBlocked">
+<div class="editing-box" *ngIf="isUserEditing">
 <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
 <span class="editing-box__user">{{ userBlocking?.name }}</span>
 <span class="editing-box__text"

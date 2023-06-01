@@ -17,6 +17,8 @@ export class EditingDocumentService {
   public isConnected: boolean = false;
   private socket = null;
 
+  public read_only = null;
+
   documentSections: any = [
     //["Document Cover"],
     ["Basic Information"],
@@ -225,6 +227,10 @@ export class EditingDocumentService {
       console.log(`********************** Online users: `, this.onlineUsers);
       this.onlineUsers.next(onlineUsers);
     });
+  }
+
+  setReadOnly(read_only: string) {
+    this.read_only = read_only;
   }
 
   getOnlineUsers() {

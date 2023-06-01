@@ -110,7 +110,7 @@ export class CharactersComponent {
     );
 
     // if old images is equal to current then do nothing
-    if (oldImages && oldImages.length === this.images.length) {
+    if (oldImages) {
       let equal = true;
       for (let i = 0; i < oldImages.length; i++) {
         if (oldImages[i] !== this.images[i]) {

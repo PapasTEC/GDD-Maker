@@ -30,9 +30,9 @@ jobs:
           cd ../../Frontend
           sudo npm i
           echo "UPDATING FRONTEND DEPENDENCIES"
-          ng build
+          sudo ng build
           echo "NEW APP BUILD"
-          mv frontendBuild ../Backend/src/frontendBuild
+          sudo mv frontendBuild ../Backend/src/frontendBuild
           echo "MOVING"  
           echo "APP UPDATED"
           

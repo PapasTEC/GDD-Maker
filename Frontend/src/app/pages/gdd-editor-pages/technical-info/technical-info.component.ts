@@ -171,21 +171,16 @@ export class TechnicalInfoComponent {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
-    // this.isBlocked = userEditing && userEditing.email !== this.localUser;
-    // if (this.isBlocked) {
-    //   console.log("BLOCKED:", userEditing);
-    //   this.userBlocking = userEditing;
-    // }
-    this.isBlocked.platforms =
+    this.isUserEditing.platforms =
       userEditing.platforms && userEditing.platforms.email !== this.localUser;
-    if (this.isBlocked.platforms) {
+    if (this.isUserEditing.platforms) {
       this.userBlocking.platforms = userEditing.platforms;
     }
 
-    this.isBlocked.generalData =
+    this.isUserEditing.generalData =
       userEditing.generalData &&
       userEditing.generalData.email !== this.localUser;
-    if (this.isBlocked.generalData) {
+    if (this.isUserEditing.generalData) {
       this.userBlocking.generalData = userEditing.generalData;
     }
   }

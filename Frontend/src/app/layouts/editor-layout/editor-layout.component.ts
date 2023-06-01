@@ -474,7 +474,7 @@ export class EditorLayoutComponent implements OnInit {
       this.documentId = params.pjt;
       if (params.readOnly) {
         this.editingDocumentService.setReadOnly(params.readOnly);
-        this.queryParams = { pjt: this.documentId, read: this.editingDocumentService.read_only}
+        this.queryParams = { pjt: this.documentId, readOnly: this.editingDocumentService.read_only}
       } else {
         this.queryParams = { pjt: this.documentId }
       }

@@ -39,6 +39,13 @@ export class BasicInfoComponent {
     tags: false,
   };
 
+  isUserEditing: any = {
+    elevatorPitch: false,
+    tagline: false,
+    genres: false,
+    tags: false,
+  };
+
   userBlocking: any = {
     elevatorPitch: null,
     tagline: null,
@@ -76,6 +83,15 @@ export class BasicInfoComponent {
       .subscribe((data: any) => {
         this.localUser = data.decoded.email;
       });
+
+    if (this.editingDocumentService.read_only) {
+      this.isBlocked = {
+        elevatorPitch: true,
+        tagline: true,
+        genres: true,
+        tags: true,
+      };
+    }
 
     this.updateSocket = this.editingDocumentService
       .updateDocumentSocket()
@@ -174,11 +190,12 @@ export class BasicInfoComponent {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
-    for (const key in this.isBlocked) {
-      if (this.isBlocked.hasOwnProperty(key)) {
-        this.isBlocked[key] =
+    for (const key in this.isUserEditing) {
+      if (this.isUserEditing.hasOwnProperty(key)) {
+        this.isUserEditing[key] =
           userEditing[key] && userEditing[key]?.email !== this.localUser;
-        if (this.isBlocked[key]) {
+        this.isBlocked[key] = this.isUserEditing[key] || this.editingDocumentService.read_only;
+        if (this.isUserEditing[key]) {
           this.userBlocking[key] = userEditing[key];
         }
       }
@@ -212,9 +229,9 @@ export class BasicInfoComponent {
   public canBeChanged(part: string): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked[part] =
-      userEditing[part] && userEditing[part].email !== this.localUser;
-    if (this.isBlocked[part]) {
+    this.isUserEditing[part] = userEditing[part] && userEditing[part].email !== this.localUser;
+    this.isBlocked[part] = this.isUserEditing[part] || this.editingDocumentService.read_only;
+    if (this.isUserEditing[part]) {
       this.userBlocking[part] = userEditing[part];
     }
     return !this.isBlocked[part];

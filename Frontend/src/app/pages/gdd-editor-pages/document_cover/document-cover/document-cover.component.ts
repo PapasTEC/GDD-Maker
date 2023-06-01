@@ -39,6 +39,7 @@ export class DocumentCoverComponent {
 
   /* Collaborative Editing */
   isBlocked: boolean = false;
+  isUserEditing: boolean = false;
 
   userBlocking: any = null;
 
@@ -64,7 +65,9 @@ export class DocumentCoverComponent {
   updateDocument() {
     console.log("SENDING FRONT PAGE", this.frontPage)
     console.log(this.frontPage.documentLogo.length)
-    this.myInput = true;
+    if (!this.editingDocumentService.read_only) {
+      this.myInput = true;
+    }
     this.frontPage.lastUpdated = new Date().toISOString();
     this.frontPage.documentTitle = this.cover.GameName;
 
@@ -111,9 +114,9 @@ export class DocumentCoverComponent {
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked =
-      userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
     return !this.isBlocked;

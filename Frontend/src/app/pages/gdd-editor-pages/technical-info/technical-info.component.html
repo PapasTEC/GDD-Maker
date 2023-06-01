@@ -14,7 +14,7 @@
           <div class="cardHeader">
             <div class="title">
               <span> Platforms </span>
-              <div class="editing-box platforms" *ngIf="isBlocked.platforms">
+              <div class="editing-box platforms" *ngIf="isUserEditing.platforms">
               <img class="editing-box__icon" [src]="userBlocking.platforms?.image" alt="user" />
               <span class="editing-box__user">{{ userBlocking.platforms?.name }}</span>
               <span class="editing-box__text"
@@ -112,7 +112,7 @@
       >
         <div class="cardBody">
           <div class="cardHeader">
-            <div class="editing-box details" *ngIf="isBlocked.generalData">
+            <div class="editing-box details" *ngIf="isUserEditing.generalData">
               <!-- <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" /> -->
               <!-- <span class="editing-box__user">ghfhgg</span> -->
               <img class="editing-box__icon" [src]="userBlocking.generalData?.image" alt="user" />

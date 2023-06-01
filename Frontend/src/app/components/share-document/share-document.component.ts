@@ -4,6 +4,7 @@ import { TokenService } from "src/app/services/token.service";
 import { ToastrService } from "ngx-toastr";
 import { ChangeDetectorRef } from "@angular/core";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: "app-share-document",
@@ -30,8 +31,13 @@ export class ShareDocumentComponent implements OnInit {
     private tokenService: TokenService,
     private documentService: DocumentService,
     private toastr: ToastrService,
-    private editingDocumentService: EditingDocumentService
+    private editingDocumentService: EditingDocumentService,
+    private clipboard: Clipboard
   ) {}
+  currentUrl : string = "";
+  readonlyURL: string = "";
+  codeReadOnly: string = "";
+  documentCode : any;
 
   ngOnInit() {
     this.documentService.getUsers(this.documentId).subscribe((data: any) => {
@@ -57,12 +63,23 @@ export class ShareDocumentComponent implements OnInit {
       this.usersInDocumentObj = onlineUsers;
       this.usersInDocument = onlineUsers.map((user) => user.email);
     });
+
+    this.currentUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + window.location.pathname + window.location.search + window.location.hash;
+    console.log("URL: ", this.currentUrl);
+    this.documentCode = this.editingDocumentService.document$;
+    console.log("Document code: ", this.documentCode);
+    this.readonlyURL = this.currentUrl + "&readOnly=" + this.documentCode.source._value.codeReadOnly;
   }
 
   closeShareDocumentModal() {
     console.log(this.documentId, this.usersObj);
-
     this.updateShowShareDocument.emit(false);
+  }
+
+  // Give me method to copy to clipboard readonly link
+  copyToClipboard() {
+    this.clipboard.copy(this.readonlyURL);
+    this.toastr.success("Copied to clipboard");
   }
 
   updateInput(event: any) {

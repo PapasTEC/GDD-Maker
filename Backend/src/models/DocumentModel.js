@@ -4,6 +4,7 @@ const DocumentSchema = new Schema({
     // id: {type: String, required: true},  mongo ya genera una llave unica para cada elemento
     "owner": {type: String, required: true},
     "invited": {type: [String], required: true},
+    "codeReadOnly": {type: String, required: true},
     "frontPage": {
         "documentTitle": {type: String, required: true},
         "documentLogo": {type: String, required: true},
@@ -11,7 +12,7 @@ const DocumentSchema = new Schema({
         "companyLogo": {type: String, required: true},
         "collaborators": {type: [String], required: true},
         "lastUpdated": {type: Date, required: true},
-    },
+    },    
     "documentContent": [{
         "sectionTitle": {type: String, required: true},
         "subSections": [{

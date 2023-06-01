@@ -26,6 +26,7 @@ export class VditorComponent {
   myInput: boolean = false;
 
   isBlocked: boolean = false;
+  isUserEditing: boolean = false;
 
   decodeToken: any;
   updateSocket: any;
@@ -77,6 +78,10 @@ export class VditorComponent {
     //   }
     // }, 1000);
 
+    if (this.editingDocumentService.read_only) {
+      this.isBlocked = true;
+    }
+
     this.decodeToken = this.tokenService
       .decodeToken()
       .subscribe((data: any) => {
@@ -124,8 +129,9 @@ export class VditorComponent {
         // console.log(this.vditor)
         const userEditing =
           this.editingDocumentService.userEditingByComponent[this.subSection];
-        this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-        if (this.isBlocked) {
+        this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+        this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+        if (this.isUserEditing) {
           this.userBlocking = userEditing;
         }
 
@@ -176,8 +182,9 @@ export class VditorComponent {
     console.log("BLOCKED:", this.isBlocked, this.editingDocumentService);
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       console.log("BLOCKED:", userEditing);
       this.userBlocking = userEditing;
     }
@@ -186,18 +193,24 @@ export class VditorComponent {
   onKeyDown(event: KeyboardEvent): void {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
+    }
+    if (this.isBlocked) {
       event.preventDefault();
     }
   }
   onContextMenu(event: MouseEvent) {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
+    }
+    if (this.isBlocked) {
       event.preventDefault();
     }
   }

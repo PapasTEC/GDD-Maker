@@ -65,6 +65,12 @@ export class DetailCoreMechanicComponent {
     goals: null,
   };
 
+  isUserEditing: any = {
+    representation: null,
+    decisions: null,
+    goals: null,
+  };
+
   userBlocking: any = {
     representation: null,
     decisions: null,
@@ -152,9 +158,9 @@ export class DetailCoreMechanicComponent {
   public canBeEdited(part: string): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked[part] =
-      userEditing[part] && userEditing[part].email !== this.localUser;
-    if (this.isBlocked[part]) {
+    this.isUserEditing[part] = userEditing[part] && userEditing[part].email !== this.localUser;
+    this.isBlocked[part] = this.isUserEditing[part] || this.editingDocumentService.read_only;
+    if (this.isUserEditing[part]) {
       this.userBlocking[part] = userEditing[part];
     }
     return !this.isBlocked[part];
@@ -188,6 +194,14 @@ export class DetailCoreMechanicComponent {
     //       }
     //     }
     //   });
+
+    if (this.editingDocumentService.read_only) {
+      this.isBlocked = {
+        representation: true,
+        decisions: true,
+        goals: true,
+      };
+    }
 
     /* NEW - COLLABORATIVE */
     this.decodeToken = this.tokenService
@@ -307,17 +321,18 @@ export class DetailCoreMechanicComponent {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
-    for (const key in this.isBlocked) {
-      if (this.isBlocked.hasOwnProperty(key)) {
+    for (const key in this.isUserEditing) {
+      if (this.isUserEditing.hasOwnProperty(key)) {
         console.log("key: ", key);
         console.log(
           this.isBlocked[key],
           userEditing[key],
           userEditing[key]?.email
         );
-        this.isBlocked[key] =
+        this.isUserEditing[key] =
           userEditing[key] && userEditing[key]?.email !== this.localUser;
-        if (this.isBlocked[key]) {
+        this.isBlocked[key] = this.isUserEditing[key] || this.editingDocumentService.read_only;
+        if (this.isUserEditing[key]) {
           this.userBlocking[key] = userEditing[key];
         }
       }

@@ -43,6 +43,7 @@ export class CharactersComponent {
 
   /* Collaborative Editing */
   isBlocked: boolean = false;
+  isUserEditing: boolean = false;
 
   userBlocking: any = null;
 
@@ -57,9 +58,9 @@ export class CharactersComponent {
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked =
-      userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
     return !this.isBlocked;
@@ -100,58 +101,56 @@ export class CharactersComponent {
     img.onload = () => resolve(img);
     img.onerror = reject;
     img.src = src;
-  })
-;
+  });
 
-async reloadImages(oldImages?: any){
-  this.images  = this.documentSubSection.subSectionContent.characters.map((character) => {
-    return character.image;
-  }
-  );
+  async reloadImages(oldImages?: any){
+    this.images  = this.documentSubSection.subSectionContent.characters.map((character) => {
+      return character.image;
+    }
+    );
 
-  // if old images is equal to current then do nothing
-  if (oldImages && oldImages.length === this.images.length) {
-    let equal = true;
-    for (let i = 0; i < oldImages.length; i++) {
-      if (oldImages[i] !== this.images[i]) {
-        equal = false;
-        break;
+    // if old images is equal to current then do nothing
+    if (oldImages && oldImages.length === this.images.length) {
+      let equal = true;
+      for (let i = 0; i < oldImages.length; i++) {
+        if (oldImages[i] !== this.images[i]) {
+          equal = false;
+          break;
+        }
+      }
+      if (equal) {
+        return;
       }
     }
-    if (equal) {
-      return;
-    }
-  }
 
-  this.imagesInfo = []
-        let loadedImages = await Promise.all(this.images.map(this.loadImage))
-        loadedImages.forEach((img: any, i: number) => {
-          if (!img) {
-            return null;
-          }
-        let aspectRatio = img.width / img.height;
-    // console.log("aspectRatio: ", aspectRatio);
-    let w;
-    let h;
+    this.imagesInfo = []
+    let loadedImages = await Promise.all(this.images.map(this.loadImage))
+    loadedImages.forEach((img: any, i: number) => {
+      if (!img) {
+        return null;
+      }
+      let aspectRatio = img.width / img.height;
+      // console.log("aspectRatio: ", aspectRatio);
+      let w;
+      let h;
 
-    if(aspectRatio > 1){
-      w = "10vmax";
-      h = "calc(10vmax * " + (1/aspectRatio) + ")"
-    }else{
-      w = "calc(10vmax * " + (aspectRatio) + ")"
-      h = "10vmax";
-    }
+      if(aspectRatio > 1){
+        w = "10vmax";
+        h = "calc(10vmax * " + (1/aspectRatio) + ")"
+      }else{
+        w = "calc(10vmax * " + (aspectRatio) + ")"
+        h = "10vmax";
+      }
 
       let info = {}
       info["width"] = w;
       info["height"] = h;
 
-        this.imagesInfo[i] = info;
+      this.imagesInfo[i] = info;
+    });
 
-      });
-
-      console.log("this.imagesInfo", this.imagesInfo)
-}
+    console.log("this.imagesInfo", this.imagesInfo)
+  }
 
   ngOnInit(){
 
@@ -193,6 +192,8 @@ async reloadImages(oldImages?: any){
         this.localUser = data.decoded.email;
       });
 
+    this.canBeEdited()
+
     this.updateSocket = this.editingDocumentService
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
@@ -226,7 +227,7 @@ async reloadImages(oldImages?: any){
 
         await this.reloadImages(oldImages);
         console.log("charactersInDocument", this.charactersInDocument)
-  });
+    });
 
     this.editingDocumentService.document$
       .pipe(

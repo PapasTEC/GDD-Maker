@@ -21,7 +21,7 @@ import { ShareDocumentComponent } from './components/share-document/share-docume
 import { ToastrModule } from 'ngx-toastr';
 import { DocumentNotFoundComponent } from './pages/document-not-found/document-not-found.component';
 import { DocumentAccessDeniedComponent } from './pages/document-access-denied/document-access-denied.component';
-
+import { ClipboardModule  } from '@angular/cdk/clipboard';
 //dotenv.config();
 
 @NgModule({
@@ -39,6 +39,7 @@ import { DocumentAccessDeniedComponent } from './pages/document-access-denied/do
     RouterModule,
     AppRoutingModule,
     MatDialogModule,
+    ClipboardModule,
   ],
   declarations: [
     AppComponent,

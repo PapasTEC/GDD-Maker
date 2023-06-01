@@ -17,6 +17,7 @@ import { TokenService } from "src/app/services/token.service";
 export class CoreGameplayLoopComponent {
     /* Collaborative Editing */
     isBlocked: boolean = false;
+    isUserEditing: boolean = false;
 
     userBlocking: any = null;
 
@@ -59,8 +60,9 @@ export class CoreGameplayLoopComponent {
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
     return !this.isBlocked;
@@ -91,6 +93,8 @@ export class CoreGameplayLoopComponent {
       .subscribe((data: any) => {
         this.localUser = data.decoded.email;
       });
+
+    this.canBeEdited();
 
     this.updateSocket = this.editingDocumentService
       .updateDocumentSocket()

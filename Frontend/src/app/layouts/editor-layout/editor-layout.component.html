@@ -13,7 +13,7 @@
     <div id="sidebar" class="leftModuleClass " tabindex="0" (click)="keepSidebarOpen()">
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
-          <div class="icon-container" *ngIf="!isReadOnly" (click)="returnDashboard() ">
+          <div class="icon-container" *ngIf="!isReadOnly || !notAuthUser" (click)="returnDashboard() ">
             <div>
               <img
                 class="exit-button"

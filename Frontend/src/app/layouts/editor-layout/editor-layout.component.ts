@@ -64,6 +64,7 @@ export class EditorLayoutComponent implements OnInit {
   onlineUsers: any[] = [];
 
   isReadOnly = false;
+  notAuthUser = false;
 
   // documentLayout:layout[];
 
@@ -475,14 +476,17 @@ export class EditorLayoutComponent implements OnInit {
       }
       this.documentId = params.pjt;
       if (params.readOnly) {
+        this.isReadOnly = true;
         this.editingDocumentService.setReadOnly(params.readOnly);
         this.queryParams = { pjt: this.documentId, readOnly: this.editingDocumentService.read_only}
       } else {
+        this.isReadOnly = false;
         this.queryParams = { pjt: this.documentId }
       }
       this.tokenService.decodeToken().subscribe((data: any) => {
         let localUser = data.decoded;
-        this.isReadOnly = localUser.email === "";
+        this.notAuthUser = localUser.email === "";
+
         //update local storage read only with the value of isReadOnly
         localStorage.setItem("readOnly", this.isReadOnly.toString());
         console.log("localUser", localUser);

@@ -101,6 +101,10 @@ $fontSize: 2vmax;
     font-size: calc($fontSize * 0.7);
     overflow:auto !important;
     white-space: pre-wrap;
+    width: 100%;
+    outline: none;
+    resize: none;
+    line-height: 1;
   }
 
   .documentCoverTextAreasAuthors{

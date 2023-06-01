@@ -82,6 +82,14 @@
         <button class="btn btn-sm btn-primary" (click)="inviteUser()"
         >Invite</button>
       </div>
+      <div class="share-container__dialog__box__title" style="margin-top:1.5em">
+        Or share for read-only viewing
+      </div>
+      <div class="share-container__dialog__box__input">
+        <div>{{readonlyURL}}</div>
+        <button class="btn btn-sm btn-primary" (click)="copyToClipboard()"
+        >Copy</button>
+      </div>
     </div>
   </div>
 </div>

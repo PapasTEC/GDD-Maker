@@ -11,7 +11,7 @@
         <div class="detailCardHeader">
           <div class="detailTitle">
             <span> Representation </span>
-            <div class="editing-box representation" *ngIf="isBlocked.representation">
+            <div class="editing-box representation" *ngIf="isUserEditing.representation">
               <img class="editing-box__icon" [src]="userBlocking.representation?.image" alt="user" />
               <span class="editing-box__user">{{ userBlocking.representation?.name }}</span>
               <span class="editing-box__text"
@@ -61,14 +61,14 @@
         <div class="detailCardHeader">
           <div class="detailTitle">
             <span> Decisions </span>
-            <div class="editing-box decisions" *ngIf="isBlocked.decisions">
+            <div class="editing-box decisions" *ngIf="isUserEditing.decisions">
               <img class="editing-box__icon" [src]="userBlocking.decisions?.image" alt="user" />
               <span class="editing-box__user">{{ userBlocking.decisions?.name }}</span>
               <span class="editing-box__text"
                 >
                 <span *ngIf="userBlocking.decisions.name.toLowerCase().endsWith('s')">' </span>
                 <span *ngIf="!userBlocking.decisions.name.toLowerCase().endsWith('s')">'s </span>
-                 editing</span>
+                  editing</span>
               </div>
           </div>
         </div>
@@ -92,7 +92,7 @@
         <div class="detailCardHeader">
           <div class="detailTitle">
             <span> Goals </span>
-            <div class="editing-box goals" *ngIf="isBlocked.goals">
+            <div class="editing-box goals" *ngIf="isUserEditing.goals">
               <img class="editing-box__icon" [src]="userBlocking.goals?.image" alt="user" />
               <span class="editing-box__user">{{ userBlocking.goals?.name }}</span>
               <span class="editing-box__text"

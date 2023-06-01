@@ -45,6 +45,7 @@ export class EventsComponent {
 
     /* Collaborative Editing */
     isBlocked: boolean = false;
+    isUserEditing: boolean = false;
 
     userBlocking: any = null;
 
@@ -59,9 +60,9 @@ export class EventsComponent {
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked =
-      userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
     return !this.isBlocked;
@@ -139,42 +140,42 @@ export class EventsComponent {
 
       // });
 
-          /* NEW - COLLABORATIVE */
+    /* NEW - COLLABORATIVE */
     this.decodeToken = this.tokenService
     .decodeToken()
     .subscribe((data: any) => {
       this.localUser = data.decoded.email;
     });
 
-  this.updateSocket = this.editingDocumentService
-    .updateDocumentSocket()
-    .pipe(filter((document) => document.socketSubSection === this.subSection))
-    .subscribe((document) => {
-      // if the user is editing the document, do not update the document
-      if (this.myInput) {
-        this.myInput = false;
-        return;
-      }
+    this.canBeEdited();
 
-      this.canBeEdited()
+    this.updateSocket = this.editingDocumentService
+      .updateDocumentSocket()
+      .pipe(filter((document) => document.socketSubSection === this.subSection))
+      .subscribe((document) => {
+        // if the user is editing the document, do not update the document
+        if (this.myInput) {
+          this.myInput = false;
+          return;
+        }
 
-      // filter the document to get the section and subsection
-      // and set the techInfo to the subSectionContent to update the information in real time
-      console.log(document.documentContent)
-      this.documentSubSection = document.documentContent
-        .find((section) => section.sectionTitle === this.section)
-        .subSections.find(
-          (subsection) => subsection.subSectionTitle === this.subSection
-        );
+        this.canBeEdited();
 
-      console.log("UPDATE", this.documentSubSection)
-      let events = this.documentSubSection.subSectionContent.events;
-      console.log("EVENTS", events)
-      this.timeline = events;
+        // filter the document to get the section and subsection
+        // and set the techInfo to the subSectionContent to update the information in real time
+        console.log(document.documentContent)
+        this.documentSubSection = document.documentContent
+          .find((section) => section.sectionTitle === this.section)
+          .subSections.find(
+            (subsection) => subsection.subSectionTitle === this.subSection
+          );
 
-    });
+        console.log("UPDATE", this.documentSubSection)
+        let events = this.documentSubSection.subSectionContent.events;
+        console.log("EVENTS", events)
+        this.timeline = events;
 
-
+      });
 
   this.editingDocumentService.document$
     .pipe(

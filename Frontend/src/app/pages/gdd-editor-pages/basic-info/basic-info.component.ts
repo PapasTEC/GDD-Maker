@@ -194,6 +194,7 @@ export class BasicInfoComponent {
       if (this.isUserEditing.hasOwnProperty(key)) {
         this.isUserEditing[key] =
           userEditing[key] && userEditing[key]?.email !== this.localUser;
+        this.isBlocked[key] = this.isUserEditing[key] || this.editingDocumentService.read_only;
         if (this.isUserEditing[key]) {
           this.userBlocking[key] = userEditing[key];
         }

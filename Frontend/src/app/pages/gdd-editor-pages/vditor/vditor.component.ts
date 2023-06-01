@@ -78,6 +78,10 @@ export class VditorComponent {
     //   }
     // }, 1000);
 
+    if (this.editingDocumentService.read_only) {
+      this.isBlocked = true;
+    }
+
     this.decodeToken = this.tokenService
       .decodeToken()
       .subscribe((data: any) => {
@@ -193,6 +197,8 @@ export class VditorComponent {
     this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
       this.userBlocking = userEditing;
+    }
+    if (this.isBlocked) {
       event.preventDefault();
     }
   }
@@ -203,6 +209,8 @@ export class VditorComponent {
     this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
       this.userBlocking = userEditing;
+    }
+    if (this.isBlocked) {
       event.preventDefault();
     }
   }

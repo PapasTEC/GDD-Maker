@@ -51,6 +51,7 @@ export class AestheticsComponent {
 
   /* Collaborative Editing */
   isBlocked: boolean = false;
+  isUserEditing: boolean = false;
 
   userBlocking: any = null;
 
@@ -74,9 +75,9 @@ export class AestheticsComponent {
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked =
-      userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
     return !this.isBlocked;
@@ -84,6 +85,9 @@ export class AestheticsComponent {
 
   ngOnInit() {
     /* NEW - COLLABORATIVE */
+
+    this.canBeEdited();
+
     this.decodeToken = this.tokenService
       .decodeToken()
       .subscribe((data: any) => {
@@ -100,7 +104,7 @@ export class AestheticsComponent {
           return;
         }
 
-        this.canBeEdited()
+        this.canBeEdited();
 
         // filter the document to get the section and subsection
         // and set the techInfo to the subSectionContent to update the information in real time

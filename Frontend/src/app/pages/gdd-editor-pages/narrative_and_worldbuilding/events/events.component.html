@@ -129,7 +129,7 @@
 
 
     <!-- (pointerdown)="setInteractiveElement(B)" -->
-    <div class="editing-box elevatorPitch" *ngIf="isBlocked">
+    <div class="editing-box elevatorPitch" *ngIf="isUserEditing">
       <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
       <span class="editing-box__user">{{ userBlocking?.name }}</span>
       <span class="editing-box__text"

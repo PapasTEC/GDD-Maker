@@ -173,6 +173,7 @@ export class TechnicalInfoComponent {
 
     this.isUserEditing.platforms =
       userEditing.platforms && userEditing.platforms.email !== this.localUser;
+    this.isBlocked.platforms = this.isUserEditing.platforms || this.editingDocumentService.read_only;
     if (this.isUserEditing.platforms) {
       this.userBlocking.platforms = userEditing.platforms;
     }
@@ -180,6 +181,7 @@ export class TechnicalInfoComponent {
     this.isUserEditing.generalData =
       userEditing.generalData &&
       userEditing.generalData.email !== this.localUser;
+    this.isBlocked.generalData = this.isUserEditing.generalData || this.editingDocumentService.read_only;
     if (this.isUserEditing.generalData) {
       this.userBlocking.generalData = userEditing.generalData;
     }

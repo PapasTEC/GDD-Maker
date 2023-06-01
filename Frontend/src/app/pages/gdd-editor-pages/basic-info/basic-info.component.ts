@@ -191,6 +191,12 @@ export class BasicInfoComponent {
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
     for (const key in this.isUserEditing) {
+      console.log("key: ", key);
+        console.log(
+          this.isBlocked[key],
+          userEditing[key],
+          userEditing[key]?.email
+        );
       if (this.isUserEditing.hasOwnProperty(key)) {
         this.isUserEditing[key] =
           userEditing[key] && userEditing[key]?.email !== this.localUser;

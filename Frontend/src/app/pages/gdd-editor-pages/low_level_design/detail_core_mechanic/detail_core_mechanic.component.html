@@ -24,7 +24,7 @@
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
-          <div class="grid">
+          <div class="detailgrid">
             <div class="detailSubTitleGrid detailCharacterInfoText">Tokens</div>
             <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
               [(ngModel)]="this.details.tokens"
@@ -74,7 +74,7 @@
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
-          <textarea class="vditor-reset detailTextArea scrollBar resize-ta"
+          <textarea class="detail-vditor-reset detailTextArea scrollBar resize-ta"
             [(ngModel)]="this.details.decisions"
             (input)='this.growShrink($event, this.details.decisions, true, "decisions")'
             (keydown)="this.onChangeBlock($event, 'decisions')"
@@ -105,7 +105,7 @@
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
-          <div class="grid">
+          <div class="detailgrid">
             <div class="detailSubTitleGrid detailCharacterInfoText">Intermediate</div>
             <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
               [(ngModel)]="this.details.intermediate"

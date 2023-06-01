@@ -63,6 +63,8 @@ export class EditorLayoutComponent implements OnInit {
 
   onlineUsers: any[] = [];
 
+  isReadOnly = false;
+
   // documentLayout:layout[];
 
   sectionsSubSectionsPath: SectionSubsectionPath[] = EditorLayoutRoutes.map(
@@ -480,6 +482,9 @@ export class EditorLayoutComponent implements OnInit {
       }
       this.tokenService.decodeToken().subscribe((data: any) => {
         let localUser = data.decoded;
+        this.isReadOnly = localUser.email === "";
+        //update local storage read only with the value of isReadOnly
+        localStorage.setItem("readOnly", this.isReadOnly.toString());
         console.log("localUser", localUser);
         this.documentService.getUsers(this.documentId).subscribe((documentUsers) => {
           if (documentUsers.error) {
@@ -492,12 +497,15 @@ export class EditorLayoutComponent implements OnInit {
           console.log(documentUsers.invited.findIndex(user => user.email === localUser.email))
           console.log(documentUsers.invited.find(user => user.email === localUser))
           // console.log(!documentUsers.invited.find(user => user.email === localUser)))
-          if (documentUsers.owner.email !== localUser.email && documentUsers.invited.findIndex(user => user.email === localUser.email) == -1) {
-            this.router.navigate(["/accessDenied"], {
-              queryParams: this.queryParams,
-            });
-            return;
+          if (!params.readOnly) {
+            if (documentUsers.owner.email !== localUser.email && documentUsers.invited.findIndex(user => user.email === localUser.email) == -1) {
+              this.router.navigate(["/accessDenied"], {
+                queryParams: this.queryParams,
+              });
+              return;
+            }
           }
+          
 
           localUser.image = localStorage.getItem("ImageUser");
 

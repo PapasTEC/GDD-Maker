@@ -16,9 +16,17 @@ function generateToken(data) {
 }
 
 // Función para decodificar un token JWT
-function decodeToken(token) {
-  const decoded = jwt.verify(token, privateKey, { algorithms: ["HS256"] });
-  return decoded;
+function decodeToken(req, token) {
+  try{
+    const decoded = jwt.verify(token, privateKey, { algorithms: ["HS256"] });
+    return decoded;
+  }catch(err){
+    const readOnlyURL = req.headers['readonly'];
+    if (readOnlyURL === 'true') {
+      data = {name: "Guest", email: "", owned_documents: [], shared_with_me_documents: []}
+      return data;
+    }
+  }
 }
 
 // Función para verificar un token JWT
@@ -40,7 +48,7 @@ function generateTokenController(req, res) {
 // Controlador para decodificar un token y devolver la información como respuesta
 function decodeTokenController(req, res) {
   const { token } = req.body;
-  const decoded = decodeToken(token);
+  const decoded = decodeToken(req, token);
   res.json({ decoded });
 }
 
@@ -54,17 +62,20 @@ function verifyTokenController(req, res) {
 function backendValidation(req, res, next) {
   // Obtener el token del header de la petición
   const headerToken = req.headers['authorization'];
-
+  const readOnlyURL = req.headers['readonly'];
   // Verificar si el token existe
-  if (!headerToken) {
+  if (!headerToken && !readOnlyURL) {
     return res.status(401).json({ mensaje: 'Token not found' });
   }
 
   // Verificar si el token es válido
+  if (readOnlyURL === 'true') {
+    return next();
+  }
   const token = headerToken.split(' ')[1];
   try {
     const isValidToken = verifyToken(token);
-    if (isValidToken) {
+    if (isValidToken || readOnlyURL === 'true') {
       return next();
     }
     return res.status(401).json({ mensaje: 'Invalid Token' });

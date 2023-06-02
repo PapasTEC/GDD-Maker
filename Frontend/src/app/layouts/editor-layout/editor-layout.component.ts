@@ -66,6 +66,8 @@ export class EditorLayoutComponent implements OnInit {
   isReadOnly = false;
   notAuthUser = false;
 
+  documentCodeRead: string = "";
+
   // documentLayout:layout[];
 
   sectionsSubSectionsPath: SectionSubsectionPath[] = EditorLayoutRoutes.map(
@@ -451,9 +453,20 @@ export class EditorLayoutComponent implements OnInit {
   setDocumentData() {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
       // console.log("data:", data);
+      
       const document = data;
+      this.route.queryParams.subscribe((params) => {
+        if (params.readOnly && params.readOnly !== document.codeReadOnly) {
+          this.router.navigate(["/accessDenied"], {
+            queryParams: params,
+          });
+        }
+      });
+
       document.socketSubSection = "";
-      console.log("document:", document);
+      console.log("document 123213:", document);
+      this.documentCodeRead = document["codeReadOnly"];
+
       this.editingDocumentService.changeDocument(document);
       this.documentTitle = document["frontPage"]["documentTitle"];
       this.document = document;
@@ -477,12 +490,15 @@ export class EditorLayoutComponent implements OnInit {
       this.documentId = params.pjt;
       if (params.readOnly) {
         this.isReadOnly = true;
+        console.log("Document: ", this.document);
         this.editingDocumentService.setReadOnly(params.readOnly);
-        this.queryParams = { pjt: this.documentId, readOnly: this.editingDocumentService.read_only}
+        this.queryParams = { pjt: this.documentId, readOnly: this.editingDocumentService.read_only }
       } else {
         this.isReadOnly = false;
         this.queryParams = { pjt: this.documentId }
       }
+
+      this.setDocumentData();
       this.tokenService.decodeToken().subscribe((data: any) => {
         let localUser = data.decoded;
         this.notAuthUser = localUser.email === "";
@@ -509,7 +525,7 @@ export class EditorLayoutComponent implements OnInit {
               return;
             }
           }
-          
+
 
           localUser.image = localStorage.getItem("ImageUser");
 
@@ -519,7 +535,8 @@ export class EditorLayoutComponent implements OnInit {
           console.log(
             "************************** FINAL1 **************************"
           );
-          this.setDocumentData();
+          
+
 
           this.updateLastManualSaveTime();
           this.startAutoSaveTimer();

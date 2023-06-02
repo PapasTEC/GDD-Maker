@@ -143,9 +143,15 @@ app.use(
     type: "application/javascript",
   })
 );
+app.use(
+  express.static(path.join(__dirname, "uploads"), {
+    type: "application/javascript",
+  })
+);
 app.use("/app/*", function (req, res) {
   res.sendFile(path.join(__dirname, "frontendBuild/index.html"));
 });
+
 
 app.use("/api/users", require("./routes/UserRoutes"));
 app.use("/api/documents", require("./routes/DocumentRoutes"));

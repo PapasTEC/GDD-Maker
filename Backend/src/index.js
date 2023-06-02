@@ -154,6 +154,8 @@ app.use("/api/images", require("./routes/ImageRoutes"));
 
 app.use("/api/uploads", express.static(path.join(__dirname, "./uploads")));
 
+app.use("/api/test", express.static("src"));
+
 instrument(io, { auth: false });
 
 module.exports = app;

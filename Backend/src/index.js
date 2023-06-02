@@ -152,7 +152,10 @@ app.use("/api/documents", require("./routes/DocumentRoutes"));
 app.use("/api/token", require("./routes/TokenRoute"));
 app.use("/api/images", require("./routes/ImageRoutes"));
 
-app.use("/api/uploads", express.static(path.join(__dirname, "./uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
+
+//app.use(express.static(path.join(dirname, 'src/frontendBuild')));
+//app.use('/uploads', express.static(path.join(dirname, 'src/uploads')));
 
 app.use("/api/test", express.static("src"));
 

@@ -152,7 +152,7 @@ app.use("/api/documents", require("./routes/DocumentRoutes"));
 app.use("/api/token", require("./routes/TokenRoute"));
 app.use("/api/images", require("./routes/ImageRoutes"));
 
-app.use("/api/uploads", express.static("src/uploads"));
+app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 
 instrument(io, { auth: false });
 

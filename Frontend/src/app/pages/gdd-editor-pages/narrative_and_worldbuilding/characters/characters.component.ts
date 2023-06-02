@@ -251,8 +251,8 @@ export class CharactersComponent {
           return character.image;
         });
 
-        this.loadSavedImages();
-        //await this.reloadImages(oldImages);
+        // this.loadSavedImages();
+        await this.reloadImages(oldImages);
 
         this.load = true;
 

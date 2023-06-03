@@ -304,11 +304,13 @@ export class EditorLayoutComponent implements OnInit {
 
   @HostListener("window:keydown.control.s", ["$event"])
   saveDocumentShortcut(event: KeyboardEvent) {
-    event.preventDefault();
-    this.manualSave();
-    this.toastr.success("Document saved!", "", {
-      timeOut: 500,
-    });
+    if (!this.editingDocumentService.read_only) {
+      event.preventDefault();
+      this.manualSave();
+      this.toastr.success("Document saved!", "", {
+        timeOut: 500,
+      });
+    }
     // TODO: Show a message that the document has been saved
   }
 
@@ -442,8 +444,10 @@ export class EditorLayoutComponent implements OnInit {
   // alt + Esc to go to the dashboard
   @HostListener("window:keydown.alt.d", ["$event"])
   goToDashboard(event: KeyboardEvent) {
-    event.preventDefault();
-    this.returnDashboard();
+    if(!this.editingDocumentService.read_only) {
+      event.preventDefault();
+      this.returnDashboard();
+    }
   }
 
   // updateSocket() {

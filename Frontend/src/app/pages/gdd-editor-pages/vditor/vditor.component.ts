@@ -291,7 +291,7 @@ export class VditorComponent {
 
       const formData = new FormData();
       formData.append("image", file, fixName);
-      this.documentService.uploadImage(this.documentId, formData).subscribe(
+      this.documentService.uploadImage(this.documentId, fixName, formData).subscribe(
         (res) => {},
         (err) => {
           if (err.status === 200) {

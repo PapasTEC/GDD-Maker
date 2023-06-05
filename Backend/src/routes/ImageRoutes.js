@@ -5,7 +5,7 @@ const { backendValidation } = require('../controllers/TokenController');
 // const upload = require('../middleware/upload');
 
 // Ruta para cargar una imagen
-router.post('/:documentId', backendValidation, imageController.upload.single('image'), imageController.uploadImage);
+router.post('/:documentId/:imageName', backendValidation, imageController.upload.single('image'), imageController.uploadImage);
 
 // Ruta para eliminar una imagen
 // router.delete('/:documentId/:fileName', backendValidation, imageController.deleteImage);

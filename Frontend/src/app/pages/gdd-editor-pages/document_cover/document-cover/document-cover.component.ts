@@ -181,65 +181,6 @@ export class DocumentCoverComponent {
       this.updateBlockedInterval = setInterval(() => {
         this.updateIsBlocked1s();
       }, 1000);
-    // this.editingDocumentService.document$
-    //   .pipe(
-    //     filter((document) => document !== null),
-    //     map((document) =>
-    //       document.frontPage
-    //     ),
-    //     take(1)
-    //   )
-    //   .subscribe((frontPage) => {
-    //     // this.documentSubSection = document;
-
-    //     // this.elevatorPitch = this.documentSubSection.subSectionContent.elevatorPitch;
-    //     // this.tagline = this.documentSubSection.subSectionContent.tagline;
-    //     // this.genres = this.documentSubSection.subSectionContent.genres;
-    //     // this.tags = this.documentSubSection.subSectionContent.tags;
-
-    //     // console.log("DOCUMENTOVICH", document);
-
-    //     this.frontPage = frontPage;
-    //     this.gameName = frontPage.documentTitle;
-    //     this.gameLogo = frontPage.documentLogo;
-    //     this.companyName = frontPage.companyName;
-    //     this.companyLogo = frontPage.companyLogo;
-    //     this.authors = frontPage.collaborators.map((collab:string) => { return {name: collab} });
-
-    //     const gameLogoDoc = document.getElementById("gl") as HTMLElement;
-    //     const companyLogoDoc = document.getElementById("cl") as HTMLElement;
-
-    //     this.cover.Authors = this.authors;
-    //     this.cover.CompanyLogo = this.companyLogo;
-    //     this.cover.GameLogo = this.gameLogo;
-
-    //     this.updateLogo(this.gameLogo, gameLogoDoc, false);
-    //     this.updateLogo(this.companyLogo, companyLogoDoc, false);
-
-    //     this.setLastUpdate(new Date(frontPage.lastUpdated));
-
-    //     const titleArea = document.getElementById("titl") as HTMLElement;
-    //     const companyArea = document.getElementById("comp") as HTMLElement;
-
-    //     this.resetAreasSize(titleArea, this.gameName, false);
-    //     this.resetAreasSize(companyArea, this.companyName, false);
-    //     this.cover.GameName = this.gameName;
-    //     this.cover.CompanyName = this.companyName;
-
-
-    //     this.firstLoad = true;
-
-    //     this.loaded = true;
-
-
-    //     console.log("PRIMER FRONT PAGE", frontPage);
-
-    //     this.canBeEdited();
-
-    //     this.updateBlockedInterval = setInterval(() => {
-    //       this.updateIsBlocked1s();
-    //     }, 1000);
-    //   });
   }
 
   updateIsBlocked1s() {
@@ -395,6 +336,57 @@ export class DocumentCoverComponent {
     }
 
   }
+
+  // hasNonAsciiCharacters(string) {
+  //   const nonAsciiRegex = /[^\x00-\x7F]/;
+  //   return nonAsciiRegex.test(string);
+  // }
+
+  // public async onFileSelected(event: any) {
+  //   let file = event.target.files[0];
+
+  //   if (file) {
+  //     const fileSize = file.size / (1024 * 1024); // in MB
+  //     if (fileSize > 1) {
+  //       file = await this.scaleImage(file);
+  //     }
+  //     let fixName: string;
+  //     if (this.hasNonAsciiCharacters(file.name)) {
+  //       fixName = Date.now().toString() + "." + file.name.split(".")[1];
+  //     } else {
+  //       fixName = file.name.replace(/ /gi, "_");
+  //     }
+
+  //     const formData = new FormData();
+  //     formData.append("image", file, fixName);
+  //     this.documentService.uploadImage(this.documentId, formData).subscribe(
+  //       (res) => {},
+  //       (err) => {
+  //         if (err.status === 200) {
+  //           this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
+  //           // this.vditor.insertValue(
+  //           //   `![](uploads/${this.documentId}/${fixName})`
+  //           // );
+  //           this.updateDocument(this.vditor.getValue());
+  //           this.editingDocumentService.document$
+  //             .pipe(take(1))
+  //             .subscribe((document) => {
+  //               this.documentService
+  //                 .updateDocument(this.documentId, document)
+  //                 .subscribe((res) => {
+  //                   console.log("Update res: ", res);
+  //                   (err) => {
+  //                     console.log("Update err: ", err);
+  //                   };
+  //                 });
+  //             });
+  //         } else {
+  //           console.log("Error: ", err);
+  //         }
+  //       }
+  //     );
+  //   }
+  // }
 
 
   public onFileSelected(event: any, element: HTMLElement, isGameLogo: any, eventB=false, newF=File): void {

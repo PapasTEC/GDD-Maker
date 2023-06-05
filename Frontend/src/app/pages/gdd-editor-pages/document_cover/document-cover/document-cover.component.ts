@@ -482,7 +482,7 @@ export class DocumentCoverComponent {
 
     if (file) {
       let imageName = this.getNewImageName(file);
-      let imagePath = `http://localhost:3080/uploads/${this.documentId}/${imageName}`;
+      let imagePath = `uploads/${this.documentId}/${imageName}`;
 
       if (isGameLogo) {
         this.cover.GameLogo = imagePath;
@@ -507,8 +507,9 @@ export class DocumentCoverComponent {
     } else {
       this.companyLogo = path;
     }
-
-    this.updateCoverContent();
+    if (callUpdate) {
+      this.updateCoverContent();
+    }
     const image = new Image();
     image.src = path;
 

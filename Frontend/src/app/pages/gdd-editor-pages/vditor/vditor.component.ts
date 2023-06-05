@@ -59,6 +59,8 @@ export class VditorComponent {
   ngOnDestroy() {
     console.log("destroy");
 
+    this.vditor.destroy();
+
     this.editingDocumentService.userEditingByComponent[this.subSection] = null;
 
     this.decodeToken.unsubscribe();
@@ -267,6 +269,11 @@ export class VditorComponent {
     });
   }
 
+  hasNonAsciiCharacters(string) {
+    const nonAsciiRegex = /[^\x00-\x7F]/;
+    return nonAsciiRegex.test(string);
+  }
+
   public async onFileSelected(event: any) {
     let file = event.target.files[0];
 
@@ -275,7 +282,13 @@ export class VditorComponent {
       if (fileSize > 1) {
         file = await this.scaleImage(file);
       }
-      const fixName = file.name.replace(/ /gi, "_");
+      let fixName: string;
+      if (this.hasNonAsciiCharacters(file.name)) {
+        fixName = Date.now().toString() + "." + file.name.split(".")[1];
+      } else {
+        fixName = file.name.replace(/ /gi, "_");
+      }
+
       const formData = new FormData();
       formData.append("image", file, fixName);
       this.documentService.uploadImage(this.documentId, formData).subscribe(

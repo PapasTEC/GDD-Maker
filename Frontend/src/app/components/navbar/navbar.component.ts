@@ -25,7 +25,6 @@ export class NavbarComponent implements OnInit {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
 
     this.tokenService.decodeToken().subscribe((data: any) => {
-      console.log(`${JSON.stringify(data.decoded)}`);
       this.profileInfo = data.decoded;
       this.profileInfo.image = localStorage.getItem('ImageUser');
     });

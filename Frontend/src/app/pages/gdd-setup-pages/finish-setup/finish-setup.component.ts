@@ -81,11 +81,11 @@ export class FinishSetupComponent {
         myCompanyLogo = await this.convertTempUrlToBase64(currentSetup.companyLogo);
       }
 
-      console.log("user: ", user);
-      console.log("currentSetup: ", currentSetup);
-      console.log("myPlatforms: ", myPlatforms);
-      console.log("myGameLogo: ", myGameLogo);
-      console.log("myCompanyLogo: ", myCompanyLogo);
+
+
+
+
+
 
       const document = {
         owner: user.email,
@@ -100,15 +100,15 @@ export class FinishSetupComponent {
           lastUpdated: new Date()
         },
         documentContent: [
-          // {
-          //   sectionTitle: "Document Cover",
-          //   subSections: [{
-          //     subSectionTitle: "Document Cover",
-          //     subSectionContent: {
-          //       coverData: []
-          //     }
-          //   }]
-          // },
+
+
+
+
+
+
+
+
+
           {
           sectionTitle: "Basic Information",
           subSections: [{
@@ -195,14 +195,14 @@ export class FinishSetupComponent {
           },{
             subSectionTitle: "Characters",
             subSectionContent: {
-              // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+
               characters: []
             }
           },
           {
             subSectionTitle: "Events",
             subSectionContent: {
-              // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+
               events: []
             }
           }]
@@ -239,11 +239,11 @@ export class FinishSetupComponent {
       ]
       }
 
-      console.log("document:", document);
+
 
       this.documentService.addDocument(document).subscribe(
         (res: any) => {
-          console.log("addDocument res:", res);
+
           if (res?.error) {
             this.status = 'creating';
             this.toastr.error("Error adding document. Make sure you have filled all the fields", "", {
@@ -252,17 +252,17 @@ export class FinishSetupComponent {
             });
             return;
           }
-          // alert("Document added successfully!");
+
           this.userService.addOwnProject(user.email, res['id']).subscribe(
             res2 => {
               this.status = 'success';
               setTimeout(() => {
-              console.log("addOwnDocument res:", res2);
+
               this.router.navigate(['/dashboard']);
               }, 2000);
             err2 => {
-              console.log(err2);
-              // alert("Error adding document to user");
+
+
               this.status = 'creating';
               this.toastr.error("Error adding document to user", "", {
                 timeOut: 10000,
@@ -272,8 +272,8 @@ export class FinishSetupComponent {
           });
         },
         err => {
-          console.log(err);
-          // alert("Error adding document");
+
+
           this.status = 'creating';
           this.toastr.error("Error adding document", "", {
             timeOut: 10000,

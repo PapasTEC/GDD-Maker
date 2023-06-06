@@ -72,9 +72,9 @@ async function sendEmail(to, code, type, msgContent) {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log(error);
+
     } else {
-      console.log("Email sent to " + to + ": " + info.response);
+
     }
   });
 }

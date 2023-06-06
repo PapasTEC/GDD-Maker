@@ -32,7 +32,7 @@ $text-box-width: 300px;
   background-color: $diagram__color;
   color: white;
   width: $text-box-width;
-  // height: 160px;
+
   height: 196px;
   padding: 10px;
   border-radius: 20px;
@@ -46,7 +46,7 @@ $text-box-width: 300px;
     resize: none;
     outline: none;
 
-    // target the placeholder text
+
     &::placeholder {
       color: rgba(255, 255, 255, 0.61);
     }
@@ -68,12 +68,12 @@ $text-box-width: 300px;
 
 .left-arrow,
 .right-arrow {
-  // width: 50px;
+
   height: 35%;
   width: auto;
-  // align-self: center;
-  // justify-self: center;
-  // margin: auto;
+
+
+
   justify-self: right;
   filter: brightness(0) saturate(100%) invert(17%) sepia(10%) saturate(6128%) hue-rotate(169deg) brightness(98%) contrast(85%);;
 }
@@ -81,8 +81,8 @@ $text-box-width: 300px;
 .A1L {
   margin-bottom: 20px;
   grid-area: A1L;
-  // transform: rotate(180deg);
-  // padding-right: 20px;
+
+
   align-self: end;
   justify-self: right;
   margin-right: 10px;
@@ -92,7 +92,7 @@ $text-box-width: 300px;
 .A1R {
   margin-bottom: 20px;
   grid-area: A1R;
-  // transform: rotate(-90deg);
+
   align-self: end;
   justify-self: left;
   margin-left: 10px;
@@ -103,12 +103,12 @@ $text-box-width: 300px;
   grid-area: A2L;
   margin-bottom: 150px;
   margin-right: 10px;
-  // transform: rotate(90deg);
+
 }
 .A2R {
   margin-top: 20px;
   grid-area: A2R;
   justify-self: left;
   margin-left: 10px;
-  // padding-right: 50px;
+
 }

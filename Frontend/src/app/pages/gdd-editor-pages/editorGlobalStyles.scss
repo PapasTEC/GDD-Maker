@@ -65,7 +65,7 @@ $scrollbar-width: 0.4vw;
 
     /* Track */
     .scrollBar::-webkit-scrollbar-track {
-        //box-shadow: inset 0 0 1px black;
+
     }
 
     /* Handle */
@@ -111,7 +111,7 @@ $size: 100%;
 
 .butt {
     position: relative;
-    // Gray and white border and background combination
+
     background-color: rgb(238, 235, 235);
     border: 1px solid rgb(200, 200, 200);
 

@@ -169,31 +169,31 @@ export class DetailCoreMechanicComponent {
   ngOnInit() {
     this.getSectionAndSubSection(this.route);
 
-    // this.editingDocumentService.document$
-    //   .pipe(
-    //     filter((document) => document !== null),
-    //     map((document) =>
-    //       document.documentContent
-    //         .find((section) => section.sectionTitle === this.section)
-    //         .subSections.find(
-    //           (subsection) => subsection.subSectionTitle === this.subSection
-    //         )
-    //     ),
-    //     take(1)
-    //   ).subscribe((subsection) => {
-    //     this.documentSubSection = subsection;
-    //     this.details = this.documentSubSection.subSectionContent;
 
-    //     const textareas = document.getElementsByClassName("resize-ta");
-    //     for (let i = 0; i < textareas.length; i++) {
-    //       let textarea = textareas[i] as HTMLTextAreaElement;
-    //       if (this.detailsIds[i] === "decisions") {
-    //         this.resetAreasSize(textarea, this.details[this.detailsIds[i]], true);
-    //       } else {
-    //         this.resetAreasSize(textarea, this.details[this.detailsIds[i]]);
-    //       }
-    //     }
-    //   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     if (this.editingDocumentService.read_only) {
       this.isBlocked = {
@@ -214,7 +214,7 @@ export class DetailCoreMechanicComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -224,15 +224,15 @@ export class DetailCoreMechanicComponent {
         this.canBeEdited("decisions");
         this.canBeEdited("goals");
 
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
+
+
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
 
-        // this.details = this.documentSubSection.subSectionContent;
+
 
         const userEditing =
           this.editingDocumentService.userEditingByComponent[this.subSection];
@@ -259,7 +259,7 @@ export class DetailCoreMechanicComponent {
             this.documentSubSection.subSectionContent.global;
         }
 
-        // if (this.isBlocked.representation) {
+
 
         const textareas = document.getElementsByClassName("resize-ta");
         for (let i = 0; i < textareas.length; i++) {
@@ -308,7 +308,7 @@ export class DetailCoreMechanicComponent {
           }
         }
 
-        console.log(this.documentSubSection);
+
       });
 
     this.updateBlockedInterval = setInterval(() => {
@@ -317,13 +317,13 @@ export class DetailCoreMechanicComponent {
   }
 
   updateIsBlocked1s() {
-    console.log("updateIsBlocked1s");
+
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
     for (const key in this.isUserEditing) {
       if (this.isUserEditing.hasOwnProperty(key)) {
-        console.log("key: ", key);
+
         console.log(
           this.isBlocked[key],
           userEditing[key],
@@ -345,7 +345,7 @@ export class DetailCoreMechanicComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+
   }
 
   onChangeBlock(event: any, part: string) {

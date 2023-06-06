@@ -47,13 +47,13 @@ export class DashboardComponent implements OnInit {
     this.tableMode = 'My Projects';
 
     this.tokenService.decodeToken().subscribe((data: any) => {
-      // console.log(`${JSON.stringify(data.decoded)}`);
+
       this.email = data.decoded.email;
 
       this.userService.getUser(this.email).subscribe((data: any) => {
         this.sharedProjects = data.shared_with_me_documents ;
         this.documentService.getMyProjects(this.email).subscribe((data: any) => {
-          // console.log(data);
+
           this.MyProjectsData = data.map((project: any) => {
             return {
               documentTitle: project.frontPage.documentTitle,
@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
   }
 
   goToEditor(idProject: string) {
-    // console.log(idProject);
+
     this.router.navigate(['/editor'], { queryParams: { pjt: idProject } });
   }
 
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async deleteDocument(id: string) {
-    // if (confirm("Are you sure you want to delete this document?")) {
+
 
     let {isConfirmed} = await Swal.fire({
       title: "Are you sure you want to delete this document?",
@@ -119,9 +119,9 @@ export class DashboardComponent implements OnInit {
         this.MyProjectsData = this.MyProjectsData.filter((project: Project) => project._id != id);
         this.data = this.Projects;
         this.userService.removeOwnProject(this.email, id).subscribe((data2: any) => {
-          // console.log(data2);
+
           this.documentService.deleteFolderImages(id).subscribe((data3: any) => {
-            // console.log(data3);
+
           });
         });
       });
@@ -129,16 +129,16 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteSharedDocument(id: string) {
-    // alert("delete Shared" + id);
+
     this.documentService
       .removeUser(id, this.email)
       .subscribe((data: any) => {
-        // console.log(data);
-        // this.usersObj = data;
+
+
         let success = false;
         let message;
         if (data.users) {
-          console.log(data.users);
+
           success = true;
           this.toastr.success("Left the document successfully!");
           this.SharedProjectsData = this.SharedProjectsData.filter((project: Project) => project._id != id);
@@ -157,14 +157,14 @@ export class DashboardComponent implements OnInit {
   headers: QueryList<SortableHeaderDirective>;
 
   onSort({ column, direction }: SortEvent) {
-    // resetting other headers
+
     this.headers.forEach((header) => {
       if (header.sortable !== column) {
         header.direction = '';
       }
     });
 
-    // sorting countries
+
     if (direction === '' || column === '') {
       this.Projects = this.data;
     } else {

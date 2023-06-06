@@ -6,8 +6,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { filter, map, take, timeInterval } from "rxjs/operators";
 import { TokenService } from "src/app/services/token.service";
 import detectUrlChange from "detect-url-change";
-//import { Buffer } from '../../../../../../Backend/uploads/234/1681252566007-1274551.jpg';
-//import { HttpClient } from '@angular/common/http';
+
+
 
 @Component({
   selector: "app-vditor",
@@ -47,7 +47,7 @@ export class VditorComponent {
 
   updateDocument(value: any) {
     this.myInput = true;
-    console.log("currentValue: ", value);
+
     this.documentSubSection.subSectionContent.text = value;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
@@ -57,7 +57,7 @@ export class VditorComponent {
   }
 
   ngOnDestroy() {
-    console.log("destroy");
+
 
     this.vditor.destroy();
 
@@ -73,12 +73,12 @@ export class VditorComponent {
   }
 
   ngOnInit() {
-    // setInterval(() => {
-    //   if (this.vditor) {
-    //     console.log("UPDATE", this.lastRow)
-    //     console.log("UPDATE", this.lastCol)
-    //   }
-    // }, 1000);
+
+
+
+
+
+
 
     if (this.editingDocumentService.read_only) {
       this.isBlocked = true;
@@ -94,9 +94,9 @@ export class VditorComponent {
       this.section = _value.section;
       this.subSection = _value.subSection;
       this.showUpload = _value.upload;
-      console.log("section:", this.section);
-      console.log("subSection:", this.subSection);
-      console.log("showUpload:", this.showUpload);
+
+
+
     });
 
     this.getDocumentId = this.activatedRoute.queryParams.subscribe((params) => {
@@ -113,22 +113,22 @@ export class VditorComponent {
           "this.subSection:",
           this.subSection
         );
-        console.log("url:", this.router.routerState.snapshot.url);
+
 
         if (this.myInput) {
           this.myInput = false;
           return;
         }
 
-        console.log("this.subSection2:", this.subSection);
+
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
-        //  console.log("documentSub mapache:", this.documentSubSection);
-        //  console.log(this.documentSubSection.subSectionContent.text)
-        // console.log(this.vditor)
+
+
+
         const userEditing =
           this.editingDocumentService.userEditingByComponent[this.subSection];
         this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
@@ -139,7 +139,7 @@ export class VditorComponent {
 
         this.vditor.setValue(this.documentSubSection.subSectionContent.text);
         this.resetCaretToLastPosition(this.lastRow, this.lastCol);
-        // this.vditor.updateValue("UPDATE");
+
 
 
       });
@@ -158,7 +158,7 @@ export class VditorComponent {
       )
       .subscribe((document) => {
         this.documentSubSection = document;
-        console.log("documentSub:", this.documentSubSection);
+
         setTimeout(() => {
           this.vditor = new Vditor(
             "vditor",
@@ -181,13 +181,13 @@ export class VditorComponent {
   }
 
   updateIsBlocked1s() {
-    console.log("BLOCKED:", this.isBlocked, this.editingDocumentService);
+
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
     this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
-      console.log("BLOCKED:", userEditing);
+
       this.userBlocking = userEditing;
     }
   }
@@ -217,7 +217,7 @@ export class VditorComponent {
     }
   }
 
-  // Funciones para subir imagenes
+
 
   lastCol = 0;
   lastRow = 0;
@@ -296,9 +296,9 @@ export class VditorComponent {
         (err) => {
           if (err.status === 200) {
             this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
-            // this.vditor.insertValue(
-            //   `![](uploads/${this.documentId}/${fixName})`
-            // );
+
+
+
             this.updateDocument(this.vditor.getValue());
             this.editingDocumentService.document$
               .pipe(take(1))
@@ -306,14 +306,14 @@ export class VditorComponent {
                 this.documentService
                   .updateDocument(this.documentId, document)
                   .subscribe((res) => {
-                    console.log("Update res: ", res);
+
                     (err) => {
-                      console.log("Update err: ", err);
+
                     };
                   });
               });
           } else {
-            console.log("Error: ", err);
+
           }
         }
       );
@@ -322,10 +322,10 @@ export class VditorComponent {
 
   uploadImage() {
     document.getElementById("fileSelector").click();
-    // return "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png";
+
   }
 
-  // Configuracion de vditor
+
 
   changeVditorConfig(
     showUploadTool: boolean,
@@ -338,8 +338,8 @@ export class VditorComponent {
       upload: {
         max: 1048576,
         accept: "image/jpeg,image/png,image/gif",
-        // url: "/api/upload/editor",
-        // linkToImgUrl: "/api/upload/fetch",
+
+
         filename(name) {
           return name
             .replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, "")
@@ -347,7 +347,7 @@ export class VditorComponent {
             .replace("/\\s/g", "");
         },
         success: (editor, result) => {
-          console.log(result);
+
         },
       },
       lang: "en_US",
@@ -356,7 +356,7 @@ export class VditorComponent {
         hide: true,
         pin: true,
       },
-      // name can be enumerated as: emoji, headings, bold, italic, strike, |, line, quote, list, ordered-list, check, outdent, indent, code, inline-code, insert-after, insert-before, undo, redo, upload, link, table, record, edit-mode, both, preview, fullscreen, outline, code-theme, content-theme, export, devtools, info, help, br
+
       toolbar: showToolBar
         ? showUploadTool
           ? [
@@ -678,19 +678,19 @@ export class VditorComponent {
                 name: "redo",
                 tipPosition: "sw",
               },
-              // {
-              //   name: "|",
-              // },
-              // {
-              //   icon: '<svg><use xlink:href="#vditor-icon-bug"></use></svg>',
-              //   name: "devtools",
-              //   tipPosition: "nw",
-              // },
-              // {
-              //   icon: '<svg><use xlink:href="#vditor-icon-edit"></use></svg>',
-              //   name: "edit-mode",
-              //   tipPosition: "nw",
-              // },
+
+
+
+
+
+
+
+
+
+
+
+
+
               {
                 name: "br",
               },
@@ -704,7 +704,7 @@ export class VditorComponent {
         this.setCaretCursorPosition();
       },
       input: (value: string) => {
-        console.log("******************* INPUT VALUE ****************");
+
         this.setCaretCursorPosition();
         this.myInput = true;
         this.updateDocument(value);
@@ -759,7 +759,7 @@ export class VditorComponent {
     this.lastCol = col;
     this.lastRow = row;
 
-    // console.log("Cursor on:", row, col)
+
 
     this.getMaxColandRow();
   }
@@ -774,7 +774,7 @@ export class VditorComponent {
       col = 0;
     }
 
-    // console.log("Maximum position:", row, col)
+
 
     return { row, col };
   }

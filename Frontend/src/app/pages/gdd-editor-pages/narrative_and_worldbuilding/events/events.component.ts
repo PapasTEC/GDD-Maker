@@ -69,10 +69,10 @@ export class EventsComponent {
   }
 
   updateDocument(timeline: any) {
-    // console.log("aestheticsInDocument: ", aestheticsInDocument);
+
     this.myInput = true;
     console.log("BRO YOU HAVE TO UPDATE ", this.documentSubSection)
-    // this.documentSubSection.subSectionContent.events = timeline;
+
     console.log("UPDATE", this.documentSubSection)
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
@@ -84,7 +84,7 @@ export class EventsComponent {
 
   ngOnInit() {
 
-    //  {name: "Mission 1", missions: [{name: "Event 1", events: [{name: "Event 1", description: "Event 1"}, {name: "Event 2", description: "Event 2"}]}, {name: "Event 2", events: [{name: "Event 1", description: "Event 1"}, {name: "Event 2", description: "Event 2"}]}]}, {name: "Mission 2", missions: [{name: "Event 1", events: [{name: "Event 1", description: "Event 1"}, {name: "Event 2", description: "Event 2"}]}, {name: "Event 2", events: [{name: "Event 1", description: "Event 1"}, {name: "Event 2", description: "Event 2"}]}]}
+
     this.timeline = []
     this.shareZoom = false;
 
@@ -105,40 +105,40 @@ export class EventsComponent {
 
     this.canvas = document.getElementById("canvasContainer");
     this.canvas.addEventListener("resize", () => {
-      // console.log("resize")
+
     })
 
-    // intElement.style.height = (intElement.parentElement.clientHeight).toString() + "px";
-    // intElement.style.width = (intElement.parentElement.clientWidth*0.6).toString() + "px";
+
+
 
     const intElement = document.getElementById("canvas");
     this.setInteractiveElement(intElement)
-    //this.setInteractiveElement(document.getElementById("canvas2"))
+
 
     this.addPanAndZoom(this.canvas, 1, 5, 0, 20);
     this.getSectionAndSubSection(this.route);
 
-    // console.log(this.section, this.subSection)
 
-    // console.log(this.editingDocumentService)
 
-    // this.editingDocumentService.document$
-    //   .pipe(
-    //     filter((document) => document !== null),
-    //     map((document) =>
-    //       document.documentContent
-    //         .find((section) => section.sectionTitle === this.section)
-    //         .subSections.find(
-    //           (subsection) => subsection.subSectionTitle === this.subSection
-    //         )
-    //     ),
-    //     take(1)
-    //   ).subscribe((document) => {
 
-    //     this.documentSubSection = document;
-    //     this.timeline = document.subSectionContent.events;
 
-      // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /* NEW - COLLABORATIVE */
     this.decodeToken = this.tokenService
@@ -153,7 +153,7 @@ export class EventsComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -161,8 +161,8 @@ export class EventsComponent {
 
         this.canBeEdited();
 
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
+
+
         console.log(document.documentContent)
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
@@ -210,7 +210,7 @@ export class EventsComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+
   }
 
   updateIsBlocked1s() {
@@ -223,7 +223,7 @@ export class EventsComponent {
       this.subSection = data.subSection;
     });
 
-    // console.log(this.section, this.subSection)
+
   }
 
   rerenderButtons() {
@@ -310,7 +310,7 @@ export class EventsComponent {
     if (!this.canBeEdited()) {
       return;
     }
-    // console.log(content)
+
     this.timeline[parseInt(id)].name = content;
     this.updateDocument(this.timeline);
   }
@@ -378,7 +378,7 @@ export class EventsComponent {
   pointerDownAction(element: HTMLElement, e: PointerEvent) {
 
     if (!this.allowPan) {
-      // console.log("panning not allowed")
+
       return;
     }
 
@@ -406,7 +406,7 @@ export class EventsComponent {
     element.onpointermove = (e) => {
 
       if (!this.allowPan) {
-        // console.log("panning not allowed")
+
         return;
       }
 
@@ -426,7 +426,7 @@ export class EventsComponent {
 
       element.onpointerleave = (e) => {
         if (!this.allowPan) {
-          // console.log("panning not allowed")
+
           return;
         }
         element.style.cursor = "initial";
@@ -445,7 +445,7 @@ export class EventsComponent {
 
     element.onpointerup = (e) => {
       if (!this.allowPan) {
-        // console.log("panning not allowed")
+
         return;
       }
 
@@ -483,16 +483,16 @@ export class EventsComponent {
 
       if (this.allowZoom) {
 
-        // if(e.deltaY > 0) {
-        //   this.interactiveElement = document.getElementById("canvas2");
-        // }else{
-        //   this.interactiveElement = document.getElementById("interactiveElement");
-        // }
-        // let targ = e.target as HTMLElement;
 
-        // if(targ.id == "txtArea" && targ.clientHeight < targ.scrollHeight){
-        //   return;
-        // }
+
+
+
+
+
+
+
+
+
 
         e.preventDefault();
 

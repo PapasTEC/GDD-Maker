@@ -1,7 +1,6 @@
 <div class="bodyClass">
     <div class="cInnerBody" [ngClass]="isBlocked ? 'disabled-component' : ''">
         <div cdkDropList (cdkDropListDropped)="drop($event)" class="cContainer scrollBar">
-            <!-- [ngStyle]="{characterCardKeys[i]}"  -->
             <div *ngIf="charactersInDocument.length == 0"style="margin: 5% 0;">
                 <span class="characterInfoText">Nothing to see here! Click the plus button to add your first character.</span>
             </div>

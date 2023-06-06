@@ -106,7 +106,7 @@ export class TechnicalInfoComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -115,14 +115,14 @@ export class TechnicalInfoComponent {
         this.canBeEdited("platforms");
         this.canBeEdited("generalData");
 
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
+
+
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
-        // this.techInfo = this.documentSubSection.subSectionContent;
+
 
         const userEditing =
         this.editingDocumentService.userEditingByComponent[this.subSection];
@@ -137,8 +137,8 @@ export class TechnicalInfoComponent {
           this.techInfo.price = this.documentSubSection.subSectionContent.price;
         }
 
-        console.log("Update", this.documentSubSection);
-        // this.techInfo = document.documentSubSection.subSectionContent;
+
+
 
       });
 
@@ -157,7 +157,7 @@ export class TechnicalInfoComponent {
       .subscribe((document) => {
         this.documentSubSection = document;
         this.techInfo = document.subSectionContent;
-        console.log("Tech Info: ", this.techInfo);
+
 
 
         this.updateBlockedInterval = setInterval(() => {
@@ -193,7 +193,7 @@ export class TechnicalInfoComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+
   }
 
   onPlatformsChange(event: KeyboardEvent): void {
@@ -209,9 +209,9 @@ export class TechnicalInfoComponent {
   }
 
   updateDocument(part: string) {
-    // set this.myInput to true to avoid the updateSocket to update the document
+
     this.myInput = true;
-    console.log("Tech Info: ", this.techInfo);
+
     this.documentSubSection.subSectionContent = this.techInfo;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,

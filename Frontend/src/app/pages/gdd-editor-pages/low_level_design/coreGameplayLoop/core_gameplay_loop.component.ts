@@ -69,24 +69,24 @@ export class CoreGameplayLoopComponent {
   }
 
   ngOnInit() {
-    // this.editingDocumentService.document$
-    //   .pipe(
-    //     filter((document) => document),
-    //     map((document) =>
-    //       document.documentContent
-    //         .find((section) => section.sectionTitle === this.section)
-    //         .subSections.find(
-    //           (subsection) => subsection.subSectionTitle === this.subSection
-    //         )
-    //     ),
-    //     take(1)
-    //   )
-    //   .subscribe((document) => {
-    //     this.documentSubSection = document;
-    //     this.coreGameplayLoopContent =
-    //       this.documentSubSection.subSectionContent;
-    //     console.log("coreGameplayLoopContent:", this.coreGameplayLoopContent);
-    //   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /* NEW - COLLABORATIVE */
     this.decodeToken = this.tokenService
       .decodeToken()
@@ -100,7 +100,7 @@ export class CoreGameplayLoopComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -108,8 +108,8 @@ export class CoreGameplayLoopComponent {
 
         this.canBeEdited();
 
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
+
+
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
@@ -117,9 +117,9 @@ export class CoreGameplayLoopComponent {
           );
 
         this.coreGameplayLoopContent = this.documentSubSection.subSectionContent;
-        // this.aestheticsInDocument = this.documentSubSection.subSectionContent.aesthetics;
 
-        // this.cardsInDocument = this.aestheticsInDocument.length;
+
+
       });
 
     this.editingDocumentService.document$
@@ -139,7 +139,7 @@ export class CoreGameplayLoopComponent {
 
         this.coreGameplayLoopContent = this.documentSubSection.subSectionContent;
 
-        console.log(this.documentSubSection);
+
 
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
@@ -157,7 +157,7 @@ export class CoreGameplayLoopComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+
   }
 
 
@@ -166,10 +166,10 @@ export class CoreGameplayLoopComponent {
       event.preventDefault();
       return;
     }
-    // console.log(event.target);
+
     const value = (event.target as any).value;
     this.coreGameplayLoopContent[name] = value;
-    // console.log("coreGameplayLoopContent:", this.coreGameplayLoopContent);
+
     this.updateDocument(this.coreGameplayLoopContent);
   }
 

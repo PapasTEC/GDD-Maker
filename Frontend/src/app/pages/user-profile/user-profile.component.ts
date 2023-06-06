@@ -58,7 +58,7 @@ export class UserProfileComponent implements OnInit {
   async confirmUpdate() {
     this.formSubmitted = true;
     if (this.editUserForm.valid) {
-      // if (confirm("Do you want to update your profile?")) {
+
 
       let { isConfirmed } = await Swal.fire({
         title: 'Do you want to update your profile?',
@@ -72,11 +72,11 @@ export class UserProfileComponent implements OnInit {
       if (isConfirmed) {
         this.http.get(`/api/users/get/${this.editUserForm.value.email}/`).subscribe((response: any) => {
           if (response && response._id != this.userID) {
-            // alert("This email is already registered in another account");
+
             this.tostr.error("This email is already registered in another account");
             return;
           } else {
-            // alert("Your account has been updated successfully")
+
             this.submit();
             this.tostr.success("Your account has been updated successfully");
           }
@@ -88,14 +88,14 @@ export class UserProfileComponent implements OnInit {
   submit() {
     const userData = this.editUserForm.value;
     const updateUser = { "name": userData.name, "email": userData.email, "image": this.profileImage };
-    console.log("Formulario enviado:", updateUser);
+
     this.http.put(`/api/users/update/${this.localUser.email}`, updateUser).subscribe((response) => {
-      console.log("Usuario actualizado:", response);
+
       this.documentService.updateOwnerInDocuments(this.localUser.email, { owner: updateUser.email }).subscribe((response) => {
-        console.log("Documentos actualizados:", response);
+
         this.cookieService.delete('Token');
         this.tokenService.generateToken(updateUser).subscribe((response: any) => {
-          console.log("Token generado:", response);
+
           this.cookieService.set("Token", response.token);
           localStorage.setItem("ImageUser", this.profileImage );
           location.reload();

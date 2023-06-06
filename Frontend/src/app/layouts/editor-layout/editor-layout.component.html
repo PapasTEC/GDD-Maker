@@ -20,7 +20,6 @@
                 src="assets/img/icons/common/arrow-right-from-bracket-solid.svg"
                 alt="share"
               />
-              <!-- <span class="midTextFont">Back 2</span> -->
             </div>
             <div>
               <span class="midTextFont">Back</span>
@@ -44,7 +43,6 @@
         <div id="layout-container" class="layoutContainerClass scrollBar">
 
           <div class="sidebar">
-            <!-- *ngFor="let sec of documentLayout; index as i" -->
             <div class="subSectionCont" *ngFor="let sec of documentLayout; index as i">
               <div *ngIf="sec.subSections.length !== 0;else alt">
                 <button class="dropdown-btn">

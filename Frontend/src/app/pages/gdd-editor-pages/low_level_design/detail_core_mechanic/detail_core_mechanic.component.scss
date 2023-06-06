@@ -3,7 +3,7 @@ $detailcardBorderRadius: max(1vw, 1vh);
 $detailshadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
 $detailcardSeparation: 1%;
 $detailfontColor: #313131;
-// $fontSize: max(1.5vw, 1.5vh);
+
 $fontSize: 1.6vmax;
 
 .detailGreyBG {
@@ -52,10 +52,10 @@ $fontSize: 1.6vmax;
   .detailCardBody {
     color: $detailfontColor;
     padding: 2.5%;
-    // padding-top: 1.5%;
+
     width: 100%;
     min-height: 25vh;
-    // max-height: max-content;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,7 +66,7 @@ $fontSize: 1.6vmax;
     .detailCardHeader {
       margin-bottom: 1%;
       color: inherit;
-      // position: relative;
+
       width: $titleWidth;
       height: 24%;
       max-height: 40px;
@@ -90,7 +90,7 @@ $fontSize: 1.6vmax;
         color: $detailfontColor;
         width: fit-content;
         border: none;
-        // padding: min(0.8vh, 0.8vw);
+
         margin: 0;
         border: $detailborderState 2px #040077;
         align-items: center;
@@ -125,7 +125,7 @@ $fontSize: 1.6vmax;
       position: relative;
       width: 100%;
       min-height: 68%;
-      // display: flex;
+
       margin-top: 2%;
       border-bottom-left-radius: inherit;
       border-bottom-right-radius: inherit;
@@ -134,8 +134,8 @@ $fontSize: 1.6vmax;
       .detailgrid {
         display: grid;
         grid-template-columns: max-content 1fr;
-        //grid-template-columns: auto 1fr; /* columnas auto y 1fr para hacer que la segunda columna ocupe el espacio restante */
-        //grid-template-rows: repeat(3, minmax(0, 1fr)); /* 3 filas con altura fr, que se ajusta a la cantidad de contenido */
+
+
         grid-row-gap: 14px;
         grid-column-gap: 10px;
         align-items: center; /* alinear verticalmente el contenido */
@@ -166,9 +166,9 @@ $fontSize: 1.6vmax;
   height: fit-content;
   white-space: nowrap;
   border: #7926c1 $detailborderState 1px;
-  // font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB",
-  //   "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-  //   "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+
+
+
 }
 
 .detailTextArea {

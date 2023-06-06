@@ -76,7 +76,7 @@ export class GameLogoComponent {
     uploadButton.style.backgroundSize = "100% 100%";
     uploadButton.style.backgroundRepeat = "no-repeat";
 
-    //Get child element of upload button
+
     let uploadButtonChild = uploadButton.children[1] as HTMLElement;
     uploadButtonChild.style.display = "none";
 
@@ -84,8 +84,8 @@ export class GameLogoComponent {
     img.src = this.uploadedImage;
     img.onload = () => {
       let aspectRatio = img.width / img.height;
-      console.log("aspectRatio: ", aspectRatio);
-      //uploadButtonChild.style.display = "none";
+
+
 
       const w = "calc(15vmax * " + (aspectRatio) + ")"
       const h = "15vmax";

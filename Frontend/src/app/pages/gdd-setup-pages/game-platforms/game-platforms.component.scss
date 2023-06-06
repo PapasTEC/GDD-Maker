@@ -88,7 +88,7 @@ $resizeFont: min(clamp(0.6em, 1.1vw, 3em), clamp(0.6em, 1.1vh, 3em));
 $size: min(clamp(20%, 10vw, 60%), clamp(20%, 10vh, 60%));
 .platformContainer{
     
-    //height: $size;
+
     width: $size;
     
     display: flex;
@@ -96,7 +96,7 @@ $size: min(clamp(20%, 10vw, 60%), clamp(20%, 10vh, 60%));
     align-items: center;
 
     border: #979797 $borderState 2px;
-    //background-color: #c7c7c7;
+
 
     padding: 1%;
 

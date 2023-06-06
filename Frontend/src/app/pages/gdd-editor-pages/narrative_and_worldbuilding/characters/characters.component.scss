@@ -57,7 +57,7 @@ $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
 
   transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 
-  // padding: clamp(25%, 1vh ,40%);
+
   /* padding-top: 0.56%; */
   /* height: fit-content; */
 
@@ -480,7 +480,7 @@ $fontColor: #ffffff;
   .imageDivider {
     max-width: 30%;
     display: flex;
-    //convert to pixels
+
     border: 5px $borderState #00c3ff;
     align-items: center;
     justify-content: center;

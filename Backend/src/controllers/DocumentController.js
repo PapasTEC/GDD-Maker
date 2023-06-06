@@ -12,16 +12,16 @@ documentController.getDocuments = async (req, res) => {
 
 documentController.createDocument = async (req, res) => {
   const { owner, frontPage, documentContent, codeReadOnly } = req.body;
-  console.log("Creating document: " + owner);
-  console.log("Creating document: " + frontPage);
-  console.log("Creating document: " + documentContent);
+
+
+
   const newDocument = new Documents({
     owner,
     frontPage,
     documentContent,
     codeReadOnly,
   });
-  // console.log("Inserting document: " + newDocument);
+
   await newDocument
     .save()
     .then((document) => {
@@ -31,7 +31,7 @@ documentController.createDocument = async (req, res) => {
       res.status(200).json({ message: "Document created", id: document._id });
     })
     .catch((error) => {
-      console.log(error);
+
       res.status(200).json({ message: error, error: true });
     });
 };
@@ -68,7 +68,7 @@ async function convertIdList(ids) {
 }
 
 documentController.getSharedDocuments = async (req, res) => {
-  console.log(req.body);
+
   const _idList = await convertIdList(req.body);
 
   Documents.find({ _id: { $in: _idList } }, { owner: 1, frontPage: 1 })
@@ -124,9 +124,9 @@ documentController.updateOwnerInDocuments = async (req, res) => {
 
 documentController.updateOnlySubSectionByTitles = async (req, res) => {
   const { id, sectionTitle, subSectionTitle } = req.params;
-  console.log("Updating document: " + id);
-  console.log("Updating section: " + sectionTitle);
-  console.log("Updating subSection: " + subSectionTitle);
+
+
+
 
   Documents.updateOne(
     { _id: new ObjectId(id) },
@@ -160,11 +160,11 @@ documentController.updateOnlySubSectionByTitlesBasic = async (
   subSectionTitle,
   content
 ) => {
-  console.log("Updating document: " + id);
+
   console.log("Updating content: " + JSON.stringify(content));
 
-  console.log("Updating section: " + sectionTitle);
-  console.log("Updating subSection: " + subSectionTitle);
+
+
   try {
     let document = await Documents.updateOne(
       { _id: new ObjectId(id) },
@@ -184,10 +184,10 @@ documentController.updateOnlySubSectionByTitlesBasic = async (
     if (!document) {
       return false;
     }
-    console.log(document);
+
     return true;
   } catch (error) {
-    console.log(error);
+
     return false;
   }
 };
@@ -196,7 +196,7 @@ documentController.updateOnlyCoverBasic = async (
   id,
   content
 ) => {
-  console.log("Updating document: " + id);
+
   console.log("Updating content: " + JSON.stringify(content));
 
   try {
@@ -212,19 +212,19 @@ documentController.updateOnlyCoverBasic = async (
     if (!document) {
       return false;
     }
-    console.log(document);
+
     return true;
   } catch (error) {
-    console.log(error);
+
     return false;
   }
 };
 
 documentController.updateOnlySubSectionByIds = async (req, res) => {
   const { id, sectionId, subSectionId } = req.params;
-  console.log("Updating document: " + id);
-  console.log("Updating section: " + sectionId);
-  console.log("Updating subSection: " + subSectionId);
+
+
+
 
   Documents.updateOne(
     { _id: new ObjectId(id) },
@@ -268,7 +268,7 @@ documentController.deleteDocument = async (req, res) => {
 documentController.inviteUser = async (req, res) => {
   const { id, email } = req.params;
 
-  console.log("Inviting user: " + email + " to document: " + id);
+
 
   const user = await Users.findOne({ email: req.params.email });
   const documentWithId = await Documents.findById(id);
@@ -276,7 +276,7 @@ documentController.inviteUser = async (req, res) => {
   if (!user)
     return res.status(200).json({ message: "User not found", success: false });
 
-  // Check if user is already invited
+
   if (user.shared_with_me_documents.includes(id)) {
     return res
       .status(200)
@@ -288,7 +288,7 @@ documentController.inviteUser = async (req, res) => {
     { $push: { shared_with_me_documents: req.params.id } }
   );
 
-  // Owner cannot be invited
+
 
   if (documentWithId.owner === email) {
     return res
@@ -298,7 +298,7 @@ documentController.inviteUser = async (req, res) => {
 
   
 
-  // update invited list in documentWithId
+
   const document = await Documents.updateOne(
     { _id: id },
     { $push: { invited: email } }
@@ -311,17 +311,17 @@ documentController.inviteUser = async (req, res) => {
       .json({ message: "Document not found", success: false });
   }
 
-  // if (document.invited.includes(email)) {
-  //   return res
-  //     .status(200)
-  //     .json({ message: "User already invited", success: false });
-  // }
+
+
+
+
+
 
   let ownerObj = await Users.findOne({ email: documentWithId.owner });
 
   let msgContent = [
     "You have been invited to collaborate on a GDD Maker document!",
-    // "Name (email) has invited you to work in document "name"
+
     `<strong>${ownerObj.name}</strong> (${ownerObj.email}) has invited you to start working on the document <strong>"${documentWithId.frontPage.documentTitle}"</strong>`,
   ]
   await sendEmail(user.email, "", "invite", msgContent);
@@ -357,11 +357,11 @@ let getUsersFromDocument = async (id) => {
     return false;
   }
 
-  // console.log(document.invited);
+
 
   const invitedUsers = await Users.find({ email: { $in: document.invited } });
 
-  // console.log(invitedUsers);
+
 
   const users = {
     owner: await Users.findOne({ email: document.owner }),
@@ -376,7 +376,7 @@ documentController.getUsers = async (req, res) => {
 
   try {
 
-    // check if document exists
+
     const document = await Documents.findById(id);
     
     if (!document) {
@@ -389,7 +389,7 @@ documentController.getUsers = async (req, res) => {
 
   const users = await getUsersFromDocument(id);
 
-  console.log(users);
+
 
   res.status(200).json(users);
 };
@@ -397,9 +397,9 @@ documentController.getUsers = async (req, res) => {
 documentController.revokeInvitation = async (req, res) => {
   const { id, email } = req.params;
 
-  console.log("REVOKE INVITATION, ID", id, "EMAIL", email);
 
-  // revoke the invitation from the document and user account
+
+
   try {
 
     const document = await Documents.findById(id);

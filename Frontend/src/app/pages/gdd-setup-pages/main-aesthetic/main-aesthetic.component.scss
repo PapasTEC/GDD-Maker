@@ -103,7 +103,7 @@ $resizeFont: min(clamp(0.6em, 1.1vw, 3em), clamp(0.6em, 1.1vh, 3em));
 $size: max(6vw, 7vh);
 .platformContainer{
     
-    //height: $size;
+
     width: $size;
     height: $size;
     
@@ -112,7 +112,7 @@ $size: max(6vw, 7vh);
     align-items: center;
 
     border: #ff0000 none 2px;
-    //background-color: #c7c7c7;
+
 
     padding: 1%;
 
@@ -145,7 +145,7 @@ $size: max(6vw, 7vh);
               border: #5f8b56 none 2px;
               display: inline-block;
               color: #2F6690;
-              // background: linear-gradient(87deg, blue 0, adjust-hue(blue, 25deg) 100%) !important;
+
             }
         }
 

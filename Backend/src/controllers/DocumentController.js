@@ -267,7 +267,10 @@ documentController.deleteDocument = async (req, res) => {
 documentController.inviteUser = async (req, res) => {
   const { id, email } = req.params;
 
+  console.log("Inviting user: " + email + " to document: " + id);
+
   const user = await Users.findOne({ email: req.params.email });
+  const documentWithId = await Documents.findById(id);
 
   if (!user)
     return res.status(200).json({ message: "User not found", success: false });
@@ -284,8 +287,6 @@ documentController.inviteUser = async (req, res) => {
     { $push: { shared_with_me_documents: req.params.id } }
   );
 
-  const documentWithId = await Documents.findById(id);
-
   // Owner cannot be invited
 
   if (documentWithId.owner === email) {
@@ -294,9 +295,14 @@ documentController.inviteUser = async (req, res) => {
       .json({ message: "Owner cannot be invited", success: false });
   }
 
-  const document = await Documents.findByIdAndUpdate(id, {
-    $push: { invited: email },
-  });
+  
+
+  // update invited list in documentWithId
+  const document = await Documents.updateOne(
+    { _id: id },
+    { $push: { invited: email } }
+  );
+
 
   if (!document) {
     return res
@@ -304,18 +310,18 @@ documentController.inviteUser = async (req, res) => {
       .json({ message: "Document not found", success: false });
   }
 
-  if (document.invited.includes(email)) {
-    return res
-      .status(200)
-      .json({ message: "User already invited", success: false });
-  }
+  // if (document.invited.includes(email)) {
+  //   return res
+  //     .status(200)
+  //     .json({ message: "User already invited", success: false });
+  // }
 
-  let ownerObj = await Users.findOne({ email: document.owner });
+  let ownerObj = await Users.findOne({ email: documentWithId.owner });
 
   let msgContent = [
     "You have been invited to collaborate on a GDD Maker document!",
     // "Name (email) has invited you to work in document "name"
-    `<strong>${ownerObj.name}</strong> (${ownerObj.email}) has invited you to start working on the document <strong>"${document.frontPage.documentTitle}"</strong>`,
+    `<strong>${ownerObj.name}</strong> (${ownerObj.email}) has invited you to start working on the document <strong>"${documentWithId.frontPage.documentTitle}"</strong>`,
   ]
   await sendEmail(user.email, "", "invite", msgContent);
 
@@ -350,11 +356,11 @@ let getUsersFromDocument = async (id) => {
     return false;
   }
 
-  console.log(document.invited);
+  // console.log(document.invited);
 
   const invitedUsers = await Users.find({ email: { $in: document.invited } });
 
-  console.log(invitedUsers);
+  // console.log(invitedUsers);
 
   const users = {
     owner: await Users.findOne({ email: document.owner }),
@@ -389,6 +395,8 @@ documentController.getUsers = async (req, res) => {
 
 documentController.revokeInvitation = async (req, res) => {
   const { id, email } = req.params;
+
+  console.log("REVOKE INVITATION, ID", id, "EMAIL", email);
 
   // revoke the invitation from the document and user account
   try {

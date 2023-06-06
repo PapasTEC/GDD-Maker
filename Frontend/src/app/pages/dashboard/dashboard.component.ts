@@ -63,19 +63,21 @@ export class DashboardComponent implements OnInit {
               _id: project._id
             }
           });
-          this.Projects = this.MyProjectsData;
-          this.data = this.Projects;
-        });
 
-        this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
-          this.SharedProjectsData = data.map((project: any) => {
-            return {
-              documentTitle: project.frontPage.documentTitle,
-              documentLogo: project.frontPage.documentLogo,
-              lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-              owner: project.owner,
-              _id: project._id
-            }
+
+          this.documentService.getSharedProjects(this.sharedProjects).subscribe((data: any) => {
+            this.SharedProjectsData = data.map((project: any) => {
+              return {
+                documentTitle: project.frontPage.documentTitle,
+                documentLogo: project.frontPage.documentLogo,
+                lastUpdated: new Date(project.frontPage.lastUpdated).toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                owner: project.owner,
+                _id: project._id
+              }
+            });
+
+            this.Projects = this.MyProjectsData;
+            this.data = this.Projects;
           });
         });
       });

@@ -19,10 +19,10 @@ export class GamePlatformsComponent {
     {"name":"Nintendo Switch", "image":"../../assets/img/platformIcons/switch.png"},
   ];
 
-  //create onginit function to get platforms from database
+
   chosenPlatforms = [];
   multipleAllowed = true;
-  //create function to add platform to list
+
 
   ngOnInit(){
     if (sessionStorage.getItem('currentSetup') !== null) {
@@ -69,7 +69,7 @@ export class GamePlatformsComponent {
       }
     }
 
-    console.log(this.chosenPlatforms);
+
     this.updateStorage();
   }
 

@@ -31,7 +31,7 @@ interface SectionSubsectionPath {
   selector: "app-editor-layout",
   templateUrl: "./editor-layout.component.html",
   styleUrls: ["./editor-layout.component.scss"],
-  // encapsulation: ViewEncapsulation.None,
+
 })
 export class EditorLayoutComponent implements OnInit {
   documentTitle = "";
@@ -56,8 +56,8 @@ export class EditorLayoutComponent implements OnInit {
   workspace: HTMLElement;
   hideSideBarButton: HTMLElement;
 
-  // socket = io(apiSocket);
-  // socket = io("http://localhost:3080");
+
+
 
   firstChange = true;
 
@@ -68,7 +68,7 @@ export class EditorLayoutComponent implements OnInit {
 
   documentCodeRead: string = "";
 
-  // documentLayout:layout[];
+
 
   sectionsSubSectionsPath: SectionSubsectionPath[] = EditorLayoutRoutes.map(
     (route) => {
@@ -114,22 +114,22 @@ export class EditorLayoutComponent implements OnInit {
     private tokenService: TokenService,
     private toastr: ToastrService
   ) {
-    // console.log("sectionsSubSectionsPath: ", this.sectionsSubSectionsPath);
+
     this.route = route;
 
     this.editingDocumentService.connectSocket();
 
-    // console.log("uniqueSections: ", this.uniqueSections);
-    // console.log("layout: ", this.documentLayout);
 
-    // this.socket.on("connect", () => {
-    //   console.log("connected to socket");
-    // });
+
+
+
+
+
   }
 
   @HostListener("window:keydown.alt.o", ["$event"])
   openSidebar() {
-    // if (!this.pinned) {
+
     if (this.workspace.classList.contains("sidebarHide")) {
       this.workspace.classList.replace("sidebarHide", "sidebarShow");
       this.hideSideBarButton.classList.add("flipHorizontal");
@@ -140,11 +140,11 @@ export class EditorLayoutComponent implements OnInit {
         this.toggleKeepSidebarOpen();
       }
     }
-    // }
+
   }
 
   keepSidebarClosed() {
-    // console.log("this.pinned");
+
     if (!this.pinned) {
       this.workspace.classList.replace("sidebarShow", "sidebarHide");
       this.hideSideBarButton.classList.remove("flipHorizontal");
@@ -153,7 +153,7 @@ export class EditorLayoutComponent implements OnInit {
 
   @HostListener("window:keydown.alt.c", ["$event"])
   closeSidebar() {
-    // this.toggleKeepSidebarOpen();
+
     if (document.getElementById("pin").classList.contains("pinned")) {
       this.toggleKeepSidebarOpen();
     }
@@ -203,16 +203,16 @@ export class EditorLayoutComponent implements OnInit {
 
   startAutoSaveTimer() {
     this.autoSaveTimer = setInterval(() => {
-      console.log("Auto save..");
+
       if (this.isDocumentEdited) {
         if (this.saveDocument()) {
           this.isDocumentEdited = false;
         } else {
-          // alert("Error auto-updating document");
+
           this.toastr.error("Error auto-updating document");
         }
       }
-      // this.startAutoSaveTimer();
+
     }, this.autoSaveIntervalInMinutes * 60 * 1000);
   }
 
@@ -223,9 +223,9 @@ export class EditorLayoutComponent implements OnInit {
 
   async returnDashboard() {
     if (this.isDocumentEdited) {
-      // if (confirm("You have unsaved changes. Do you want to leave?")) {
-      //   this.router.navigate(["/dashboard"]);
-      // }
+
+
+
       const { isConfirmed } = await Swal.fire({
         title: "You have unsaved changes.",
         text: "Do you want to leave?",
@@ -249,10 +249,10 @@ export class EditorLayoutComponent implements OnInit {
       this.documentService
         .updateDocument(this.documentId, this.document)
         .subscribe((res) => {
-          console.log("Update res: ", res);
+
           resolve(true);
           (err) => {
-            console.log("Update err: ", err);
+
             reject(false);
           };
         });
@@ -260,7 +260,7 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   manualSave() {
-    console.log("Manual save..");
+
     if (this.isDocumentEdited) {
       if (this.saveDocument()) {
         this.isDocumentEdited = false;
@@ -268,7 +268,7 @@ export class EditorLayoutComponent implements OnInit {
         this.resetAutoSaveTimer();
         this.changeButtonText();
       } else {
-        // alert("Error updating document");
+
         this.toastr.error("Error updating document");
       }
     } else {
@@ -311,7 +311,7 @@ export class EditorLayoutComponent implements OnInit {
         timeOut: 500,
       });
     }
-    // TODO: Show a message that the document has been saved
+
   }
 
   changeSection(
@@ -320,17 +320,17 @@ export class EditorLayoutComponent implements OnInit {
     currentContentIndex: number,
     toContentIndex: number
   ) {
-    // change color of the focused section/subsection
+
     var links = document.getElementsByTagName("a");
 
     for (let i = 0; i < links.length; i++) {
-      // look for the section that was active
+
       if (links[i].className == "active") {
-        // change the class of the section that was active
+
         links[i].className = "nActive";
       }
       if (i == toContentIndex) {
-        // change the class of the section that is now active
+
         links[i].className = "active";
       }
     }
@@ -339,36 +339,36 @@ export class EditorLayoutComponent implements OnInit {
       return;
     }
 
-    // if last condition was not met, change the section
 
-    // close the current section and open the previous section
+
+
 
     var dropdown = document.getElementsByClassName("dropdown-btn");
 
     for (let i = 0; i < dropdown.length; i++) {
       const thisSectionTitle = dropdown[i].textContent;
-      // console.log(thisSectionTitle + ", " + currentSubsection.section);
+
       if (thisSectionTitle === currentSubsection.section) {
         dropdown[i].classList.toggle("active");
         var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
-        // dropdownContent.style.display = "none";
-        // console.log("CURRENT SECTION", dropdownContent);
+
+
         dropdownContent.classList.remove("showDropdown");
         dropdownContent.classList.add("hideDropdown");
-        // style shoud be display: none; height: 0px;
+
         dropdownContent.style.height = "0px";
         dropdownContent.style.display = "none";
       }
 
-      // open the previous section
+
       if (thisSectionTitle === newSection.section) {
         dropdown[i].classList.toggle("active");
         var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
-        // dropdownContent.style.display = "block";
-        // console.log("NeWWWWW SECTION", dropdownContent);
+
+
         dropdownContent.classList.remove("hideDropdown");
         dropdownContent.classList.add("showDropdown");
-        // style shoud be display: block; height: fit-content;
+
         dropdownContent.style.height = "fit-content";
         dropdownContent.style.display = "block";
       }
@@ -407,8 +407,8 @@ export class EditorLayoutComponent implements OnInit {
     }
   }
 
-  //   }
-  // }
+
+
 
   // alt + down arrow
   @HostListener("window:keydown.alt.arrowdown", ["$event"])
@@ -450,13 +450,13 @@ export class EditorLayoutComponent implements OnInit {
     }
   }
 
-  // updateSocket() {
 
-  // }
+
+
 
   setDocumentData() {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
-      // console.log("data:", data);
+
       
       const document = data;
       this.route.queryParams.subscribe((params) => {
@@ -468,7 +468,7 @@ export class EditorLayoutComponent implements OnInit {
       });
 
       document.socketSubSection = "";
-      console.log("document 123213:", document);
+
       this.documentCodeRead = document["codeReadOnly"];
 
       this.editingDocumentService.changeDocument(document);
@@ -476,17 +476,17 @@ export class EditorLayoutComponent implements OnInit {
       this.document = document;
     });
 
-    // this.socket.once("get-document", (document) => {
-    //   console.log("get-document");
-    //   this.document = document;
-    //   this.editingDocumentService.changeDocument(document);
-    // });
+
+
+
+
+
   }
 
   ngOnInit() {
-    //this.editingDocumentService.connectSocket();
 
-    console.log("LOADING");
+
+
     this.route.queryParams.subscribe((params) => {
       if (!params.pjt) {
         this.router.navigate(["/dashboard"]);
@@ -494,7 +494,7 @@ export class EditorLayoutComponent implements OnInit {
       this.documentId = params.pjt;
       if (params.readOnly) {
         this.isReadOnly = true;
-        console.log("Document: ", this.document);
+
         this.editingDocumentService.setReadOnly(params.readOnly);
         this.queryParams = { pjt: this.documentId, readOnly: this.editingDocumentService.read_only }
       } else {
@@ -507,9 +507,9 @@ export class EditorLayoutComponent implements OnInit {
         let localUser = data.decoded;
         this.notAuthUser = localUser.email === "";
 
-        //update local storage read only with the value of isReadOnly
+
         localStorage.setItem("readOnly", this.isReadOnly.toString());
-        console.log("localUser", localUser);
+
         this.documentService.getUsers(this.documentId).subscribe((documentUsers) => {
           if (documentUsers.error) {
             this.router.navigate(["/notFound"], {
@@ -520,7 +520,7 @@ export class EditorLayoutComponent implements OnInit {
           console.log("documentUsers", documentUsers)
           console.log(documentUsers.invited.findIndex(user => user.email === localUser.email))
           console.log(documentUsers.invited.find(user => user.email === localUser))
-          // console.log(!documentUsers.invited.find(user => user.email === localUser)))
+
           if (!params.readOnly) {
             if (documentUsers.owner.email !== localUser.email && documentUsers.invited.findIndex(user => user.email === localUser.email) == -1) {
               this.router.navigate(["/accessDenied"], {
@@ -551,8 +551,8 @@ export class EditorLayoutComponent implements OnInit {
               if (this.firstChange) {
                 this.firstChange = false;
               } else {
-                console.log("documentEditado");
-                // this.socket.emit("edit-document", this.documentId, document);
+
+
                 this.isDocumentEdited = true;
                 this.document = document;
               }
@@ -563,13 +563,13 @@ export class EditorLayoutComponent implements OnInit {
             console.log(
               "----------------- Updated online users -----------------"
             );
-            console.log(this.onlineUsers);
+
           });
 
-          // this.editingDocumentService.updateDocumentSocket().subscribe((document) => {
-          //   console.log("updateDocumentSocket");
-          //   this.document = document;
-          // });
+
+
+
+
 
           var body = document.getElementsByTagName("body")[0];
           body.classList.add("bg-background");
@@ -606,7 +606,7 @@ export class EditorLayoutComponent implements OnInit {
     this.workspace = document.getElementById("workspace");
     this.hideSideBarButton = document.getElementById("showHideSBButton");
 
-    // console.log("workspace", this.workspace);
+
 
     this.workspace.addEventListener("click", (ev) => {
       const targ = ev.target as HTMLElement;
@@ -621,7 +621,7 @@ export class EditorLayoutComponent implements OnInit {
       return el.id === "singleSec";
     });
 
-    // ("dropdown", singleSection, singleSections);
+
     var i;
     for (i = 0; i < dropdown.length; i++) {
       this.add(dropdown[i], true);
@@ -635,7 +635,7 @@ export class EditorLayoutComponent implements OnInit {
     var links = document.getElementsByTagName("a");
     for (i = 0; i < links.length; i++) {
       links[i].addEventListener("click", function () {
-        // console.log(this.className);
+
         if (this.className == "nActive") {
           var otherLinks = document.getElementsByClassName("active");
           for (var j = 0; j < otherLinks.length; j++) {
@@ -648,7 +648,7 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   showHideDropDown(ddElement: any, show: boolean) {
-    // console.log("showHideDropDown", ddElement, show);
+
     if (show) {
       ddElement.classList.remove("hideDropdown");
       ddElement.classList.add("showDropdown");
@@ -670,7 +670,7 @@ export class EditorLayoutComponent implements OnInit {
     const sh = this.showHideDropDown.bind(this);
 
     el.addEventListener("click", function () {
-      //this.classList.toggle("active");
+
 
       let caret = this.children[1] as HTMLElement;
 
@@ -788,6 +788,6 @@ export class EditorLayoutComponent implements OnInit {
     this.editingDocumentService.setReadOnly(null);
 
     this.editingDocumentService.disconnectSocket();
-    // this.socket.disconnect();
+
   }
 }

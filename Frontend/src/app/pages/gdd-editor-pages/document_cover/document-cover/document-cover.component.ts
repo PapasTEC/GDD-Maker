@@ -89,8 +89,8 @@ export class DocumentCoverComponent {
   }
 
   updateDocument() {
-    console.log("SENDING FRONT PAGE", this.frontPage);
-    console.log(this.frontPage.documentLogo.length);
+
+
     if (!this.editingDocumentService.read_only) {
       this.myInput = true;
     }
@@ -103,44 +103,44 @@ export class DocumentCoverComponent {
     });
     this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
 
-    // this.finishSetup.convertTempUrlToBase64(this.cover.GameLogo).then((result) => {
-    //   this.frontPage.documentLogo = result;
 
-    //   this.frontPage.companyName = this.cover.CompanyName;
-    //   this.finishSetup.convertTempUrlToBase64(this.cover.CompanyLogo).then((result) => {
-    //     this.frontPage.companyLogo = result;
-    //     this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
 
-    //     // console.log(this.companyName)
 
-    //     this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
-    //   }).catch((err) => {
-    //     console.log(err);
-    //   });
-    // }).catch((err) => {
 
-    //   this.frontPage.documentLogo = this.cover.GameLogo;
 
-    //   this.frontPage.companyName = this.cover.CompanyName;
-    //   this.finishSetup.convertTempUrlToBase64(this.cover.CompanyLogo).then((result) => {
-    //     this.frontPage.companyLogo = result;
-    //     this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
 
-    //     // console.log(this.companyName)
 
-    //     this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
-    //   }).catch((err) => {
-    //     this.frontPage.companyLogo = this.cover.CompanyLogo;
-    //     this.frontPage.collaborators = this.cover.Authors.map((author) => { return author.name });
 
-    //     // console.log(this.companyName)
 
-    //     this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
-    //     console.log(err);
-    //   });
 
-    //   console.log(err);
-    // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   }
 
   public canBeEdited(): boolean {
@@ -171,7 +171,7 @@ export class DocumentCoverComponent {
         map((document) => document.frontPage)
       )
       .subscribe((frontPage) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -209,8 +209,8 @@ export class DocumentCoverComponent {
         this.cover.CompanyName = this.companyName;
         this.loaded = true;
 
-        console.log("UPDATE FRONT PAGE", frontPage);
-        console.log(this.frontPage.documentLogo.length);
+
+
       });
 
     this.updateBlockedInterval = setInterval(() => {
@@ -234,7 +234,7 @@ export class DocumentCoverComponent {
     const targ = area as HTMLTextAreaElement;
     let rows = _var.split("\n").length;
 
-    // console.log("rows: ", _var);
+
 
     targ.style.height = `${rows * 1.5}em`;
     targ.rows = rows;
@@ -242,17 +242,17 @@ export class DocumentCoverComponent {
     targ.value = _var;
 
     while (targ.scrollHeight > targ.clientHeight) {
-      // console.log("targ.scrollHeight B: ", targ.style.height);
+
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
     }
 
     while (targ.scrollHeight < targ.clientHeight) {
-      // console.log("targ.scrollHeight A: ", targ.style.height);
+
       targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
     }
 
     if (callUpdate) {
-      console.log("Call update");
+
       this.updateCoverContent();
     }
   }
@@ -272,7 +272,7 @@ export class DocumentCoverComponent {
   }
 
   updateCoverContent() {
-    console.log("UPDATE COVER CONTENT");
+
     this.cover.Authors = this.authors;
     this.cover.GameName = this.gameName;
     this.cover.CompanyName = this.companyName;
@@ -346,12 +346,12 @@ export class DocumentCoverComponent {
     const targ = ev.target as HTMLTextAreaElement;
 
     while (targ.scrollHeight > targ.clientHeight) {
-      // console.log("targ.scrollHeight B: ", targ.style.height);
+
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
     }
 
     while (targ.scrollHeight < targ.clientHeight) {
-      // console.log("targ.scrollHeight A: ", targ.style.height);
+
       targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
     }
   }
@@ -377,56 +377,56 @@ export class DocumentCoverComponent {
     }
   }
 
-  // hasNonAsciiCharacters(string) {
-  //   const nonAsciiRegex = /[^\x00-\x7F]/;
-  //   return nonAsciiRegex.test(string);
-  // }
 
-  // public async onFileSelected(event: any) {
-  //   let file = event.target.files[0];
 
-  //   if (file) {
-  //     const fileSize = file.size / (1024 * 1024); // in MB
-  //     if (fileSize > 1) {
-  //       file = await this.scaleImage(file);
-  //     }
-  //     let fixName: string;
-  //     if (this.hasNonAsciiCharacters(file.name)) {
-  //       fixName = Date.now().toString() + "." + file.name.split(".")[1];
-  //     } else {
-  //       fixName = file.name.replace(/ /gi, "_");
-  //     }
 
-  //     const formData = new FormData();
-  //     formData.append("image", file, fixName);
-  //     this.documentService.uploadImage(this.documentId, formData).subscribe(
-  //       (res) => {},
-  //       (err) => {
-  //         if (err.status === 200) {
-  //           this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
-  //           // this.vditor.insertValue(
-  //           //   `![](uploads/${this.documentId}/${fixName})`
-  //           // );
-  //           this.updateDocument(this.vditor.getValue());
-  //           this.editingDocumentService.document$
-  //             .pipe(take(1))
-  //             .subscribe((document) => {
-  //               this.documentService
-  //                 .updateDocument(this.documentId, document)
-  //                 .subscribe((res) => {
-  //                   console.log("Update res: ", res);
-  //                   (err) => {
-  //                     console.log("Update err: ", err);
-  //                   };
-  //                 });
-  //             });
-  //         } else {
-  //           console.log("Error: ", err);
-  //         }
-  //       }
-  //     );
-  //   }
-  // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   hasNonAsciiCharacters(string) {
     const nonAsciiRegex = /[^\x00-\x7F]/;

@@ -17,7 +17,7 @@ import { CookieService } from 'ngx-cookie-service';
     ReactiveFormsModule,
     MatDialogModule
 
-    // NgbModule
+
   ],
   declarations: [
     LoginComponent,

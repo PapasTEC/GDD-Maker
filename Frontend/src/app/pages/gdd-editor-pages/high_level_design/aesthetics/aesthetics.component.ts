@@ -62,7 +62,7 @@ export class AestheticsComponent {
   updateBlockedInterval: any = null;
 
   updateDocument(aestheticsInDocument: any) {
-    // console.log("aestheticsInDocument: ", aestheticsInDocument);
+
     this.myInput = true;
     this.documentSubSection.subSectionContent.aesthetics = aestheticsInDocument;
     this.editingDocumentService.updateDocumentSubSection(
@@ -98,7 +98,7 @@ export class AestheticsComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -106,8 +106,8 @@ export class AestheticsComponent {
 
         this.canBeEdited();
 
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
+
+
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
@@ -139,7 +139,7 @@ export class AestheticsComponent {
 
         this.cardsInDocument = this.aestheticsInDocument.length;
 
-        console.log(this.documentSubSection);
+
 
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
@@ -153,7 +153,7 @@ export class AestheticsComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+
   }
 
   updateIsBlocked1s() {
@@ -175,8 +175,8 @@ export class AestheticsComponent {
     }
 
     if (this.aestheticsInDocument.length < this.limitOfCards) {
-      // console.log("showAesthetics");
-      // console.log(evt);
+
+
 
       let subMenu = subMenuBase.firstChild as HTMLElement;
 
@@ -185,7 +185,7 @@ export class AestheticsComponent {
         subMenuBase.style.display = "none";
       });
 
-      // console.log(subMenuBase.style.display);
+
 
       if (subMenuBase.style.display != "none") {
         subMenuBase.style.display = "none";
@@ -262,7 +262,7 @@ export class AestheticsComponent {
     let grandparent = parent.parentElement as HTMLElement;
     let beforeGrandparent = grandparent.previousSibling as HTMLElement;
 
-    // console.log("beforeGrandparent: ", beforeGrandparent);
+
     beforeGrandparent.innerHTML = beforeGrandparent.innerHTML.replace(
       oldAesthetic,
       newAesthetic
@@ -277,7 +277,7 @@ export class AestheticsComponent {
     let index = aestheticsNames.indexOf(oldAesthetic);
     this.aestheticsInDocument[index].name = newAesthetic;
 
-    console.log("Actualizacion de estetica: ", this.aestheticsInDocument);
+
 
     this.updateDocument(this.aestheticsInDocument);
 
@@ -294,7 +294,7 @@ export class AestheticsComponent {
     this.cardsInDocument = usedQuantity;
 
     if (this.cardsInDocument == this.limitOfCards) {
-      // alert("You can't add more cards");
+
       this.tostr.warning("You can't add more cards", "Warning");
       return;
     }
@@ -314,7 +314,7 @@ export class AestheticsComponent {
 
     this.updateDocument(this.aestheticsInDocument);
 
-    // console.log(this.aestheticsInDocument);
+
   }
 
   updateTxtContent(txtArea: HTMLTextAreaElement, aesthetic: string, event: any) {
@@ -331,7 +331,7 @@ export class AestheticsComponent {
     this.aestheticsInDocument[aestheticsNames.indexOf(aesthetic)].content =
       txtArea.value;
 
-    // console.log(this.aestheticsInDocument);
+
     this.updateDocument(this.aestheticsInDocument);
   }
 
@@ -342,26 +342,26 @@ export class AestheticsComponent {
 
     let aestheticsNames = this.convertToNameArray(this.aestheticsInDocument);
 
-    // element before
+
     let beforeCard = card.previousSibling as HTMLElement;
     beforeCard = beforeCard.previousSibling as HTMLElement;
 
     let cardAesthetic = beforeCard.children[0].innerHTML.trim();
 
-    // console.log(aestheticsNames);
 
-    // console.log("cardAesthetic: " + cardAesthetic);
+
+
 
     let index = aestheticsNames.indexOf(cardAesthetic);
 
     if (index == -1) {
-      // alert("Error: Aesthetic not found");
+
       this.tostr.error("Error: Aesthetic not found", "Error");
     }
 
-    // console.log(index);
 
-    // console.log(this.aestheticsInDocument);
+
+
 
     this.aestheticsInDocument.splice(index, 1);
 

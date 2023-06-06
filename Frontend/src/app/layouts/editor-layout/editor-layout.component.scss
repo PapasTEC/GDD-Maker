@@ -77,12 +77,12 @@ body {
 
 .pinned{
   color: $primaryAppColor;
-  //Move down
+
 }
 
 .unpinned{
   color: $primaryAppColorLight;
-  //Move up
+
 }
 
 
@@ -128,7 +128,7 @@ img {
     font-size: calc(3.5vw * 0.25);
   }
 
-  // border: red $borderState;
+
 }
 
 .save-button:hover {
@@ -170,7 +170,7 @@ img {
       display: flex;
       justify-content: center;
 
-      //border: green $borderState;
+
     }
 
     .exit-button {
@@ -211,17 +211,17 @@ img {
   position: relative;
   overflow: hidden;
 
-  // border: #000000 solid 2px;
+
 
   box-shadow: 0 0.2vw 20px rgba(0, 0, 0, 0.2);
 
-  // border-top-right-radius: $r;
-  // border-top-left-radius: $r;
-  // border-bottom-left-radius: $r;
-  // border-bottom-right-radius: $r;
+
+
+
+
   border-radius: 5px;
 
-  // border: red $borderState;
+
 }
 
 .markdown-wrapper {
@@ -288,7 +288,7 @@ $leftBarAnimation: 0.5s width;
 
     cursor: pointer;
 
-    // color : #bebebe;
+
 
     filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
   }
@@ -369,7 +369,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 }
 
 .leftModuleTopClass {
-  // padding: 0px 0px 0px 0px;
+
   margin: 0px 0px 0px 0px;
   height: 8%;
   width: 100%;
@@ -378,7 +378,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   padding: 0 6%;
   align-items: center;
 
-  // border: solid 2px #b32424;
+
 
   position: relative;
   overflow: hidden;
@@ -391,7 +391,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 
   height: 100%;
   width: 100%;
-  // border: solid 2px #81c3d7;
+
   position: relative;
   overflow: hidden;
   display: flex;
@@ -407,7 +407,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 
   height: 100%;
   width: 25%;
-  // border: solid 2px #81c3d7;
+
   position: relative;
   overflow: hidden;
   display: flex;
@@ -436,7 +436,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 .leftModuleBottomClass {
   height: 100%;
   width: 100%;
-  // border: solid 2px #4c03f5;
+
 
   display: flex;
   flex-direction: column;
@@ -452,7 +452,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 .layoutTextContainer {
   width: 100%;
 
-  // padding: 3% 6%;
+
 
   margin-top: 3%;
   padding-left: max(16px, 6%);
@@ -505,7 +505,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   border: greenyellow $borderState;
 }
 
-// DOCUMENT LAYOUT
+
 
 @keyframes slideaway {
   from {
@@ -610,14 +610,14 @@ $layoutHoverFontColor: #000000;
   background-color: $layoutActiveSectionColor;
   color: $layoutActiveSectionFontColor;
   transition: none;
-  //border: solid 0.1rem #ffffff;
+
 }
 
 .sidebar a.nActive, .dropdown-btn, .noSubSections {
   background-color: $layoutDefaultBGColor;
   color: $layoutDefaultSectionColor;
   transition: none;
-  //border: solid 0.1rem #f5f5f5;
+
 }
 
 $sectionDefaultPadding: 1vw;
@@ -627,9 +627,9 @@ $sectionDefaultPadding: 1vw;
   color: $layoutDefaultSectionColor;
   transition: $layoutTransitionTime;
 
-  // span {
-  //   padding-left: calc($sectionDefaultPadding);
-  // }
+
+
+
 }
 
 .dropdown-container {
@@ -690,7 +690,7 @@ $sectionDefaultPadding: 1vw;
   background-color: $layoutActiveSectionColor;
   position: relative;
   font-size: inherit;
-  // blur a box shadow around the active section
+
   box-shadow: 0 0.2vh 2px 0px black;
 
   span {
@@ -701,8 +701,8 @@ $sectionDefaultPadding: 1vw;
 
 .fa-caret-down {
   float: right;
-  // margin: auto;
-  // margin-top: 3%;
+
+
   width: fit-content;
   transition: $rotatingArrowsTransition;
 }

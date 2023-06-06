@@ -62,12 +62,12 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
       Error 401: Unauthorized
       */
       catchError((error: HttpErrorResponse) => {
-        // if status is  200 ignore and return the response
+
         if (error.status === 200) {
           return throwError(error);
         }
 
-        // Client Error
+
         if (error.status === 400) {
           this.toastr.error(
             "The request was not understood by the server. Please try again later."
@@ -181,7 +181,7 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
             "The user requests an illegal resource, such as a web page censored by a government. Please try again later."
           );
         }
-        // Server Error
+
         if (error.status === 500) {
           this.toastr.error(
             "An error occurred while processing your request. Please try again later."
@@ -199,7 +199,7 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
             "The server is currently unavailable. Please try again later."
           );
         } else if (error.status === 504) {
-          // Cuando se cae el backend
+
           this.toastr.error(
             "The server is currently unavailable. Please try again later."
           );

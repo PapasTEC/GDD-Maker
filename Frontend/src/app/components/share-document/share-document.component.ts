@@ -42,7 +42,7 @@ export class ShareDocumentComponent implements OnInit {
   ngOnInit() {
     this.documentService.getUsers(this.documentId).subscribe((data: any) => {
       this.usersObj = data;
-      console.log(this.documentId, this.usersObj);
+
       this.tokenService.decodeToken().subscribe((data: any) => {
         console.log(`${JSON.stringify(data.decoded)}`);
         this.currentUserEmail = data.decoded.email;
@@ -59,36 +59,36 @@ export class ShareDocumentComponent implements OnInit {
     });
 
     this.editingDocumentService.onlineUsers$.subscribe((onlineUsers) => {
-      console.log(`********************** Online users: `, onlineUsers);
+
       this.usersInDocumentObj = onlineUsers;
       this.usersInDocument = onlineUsers.map((user) => user.email);
     });
 
     this.currentUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + window.location.pathname + window.location.search + window.location.hash;
-    console.log("URL: ", this.currentUrl);
+
     this.documentCode = this.editingDocumentService.document$;
-    console.log("Document code: ", this.documentCode);
+
     this.readonlyURL = this.currentUrl + "&readOnly=" + this.documentCode.source._value.codeReadOnly;
   }
 
   closeShareDocumentModal() {
-    console.log(this.documentId, this.usersObj);
+
     this.updateShowShareDocument.emit(false);
   }
 
-  // Give me method to copy to clipboard readonly link
+
   copyToClipboard() {
     this.clipboard.copy(this.readonlyURL);
     this.toastr.success("Copied to clipboard");
   }
 
   updateInput(event: any) {
-    console.log(event.target.value);
+
     this.inputEmail = event.target.value;
   }
 
   inviteUser() {
-    // validate email using regex
+
     if (!this.inputEmail.match(/^\S+@\S+\.\S+$/)) {
       this.toastr.error("Invalid email");
       return;
@@ -96,13 +96,13 @@ export class ShareDocumentComponent implements OnInit {
     this.documentService
       .inviteUser(this.documentId, this.inputEmail)
       .subscribe((data: any) => {
-        console.log(data);
+
         if (data.success) {
           this.toastr.success(data.message);
           this.usersObj = data.users;
           this.inputEmail = "";
         } else {
-          // this.toastr.error(data.error);
+
           if (data.error) {
             this.toastr.error(data.error);
           } else {
@@ -113,18 +113,18 @@ export class ShareDocumentComponent implements OnInit {
   }
 
   removeUser(email: any) {
-    console.log(email);
+
     let message: string = "";
     this.documentService
       .removeUser(this.documentId, email)
       .subscribe((data: any) => {
-        // console.log(data);
-        // this.usersObj = data;
+
+
         let success = false;
         message = data.message;
         if (data.users) {
           this.usersObj = data.users;
-          console.log(data.users);
+
           success = true;
           this.toastr.success(message);
         } else {
@@ -134,6 +134,6 @@ export class ShareDocumentComponent implements OnInit {
       });
 
     this.changeDetectorRefs.detectChanges();
-    // this.toastr.success('');
+
   }
 }

@@ -1,10 +1,10 @@
 const express = require("express");
-// const io = require('socket.io')(3070, {
-//     cors: {
-//         origin: "*",
-//         methods: ["GET", "POST"]
-//     }
-// })
+
+
+
+
+
+
 
 const http = require("http");
 const { instrument } = require("@socket.io/admin-ui");
@@ -43,10 +43,10 @@ let onlineUsersInDocuments = new Map();
 let onlineUsers = new Map();
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+
 
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+
     if (onlineUsers.has(socket.id)) {
       let { documentId, email } = onlineUsers.get(socket.id);
       let users = onlineUsersInDocuments.get(documentId);
@@ -60,7 +60,7 @@ io.on("connection", (socket) => {
 
   socket.on("join-document", (documentId, { email, name, image }) => {
     socket.join(documentId);
-    console.log("document connected");
+
     if (onlineUsersInDocuments.has(documentId)) {
       let users = onlineUsersInDocuments.get(documentId);
       users.push({ email, name, image });
@@ -68,34 +68,27 @@ io.on("connection", (socket) => {
     } else {
       onlineUsersInDocuments.set(documentId, [{ email, name, image }]);
     }
-    // print sockets in room
-    console.log(io.sockets.adapter.rooms.get(documentId));
-    console.log(
-      `ROOM ${documentId} USERS:`,
-      onlineUsersInDocuments.get(documentId)
-    );
+
+
     io.sockets
       .in(documentId)
       .emit("update-online-users", onlineUsersInDocuments.get(documentId));
 
     onlineUsers.set(socket.id, { documentId, email });
-    // socket.to(documentId).broadcast.emit('user-connected', userId)
-    // socket.on('disconnect', () => {
-    //     socket.to(documentId).broadcast.emit('user-disconnected', userId)
-    // })
+
+
+
+
   });
 
   socket.on("leave-document", (documentId, email) => {
-    console.log("document disconnected");
+
     if (onlineUsersInDocuments.has(documentId)) {
       let users = onlineUsersInDocuments.get(documentId);
       users = users.filter((user) => user.email !== email);
       onlineUsersInDocuments.set(documentId, users);
     }
-    console.log(
-      `ROOM ${documentId} USERS:`,
-      onlineUsersInDocuments.get(documentId)
-    );
+
     socket
       .to(documentId)
       .emit("update-online-users", onlineUsersInDocuments.get(documentId));
@@ -108,29 +101,28 @@ io.on("connection", (socket) => {
     socket.broadcast
       .to(documentId)
       .emit("sync-data", { secId, subSecId, content, part });
-    console.log('edit-document', { documentId, secId, subSecId, content, part })
-    console.log(await documentController.updateOnlySubSectionByTitlesBasic(documentId, sectionTitle, subSectionTitle, content));
-    // socket.to(documentId).broadcast.emit('update-data', data)
+
+
   });
 
   socket.on('edit-document-front-page', async ({ documentId, content }) => {
     socket.broadcast
       .to(documentId)
       .emit("sync-data-front-page", { content });
-      console.log(await documentController.updateOnlyCoverBasic(documentId, content));
+
   });
 
   socket.on("edit-User", ({ documentId, content, user, part }) => {
-    console.log("\nuser-Editing:", user);
+
     socket.broadcast
       .to(documentId)
       .emit("user-Editing", { content, user, part });
   });
 });
 
-// app.listen(process.env.PORT || port, () => {
-//     console.log(`App listening at http://localhost:${port}`)
-// })
+
+
+
 let PORT = process.env.PORT || port;
 server.listen(PORT, async () => {
   console.log(`Live on localhost:${PORT}`);
@@ -152,12 +144,11 @@ app.use("/api/documents", require("./routes/DocumentRoutes"));
 app.use("/api/token", require("./routes/TokenRoute"));
 app.use("/api/images", require("./routes/ImageRoutes"));
 
-console.log(path.join(__dirname, "/uploads"));
 
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
-//app.use(express.static(path.join(dirname, 'src/frontendBuild')));
-//app.use('/uploads', express.static(path.join(dirname, 'src/uploads')));
+
+
 
 app.use("/api/test", express.static("src"));
 

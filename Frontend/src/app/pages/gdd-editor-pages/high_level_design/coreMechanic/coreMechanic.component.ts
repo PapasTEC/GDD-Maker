@@ -47,7 +47,7 @@ export class CoreMechanicComponent {
       return;
     }
     this.myInput = true;
-    console.log("coreMechanicContents: ", coreMechanicContent);
+
     this.documentSubSection.subSectionContent = coreMechanicContent;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
@@ -81,7 +81,7 @@ export class CoreMechanicComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -89,8 +89,8 @@ export class CoreMechanicComponent {
 
         this.canBeEdited();
 
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
+
+
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
@@ -110,9 +110,9 @@ export class CoreMechanicComponent {
           this.documentSubSection.subSectionContent["coreMechanic"]
         );
 
-        // this.aestheticsInDocument = this.documentSubSection.subSectionContent.aesthetics;
 
-        // this.cardsInDocument = this.aestheticsInDocument.length;
+
+
       });
 
     this.editingDocumentService.document$
@@ -168,7 +168,7 @@ export class CoreMechanicComponent {
           )
         );
 
-        console.log(this.documentSubSection);
+
 
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
@@ -182,7 +182,7 @@ export class CoreMechanicComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+
   }
 
   updateIsBlocked1s() {
@@ -212,9 +212,9 @@ export class CoreMechanicComponent {
       },
       after: () => {},
       input: (value: string) => {
-        // console.log("value: ", value);
+
         this.coreMechanicContent[index] = value;
-        // console.log("coreMechanicContent: ", this.coreMechanicContent);
+
         this.updateDocument(this.coreMechanicContent);
       },
       theme: "dark",

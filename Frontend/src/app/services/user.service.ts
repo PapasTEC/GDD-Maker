@@ -15,7 +15,7 @@ export class UserService {
   }
 
   getUser(email: string) {
-    console.log("email: ", email);
+
     return this.http.get<any>(this.API + 'get/' + email + '/');
   }
 

@@ -35,15 +35,15 @@ export class GameGenreComponent {
     this.tags.push(genreTextBox.value);
     genreTextBox.value = "";
 
-    console.log("tags:", this.tags);
+
 
     this.updateStorage();
   }
 
   public deleteTag(id: number): void {
-    // Delete at index 
+
     this.tags.splice(id, 1);
-    console.log(this.tags);
+
 
     this.updateStorage();
   }

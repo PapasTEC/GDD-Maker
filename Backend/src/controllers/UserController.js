@@ -20,7 +20,7 @@ userController.createUser = async (req, res) => {
       owned_documents: [],
       shared_with_me_documents: [],
     });
-    console.log("Inserting user: " + newUser);
+
     await sendEmail(email, "", "welcome");
     await newUser.save();
     res.status(200).json({ message: "User created" });
@@ -172,7 +172,7 @@ userController.loginUser = async (req, res) => {
       const token = generateToken(user);
       res.status(200).json({ auth: true, token, image: user.image });
     } catch (error) {
-      console.log(error);
+
       res.status(404).json({ message: "User not found" });
     }
 
@@ -187,7 +187,7 @@ userController.loginUser = async (req, res) => {
 
       await user.updateOne(newUser);
 
-      //res.status(200).json({ message: "Password updated" });
+
     } catch (error) {
       res.status(500).json({ message: error });
     }

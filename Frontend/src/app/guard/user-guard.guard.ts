@@ -30,7 +30,7 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
           return true;
         }
       }, error => {
-        // maneja el error
+
       });
     } catch (err) {
       if (state.url === '/register') {
@@ -52,9 +52,9 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
             localStorage.setItem('readOnly', 'true');
             return true;
           }//else{
-          //   this.router.navigate(['/login']);
-          //   return false;
-          // }
+
+
+
         });
       }else{
          this.router.navigate(['/login']);
@@ -72,12 +72,12 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
           if (state.url === '/register') {
             return true;
           }
-          // this.router.navigate(['/login']);
+
           return false;
         }
 
       }, error => {
-        // maneja el error
+
       });
     } catch (err) {
       if (state.url === '/register') {

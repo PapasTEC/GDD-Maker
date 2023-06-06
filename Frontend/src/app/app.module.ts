@@ -22,7 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { DocumentNotFoundComponent } from './pages/document-not-found/document-not-found.component';
 import { DocumentAccessDeniedComponent } from './pages/document-access-denied/document-access-denied.component';
 import { ClipboardModule  } from '@angular/cdk/clipboard';
-//dotenv.config();
+
 
 @NgModule({
   imports: [
@@ -49,7 +49,7 @@ import { ClipboardModule  } from '@angular/cdk/clipboard';
     GddSetupLayoutComponent,
     DocumentNotFoundComponent,
     DocumentAccessDeniedComponent,
-    // ShareDocumentComponent,
+
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true

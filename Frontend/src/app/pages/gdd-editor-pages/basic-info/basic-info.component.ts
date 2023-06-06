@@ -97,7 +97,7 @@ export class BasicInfoComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -108,8 +108,8 @@ export class BasicInfoComponent {
         this.canBeChanged("genres");
         this.canBeChanged("tags");
 
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
+
+
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
@@ -117,19 +117,19 @@ export class BasicInfoComponent {
           );
 
 
-        // if (!this.isBlocked.elevatorPitch) {
-        //   this.elevatorPitch =
-        //     this.documentSubSection.subSectionContent.elevatorPitch;
-        // }
-        // if (!this.isBlocked.tagline) {
-        //   this.tagline = this.documentSubSection.subSectionContent.tagline;
-        // }
-        // if (!this.isBlocked.genres) {
-        //   this.genres = this.documentSubSection.subSectionContent.genres;
-        // }
-        // if (!this.isBlocked.tags) {
-        //   this.tags = this.documentSubSection.subSectionContent.tags;
-        // }
+
+
+
+
+
+
+
+
+
+
+
+
+
         const userEditing =
         this.editingDocumentService.userEditingByComponent[this.subSection];
 
@@ -146,7 +146,7 @@ export class BasicInfoComponent {
           this.tags = this.documentSubSection.subSectionContent.tags;
         }
 
-        console.log("Update", this.documentSubSection);
+
       });
 
     this.editingDocumentService.document$
@@ -170,7 +170,7 @@ export class BasicInfoComponent {
         this.genres = this.documentSubSection.subSectionContent.genres;
         this.tags = this.documentSubSection.subSectionContent.tags;
 
-        console.log(this.documentSubSection);
+
 
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
@@ -191,7 +191,7 @@ export class BasicInfoComponent {
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
     for (const key in this.isUserEditing) {
-      console.log("key: ", key);
+
         console.log(
           this.isBlocked[key],
           userEditing[key],
@@ -222,7 +222,7 @@ export class BasicInfoComponent {
     this.basicInfo.genres = this.genres;
     this.basicInfo.tags = this.tags;
 
-    // console.log("Basic Info: ", this.basicInfo);
+
     this.documentSubSection.subSectionContent = this.basicInfo;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
@@ -257,8 +257,8 @@ export class BasicInfoComponent {
     }
     this.genres.push(genreTextBox.value);
     genreTextBox.value = "";
-    // console.log("genres:", this.genres);
-    //this.updateStorage();
+
+
 
     this.updateDocument("genres");
   }
@@ -267,12 +267,12 @@ export class BasicInfoComponent {
     if (!this.canBeChanged("genres")) {
       return;
     }
-    // Delete at index
+
     this.genres.splice(id, 1);
-    // console.log(this.genres);
-    // this.updateDocument();
+
+
     this.updateDocument("genres");
-    //this.updateStorage();
+
   }
 
   public addTag(): void {
@@ -290,19 +290,19 @@ export class BasicInfoComponent {
     this.tags.push(tagTextBox.value);
     tagTextBox.value = "";
     this.updateDocument("tags");
-    // console.log("tags:", this.tags);
-    //this.updateStorage();
-    // this.updateDocument();
+
+
+
   }
   public deleteTag(id: number): void {
     if (!this.canBeChanged("tags")) {
       return;
     }
-    // Delete at index
+
     this.tags.splice(id, 1);
-    // console.log(this.tags);
-    //this.updateStorage();
-    // this.updateDocument();
+
+
+
     this.updateDocument("tags");
   }
 

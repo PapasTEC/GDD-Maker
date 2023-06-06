@@ -1,9 +1,9 @@
-// $svg-height: max(800px, 80vh);
-// $text-box-height: max(220px, 22vh);
-// $empty-box-height: max(63px, 6.3vh);
-// $primary-color: #17415b;
-// $text-box-width: max(800px, 50vw);
-// $box-border: max(5px, 0.5vh);
+
+
+
+
+
+
 $svg-height: var(--svg-height);
 $text-box-height: var(--text-box-height);
 $empty-box-height: var(--empty-box-height);
@@ -28,7 +28,7 @@ h1 {
   --primary-color: #17415b;
   --text-box-width: 70%;
   --box-border: max(4.25px, 0.425vh);
-  // padding: 20px;
+
 }
 
 @media screen and (max-width: 1200px) {
@@ -58,14 +58,14 @@ h1 {
   }
 }
 
-// @media screen and (max-width: 1000px) {
-//   div.diagram-screen {
-//     --svg-height: max(550px, 55vh);
-//     --text-box-height: max(108.625px, 10.8625vh);
-//     --empty-box-height: max(31.625px, 3.1625vh);
-//     --box-border: max(3.4375px, 0.34375vh);
-//   }
-// }
+
+
+
+
+
+
+
+
 
 @media screen and (max-width: 650px) {
   div.diagram-screen {
@@ -92,8 +92,8 @@ h1 {
 }
 
 .diagram {
-  // display: flex;
-  // flex-wrap: nowrap;
+
+
   display: flex;
   grid-template-columns: 800px 600px;
   width: 80%;

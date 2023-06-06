@@ -123,19 +123,19 @@ export class CharactersComponent {
     }
     );
 
-    // if old images is equal to current then do nothing
-    // if (oldImages && oldImages.length === this.images.length) {
-    //   let equal = true;
-    //   for (let i = 0; i < oldImages.length; i++) {
-    //     if (oldImages[i] !== this.images[i]) {
-    //       equal = false;
-    //       break;
-    //     }
-    //   }
-    //   if (equal) {
-    //     return;
-    //   }
-    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     console.log(this.images)
 
@@ -146,7 +146,7 @@ export class CharactersComponent {
         return null;
       }
       let aspectRatio = img.width / img.height;
-      // console.log("aspectRatio: ", aspectRatio);
+
       let w;
       let h;
 
@@ -195,7 +195,7 @@ export class CharactersComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe(async(document) => {
-        // if the user is editing the document, do not update the document
+
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -204,8 +204,8 @@ export class CharactersComponent {
         this.canBeEdited()
         this.notLoadedComps = true;
         let oldImages = this.images;
-        // filter the document to get the section and subsection
-        // and set the techInfo to the subSectionContent to update the information in real time
+
+
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
@@ -216,12 +216,12 @@ export class CharactersComponent {
 
         this.charactersInDocument = this.documentSubSection.subSectionContent.characters;
 
-        // this.images  = this.documentSubSection.subSectionContent.characters.map((character) => {
-        //   return character.image;
-        // }
-        // );
 
-        // this.loadSavedImages();
+
+
+
+
+
 
 
 
@@ -258,7 +258,7 @@ export class CharactersComponent {
           return character.image;
         });
 
-        // this.loadSavedImages();
+
         await this.reloadImages(oldImages);
 
         this.load = true;
@@ -280,7 +280,7 @@ export class CharactersComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-    // if (this.editingDocumentService) this.editingDocumentService.unsubscribe();
+
   }
 
   addDocSectionIfItDoesntExist(section:string){
@@ -338,8 +338,8 @@ export class CharactersComponent {
     const newCharacterCard = this.createBlankCharacter();
     this.charactersInDocument.push(newCharacterCard);
     this.updateDocument(this.charactersInDocument);
-    // console.log("addCard");
-    // console.log(this.charactersInDocument);
+
+
   }
 
   updateTxtContent(txtArea: HTMLTextAreaElement, field: string, id:string, event: any){
@@ -354,40 +354,40 @@ export class CharactersComponent {
 
   uploadedImage: string = "";
 
-  // public async onFileSelected(event: any, field:string, id:string): Promise<void> {
-  //   if (!this.canBeEdited()) {
-  //     event.preventDefault();
-  //     return;
-  //   }
-  //   const file = event.target.files[0];
-
-  //   if (file) {
-  //     let uploadedImage = URL.createObjectURL(file);
-
-  //     // console.log("file", file);
-
-  //     // console.log("uploadedImage", uploadedImage);
-
-
-  //     const base64 = await this.finishSetup.convertTempUrlToBase64(uploadedImage)
-  //     this.charactersInDocument[parseInt(id)][field] = base64;
-
-  //     // this.updateLogo(id, uploadedImage);
-  //     await this.reloadImages();
-
-  //     //console.log("asassasd", this.charactersInDocument)
-
-  //     this.updateDocument(this.charactersInDocument);
 
 
 
-  //   }
-  // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   loadSavedImages(){
     let i = 0;
-    //console.log("loadSavedImages", this.charactersInDocument);
+
     this.charactersInDocument.forEach((character, index) => {
       this.uploadedImage = character.image;
       this.updateLogo(i.toString(), this.charactersInDocument[parseInt(i.toString())][`image`]);
@@ -424,7 +424,7 @@ export class CharactersComponent {
   getNewImageName(file: File) {
     let fixName: string;
     
-    //fixName = Date.now().toString() + "." + file.name.split(".")[1];
+
 
     return file.name;
   }
@@ -439,7 +439,7 @@ export class CharactersComponent {
     }
     let img = new Image();
     img.src = image;
-    //const base64 = await this.finishSetup.convertTempUrlToBase64(img)
+
     console.log("img", uploadButton)
     uploadButton.style.backgroundImage = `url(${image})`;
 
@@ -467,7 +467,7 @@ export class CharactersComponent {
       this.notLoadedComps = true;
       this.charactersInDocument[parseInt(id)][field] = imagePath;
       
-      //console.log("asassasd", this.charactersInDocument)
+
 
       
 
@@ -491,9 +491,9 @@ export class CharactersComponent {
 
       
 
-      // this.images  = this.documentSubSection.subSectionContent.characters.map((character) => {
-      //   return character.image;
-      // });
+
+
+
       
     }
   }
@@ -520,11 +520,11 @@ export class CharactersComponent {
 
   ngAfterViewChecked(){
     
-    // for (let i = 0; i < this.charactersInDocument.length; i++) {
-    //   if(this.charactersInDocument[i]['image'] !== ""){
-    //     this.updateLogo(i.toString(), this.charactersInDocument[i]['image']);
-    //   }
-    // }
+
+
+
+
+
     
   }
 

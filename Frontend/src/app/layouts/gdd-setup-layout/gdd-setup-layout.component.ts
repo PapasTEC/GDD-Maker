@@ -89,11 +89,11 @@ export class GddSetupLayoutComponent {
   }
 
   async backHome(){
-    // let decision= confirm("Are you sure you want to leave the setup? All progress will be lost.");
 
-    // if(decision){
-    //   this.router.navigateByUrl('/dashboard');
-    // }
+
+
+
+
 
     let { isConfirmed } = await Swal.fire({
       title: "Setup has not been completed",

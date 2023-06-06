@@ -4,12 +4,12 @@ $icon-size: min(4vh, 4vw);
 .toolbarBar {
     position: absolute;
     width: 100%;
-    //height: 1vh;
+
     height: 6px;
     background-color: #bdbdbd;
-    //border: red $borderState;
+
     z-index: 20;
-    //pointer-events: none;
+
     display: flex;
     justify-content: center;
 
@@ -20,18 +20,18 @@ $icon-size: min(4vh, 4vw);
     }
 }
 
-// .vditor {
-//     &-toolbar {
-//         // padding-bottom: 3rem !important;
-//         // margin: 4vh !important;
-//         border: red solid 2px !important;
-//         // background-color: aqua;
-//     }
 
-//     .vditor-content {
-//         border: rgb(32, 177, 88) solid 2px !important;
-//     }
-// }
+
+
+
+
+
+
+
+
+
+
+
 
 .markdown-wrapper {
     background-color: inherit;
@@ -56,7 +56,7 @@ $icon-size: min(4vh, 4vw);
 
     cursor: pointer;
 
-    // border: slateblue $borderState;
+
 
     filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
 }

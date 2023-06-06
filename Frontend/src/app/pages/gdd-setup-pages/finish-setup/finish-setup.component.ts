@@ -160,15 +160,15 @@ async saveImageInServer(file, fixName, documentId) {
           lastUpdated: new Date()
         },
         documentContent: [
-          // {
-          //   sectionTitle: "Document Cover",
-          //   subSections: [{
-          //     subSectionTitle: "Document Cover",
-          //     subSectionContent: {
-          //       coverData: []
-          //     }
-          //   }]
-          // },
+
+
+
+
+
+
+
+
+
           {
           sectionTitle: "Basic Information",
           subSections: [{
@@ -255,14 +255,14 @@ async saveImageInServer(file, fixName, documentId) {
           },{
             subSectionTitle: "Characters",
             subSectionContent: {
-              // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+
               characters: []
             }
           },
           {
             subSectionTitle: "Events",
             subSectionContent: {
-              // text: "## Elevator Pitch\n" + currentSetup.elevatorPitch
+
               events: []
             }
           }]
@@ -299,7 +299,7 @@ async saveImageInServer(file, fixName, documentId) {
       ]
       }
 
-      console.log("document:", document);
+
 
       this.documentService.addDocument(document).subscribe(
         async (res: any) => {
@@ -353,8 +353,8 @@ async saveImageInServer(file, fixName, documentId) {
           
         },
         err => {
-          console.log(err);
-          // alert("Error adding document");
+
+
           this.status = 'creating';
           this.toastr.error("Error adding document", "", {
             timeOut: 10000,

@@ -12,7 +12,7 @@
         id="titl"
         #titl
         [(ngModel)]="gameName"
-        class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
+        class="vditor-reset documentCoverTextAreas horizontalText scrollBar"
         (input)="growShrink($event, gameName)"
         (keydown)="onChangeBlock($event)"
         (contextmenu)="onChangeBlock($event)"
@@ -61,7 +61,7 @@
         id="comp"
         #comp
         [(ngModel)]="companyName"
-        class="vditor-reset textArea documentCoverTextAreas horizontalText scrollBar"
+        class="vditor-reset  documentCoverTextAreas horizontalText scrollBar"
         (input)="growShrink($event, companyName)"
         (keydown)="onChangeBlock($event)"
         (contextmenu)="onChangeBlock($event)"
@@ -111,7 +111,7 @@
             rows="1"
             id="el"
             #el
-            class="vditor-reset textArea documentCoverTextAreasAuthors horizontalText scrollBar"
+            class="vditor-reset  documentCoverTextAreasAuthors horizontalText scrollBar"
             [value]="author.name"
             (input)="updateTXT($event, el, i)"
             (keydown)="onChangeBlock($event)"
@@ -144,7 +144,7 @@
     </div>
   </div>
 </div>
-<div class="editing-box" *ngIf="isBlocked">
+<div class="editing-box" *ngIf="isUserEditing">
 <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
 <span class="editing-box__user">{{ userBlocking?.name }}</span>
 <span class="editing-box__text"

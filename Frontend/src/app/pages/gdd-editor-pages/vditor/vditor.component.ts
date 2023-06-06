@@ -26,6 +26,7 @@ export class VditorComponent {
   myInput: boolean = false;
 
   isBlocked: boolean = false;
+  isUserEditing: boolean = false;
 
   decodeToken: any;
   updateSocket: any;
@@ -58,6 +59,8 @@ export class VditorComponent {
   ngOnDestroy() {
     console.log("destroy");
 
+    this.vditor.destroy();
+
     this.editingDocumentService.userEditingByComponent[this.subSection] = null;
 
     this.decodeToken.unsubscribe();
@@ -76,6 +79,10 @@ export class VditorComponent {
     //     console.log("UPDATE", this.lastCol)
     //   }
     // }, 1000);
+
+    if (this.editingDocumentService.read_only) {
+      this.isBlocked = true;
+    }
 
     this.decodeToken = this.tokenService
       .decodeToken()
@@ -124,8 +131,9 @@ export class VditorComponent {
         // console.log(this.vditor)
         const userEditing =
           this.editingDocumentService.userEditingByComponent[this.subSection];
-        this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-        if (this.isBlocked) {
+        this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+        this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+        if (this.isUserEditing) {
           this.userBlocking = userEditing;
         }
 
@@ -176,8 +184,9 @@ export class VditorComponent {
     console.log("BLOCKED:", this.isBlocked, this.editingDocumentService);
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       console.log("BLOCKED:", userEditing);
       this.userBlocking = userEditing;
     }
@@ -186,18 +195,24 @@ export class VditorComponent {
   onKeyDown(event: KeyboardEvent): void {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
+    }
+    if (this.isBlocked) {
       event.preventDefault();
     }
   }
   onContextMenu(event: MouseEvent) {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked = userEditing && userEditing?.email !== this.localUser;
-    if (this.isBlocked) {
+    this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
+    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    if (this.isUserEditing) {
       this.userBlocking = userEditing;
+    }
+    if (this.isBlocked) {
       event.preventDefault();
     }
   }
@@ -254,6 +269,11 @@ export class VditorComponent {
     });
   }
 
+  hasNonAsciiCharacters(string) {
+    const nonAsciiRegex = /[^\x00-\x7F]/;
+    return nonAsciiRegex.test(string);
+  }
+
   public async onFileSelected(event: any) {
     let file = event.target.files[0];
 
@@ -262,14 +282,20 @@ export class VditorComponent {
       if (fileSize > 1) {
         file = await this.scaleImage(file);
       }
-      const fixName = file.name.replace(/ /gi, "_");
+      let fixName: string;
+      if (this.hasNonAsciiCharacters(file.name)) {
+        fixName = Date.now().toString() + "." + file.name.split(".")[1];
+      } else {
+        fixName = file.name.replace(/ /gi, "_");
+      }
+
       const formData = new FormData();
       formData.append("image", file, fixName);
-      this.documentService.uploadImage(this.documentId, formData).subscribe(
+      this.documentService.uploadImage(this.documentId, fixName, formData).subscribe(
         (res) => {},
         (err) => {
           if (err.status === 200) {
-            this.vditor.insertValue(`![](../uploads/${this.documentId}/${fixName})`);
+            this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
             // this.vditor.insertValue(
             //   `![](uploads/${this.documentId}/${fixName})`
             // );

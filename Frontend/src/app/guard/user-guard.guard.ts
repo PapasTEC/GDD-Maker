@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -10,7 +10,7 @@ import { TokenService } from '../services/token.service';
 })
 export class UserGuardGuard implements CanActivate, CanActivateChild {
 
-  constructor(private tokenService: TokenService, private http: HttpClient, private cookieService: CookieService, private router: Router) { }
+  constructor(private tokenService: TokenService, private http: HttpClient, private cookieService: CookieService, private router: Router, private route: ActivatedRoute) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,7 +23,7 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
           this.router.navigate(['/dashboard']);
           return true;
         } else {
-          if (state.url === '/register') {
+          if (state.url === '/login') {
             return true;
           }
           this.router.navigate(['/login']);
@@ -37,18 +37,29 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
         return true;
       }
       this.router.navigate(['/login']);
-      return false;
+      return true; // CAMBIAR
     }
   }
 
-  async canActivateChild( childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
+  async canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
     const token = this.cookieService.get('Token');
     if (!token) {
       if (state.url === '/register') {
         return true;
-      }
-      this.router.navigate(['/login']);
-      return false;
+      } else if (state.url.includes('/editor')) {
+        this.route.queryParams.subscribe(params => {
+          if (params.pjt && params.readOnly) {
+            localStorage.setItem('readOnly', 'true');
+            return true;
+          }//else{
+          //   this.router.navigate(['/login']);
+          //   return false;
+          // }
+        });
+      }else{
+         this.router.navigate(['/login']);
+         return false;
+       }
     }
 
     let isValidToken;
@@ -61,7 +72,7 @@ export class UserGuardGuard implements CanActivate, CanActivateChild {
           if (state.url === '/register') {
             return true;
           }
-          this.router.navigate(['/login']);
+          // this.router.navigate(['/login']);
           return false;
         }
 

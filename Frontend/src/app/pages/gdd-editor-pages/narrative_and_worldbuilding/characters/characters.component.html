@@ -19,9 +19,9 @@
                     <div class="characterCardTop">
                         <div class="topDivider imageDivider" style="padding-left: 0;">
                           <button
+                          style="background-image: none;"
                           id="upButton{{ i }}"
                           class="characterPhoto"
-                          [style.background-image]="docAesthetics.image ? 'url(' + docAesthetics.image + ')' : null"
                           [style.maxHeight]="docAesthetics.image ? '100%' : null"
                           [style.maxWidth]="docAesthetics.image ? '100%' : null"
                           [style.background-repeat]="docAesthetics.image ? 'no-repeat' : null"
@@ -137,7 +137,7 @@
             </div>
         </div>
     </div>
-    <div class="editing-box" *ngIf="isBlocked">
+    <div class="editing-box" *ngIf="isUserEditing">
       <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
       <span class="editing-box__user">{{ userBlocking?.name }}</span>
       <span class="editing-box__text"

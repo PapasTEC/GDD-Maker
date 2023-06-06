@@ -17,6 +17,8 @@ export class EditingDocumentService {
   public isConnected: boolean = false;
   private socket = null;
 
+  public read_only = null;
+
   documentSections: any = [
     //["Document Cover"],
     ["Basic Information"],
@@ -111,7 +113,7 @@ export class EditingDocumentService {
   private countdownSeconds: number = 4;
 
   constructor() {
-    // this.socket = io(apiSocket);
+    //this.socket = io(apiSocket);
     this.socket = io('http://129.159.124.235:3080');
     this.socket.on('connect', () => {
       this.isConnected = true;
@@ -225,6 +227,10 @@ export class EditingDocumentService {
       console.log(`********************** Online users: `, this.onlineUsers);
       this.onlineUsers.next(onlineUsers);
     });
+  }
+
+  setReadOnly(read_only: string) {
+    this.read_only = read_only;
   }
 
   getOnlineUsers() {

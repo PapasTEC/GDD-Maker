@@ -44,8 +44,8 @@ export class DocumentService {
     return this.http.put(this.API + 'updateOwner/' + owner, newOwner);
   }
 
-  uploadImage(id: string, formData: any) {
-    return this.http.post<any>(this.APImage + id, formData);
+  uploadImage(id: string, name: string, formData: any) {
+    return this.http.post<any>(this.APImage + id + "/" + name, formData);
   }
 
   deleteFolderImages(id: string) {

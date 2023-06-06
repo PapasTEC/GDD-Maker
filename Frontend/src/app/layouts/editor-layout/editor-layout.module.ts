@@ -30,7 +30,7 @@ import { CoreGameplayLoopComponent } from 'src/app/pages/gdd-editor-pages/low_le
     ClipboardModule,
     FormsModule,
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
   ],
   declarations: [
     VditorComponent,

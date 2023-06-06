@@ -1,8 +1,8 @@
-$borderState: none;
-$cardBorderRadius: max(1vw, 1vh);
-$shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
-$cardSeparation: 1%;
-$fontColor: #313131;
+$detailborderState: none;
+$detailcardBorderRadius: max(1vw, 1vh);
+$detailshadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
+$detailcardSeparation: 1%;
+$detailfontColor: #313131;
 // $fontSize: max(1.5vw, 1.5vh);
 $fontSize: 1.6vmax;
 
@@ -20,7 +20,7 @@ $fontSize: 1.6vmax;
   height: 100%;
   padding: 0px 5%;
   box-sizing: border-box;
-  border: $borderState 1px #eb05d0;
+  border: $detailborderState 1px #eb05d0;
   min-height: 500px;
 }
 
@@ -33,24 +33,24 @@ $fontSize: 1.6vmax;
   align-items: center;
   box-sizing: border-box;
   overflow-y: auto;
-  border: $borderState 3px #000000;
+  border: $detailborderState 3px #000000;
 }
 
 .detailCard {
   background-color: #f4f3f6;
-  border-radius: $cardBorderRadius;
+  border-radius: $detailcardBorderRadius;
   position: relative;
   align-items: center;
   width: 70%;
   height: max-content;
   display: flex;
   flex-direction: column;
-  box-shadow: $shadow;
-  margin: $cardSeparation 0px;
-  border: #ff9100 $borderState 3px;
+  box-shadow: $detailshadow;
+  margin: $detailcardSeparation 0px;
+  border: #ff9100 $detailborderState 3px;
 
   .detailCardBody {
-    color: $fontColor;
+    color: $detailfontColor;
     padding: 2.5%;
     // padding-top: 1.5%;
     width: 100%;
@@ -60,7 +60,7 @@ $fontSize: 1.6vmax;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: $borderState 2px #7926c1;
+    border: $detailborderState 2px #7926c1;
     $titleWidth: 100%;
 
     .detailCardHeader {
@@ -78,7 +78,7 @@ $fontSize: 1.6vmax;
       box-sizing: border-box;
       border-top-left-radius: inherit;
       border-top-right-radius: inherit;
-      border: $borderState 1px #ff0000;
+      border: $detailborderState 1px #ff0000;
 
       .detailTitle {
         display: flex;
@@ -87,12 +87,12 @@ $fontSize: 1.6vmax;
         background-color: transparent;
         font-size: $fontSize;
         font-weight: bold;
-        color: $fontColor;
+        color: $detailfontColor;
         width: fit-content;
         border: none;
         // padding: min(0.8vh, 0.8vw);
         margin: 0;
-        border: $borderState 2px #040077;
+        border: $detailborderState 2px #040077;
         align-items: center;
 
       }
@@ -105,9 +105,9 @@ $fontSize: 1.6vmax;
         background-color: transparent;
         justify-content: flex-end !important;
         font-weight: bold;
-        color: $fontColor;
+        color: $detailfontColor;
         width: fit-content;
-        border: $borderState 2px #040077;
+        border: $detailborderState 2px #040077;
 
       }
     }
@@ -129,9 +129,9 @@ $fontSize: 1.6vmax;
       margin-top: 2%;
       border-bottom-left-radius: inherit;
       border-bottom-right-radius: inherit;
-      border: $borderState 1px #000000;
+      border: $detailborderState 1px #000000;
 
-      .grid {
+      .detailgrid {
         display: grid;
         grid-template-columns: max-content 1fr;
         //grid-template-columns: auto 1fr; /* columnas auto y 1fr para hacer que la segunda columna ocupe el espacio restante */
@@ -140,38 +140,32 @@ $fontSize: 1.6vmax;
         grid-column-gap: 10px;
         align-items: center; /* alinear verticalmente el contenido */
         max-height: 100%;
-        border: $borderState 1px #ff0000;
+        border: $detailborderState 1px #ff0000;
         margin-bottom: 1%;
 
         .detailSubTitleGrid {
           width: 100%; /* asegurarse de que los títulos ocupen todo el ancho posible */
           text-align: right; /* alinear a la derecha los títulos */
-          border: $borderState 2px #040077;
+          border: $detailborderState 2px #040077;
         }
       }
     }
   }
 }
 
-.vditor-reset,
-.vditor-preview {
+.detail-vditor-reset {
   background-color: transparent !important;
   padding: 0px 1% !important;
   height: 12em;
 }
 
-.horizontalText {
-  white-space: nowrap;
-  overflow-y: hidden;
-}
-
 .detailCharacterInfoText {
   font-size: calc($fontSize * 0.7);
   font-weight: bold;
-  color: $fontColor;
+  color: $detailfontColor;
   height: fit-content;
   white-space: nowrap;
-  border: #7926c1 $borderState 1px;
+  border: #7926c1 $detailborderState 1px;
   // font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB",
   //   "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
   //   "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
@@ -188,7 +182,7 @@ $fontSize: 1.6vmax;
   resize: none;
   background-color: transparent;
   outline: none;
-  border: darkcyan $borderState 1px;
+  border: darkcyan $detailborderState 1px;
   line-height: 1.5 !important;
   word-wrap: break-word;
 }

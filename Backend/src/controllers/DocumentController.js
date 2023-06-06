@@ -11,7 +11,7 @@ documentController.getDocuments = async (req, res) => {
 };
 
 documentController.createDocument = async (req, res) => {
-  const { owner, frontPage, documentContent } = req.body;
+  const { owner, frontPage, documentContent, codeReadOnly } = req.body;
   console.log("Creating document: " + owner);
   console.log("Creating document: " + frontPage);
   console.log("Creating document: " + documentContent);
@@ -19,6 +19,7 @@ documentController.createDocument = async (req, res) => {
     owner,
     frontPage,
     documentContent,
+    codeReadOnly,
   });
   // console.log("Inserting document: " + newDocument);
   await newDocument

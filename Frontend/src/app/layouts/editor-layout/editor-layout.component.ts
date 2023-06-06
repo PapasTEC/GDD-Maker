@@ -19,6 +19,7 @@ import { EditorLayoutRoutes } from "./editor-layout.routing";
 import { ToastrService } from "ngx-toastr";
 
 import Swal from "sweetalert2";
+import { read } from "@popperjs/core";
 
 interface SectionSubsectionPath {
   section: string;
@@ -37,6 +38,8 @@ export class EditorLayoutComponent implements OnInit {
   documentId = "";
   document: any = null;
   isDocumentEdited = false;
+
+  queryParams = {};
 
   autoSaveTimer: any;
   autoSaveIntervalInMinutes = 5;
@@ -59,6 +62,11 @@ export class EditorLayoutComponent implements OnInit {
   firstChange = true;
 
   onlineUsers: any[] = [];
+
+  isReadOnly = false;
+  notAuthUser = false;
+
+  documentCodeRead: string = "";
 
   // documentLayout:layout[];
 
@@ -296,11 +304,13 @@ export class EditorLayoutComponent implements OnInit {
 
   @HostListener("window:keydown.control.s", ["$event"])
   saveDocumentShortcut(event: KeyboardEvent) {
-    event.preventDefault();
-    this.manualSave();
-    this.toastr.success("Document saved!", "", {
-      timeOut: 500,
-    });
+    if (!this.editingDocumentService.read_only) {
+      event.preventDefault();
+      this.manualSave();
+      this.toastr.success("Document saved!", "", {
+        timeOut: 500,
+      });
+    }
     // TODO: Show a message that the document has been saved
   }
 
@@ -385,7 +395,7 @@ export class EditorLayoutComponent implements OnInit {
 
       this.switchSection(previousSubsection.subSection);
       this.router.navigate(["/editor/" + previousSubsection.path], {
-        queryParams: { pjt: this.documentId },
+        queryParams: this.queryParams
       });
 
       this.changeSection(
@@ -419,7 +429,7 @@ export class EditorLayoutComponent implements OnInit {
 
       this.switchSection(nextSubsection.subSection);
       this.router.navigate(["/editor/" + nextSubsection.path], {
-        queryParams: { pjt: this.documentId },
+        queryParams: this.queryParams
       });
 
       this.changeSection(
@@ -434,8 +444,10 @@ export class EditorLayoutComponent implements OnInit {
   // alt + Esc to go to the dashboard
   @HostListener("window:keydown.alt.d", ["$event"])
   goToDashboard(event: KeyboardEvent) {
-    event.preventDefault();
-    this.returnDashboard();
+    if(!this.editingDocumentService.read_only) {
+      event.preventDefault();
+      this.returnDashboard();
+    }
   }
 
   // updateSocket() {
@@ -445,9 +457,20 @@ export class EditorLayoutComponent implements OnInit {
   setDocumentData() {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
       // console.log("data:", data);
+      
       const document = data;
+      this.route.queryParams.subscribe((params) => {
+        if (params.readOnly && params.readOnly !== document.codeReadOnly) {
+          this.router.navigate(["/accessDenied"], {
+            queryParams: params,
+          });
+        }
+      });
+
       document.socketSubSection = "";
-      console.log("document:", document);
+      console.log("document 123213:", document);
+      this.documentCodeRead = document["codeReadOnly"];
+
       this.editingDocumentService.changeDocument(document);
       this.documentTitle = document["frontPage"]["documentTitle"];
       this.document = document;
@@ -469,13 +492,28 @@ export class EditorLayoutComponent implements OnInit {
         this.router.navigate(["/dashboard"]);
       }
       this.documentId = params.pjt;
+      if (params.readOnly) {
+        this.isReadOnly = true;
+        console.log("Document: ", this.document);
+        this.editingDocumentService.setReadOnly(params.readOnly);
+        this.queryParams = { pjt: this.documentId, readOnly: this.editingDocumentService.read_only }
+      } else {
+        this.isReadOnly = false;
+        this.queryParams = { pjt: this.documentId }
+      }
+
+      this.setDocumentData();
       this.tokenService.decodeToken().subscribe((data: any) => {
         let localUser = data.decoded;
+        this.notAuthUser = localUser.email === "";
+
+        //update local storage read only with the value of isReadOnly
+        localStorage.setItem("readOnly", this.isReadOnly.toString());
         console.log("localUser", localUser);
         this.documentService.getUsers(this.documentId).subscribe((documentUsers) => {
           if (documentUsers.error) {
             this.router.navigate(["/notFound"], {
-              queryParams: { pjt: this.documentId },
+              queryParams: this.queryParams,
             });
             return;
           }
@@ -483,12 +521,15 @@ export class EditorLayoutComponent implements OnInit {
           console.log(documentUsers.invited.findIndex(user => user.email === localUser.email))
           console.log(documentUsers.invited.find(user => user.email === localUser))
           // console.log(!documentUsers.invited.find(user => user.email === localUser)))
-          if (documentUsers.owner.email !== localUser.email && documentUsers.invited.findIndex(user => user.email === localUser.email) == -1) {
-            this.router.navigate(["/accessDenied"], {
-              queryParams: { pjt: this.documentId },
-            });
-            return;
+          if (!params.readOnly) {
+            if (documentUsers.owner.email !== localUser.email && documentUsers.invited.findIndex(user => user.email === localUser.email) == -1) {
+              this.router.navigate(["/accessDenied"], {
+                queryParams: this.queryParams,
+              });
+              return;
+            }
           }
+
 
           localUser.image = localStorage.getItem("ImageUser");
 
@@ -498,7 +539,8 @@ export class EditorLayoutComponent implements OnInit {
           console.log(
             "************************** FINAL1 **************************"
           );
-          this.setDocumentData();
+          
+
 
           this.updateLastManualSaveTime();
           this.startAutoSaveTimer();
@@ -548,9 +590,11 @@ export class EditorLayoutComponent implements OnInit {
     coverLink.classList.remove("nActive");
     coverLink.classList.add("active");
 
+
+
     this.router.navigate(["./cover"], {
       relativeTo: this.route,
-      queryParams: { pjt: this.documentId },
+      queryParams: this.queryParams,
     });
   }
 
@@ -741,6 +785,7 @@ export class EditorLayoutComponent implements OnInit {
     clearInterval(this.lastManualSaveTimer);
 
     this.editingDocumentService.changeDocument(null);
+    this.editingDocumentService.setReadOnly(null);
 
     this.editingDocumentService.disconnectSocket();
     // this.socket.disconnect();

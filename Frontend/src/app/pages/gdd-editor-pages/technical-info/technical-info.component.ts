@@ -51,6 +51,11 @@ export class TechnicalInfoComponent {
     generalData: null,
   };
 
+  isUserEditing: any = {
+    platforms: null,
+    generalData: null,
+  };
+
   localUser = null;
   decodeToken: any;
   updateSocket: any;
@@ -73,9 +78,9 @@ export class TechnicalInfoComponent {
   public canBeEdited(part: string): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isBlocked[part] =
-      userEditing[part] && userEditing[part].email !== this.localUser;
-    if (this.isBlocked[part]) {
+    this.isUserEditing[part] = userEditing[part] && userEditing[part].email !== this.localUser;
+    this.isBlocked[part] = this.isUserEditing[part] || this.editingDocumentService.read_only;
+    if (this.isUserEditing[part]) {
       this.userBlocking[part] = userEditing[part];
     }
     return !this.isBlocked[part];
@@ -83,6 +88,13 @@ export class TechnicalInfoComponent {
 
   ngOnInit() {
     this.getSectionAndSubSection();
+
+    if (this.editingDocumentService.read_only) {
+      this.isBlocked = {
+        platforms: true,
+        generalData: true,
+      };
+    }
 
     this.decodeToken = this.tokenService
       .decodeToken()
@@ -159,21 +171,18 @@ export class TechnicalInfoComponent {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
-    // this.isBlocked = userEditing && userEditing.email !== this.localUser;
-    // if (this.isBlocked) {
-    //   console.log("BLOCKED:", userEditing);
-    //   this.userBlocking = userEditing;
-    // }
-    this.isBlocked.platforms =
+    this.isUserEditing.platforms =
       userEditing.platforms && userEditing.platforms.email !== this.localUser;
-    if (this.isBlocked.platforms) {
+    this.isBlocked.platforms = this.isUserEditing.platforms || this.editingDocumentService.read_only;
+    if (this.isUserEditing.platforms) {
       this.userBlocking.platforms = userEditing.platforms;
     }
 
-    this.isBlocked.generalData =
+    this.isUserEditing.generalData =
       userEditing.generalData &&
       userEditing.generalData.email !== this.localUser;
-    if (this.isBlocked.generalData) {
+    this.isBlocked.generalData = this.isUserEditing.generalData || this.editingDocumentService.read_only;
+    if (this.isUserEditing.generalData) {
       this.userBlocking.generalData = userEditing.generalData;
     }
   }

@@ -118,7 +118,6 @@ export class CharactersComponent {
   });
 
   async reloadImages(oldImages?: any){
-    alert("reloadImages")
     this.images  = this.documentSubSection.subSectionContent.characters.map((character) => {
       return character.image;
     }
@@ -225,7 +224,6 @@ export class CharactersComponent {
         // this.loadSavedImages();
 
 
-        alert("updateSocket")
 
         await this.reloadImages(oldImages);
         for (let i = 0; i < this.charactersInDocument.length; i++) {

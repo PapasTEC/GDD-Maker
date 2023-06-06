@@ -12,6 +12,8 @@ export class GameLogoComponent {
   uploadedImage: string;
   routeUsingComponent: string;
   subtitle: string;
+  uploadedName: string;
+  uploadedFile: File;
 
   ngOnInit() {
     this.route.data.subscribe(
@@ -33,8 +35,12 @@ export class GameLogoComponent {
     let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
     if (route === "game") {
       currentSetup.gameLogo = this.uploadedImage;
+      currentSetup.gameLogoName = this.uploadedName;
+      currentSetup.gameLogoFile = this.uploadedFile;
     } else if (route === "company") {
       currentSetup.companyLogo = this.uploadedImage;
+      currentSetup.companyLogoName = this.uploadedName;
+      currentSetup.companyLogoFile = this.uploadedFile;
     }
     sessionStorage.setItem("currentSetup", JSON.stringify(currentSetup));
   }
@@ -61,6 +67,8 @@ export class GameLogoComponent {
 
     if (file) {
       this.uploadedImage = URL.createObjectURL(file);
+      this.uploadedName = file.name;
+      this.uploadedFile = file;
 
       this.updateLogo();
 

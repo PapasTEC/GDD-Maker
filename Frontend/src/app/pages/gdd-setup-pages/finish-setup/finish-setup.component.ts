@@ -17,6 +17,7 @@ import { ToastrService } from "ngx-toastr";
 export class FinishSetupComponent {
   tempImage: string;
   status: string = 'creating';
+  documentId: string;
 
   constructor(private tokenService: TokenService,private documentService: DocumentService, private userService: UserService,
     private router: Router, private toastr: ToastrService) { }
@@ -56,6 +57,72 @@ export class FinishSetupComponent {
     return result;
   }
 
+  hasNonAsciiCharacters(string) {
+    const nonAsciiRegex = /[^\x00-\x7F]/;
+    return nonAsciiRegex.test(string);
+  }
+
+async saveImageInServer(file, fixName, documentId) {
+    const formData = new FormData();
+    formData.append("image", file, fixName);
+
+    await new Promise((resolve, reject) => {
+      this.documentService
+        .uploadImage(documentId, fixName, formData)
+        .subscribe(
+          (res) => {},
+          (err) => {
+            if (err.status === 200) {
+              resolve(err);
+            } else {
+              reject(err);
+            }
+          }
+        );
+    });
+
+    return;
+  }
+
+  base64ToFile(base64String, fileName) {
+    const byteString = atob(base64String.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    
+    const blob = new Blob([ab], { type: 'image/png' });
+    return new File([blob], fileName, { type: 'image/png' });
+  }
+
+  genNewImageName() {
+    let fixName: string;
+    fixName = Date.now().toString()
+    return fixName;
+  }
+
+  getNewImageName(fileName: string) {
+    let fixName: string;
+    if (this.hasNonAsciiCharacters(fileName)) {
+      fixName = Date.now().toString() + "." + fileName.split(".")[1];
+    } else {
+      fixName = fileName.replace(/ /gi, "_");
+    }
+    return fixName;
+  }
+
+  async saveLogoToServer(sessionStLogoName, sessionStLogoURL, docID) {
+    let newName = this.getNewImageName(sessionStLogoName);
+    let newPath = `uploads/${docID}/${newName}`;
+    let file = await this.urlToFile(sessionStLogoURL, newName, this.getMimeTypeFromFileName(newName))
+    
+    await this.saveImageInServer(file, newName, docID);
+    
+    return newPath
+  }
+
   async finishSetup() {
     this.status = 'saving';
     let user;
@@ -73,19 +140,12 @@ export class FinishSetupComponent {
       let myGameLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
       let myCompanyLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
 
-      if (currentSetup.gameLogo !== "") {
-        myGameLogo = await this.convertTempUrlToBase64(currentSetup.gameLogo);
-      }
 
-      if (currentSetup.companyLogo !== "") {
-        myCompanyLogo = await this.convertTempUrlToBase64(currentSetup.companyLogo);
-      }
-
-      console.log("user: ", user);
-      console.log("currentSetup: ", currentSetup);
-      console.log("myPlatforms: ", myPlatforms);
-      console.log("myGameLogo: ", myGameLogo);
-      console.log("myCompanyLogo: ", myCompanyLogo);
+      // console.log("user: ", user);
+      // console.log("currentSetup: ", currentSetup);
+      // console.log("myPlatforms: ", myPlatforms);
+      // console.log("myGameLogo: ", myGameLogo);
+      // console.log("myCompanyLogo: ", myCompanyLogo);
 
       const document = {
         owner: user.email,
@@ -242,7 +302,7 @@ export class FinishSetupComponent {
       console.log("document:", document);
 
       this.documentService.addDocument(document).subscribe(
-        (res: any) => {
+        async (res: any) => {
           console.log("addDocument res:", res);
           if (res?.error) {
             this.status = 'creating';
@@ -252,24 +312,45 @@ export class FinishSetupComponent {
             });
             return;
           }
+
+          this.documentId = res['id'];
           // alert("Document added successfully!");
           this.userService.addOwnProject(user.email, res['id']).subscribe(
-            res2 => {
+            async _ => {
               this.status = 'success';
+
+              if (currentSetup.gameLogo !== "") {
+                myGameLogo = await this.saveLogoToServer(currentSetup.gameLogoName, currentSetup.gameLogo, this.documentId);
+              }
+        
+              if (currentSetup.companyLogo !== "") {
+                myCompanyLogo = await this.saveLogoToServer(currentSetup.companyLogoName, currentSetup.companyLogo, this.documentId);
+              }
+
+              document.frontPage.documentLogo = myGameLogo;
+              document.frontPage.companyLogo = myCompanyLogo;
+              this.documentService.updateDocument(this.documentId, document).subscribe(
+                res3 => {
+                  console.log("updateDocument res:", res3);
+                }
+
+              );
+
               setTimeout(() => {
-              console.log("addOwnDocument res:", res2);
-              this.router.navigate(['/dashboard']);
+                this.router.navigate(['/dashboard']);
               }, 2000);
-            err2 => {
-              console.log(err2);
-              // alert("Error adding document to user");
-              this.status = 'creating';
-              this.toastr.error("Error adding document to user", "", {
-                timeOut: 10000,
-                closeButton: true,
-              });
-            }
-          });
+              err2 => {
+                console.log(err2);
+                // alert("Error adding document to user");
+                this.status = 'creating';
+                this.toastr.error("Error adding document to user", "", {
+                  timeOut: 10000,
+                  closeButton: true,
+                });
+              }
+            });
+
+          
         },
         err => {
           console.log(err);
@@ -281,7 +362,38 @@ export class FinishSetupComponent {
           });
         }
       );
-    });
+
+
+      
+        
+
+        
+
+      });
+      
+  }
+
+  async urlToFile(url, filename, mimeType) {
+    return await fetch(url)
+      .then(response => response.blob())
+      .then(blob => new File([blob], filename, { type: mimeType }));
+  }
+
+  getMimeTypeFromFileName(fileName) {
+    const extension = fileName.split('.').pop().toLowerCase();
+  
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      case 'gif':
+        return 'image/gif';
+      // Add more cases for other image formats if needed
+      default:
+        return '';
+    }
   }
 
 

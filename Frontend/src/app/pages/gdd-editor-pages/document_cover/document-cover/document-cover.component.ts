@@ -70,9 +70,7 @@ export class DocumentCoverComponent {
     private tokenService: TokenService
   ) {
     this.route = route;
-    this.route.queryParams.subscribe((params) => {
-      this.documentId = params["pjt"];
-    });
+    
   }
 
   getSectionAndSubSection(route: ActivatedRoute) {

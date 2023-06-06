@@ -1,27 +1,20 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-
 import { DocumentService } from "../../../services/document.service";
 import { UserService } from 'src/app/services/user.service';
 import { TokenService } from 'src/app/services/token.service';
 import { ToastrService } from "ngx-toastr";
-
-
 @Component({
   selector: "app-finish-setup",
   templateUrl: "./finish-setup.component.html",
   styleUrls: ["./finish-setup.component.scss", "../setupStyles.scss"],
 })
-
-
 export class FinishSetupComponent {
   tempImage: string;
   status: string = 'creating';
   documentId: string;
-
   constructor(private tokenService: TokenService,private documentService: DocumentService, private userService: UserService,
     private router: Router, private toastr: ToastrService) { }
-
   platforms = [
     "Android",
     "iOS",
@@ -33,7 +26,6 @@ export class FinishSetupComponent {
     "Xbox",
     "Nintendo Switch",
   ];
-
   aesthetics = [
     "Sensation",
     "Fantasy",
@@ -46,7 +38,6 @@ export class FinishSetupComponent {
     "Expression",
     "Submission",
   ];
-
   generateCode() {
     const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let result = "";
@@ -56,16 +47,13 @@ export class FinishSetupComponent {
     }
     return result;
   }
-
   hasNonAsciiCharacters(string) {
     const nonAsciiRegex = /[^\x00-\x7F]/;
     return nonAsciiRegex.test(string);
   }
-
 async saveImageInServer(file, fixName, documentId) {
     const formData = new FormData();
     formData.append("image", file, fixName);
-
     await new Promise((resolve, reject) => {
       this.documentService
         .uploadImage(documentId, fixName, formData)
@@ -80,29 +68,23 @@ async saveImageInServer(file, fixName, documentId) {
           }
         );
     });
-
     return;
   }
-
   base64ToFile(base64String, fileName) {
     const byteString = atob(base64String.split(',')[1]);
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
-    
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    
     const blob = new Blob([ab], { type: 'image/png' });
     return new File([blob], fileName, { type: 'image/png' });
   }
-
   genNewImageName() {
     let fixName: string;
     fixName = Date.now().toString()
     return fixName;
   }
-
   getNewImageName(fileName: string) {
     let fixName: string;
     if (this.hasNonAsciiCharacters(fileName)) {
@@ -112,41 +94,25 @@ async saveImageInServer(file, fixName, documentId) {
     }
     return fixName;
   }
-
   async saveLogoToServer(sessionStLogoName, sessionStLogoURL, docID) {
     let newName = this.getNewImageName(sessionStLogoName);
     let newPath = `uploads/${docID}/${newName}`;
     let file = await this.urlToFile(sessionStLogoURL, newName, this.getMimeTypeFromFileName(newName))
-    
     await this.saveImageInServer(file, newName, docID);
-    
     return newPath
   }
-
   async finishSetup() {
     this.status = 'saving';
     let user;
     this.tokenService.decodeToken().subscribe(async (data: any) => {
-      console.log("text: ",`${JSON.stringify(data.decoded)}`);
       user = data.decoded;
       user.image = localStorage.getItem('ImageUser');
-
       let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
-
       const myPlatforms = currentSetup.gamePlatforms.map(platform => {
         return this.platforms[platform];
       });
-
       let myGameLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
       let myCompanyLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
-
-
-      // console.log("user: ", user);
-      // console.log("currentSetup: ", currentSetup);
-      // console.log("myPlatforms: ", myPlatforms);
-      // console.log("myGameLogo: ", myGameLogo);
-      // console.log("myCompanyLogo: ", myCompanyLogo);
-
       const document = {
         owner: user.email,
         invited: [],
@@ -160,15 +126,6 @@ async saveImageInServer(file, fixName, documentId) {
           lastUpdated: new Date()
         },
         documentContent: [
-
-
-
-
-
-
-
-
-
           {
           sectionTitle: "Basic Information",
           subSections: [{
@@ -255,14 +212,12 @@ async saveImageInServer(file, fixName, documentId) {
           },{
             subSectionTitle: "Characters",
             subSectionContent: {
-
               characters: []
             }
           },
           {
             subSectionTitle: "Events",
             subSectionContent: {
-
               events: []
             }
           }]
@@ -298,12 +253,8 @@ async saveImageInServer(file, fixName, documentId) {
         },
       ]
       }
-
-
-
       this.documentService.addDocument(document).subscribe(
         async (res: any) => {
-          console.log("addDocument res:", res);
           if (res?.error) {
             this.status = 'creating';
             this.toastr.error("Error adding document. Make sure you have filled all the fields", "", {
@@ -312,36 +263,27 @@ async saveImageInServer(file, fixName, documentId) {
             });
             return;
           }
-
           this.documentId = res['id'];
           // alert("Document added successfully!");
           this.userService.addOwnProject(user.email, res['id']).subscribe(
             async _ => {
               this.status = 'success';
-
               if (currentSetup.gameLogo !== "") {
                 myGameLogo = await this.saveLogoToServer(currentSetup.gameLogoName, currentSetup.gameLogo, this.documentId);
               }
-        
               if (currentSetup.companyLogo !== "") {
                 myCompanyLogo = await this.saveLogoToServer(currentSetup.companyLogoName, currentSetup.companyLogo, this.documentId);
               }
-
               document.frontPage.documentLogo = myGameLogo;
               document.frontPage.companyLogo = myCompanyLogo;
               this.documentService.updateDocument(this.documentId, document).subscribe(
                 res3 => {
-                  console.log("updateDocument res:", res3);
                 }
-
               );
-
               setTimeout(() => {
                 this.router.navigate(['/dashboard']);
               }, 2000);
               err2 => {
-                console.log(err2);
-                // alert("Error adding document to user");
                 this.status = 'creating';
                 this.toastr.error("Error adding document to user", "", {
                   timeOut: 10000,
@@ -349,12 +291,8 @@ async saveImageInServer(file, fixName, documentId) {
                 });
               }
             });
-
-          
         },
         err => {
-
-
           this.status = 'creating';
           this.toastr.error("Error adding document", "", {
             timeOut: 10000,
@@ -362,26 +300,15 @@ async saveImageInServer(file, fixName, documentId) {
           });
         }
       );
-
-
-      
-        
-
-        
-
       });
-      
   }
-
   async urlToFile(url, filename, mimeType) {
     return await fetch(url)
       .then(response => response.blob())
       .then(blob => new File([blob], filename, { type: mimeType }));
   }
-
   getMimeTypeFromFileName(fileName) {
     const extension = fileName.split('.').pop().toLowerCase();
-  
     switch (extension) {
       case 'jpg':
       case 'jpeg':
@@ -390,23 +317,18 @@ async saveImageInServer(file, fixName, documentId) {
         return 'image/png';
       case 'gif':
         return 'image/gif';
-      // Add more cases for other image formats if needed
       default:
         return '';
     }
   }
-
-
   public async convertTempUrlToBase64(url: any) {
     const base64 = await this.scaleAndEncodeImage(url);
     return base64;
   }
-
   async scaleAndEncodeImage(url: any): Promise<string> {
     let width = 512;
     let height = width;
     const img = new Image();
-
     const reader = new FileReader();
     reader.readAsDataURL(await fetch(url).then((r) => r.blob()));
     const base64 = await new Promise<string>((resolve, reject) => {

@@ -2,6 +2,7 @@
   <div class="contentContainer">
     <div class="subtitleContainer" style="justify-content: center; height: 10%">
       <span class="subtitle">{{ textBoxDefault }}</span>
+      <span *ngIf="required" class="subtitle" style="margin-left: 1rem; scale: 0.9; color: red;">*</span>
     </div>
     <div class="lowerContainer">
       <textarea

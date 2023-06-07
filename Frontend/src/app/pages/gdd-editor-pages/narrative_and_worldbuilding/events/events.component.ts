@@ -74,9 +74,7 @@ export class EventsComponent {
 
   updateDocument(timeline: any) {
     this.myInput = true;
-    console.log("BRO YOU HAVE TO UPDATE ", this.documentSubSection);
 
-    console.log("UPDATE", this.documentSubSection);
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
       this.subSection,
@@ -131,16 +129,13 @@ export class EventsComponent {
 
         this.canBeEdited();
 
-        console.log(document.documentContent);
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
 
-        console.log("UPDATE", this.documentSubSection);
         let events = this.documentSubSection.subSectionContent.events;
-        console.log("EVENTS", events);
         this.timeline = events;
       });
 
@@ -160,8 +155,6 @@ export class EventsComponent {
         this.documentSubSection = document;
 
         this.timeline = document.subSectionContent.events;
-
-        console.log("NEW", this.documentSubSection);
 
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();

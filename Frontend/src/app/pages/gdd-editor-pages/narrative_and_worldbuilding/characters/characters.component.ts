@@ -149,8 +149,6 @@ export class CharactersComponent {
       }
     );
 
-    console.log(this.images);
-
     this.imagesInfo = [];
     let loadedImages = await Promise.all(this.images.map(this.loadImage));
     loadedImages.forEach((img: any, i: number) => {
@@ -176,8 +174,6 @@ export class CharactersComponent {
 
       this.imagesInfo[i] = info;
     });
-
-    console.log("this.imagesInfo", this.imagesInfo);
   }
 
   ngOnInit() {
@@ -431,8 +427,7 @@ export class CharactersComponent {
     }
     let img = new Image();
     img.src = image;
-
-    console.log("img", uploadButton);
+    
     uploadButton.style.backgroundImage = `url(${image})`;
   }
 

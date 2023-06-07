@@ -463,15 +463,6 @@ export class EditorLayoutComponent implements OnInit {
               });
               return;
             }
-            console.log("documentUsers", documentUsers);
-            console.log(
-              documentUsers.invited.findIndex(
-                (user) => user.email === localUser.email
-              )
-            );
-            console.log(
-              documentUsers.invited.find((user) => user.email === localUser)
-            );
 
             if (!params.readOnly) {
               if (

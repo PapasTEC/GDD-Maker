@@ -306,9 +306,7 @@ export class AestheticsComponent {
     event: any
   ) {
     if (!this.canBeEdited()) {
-      console.log("can't be edited");
       event.preventDefault();
-      console.log(event);
       return;
     }
 

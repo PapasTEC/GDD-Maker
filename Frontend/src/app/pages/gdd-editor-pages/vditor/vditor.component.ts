@@ -93,12 +93,6 @@ export class VditorComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        console.log(
-          "subSectionSocket:",
-          document.socketSubSection,
-          "this.subSection:",
-          this.subSection
-        );
 
         if (this.myInput) {
           this.myInput = false;

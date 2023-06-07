@@ -189,7 +189,7 @@ export class DetailCoreMechanicComponent {
     this.updateSocket = this.editingDocumentService
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
-      .subscribe((document) => {
+      .subscribe((document1) => {
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -199,7 +199,7 @@ export class DetailCoreMechanicComponent {
         this.canBeEdited("decisions");
         this.canBeEdited("goals");
 
-        this.documentSubSection = document.documentContent
+        this.documentSubSection = document1.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
@@ -230,7 +230,10 @@ export class DetailCoreMechanicComponent {
             this.documentSubSection.subSectionContent.global;
         }
 
+        this.details = this.documentSubSection.subSectionContent;
+
         const textareas = document.getElementsByClassName("resize-ta");
+
         for (let i = 0; i < textareas.length; i++) {
           let textarea = textareas[i] as HTMLTextAreaElement;
           if (this.detailsIds[i] === "decisions") {
@@ -257,13 +260,13 @@ export class DetailCoreMechanicComponent {
         ),
         take(1)
       )
-      .subscribe((document) => {
-        this.documentSubSection = document;
+      .subscribe((document1) => {
+        this.documentSubSection = document1;
 
         this.details = this.documentSubSection.subSectionContent;
 
         const textareas = document.getElementsByClassName("resize-ta");
-
+        
         for (let i = 0; i < textareas.length; i++) {
           let textarea = textareas[i] as HTMLTextAreaElement;
           if (this.detailsIds[i] === "decisions") {
@@ -289,11 +292,6 @@ export class DetailCoreMechanicComponent {
 
     for (const key in this.isUserEditing) {
       if (this.isUserEditing.hasOwnProperty(key)) {
-        console.log(
-          this.isBlocked[key],
-          userEditing[key],
-          userEditing[key]?.email
-        );
         this.isUserEditing[key] =
           userEditing[key] && userEditing[key]?.email !== this.localUser;
         this.isBlocked[key] =

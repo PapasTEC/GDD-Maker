@@ -163,7 +163,6 @@ export class EditingDocumentService {
           image: null,
         };
       }
-      console.log("UserEditingByComponent", this.userEditingByComponent); //console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
     });
 
     this.socket.on("update-online-users", (onlineUsers) => {

@@ -44,14 +44,6 @@ export class ShareDocumentComponent implements OnInit {
       this.usersObj = data;
 
       this.tokenService.decodeToken().subscribe((data: any) => {
-        console.log(`${JSON.stringify(data.decoded)}`);
-        this.currentUserEmail = data.decoded.email;
-        console.log(
-          "this.currentUserEmail",
-          this.currentUserEmail,
-          "this.usersObj.owner",
-          this.usersObj.owner
-        );
         if (this.currentUserEmail === this.usersObj.owner.email) {
           this.isOwner = true;
         }

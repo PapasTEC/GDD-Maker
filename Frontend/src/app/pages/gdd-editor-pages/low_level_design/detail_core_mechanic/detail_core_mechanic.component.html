@@ -4,47 +4,101 @@
   </div> -->
   <div class="detailContainer scrollBar">
     <!-- Representation -->
-    <div class="detailCard"
-    [ngClass]="isBlocked.representation ? 'disabled-component' : ''"
+    <div
+      class="detailCard"
+      [ngClass]="isBlocked.representation ? 'disabled-component' : ''"
     >
       <div class="detailCardBody">
         <div class="detailCardHeader">
           <div class="detailTitle">
             <span> Representation </span>
-            <div class="editing-box representation" *ngIf="isUserEditing.representation">
-              <img class="editing-box__icon" [src]="userBlocking.representation?.image" alt="user" />
-              <span class="editing-box__user">{{ userBlocking.representation?.name }}</span>
-              <span class="editing-box__text"
-                >
-                <span *ngIf="userBlocking.representation.name.toLowerCase().endsWith('s')">' </span>
-                <span *ngIf="!userBlocking.representation.name.toLowerCase().endsWith('s')">'s </span>
-                 editing</span>
-              </div>
+            <div
+              class="editing-box representation"
+              *ngIf="isUserEditing.representation"
+            >
+              <img
+                class="editing-box__icon"
+                [src]="userBlocking.representation?.image"
+                alt="user"
+              />
+              <span class="editing-box__user">{{
+                userBlocking.representation?.name
+              }}</span>
+              <span class="editing-box__text">
+                <span
+                  *ngIf="
+                    userBlocking.representation.name.toLowerCase().endsWith('s')
+                  "
+                  >'
+                </span>
+                <span
+                  *ngIf="
+                    !userBlocking.representation.name
+                      .toLowerCase()
+                      .endsWith('s')
+                  "
+                  >'s
+                </span>
+                editing</span
+              >
+            </div>
           </div>
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
           <div class="detailgrid">
             <div class="detailSubTitleGrid detailCharacterInfoText">Tokens</div>
-            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+            <textarea
+              class="detailTextArea detailGreyBG scrollBar resize-ta"
+              rows="1"
               [(ngModel)]="this.details.tokens"
-              (input)='this.growShrink($event, this.details.tokens, false, "representation")'
+              (input)="
+                this.growShrink(
+                  $event,
+                  this.details.tokens,
+                  false,
+                  'representation'
+                )
+              "
               (keydown)="this.onChangeBlock($event, 'representation')"
               (contextmenu)="this.onChangeBlock($event, 'representation')"
               (paste)="this.onChangeBlock($event, 'representation')"
             ></textarea>
-            <div class="detailSubTitleGrid detailCharacterInfoText">Resources</div>
-            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+            <div class="detailSubTitleGrid detailCharacterInfoText">
+              Resources
+            </div>
+            <textarea
+              class="detailTextArea detailGreyBG scrollBar resize-ta"
+              rows="1"
               [(ngModel)]="this.details.resources"
-              (input)='this.growShrink($event, this.details.resources, false, "representation")'
+              (input)="
+                this.growShrink(
+                  $event,
+                  this.details.resources,
+                  false,
+                  'representation'
+                )
+              "
               (keydown)="this.onChangeBlock($event, 'representation')"
               (contextmenu)="this.onChangeBlock($event, 'representation')"
               (paste)="this.onChangeBlock($event, 'representation')"
             ></textarea>
-            <div class="detailSubTitleGrid detailCharacterInfoText">Additional<br> Elements</div>
-            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+            <div class="detailSubTitleGrid detailCharacterInfoText">
+              Additional<br />
+              Elements
+            </div>
+            <textarea
+              class="detailTextArea detailGreyBG scrollBar resize-ta"
+              rows="1"
               [(ngModel)]="this.details.additionalElements"
-              (input)='this.growShrink($event, this.details.additionalElements, false, "representation")'
+              (input)="
+                this.growShrink(
+                  $event,
+                  this.details.additionalElements,
+                  false,
+                  'representation'
+                )
+              "
               (keydown)="this.onChangeBlock($event, 'representation')"
               (contextmenu)="this.onChangeBlock($event, 'representation')"
               (paste)="this.onChangeBlock($event, 'representation')"
@@ -54,29 +108,49 @@
       </div>
     </div>
     <!-- Decisions -->
-    <div class="detailCard"
-    [ngClass]="isBlocked.decisions ? 'disabled-component' : ''"
+    <div
+      class="detailCard"
+      [ngClass]="isBlocked.decisions ? 'disabled-component' : ''"
     >
       <div class="detailCardBody">
         <div class="detailCardHeader">
           <div class="detailTitle">
             <span> Decisions </span>
             <div class="editing-box decisions" *ngIf="isUserEditing.decisions">
-              <img class="editing-box__icon" [src]="userBlocking.decisions?.image" alt="user" />
-              <span class="editing-box__user">{{ userBlocking.decisions?.name }}</span>
-              <span class="editing-box__text"
-                >
-                <span *ngIf="userBlocking.decisions.name.toLowerCase().endsWith('s')">' </span>
-                <span *ngIf="!userBlocking.decisions.name.toLowerCase().endsWith('s')">'s </span>
-                  editing</span>
-              </div>
+              <img
+                class="editing-box__icon"
+                [src]="userBlocking.decisions?.image"
+                alt="user"
+              />
+              <span class="editing-box__user">{{
+                userBlocking.decisions?.name
+              }}</span>
+              <span class="editing-box__text">
+                <span
+                  *ngIf="
+                    userBlocking.decisions.name.toLowerCase().endsWith('s')
+                  "
+                  >'
+                </span>
+                <span
+                  *ngIf="
+                    !userBlocking.decisions.name.toLowerCase().endsWith('s')
+                  "
+                  >'s
+                </span>
+                editing</span
+              >
+            </div>
           </div>
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
-          <textarea class="detail-vditor-reset detailTextArea scrollBar resize-ta"
+          <textarea
+            class="detail-vditor-reset detailTextArea scrollBar resize-ta"
             [(ngModel)]="this.details.decisions"
-            (input)='this.growShrink($event, this.details.decisions, true, "decisions")'
+            (input)="
+              this.growShrink($event, this.details.decisions, true, 'decisions')
+            "
             (keydown)="this.onChangeBlock($event, 'decisions')"
             (contextmenu)="this.onChangeBlock($event, 'decisions')"
             (paste)="this.onChangeBlock($event, 'decisions')"
@@ -85,47 +159,79 @@
       </div>
     </div>
     <!-- Goals -->
-    <div class="detailCard"
-    [ngClass]="isBlocked.goals ? 'disabled-component' : ''"
+    <div
+      class="detailCard"
+      [ngClass]="isBlocked.goals ? 'disabled-component' : ''"
     >
       <div class="detailCardBody">
         <div class="detailCardHeader">
           <div class="detailTitle">
             <span> Goals </span>
             <div class="editing-box goals" *ngIf="isUserEditing.goals">
-              <img class="editing-box__icon" [src]="userBlocking.goals?.image" alt="user" />
-              <span class="editing-box__user">{{ userBlocking.goals?.name }}</span>
-              <span class="editing-box__text"
-                >
-                <span *ngIf="userBlocking.goals.name.toLowerCase().endsWith('s')">' </span>
-                <span *ngIf="!userBlocking.goals.name.toLowerCase().endsWith('s')">'s </span>
-                 editing</span>
-              </div>
+              <img
+                class="editing-box__icon"
+                [src]="userBlocking.goals?.image"
+                alt="user"
+              />
+              <span class="editing-box__user">{{
+                userBlocking.goals?.name
+              }}</span>
+              <span class="editing-box__text">
+                <span
+                  *ngIf="userBlocking.goals.name.toLowerCase().endsWith('s')"
+                  >'
+                </span>
+                <span
+                  *ngIf="!userBlocking.goals.name.toLowerCase().endsWith('s')"
+                  >'s
+                </span>
+                editing</span
+              >
+            </div>
           </div>
         </div>
         <div class="detailHorizontalLine"></div>
         <div class="detailCardContent">
           <div class="detailgrid">
-            <div class="detailSubTitleGrid detailCharacterInfoText">Intermediate</div>
-            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+            <div class="detailSubTitleGrid detailCharacterInfoText">
+              Intermediate
+            </div>
+            <textarea
+              class="detailTextArea detailGreyBG scrollBar resize-ta"
+              rows="1"
               [(ngModel)]="this.details.intermediate"
-              (input)='this.growShrink($event, this.details.intermediate, false, "goals")'
+              (input)="
+                this.growShrink(
+                  $event,
+                  this.details.intermediate,
+                  false,
+                  'goals'
+                )
+              "
               (keydown)="this.onChangeBlock($event, 'goals')"
               (contextmenu)="this.onChangeBlock($event, 'goals')"
               (paste)="this.onChangeBlock($event, 'goals')"
             ></textarea>
             <div class="detailSubTitleGrid detailCharacterInfoText">Local</div>
-            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+            <textarea
+              class="detailTextArea detailGreyBG scrollBar resize-ta"
+              rows="1"
               [(ngModel)]="this.details.local"
-              (input)='this.growShrink($event, this.details.local, false, "goals")'
+              (input)="
+                this.growShrink($event, this.details.local, false, 'goals')
+              "
               (keydown)="this.onChangeBlock($event, 'goals')"
               (contextmenu)="this.onChangeBlock($event, 'goals')"
               (paste)="this.onChangeBlock($event, 'goals')"
             ></textarea>
             <div class="detailSubTitleGrid detailCharacterInfoText">Global</div>
-            <textarea class="detailTextArea detailGreyBG scrollBar resize-ta" rows="1"
+            <textarea
+              class="detailTextArea detailGreyBG scrollBar resize-ta"
+              rows="1"
               [(ngModel)]="this.details.global"
-              (input)='this.growShrink($event, this.details.global, false, "goals")'
+              (input)="
+                this.growShrink($event, this.details.global, false, 'goals')
+              "
               (keydown)="this.onChangeBlock($event, 'goals')"
               (contextmenu)="this.onChangeBlock($event, 'goals')"
               (paste)="this.onChangeBlock($event, 'goals')"

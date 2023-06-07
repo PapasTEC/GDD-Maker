@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TogglebarComponent } from './togglebar.component';
+import { TogglebarComponent } from "./togglebar.component";
 
-describe('TogglebarComponent', () => {
+describe("TogglebarComponent", () => {
   let component: TogglebarComponent;
   let fixture: ComponentFixture<TogglebarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TogglebarComponent ]
-    })
-    .compileComponents();
+      declarations: [TogglebarComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('TogglebarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

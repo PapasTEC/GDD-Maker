@@ -1,7 +1,7 @@
 /* BlueBody */
 $borderState: none;
 
-$primary: #16425B;
+$primary: #16425b;
 
 $borderState: none;
 $fontColor: #313131;
@@ -33,15 +33,9 @@ $cardBorderRadius: max(1vw, 1vh);
   width: 100%;
   height: 100%;
 
-
   box-shadow: $shadow;
 
-
-
-
-
   border-radius: $cardBorderRadius;
-
 }
 
 .cardRibbon {
@@ -60,7 +54,6 @@ $cardBorderRadius: max(1vw, 1vh);
 
   display: flex;
 }
-
 
 /* TitleBox */
 
@@ -105,7 +98,6 @@ $default: #f7f7f7;
 $tertiary: #c7c7c7;
 
 .cardContent {
-
   position: relative;
 
   align-items: center;
@@ -116,7 +108,6 @@ $tertiary: #c7c7c7;
   overflow: hidden;
   border: none rgb(252, 0, 0) 3px;
   padding: 3%;
-
 }
 
 .cardContent::-webkit-scrollbar {
@@ -147,7 +138,6 @@ $tertiary: #c7c7c7;
   align-items: center;
 
   border-color: rgb(235, 3, 204);
-
 }
 
 $lower: 30pt;
@@ -155,11 +145,10 @@ $upper: 50pt;
 $relative: 3vw;
 $relative2: 3vh;
 
-$size : min(4vw, 4vh);
+$size: min(4vw, 4vh);
 
 .arrows {
   position: relative;
-
 
   width: $size;
   height: $size;
@@ -174,45 +163,39 @@ $size : min(4vw, 4vh);
 
   &:hover {
     background-color: #e4e4e4;
-
   }
-
 }
 
-.fa-home{
+.fa-home {
   transition: background-color 0.2s ease-in-out;
-  
+
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
   font-size: $size;
-
 }
 
-.btn-icon-only{
+.btn-icon-only {
   transition: background-color 0.2s ease-in-out;
   width: calc($size * 1.5);
   height: calc($size * 1.5);
   align-items: center;
 
   &:hover {
-    
     background-color: #ffffff;
   }
 
-  &:not(hover){
+  &:not(hover) {
     background: none;
   }
 
-  &:hover .fa-home{
+  &:hover .fa-home {
     color: $primary;
   }
 
-  &:not(hover) .fa-home{
+  &:not(hover) .fa-home {
     color: #e0e0e0;
   }
-  
-
 }

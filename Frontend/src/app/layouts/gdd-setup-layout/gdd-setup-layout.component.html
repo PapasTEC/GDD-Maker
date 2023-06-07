@@ -1,5 +1,4 @@
-<div class="header bg-gradient-tertiary" style="height: 19vh;">
-</div>
+<div class="header bg-gradient-tertiary" style="height: 19vh"></div>
 
 <head>
   <link rel="stylesheet" href="gdd-setup-layout.component.scss" />
@@ -10,7 +9,7 @@
   <div class="cardClass bg-secondary">
     <div class="cardRibbon bg-default">
       <div class="cardRibbonTitle">
-        <span> {{currentTitle}} </span>
+        <span> {{ currentTitle }} </span>
       </div>
       <button type="button" (click)="backHome()" class="btn btn-icon-only">
         <i class="fas fa-home"></i>
@@ -19,21 +18,21 @@
     <div class="cardBottom">
       <div class="previousCard" class="cardNavigation">
         <button *ngIf="showLeftArrow" class="btn" (click)="previousPage()">
-            <svg
-              class="arrows"
-              style="margin-left: 0%"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <polygon
-                fill-rule="evenodd"
-                points="9.414 12 16.707 19.293 15.293 20.707 6.586 12 15.293 3.293 16.707 4.707"
-              />
-            </svg>
+          <svg
+            class="arrows"
+            style="margin-left: 0%"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <polygon
+              fill-rule="evenodd"
+              points="9.414 12 16.707 19.293 15.293 20.707 6.586 12 15.293 3.293 16.707 4.707"
+            />
+          </svg>
         </button>
-        <div *ngIf="!showLeftArrow" style="width: 4vw;"></div>
+        <div *ngIf="!showLeftArrow" style="width: 4vw"></div>
       </div>
 
       <div id="cardContent" class="cardContent">
@@ -42,22 +41,21 @@
 
       <div id="nextCard" class="cardNavigation">
         <button *ngIf="showRightArrow" class="btn" (click)="nextPage()">
-          
-            <svg
-              class="arrows"
-              style="margin-left: auto"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <polygon
-                fill-rule="evenodd"
-                points="14.586 12 7.293 4.707 8.707 3.293 17.414 12 8.707 20.707 7.293 19.293"
-              />
-            </svg>
+          <svg
+            class="arrows"
+            style="margin-left: auto"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <polygon
+              fill-rule="evenodd"
+              points="14.586 12 7.293 4.707 8.707 3.293 17.414 12 8.707 20.707 7.293 19.293"
+            />
+          </svg>
         </button>
-        <div *ngIf="!showRightArrow" style="width: 4vw;"></div>
+        <div *ngIf="!showRightArrow" style="width: 4vw"></div>
       </div>
     </div>
   </div>

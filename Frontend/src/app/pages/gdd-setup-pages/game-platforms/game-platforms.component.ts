@@ -1,46 +1,54 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-game-platforms',
-  templateUrl: './game-platforms.component.html',
-  styleUrls: ['./game-platforms.component.scss', '../setupStyles.scss']
+  selector: "app-game-platforms",
+  templateUrl: "./game-platforms.component.html",
+  styleUrls: ["./game-platforms.component.scss", "../setupStyles.scss"],
 })
 export class GamePlatformsComponent {
-
   platforms = [
-    {"name":"Android", "image":"../../assets/img/platformIcons/android.png"},
-    {"name":"iOS", "image":"../../assets/img/platformIcons/ios.png"},
-    {"name":"Web", "image":"../../assets/img/platformIcons/web.png"},
-    {"name":"Linux", "image":"../../assets/img/platformIcons/linux.png"},
-    {"name":"MacOS", "image":"../../assets/img/platformIcons/mac.png"},
-    {"name":"Windows", "image":"../../assets/img/platformIcons/windows.png"},
-    {"name":"Playstation", "image":"../../assets/img/platformIcons/playstation.png"}, 
-    {"name":"Xbox", "image":"../../assets/img/platformIcons/xbox.png"}, 
-    {"name":"Nintendo Switch", "image":"../../assets/img/platformIcons/switch.png"},
+    { name: "Android", image: "../../assets/img/platformIcons/android.png" },
+    { name: "iOS", image: "../../assets/img/platformIcons/ios.png" },
+    { name: "Web", image: "../../assets/img/platformIcons/web.png" },
+    { name: "Linux", image: "../../assets/img/platformIcons/linux.png" },
+    { name: "MacOS", image: "../../assets/img/platformIcons/mac.png" },
+    { name: "Windows", image: "../../assets/img/platformIcons/windows.png" },
+    {
+      name: "Playstation",
+      image: "../../assets/img/platformIcons/playstation.png",
+    },
+    { name: "Xbox", image: "../../assets/img/platformIcons/xbox.png" },
+    {
+      name: "Nintendo Switch",
+      image: "../../assets/img/platformIcons/switch.png",
+    },
   ];
-
 
   chosenPlatforms = [];
   multipleAllowed = true;
 
-
-  ngOnInit(){
-    if (sessionStorage.getItem('currentSetup') !== null) {
-      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+  ngOnInit() {
+    if (sessionStorage.getItem("currentSetup") !== null) {
+      let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
       this.chosenPlatforms = currentSetup.gamePlatforms;
 
       const getOverlays = new Promise((resolve, reject) => {
-        resolve(document.getElementsByClassName("overlayImage") as HTMLCollectionOf<HTMLElement>);
+        resolve(
+          document.getElementsByClassName(
+            "overlayImage"
+          ) as HTMLCollectionOf<HTMLElement>
+        );
       });
 
       getOverlays.then((aestheticsIndicators) => {
-        this.chosenPlatforms.forEach(index => aestheticsIndicators[index].style.display = "block");
+        this.chosenPlatforms.forEach(
+          (index) => (aestheticsIndicators[index].style.display = "block")
+        );
       });
     }
   }
-  
-  public addOrRemove(platformID:number){
 
+  public addOrRemove(platformID: number) {
     let aestheticsIndicators = document.getElementsByClassName(
       "overlayImage"
     ) as HTMLCollectionOf<HTMLElement>;
@@ -69,14 +77,12 @@ export class GamePlatformsComponent {
       }
     }
 
-
     this.updateStorage();
   }
 
-  updateStorage(){
-    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+  updateStorage() {
+    let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
     currentSetup.gamePlatforms = this.chosenPlatforms;
-    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
+    sessionStorage.setItem("currentSetup", JSON.stringify(currentSetup));
   }
-
 }

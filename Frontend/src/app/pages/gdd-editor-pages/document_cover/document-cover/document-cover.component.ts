@@ -1,13 +1,13 @@
-import { Component, ViewEncapsulation, AfterViewChecked } from '@angular/core';
+import { Component, ViewEncapsulation, AfterViewChecked } from "@angular/core";
 import { faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
-import { DocumentService } from 'src/app/services/document.service';
+import { DocumentService } from "src/app/services/document.service";
 
-import { FinishSetupComponent } from '../../../gdd-setup-pages/finish-setup/finish-setup.component'
+import { FinishSetupComponent } from "../../../gdd-setup-pages/finish-setup/finish-setup.component";
 import { filter, map, take } from "rxjs/operators";
 
-import { ActivatedRoute } from '@angular/router';
-import { TokenService } from 'src/app/services/token.service';
+import { ActivatedRoute } from "@angular/router";
+import { TokenService } from "src/app/services/token.service";
 
 @Component({
   selector: "app-document-cover",
@@ -70,7 +70,6 @@ export class DocumentCoverComponent {
     private tokenService: TokenService
   ) {
     this.route = route;
-    
   }
 
   getSectionAndSubSection(route: ActivatedRoute) {
@@ -89,8 +88,6 @@ export class DocumentCoverComponent {
   }
 
   updateDocument() {
-
-
     if (!this.editingDocumentService.read_only) {
       this.myInput = true;
     }
@@ -103,45 +100,6 @@ export class DocumentCoverComponent {
       return author.name;
     });
     this.editingDocumentService.updateDocumentFrontPage(this.frontPage);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
 
   public canBeEdited(): boolean {
@@ -172,7 +130,6 @@ export class DocumentCoverComponent {
         map((document) => document.frontPage)
       )
       .subscribe((frontPage) => {
-
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -209,9 +166,6 @@ export class DocumentCoverComponent {
         this.cover.GameName = this.gameName;
         this.cover.CompanyName = this.companyName;
         this.loaded = true;
-
-
-
       });
 
     this.updateBlockedInterval = setInterval(() => {
@@ -235,25 +189,20 @@ export class DocumentCoverComponent {
     const targ = area as HTMLTextAreaElement;
     let rows = _var.split("\n").length;
 
-
-
     targ.style.height = `${rows * 1.5}em`;
     targ.rows = rows;
 
     targ.value = _var;
 
     while (targ.scrollHeight > targ.clientHeight) {
-
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
     }
 
     while (targ.scrollHeight < targ.clientHeight) {
-
       targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
     }
 
     if (callUpdate) {
-
       this.updateCoverContent();
     }
   }
@@ -273,7 +222,6 @@ export class DocumentCoverComponent {
   }
 
   updateCoverContent() {
-
     this.cover.Authors = this.authors;
     this.cover.GameName = this.gameName;
     this.cover.CompanyName = this.companyName;
@@ -347,12 +295,10 @@ export class DocumentCoverComponent {
     const targ = ev.target as HTMLTextAreaElement;
 
     while (targ.scrollHeight > targ.clientHeight) {
-
       targ.style.height = `${parseFloat(targ.style.height) + 1.5}em`;
     }
 
     while (targ.scrollHeight < targ.clientHeight) {
-
       targ.style.height = `${parseFloat(targ.style.height) - 1.5}em`;
     }
   }
@@ -377,57 +323,6 @@ export class DocumentCoverComponent {
       this.firstLoad = false;
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   hasNonAsciiCharacters(string) {
     const nonAsciiRegex = /[^\x00-\x7F]/;

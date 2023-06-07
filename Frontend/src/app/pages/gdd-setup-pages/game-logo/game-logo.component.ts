@@ -7,7 +7,7 @@ import { Route, ActivatedRoute } from "@angular/router";
   styleUrls: ["./game-logo.component.scss", "../setupStyles.scss"],
 })
 export class GameLogoComponent {
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   uploadedImage: string;
   routeUsingComponent: string;
@@ -26,7 +26,7 @@ export class GameLogoComponent {
       this.getSessionStorageContent(this.routeUsingComponent);
 
       if (this.uploadedImage != "") {
-        this.updateLogo(); 
+        this.updateLogo();
       }
     }
   }
@@ -84,7 +84,6 @@ export class GameLogoComponent {
     uploadButton.style.backgroundSize = "100% 100%";
     uploadButton.style.backgroundRepeat = "no-repeat";
 
-
     let uploadButtonChild = uploadButton.children[1] as HTMLElement;
     uploadButtonChild.style.display = "none";
 
@@ -93,18 +92,11 @@ export class GameLogoComponent {
     img.onload = () => {
       let aspectRatio = img.width / img.height;
 
-
-
-      const w = "calc(15vmax * " + (aspectRatio) + ")"
+      const w = "calc(15vmax * " + aspectRatio + ")";
       const h = "15vmax";
 
-        uploadButton.style.width = w;
-        uploadButton.style.height = h;
-
-        
-      
+      uploadButton.style.width = w;
+      uploadButton.style.height = h;
     };
   }
-
-  
 }

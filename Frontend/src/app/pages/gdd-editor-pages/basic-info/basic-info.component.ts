@@ -97,7 +97,6 @@ export class BasicInfoComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -108,33 +107,18 @@ export class BasicInfoComponent {
         this.canBeChanged("genres");
         this.canBeChanged("tags");
 
-
-
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         const userEditing =
-        this.editingDocumentService.userEditingByComponent[this.subSection];
+          this.editingDocumentService.userEditingByComponent[this.subSection];
 
         if (userEditing.elevatorPitch?.email !== this.localUser) {
-          this.elevatorPitch = this.documentSubSection.subSectionContent.elevatorPitch;
+          this.elevatorPitch =
+            this.documentSubSection.subSectionContent.elevatorPitch;
         }
         if (userEditing.tagline?.email !== this.localUser) {
           this.tagline = this.documentSubSection.subSectionContent.tagline;
@@ -145,8 +129,6 @@ export class BasicInfoComponent {
         if (userEditing.tags?.email !== this.localUser) {
           this.tags = this.documentSubSection.subSectionContent.tags;
         }
-
-
       });
 
     this.editingDocumentService.document$
@@ -170,8 +152,6 @@ export class BasicInfoComponent {
         this.genres = this.documentSubSection.subSectionContent.genres;
         this.tags = this.documentSubSection.subSectionContent.tags;
 
-
-
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
         }, 1000);
@@ -191,16 +171,11 @@ export class BasicInfoComponent {
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
     for (const key in this.isUserEditing) {
-
-        console.log(
-          this.isBlocked[key],
-          userEditing[key],
-          userEditing[key]?.email
-        );
       if (this.isUserEditing.hasOwnProperty(key)) {
         this.isUserEditing[key] =
           userEditing[key] && userEditing[key]?.email !== this.localUser;
-        this.isBlocked[key] = this.isUserEditing[key] || this.editingDocumentService.read_only;
+        this.isBlocked[key] =
+          this.isUserEditing[key] || this.editingDocumentService.read_only;
         if (this.isUserEditing[key]) {
           this.userBlocking[key] = userEditing[key];
         }
@@ -222,7 +197,6 @@ export class BasicInfoComponent {
     this.basicInfo.genres = this.genres;
     this.basicInfo.tags = this.tags;
 
-
     this.documentSubSection.subSectionContent = this.basicInfo;
     this.editingDocumentService.updateDocumentSubSection(
       this.section,
@@ -235,8 +209,10 @@ export class BasicInfoComponent {
   public canBeChanged(part: string): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isUserEditing[part] = userEditing[part] && userEditing[part].email !== this.localUser;
-    this.isBlocked[part] = this.isUserEditing[part] || this.editingDocumentService.read_only;
+    this.isUserEditing[part] =
+      userEditing[part] && userEditing[part].email !== this.localUser;
+    this.isBlocked[part] =
+      this.isUserEditing[part] || this.editingDocumentService.read_only;
     if (this.isUserEditing[part]) {
       this.userBlocking[part] = userEditing[part];
     }
@@ -258,8 +234,6 @@ export class BasicInfoComponent {
     this.genres.push(genreTextBox.value);
     genreTextBox.value = "";
 
-
-
     this.updateDocument("genres");
   }
 
@@ -270,9 +244,7 @@ export class BasicInfoComponent {
 
     this.genres.splice(id, 1);
 
-
     this.updateDocument("genres");
-
   }
 
   public addTag(): void {
@@ -290,9 +262,6 @@ export class BasicInfoComponent {
     this.tags.push(tagTextBox.value);
     tagTextBox.value = "";
     this.updateDocument("tags");
-
-
-
   }
   public deleteTag(id: number): void {
     if (!this.canBeChanged("tags")) {
@@ -300,8 +269,6 @@ export class BasicInfoComponent {
     }
 
     this.tags.splice(id, 1);
-
-
 
     this.updateDocument("tags");
   }

@@ -172,7 +172,6 @@ userController.loginUser = async (req, res) => {
       const token = generateToken(user);
       res.status(200).json({ auth: true, token, image: user.image });
     } catch (error) {
-
       res.status(404).json({ message: "User not found" });
     }
 
@@ -186,8 +185,6 @@ userController.loginUser = async (req, res) => {
       const newUser = { password };
 
       await user.updateOne(newUser);
-
-
     } catch (error) {
       res.status(500).json({ message: error });
     }

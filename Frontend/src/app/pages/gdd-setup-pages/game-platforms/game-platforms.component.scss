@@ -1,150 +1,133 @@
 $borderState: none;
 
-.platformsBody{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    border: $borderState 1px #5f8b56;
+.platformsBody {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: $borderState 1px #5f8b56;
 }
-
-
-
 
 $resizeFont: min(clamp(0.6em, 1.1vw, 3em), clamp(0.6em, 1.1vh, 3em));
 
-.platformCanvas{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap-reverse;
+.platformCanvas {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
 
-    
-    align-items: center;
-    justify-content: space-evenly;
-    padding: 0 2vw;
-    margin: 0;
-    border: $borderState 1px #8b565f;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0 2vw;
+  margin: 0;
+  border: $borderState 1px #8b565f;
 }
 
-.flexCont{
-    height: fit-content;
-    display: flex;
+.flexCont {
+  height: fit-content;
+  display: flex;
 
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: $borderState 1px #4d0f19;
-    flex: 0 0 20%;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: $borderState 1px #4d0f19;
+  flex: 0 0 20%;
 }
-
 
 .overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
-    transition: .3s ease;
-    
-    border-radius: inherit;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  transition: 0.3s ease;
 
-    padding: 5%;
-  }
+  border-radius: inherit;
 
-  .overlayImage{
-    position: absolute;
-    top: 75%;
-    bottom: 0;
-    left: 75%;
-    right: 0;
-    height: 50%;
-    border-radius: inherit;
-    display: none;
+  padding: 5%;
 }
-  
 
-  .btn:active .overlay {
-    background-color: #16425b57;
-    transition: 0.1s ease;
-  }
+.overlayImage {
+  position: absolute;
+  top: 75%;
+  bottom: 0;
+  left: 75%;
+  right: 0;
+  height: 50%;
+  border-radius: inherit;
+  display: none;
+}
 
-  .btn:not(active) .overlay {
-    background-color: transparent;
-    transition: 1.5s ease;
-  }
+.btn:active .overlay {
+  background-color: #16425b57;
+  transition: 0.1s ease;
+}
 
-  .btn:active .overlay .overlayImage{
-    display: block;
-  }
+.btn:not(active) .overlay {
+  background-color: transparent;
+  transition: 1.5s ease;
+}
+
+.btn:active .overlay .overlayImage {
+  display: block;
+}
 
 $size: min(clamp(20%, 10vw, 60%), clamp(20%, 10vh, 60%));
-.platformContainer{
-    
+.platformContainer {
+  width: $size;
 
-    width: $size;
-    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: #979797 $borderState 2px;
+
+  padding: 1%;
+
+  .btn {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+    border: none;
 
-    border: #979797 $borderState 2px;
-
-
-    padding: 1%;
-
-    .btn{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        padding: 0;
-        border-radius: 10px;
-        border: none;
-
-        
-    
-        .platformImage{
-            position: relative;
-            height: inherit;
-            width: inherit;
-            border-radius: inherit;
-            display: block;
-            border: $borderState 1px #ff002b;
-
-            
-        }
-
-        .btn:hover .platformImage{
-            filter: contrast(1.5);
-        }
-
-        
-
-        
+    .platformImage {
+      position: relative;
+      height: inherit;
+      width: inherit;
+      border-radius: inherit;
+      display: block;
+      border: $borderState 1px #ff002b;
     }
 
-    .platformText{
-        display: block;
-        position: relative;
-        width: 100%;
-        height: fit-content;
-
-        color: black;
-        font-size: $resizeFont;
-        font-weight: 700;
-        text-align: center;
-
-        border: $borderState 1px #8b565f;
+    .btn:hover .platformImage {
+      filter: contrast(1.5);
     }
+  }
+
+  .platformText {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+
+    color: black;
+    font-size: $resizeFont;
+    font-weight: 700;
+    text-align: center;
+
+    border: $borderState 1px #8b565f;
+  }
 }

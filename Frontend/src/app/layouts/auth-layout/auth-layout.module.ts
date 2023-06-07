@@ -1,28 +1,23 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthLayoutRoutes } from './auth-layout.routing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AuthLayoutRoutes } from "./auth-layout.routing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { LoginComponent } from '../../pages/login/login.component';
-import { RegisterComponent } from '../../pages/register/register.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { CookieService } from 'ngx-cookie-service';
+import { LoginComponent } from "../../pages/login/login.component";
+import { RegisterComponent } from "../../pages/register/register.component";
+import { MatDialogModule } from "@angular/material/dialog";
+import { CookieService } from "ngx-cookie-service";
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
-
-
+    MatDialogModule,
   ],
-  declarations: [
-    LoginComponent,
-    RegisterComponent
-  ],
-  providers: [ CookieService]
+  declarations: [LoginComponent, RegisterComponent],
+  providers: [CookieService],
 })
-export class AuthLayoutModule { }
+export class AuthLayoutModule {}

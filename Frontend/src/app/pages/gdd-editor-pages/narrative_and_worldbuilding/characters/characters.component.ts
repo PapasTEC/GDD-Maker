@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, AfterViewChecked   } from '@angular/core';
+import { Component, ViewEncapsulation, AfterViewChecked } from "@angular/core";
 import { faTrash, faAdd, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { DocumentService } from "src/app/services/document.service";
@@ -8,30 +8,50 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { FinishSetupComponent } from 'src/app/pages/gdd-setup-pages/finish-setup/finish-setup.component';
 import { ChangeDetectorRef } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
-import { TokenService } from 'src/app/services/token.service';
+import { ActivatedRoute } from "@angular/router";
+import { TokenService } from "src/app/services/token.service";
 
 @Component({
-  selector: 'app-characters',
-  templateUrl: './characters.component.html',
-  styleUrls: ['../../vditor/vditor.component.scss', './characters.component.scss', '../../editorGlobalStyles.scss'],
+  selector: "app-characters",
+  templateUrl: "./characters.component.html",
+  styleUrls: [
+    "../../vditor/vditor.component.scss",
+    "./characters.component.scss",
+    "../../editorGlobalStyles.scss",
+  ],
   encapsulation: ViewEncapsulation.None,
-  providers: [FinishSetupComponent]
+  providers: [FinishSetupComponent],
 })
 export class CharactersComponent {
-
   activatedRoute: ActivatedRoute;
   documentId: string;
 
-  constructor(private cdr: ChangeDetectorRef, private editingDocumentService: EditingDocumentService, private documentService: DocumentService, route: ActivatedRoute, private finishSetup: FinishSetupComponent, private tokenService: TokenService) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private editingDocumentService: EditingDocumentService,
+    private documentService: DocumentService,
+    route: ActivatedRoute,
+    private finishSetup: FinishSetupComponent,
+    private tokenService: TokenService
+  ) {
     this.activatedRoute = route;
     this.activatedRoute.queryParams.subscribe((params) => {
       this.documentId = params["pjt"];
     });
-   }
+  }
 
-  allAesthetics = ["Sensation", "Fantasy", "Narrative", "Challenge", "Puzzle","Fellowship", "Discovery", "Expression", "Submission" ];
-  charactersInDocument:ICharacterCard[] = [];
+  allAesthetics = [
+    "Sensation",
+    "Fantasy",
+    "Narrative",
+    "Challenge",
+    "Puzzle",
+    "Fellowship",
+    "Discovery",
+    "Expression",
+    "Submission",
+  ];
+  charactersInDocument: ICharacterCard[] = [];
 
   trashIcon = faTrash;
   plusIcon = faAdd;
@@ -40,12 +60,12 @@ export class CharactersComponent {
   cardsInDocument = 0;
   limitOfCards = 9;
 
-  section:string;
-  subSection:string;
+  section: string;
+  subSection: string;
   documentSubSection: any;
   characterCardKeys = Object.keys(this.createBlankCharacter());
 
-   load= false;
+  load = false;
 
   /* Collaborative Editing */
   isBlocked: boolean = false;
@@ -63,13 +83,12 @@ export class CharactersComponent {
 
   notLoadedComps = false;
 
-  
-
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
-    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    this.isBlocked =
+      this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
@@ -99,28 +118,26 @@ export class CharactersComponent {
 
   }
 
-
-  getSectionAndSubSection(route:ActivatedRoute){
+  getSectionAndSubSection(route: ActivatedRoute) {
     route.data.subscribe((data) => {
       this.section = data.section;
       this.subSection = data.subSection;
     });
-
   }
 
   images = []
   dropIt;
 
-  public loadImage = src =>
-  new Promise((resolve, reject) => {
-    if (!src) {
-      resolve(null);
-    }
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = src;
-  });
+  public loadImage = (src) =>
+    new Promise((resolve, reject) => {
+      if (!src) {
+        resolve(null);
+      }
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
 
   findFirstDifferenceIndexJSON(list1, list2) {
     let indices = [];
@@ -201,23 +218,20 @@ export class CharactersComponent {
       let w;
       let h;
 
-      if(aspectRatio > 1){
+      if (aspectRatio > 1) {
         w = "10vmax";
-        h = "calc(10vmax * " + (1/aspectRatio) + ")"
-      }else{
-        w = "calc(10vmax * " + (aspectRatio) + ")"
+        h = "calc(10vmax * " + 1 / aspectRatio + ")";
+      } else {
+        w = "calc(10vmax * " + aspectRatio + ")";
         h = "10vmax";
       }
 
-      let info = {}
+      let info = {};
       info["width"] = w;
       info["height"] = h;
 
       this.imagesInfo[i] = info;
     });
-
-    console.log("this.imagesInfo", this.imagesInfo)
-
   }
 
   areObjectListsEqual(list1, list2) {
@@ -267,10 +281,13 @@ export class CharactersComponent {
     this.getSectionAndSubSection(this.activatedRoute);
 
     setInterval(() => {
-      if(this.notLoadedComps){
+      if (this.notLoadedComps) {
         for (let i = 0; i < this.charactersInDocument.length; i++) {
-          if(this.charactersInDocument[i]['image'] !== ""){
-            this.updateLogo(i.toString(), this.charactersInDocument[i]['image']);
+          if (this.charactersInDocument[i]["image"] !== "") {
+            this.updateLogo(
+              i.toString(),
+              this.charactersInDocument[i]["image"]
+            );
           }
         }
       }
@@ -282,19 +299,18 @@ export class CharactersComponent {
         this.localUser = data.decoded.email;
       });
 
-    this.canBeEdited()
+    this.canBeEdited();
 
     this.updateSocket = this.editingDocumentService
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
-      .subscribe(async(document) => {
-
+      .subscribe(async (document) => {
         if (this.myInput) {
           this.myInput = false;
           return;
         }
 
-        this.canBeEdited()
+        this.canBeEdited();
         this.notLoadedComps = true;
         let oldImages = this.images;
         let oldChars = [...this.charactersInDocument];
@@ -378,15 +394,13 @@ export class CharactersComponent {
 
         this.charactersInDocument = document.subSectionContent.characters;
 
-        this.images  = document.subSectionContent.characters.map((character) => {
+        this.images = document.subSectionContent.characters.map((character) => {
           return character.image;
         });
-
 
         await this.reloadImages(oldImages);
 
         this.load = true;
-
 
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
@@ -404,69 +418,92 @@ export class CharactersComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-
   }
 
-  addDocSectionIfItDoesntExist(section:string){
-    this.editingDocumentService.document$.pipe(
-      filter((document) => document !== null),
-      map((document) => document.documentContent.map( d => {return d.sectionTitle;}).includes(section)),
-      take(1)
-    ).subscribe(
-      (sectionExists) => {
-        if(!sectionExists){
+  addDocSectionIfItDoesntExist(section: string) {
+    this.editingDocumentService.document$
+      .pipe(
+        filter((document) => document !== null),
+        map((document) =>
+          document.documentContent
+            .map((d) => {
+              return d.sectionTitle;
+            })
+            .includes(section)
+        ),
+        take(1)
+      )
+      .subscribe((sectionExists) => {
+        if (!sectionExists) {
           this.editingDocumentService.addDocumentSection(section);
         }
-
-      }
-    );
+      });
   }
 
-  addDocSubSectionIfItDoesntExist(section:string, subSection:string, content:any){
-    this.editingDocumentService.document$.pipe(
-      filter((document) => document !== null),
-      map((document) => document.documentContent.find( d => {return d.sectionTitle === section;}).subSections.map( s => {return s.subSectionTitle;}).includes(subSection)),
-      take(1)
-    ).subscribe(
-      (subSectionExists) => {
-        if(!subSectionExists){
-          this.editingDocumentService.addDocumentSubSection(section, subSection, content);
+  addDocSubSectionIfItDoesntExist(
+    section: string,
+    subSection: string,
+    content: any
+  ) {
+    this.editingDocumentService.document$
+      .pipe(
+        filter((document) => document !== null),
+        map((document) =>
+          document.documentContent
+            .find((d) => {
+              return d.sectionTitle === section;
+            })
+            .subSections.map((s) => {
+              return s.subSectionTitle;
+            })
+            .includes(subSection)
+        ),
+        take(1)
+      )
+      .subscribe((subSectionExists) => {
+        if (!subSectionExists) {
+          this.editingDocumentService.addDocumentSubSection(
+            section,
+            subSection,
+            content
+          );
         }
-      }
-    );
+      });
   }
 
-  functionalComboBox(){}
-
+  functionalComboBox() {}
 
   createBlankCharacter(): ICharacterCard {
-      const blankCharacter: ICharacterCard = {
-          "image": "",
-          "name":"",
-          "age": "",
-          "gender":"",
-          "profession":"",
-          "bio": "",
-          "virtues":"",
-          "flaws":"",
-          "goals":""
-      }
+    const blankCharacter: ICharacterCard = {
+      image: "",
+      name: "",
+      age: "",
+      gender: "",
+      profession: "",
+      bio: "",
+      virtues: "",
+      flaws: "",
+      goals: "",
+    };
 
-      return blankCharacter;
+    return blankCharacter;
   }
 
-  addCard(){
+  addCard() {
     if (!this.canBeEdited()) {
       return;
     }
     const newCharacterCard = this.createBlankCharacter();
     this.charactersInDocument.push(newCharacterCard);
     this.updateDocument(this.charactersInDocument);
-
-
   }
 
-  updateTxtContent(txtArea: HTMLTextAreaElement, field: string, id:string, event: any){
+  updateTxtContent(
+    txtArea: HTMLTextAreaElement,
+    field: string,
+    id: string,
+    event: any
+  ) {
     if (!this.canBeEdited()) {
       event.preventDefault();
       return;
@@ -478,43 +515,15 @@ export class CharactersComponent {
 
   uploadedImage: string = "";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  loadSavedImages(){
+  loadSavedImages() {
     let i = 0;
 
     this.charactersInDocument.forEach((character, index) => {
       this.uploadedImage = character.image;
-      this.updateLogo(i.toString(), this.charactersInDocument[parseInt(i.toString())][`image`]);
+      this.updateLogo(
+        i.toString(),
+        this.charactersInDocument[parseInt(i.toString())][`image`]
+      );
       i++;
     });
   }
@@ -565,28 +574,18 @@ export class CharactersComponent {
     return fixName;
   }
 
-  
-
-
-  private async updateLogo(id:string, image) {
+  private async updateLogo(id: string, image) {
     let uploadButton = document.getElementById(`upButton${id}`);
-    if(uploadButton !== null){
+    if (uploadButton !== null) {
       this.notLoadedComps = false;
     }
     let img = new Image();
     img.src = image;
-
-    console.log("img", uploadButton)
-    uploadButton.style.backgroundImage = `url(${image})`;
-
-
     
-
+    uploadButton.style.backgroundImage = `url(${image})`;
   }
 
-  public async onFileSelected(
-    event: any, field:string, id:string
-  ) {
+  public async onFileSelected(event: any, field: string, id: string) {
     if (!this.canBeEdited()) {
       event.preventDefault();
       return;
@@ -599,25 +598,18 @@ export class CharactersComponent {
       let imagePath = `http://localhost:3080/uploads/${this.documentId}/${imageName}`;
 
 
-      
       this.notLoadedComps = true;
       this.charactersInDocument[parseInt(id)][field] = imagePath;
-      
-
-
-      
 
       await this.saveImageInServer(file, imageName);
-      
-      
-      
+
       await this.reloadImages();
       this.notLoadedComps = true;
       this.cdr.detectChanges();
       this.updateDocument(this.charactersInDocument);
       for (let i = 0; i < this.charactersInDocument.length; i++) {
-        if(this.charactersInDocument[i]['image'] !== ""){
-          this.updateLogo(i.toString(), this.charactersInDocument[i]['image']);
+        if (this.charactersInDocument[i]["image"] !== "") {
+          this.updateLogo(i.toString(), this.charactersInDocument[i]["image"]);
         }
       }
 
@@ -655,20 +647,9 @@ export class CharactersComponent {
     uploadButton.style.paddingRight = w;
   }
 
+  ngAfterViewChecked() {}
 
-  
-
-  ngAfterViewChecked(){
-    
-
-
-
-
-
-    
-  }
-
-  removeCard(card: HTMLElement){
+  removeCard(card: HTMLElement) {
     if (!this.canBeEdited()) {
       return;
     }
@@ -683,5 +664,4 @@ export class CharactersComponent {
 
     this.updateDocument(this.charactersInDocument);
   }
-
 }

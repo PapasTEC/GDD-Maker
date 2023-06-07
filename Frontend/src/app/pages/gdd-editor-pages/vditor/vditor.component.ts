@@ -7,8 +7,6 @@ import { filter, map, take, timeInterval } from "rxjs/operators";
 import { TokenService } from "src/app/services/token.service";
 import detectUrlChange from "detect-url-change";
 
-
-
 @Component({
   selector: "app-vditor",
   templateUrl: "./vditor.component.html",
@@ -57,8 +55,6 @@ export class VditorComponent {
   }
 
   ngOnDestroy() {
-
-
     this.vditor.destroy();
 
     this.editingDocumentService.userEditingByComponent[this.subSection] = null;
@@ -73,13 +69,6 @@ export class VditorComponent {
   }
 
   ngOnInit() {
-
-
-
-
-
-
-
     if (this.editingDocumentService.read_only) {
       this.isBlocked = true;
     }
@@ -94,9 +83,6 @@ export class VditorComponent {
       this.section = _value.section;
       this.subSection = _value.subSection;
       this.showUpload = _value.upload;
-
-
-
     });
 
     this.getDocumentId = this.activatedRoute.queryParams.subscribe((params) => {
@@ -107,19 +93,11 @@ export class VditorComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-        console.log(
-          "subSectionSocket:",
-          document.socketSubSection,
-          "this.subSection:",
-          this.subSection
-        );
-
 
         if (this.myInput) {
           this.myInput = false;
           return;
         }
-
 
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
@@ -127,21 +105,18 @@ export class VditorComponent {
             (subsection) => subsection.subSectionTitle === this.subSection
           );
 
-
-
         const userEditing =
           this.editingDocumentService.userEditingByComponent[this.subSection];
-        this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
-        this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+        this.isUserEditing =
+          userEditing && userEditing?.email !== this.localUser;
+        this.isBlocked =
+          this.isUserEditing || this.editingDocumentService.read_only;
         if (this.isUserEditing) {
           this.userBlocking = userEditing;
         }
 
         this.vditor.setValue(this.documentSubSection.subSectionContent.text);
         this.resetCaretToLastPosition(this.lastRow, this.lastCol);
-
-
-
       });
 
     this.editingDocumentService.document$
@@ -181,13 +156,12 @@ export class VditorComponent {
   }
 
   updateIsBlocked1s() {
-
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
-    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    this.isBlocked =
+      this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
-
       this.userBlocking = userEditing;
     }
   }
@@ -196,7 +170,8 @@ export class VditorComponent {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
-    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    this.isBlocked =
+      this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
@@ -208,7 +183,8 @@ export class VditorComponent {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
-    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    this.isBlocked =
+      this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
@@ -216,8 +192,6 @@ export class VditorComponent {
       event.preventDefault();
     }
   }
-
-
 
   lastCol = 0;
   lastRow = 0;
@@ -291,41 +265,36 @@ export class VditorComponent {
 
       const formData = new FormData();
       formData.append("image", file, fixName);
-      this.documentService.uploadImage(this.documentId, fixName, formData).subscribe(
-        (res) => {},
-        (err) => {
-          if (err.status === 200) {
-            this.vditor.insertValue(`![](uploads/${this.documentId}/${fixName})`);
+      this.documentService
+        .uploadImage(this.documentId, fixName, formData)
+        .subscribe(
+          (res) => {},
+          (err) => {
+            if (err.status === 200) {
+              this.vditor.insertValue(
+                `![](uploads/${this.documentId}/${fixName})`
+              );
 
-
-
-            this.updateDocument(this.vditor.getValue());
-            this.editingDocumentService.document$
-              .pipe(take(1))
-              .subscribe((document) => {
-                this.documentService
-                  .updateDocument(this.documentId, document)
-                  .subscribe((res) => {
-
-                    (err) => {
-
-                    };
-                  });
-              });
-          } else {
-
+              this.updateDocument(this.vditor.getValue());
+              this.editingDocumentService.document$
+                .pipe(take(1))
+                .subscribe((document) => {
+                  this.documentService
+                    .updateDocument(this.documentId, document)
+                    .subscribe((res) => {
+                      (err) => {};
+                    });
+                });
+            } else {
+            }
           }
-        }
-      );
+        );
     }
   }
 
   uploadImage() {
     document.getElementById("fileSelector").click();
-
   }
-
-
 
   changeVditorConfig(
     showUploadTool: boolean,
@@ -339,16 +308,13 @@ export class VditorComponent {
         max: 1048576,
         accept: "image/jpeg,image/png,image/gif",
 
-
         filename(name) {
           return name
             .replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, "")
             .replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, "")
             .replace("/\\s/g", "");
         },
-        success: (editor, result) => {
-
-        },
+        success: (editor, result) => {},
       },
       lang: "en_US",
       mode: "ir",
@@ -679,18 +645,6 @@ export class VditorComponent {
                 tipPosition: "sw",
               },
 
-
-
-
-
-
-
-
-
-
-
-
-
               {
                 name: "br",
               },
@@ -704,7 +658,6 @@ export class VditorComponent {
         this.setCaretCursorPosition();
       },
       input: (value: string) => {
-
         this.setCaretCursorPosition();
         this.myInput = true;
         this.updateDocument(value);
@@ -759,8 +712,6 @@ export class VditorComponent {
     this.lastCol = col;
     this.lastRow = row;
 
-
-
     this.getMaxColandRow();
   }
 
@@ -773,8 +724,6 @@ export class VditorComponent {
     } catch (error) {
       col = 0;
     }
-
-
 
     return { row, col };
   }

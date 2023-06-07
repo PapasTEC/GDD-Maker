@@ -1,13 +1,13 @@
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { Project } from './dashboard.component';
+import { Directive, EventEmitter, Input, Output } from "@angular/core";
+import { Project } from "./dashboard.component";
 
-export type SortColumn = keyof Project | '';
-export type SortDirection = 'asc' | 'desc' | '';
+export type SortColumn = keyof Project | "";
+export type SortDirection = "asc" | "desc" | "";
 
 const rotate: { [key: string]: SortDirection } = {
-  asc: 'desc',
-  desc: '',
-  '': 'asc',
+  asc: "desc",
+  desc: "",
+  "": "asc",
 };
 
 export const compare = (
@@ -21,16 +21,16 @@ export interface SortEvent {
 }
 
 @Directive({
-  selector: 'th[sortable]',
+  selector: "th[sortable]",
   host: {
-    '[class.asc]': 'direction === "asc"',
-    '[class.desc]': 'direction === "desc"',
-    '(click)': 'rotate()',
+    "[class.asc]": 'direction === "asc"',
+    "[class.desc]": 'direction === "desc"',
+    "(click)": "rotate()",
   },
 })
 export class SortableHeaderDirective {
-  @Input() sortable: SortColumn = '';
-  @Input() direction: SortDirection = '';
+  @Input() sortable: SortColumn = "";
+  @Input() direction: SortDirection = "";
   @Output() sort = new EventEmitter<SortEvent>();
 
   rotate() {

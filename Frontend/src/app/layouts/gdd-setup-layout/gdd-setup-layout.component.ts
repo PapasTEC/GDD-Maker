@@ -1,18 +1,29 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { GddSetupLayoutRoutes } from './gdd-setup-layout.routing';
+import { Component } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { GddSetupLayoutRoutes } from "./gdd-setup-layout.routing";
 
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-gdd-setup-layout',
-  templateUrl: './gdd-setup-layout.component.html',
-  styleUrls: ['./gdd-setup-layout.component.scss']
+  selector: "app-gdd-setup-layout",
+  templateUrl: "./gdd-setup-layout.component.html",
+  styleUrls: ["./gdd-setup-layout.component.scss"],
 })
 export class GddSetupLayoutComponent {
-
   routes = GddSetupLayoutRoutes;
-  cardTitles = ["Game Title", "Game Logo", "Company Name", "Company Logo", "Game Tags", "Game Platforms", "Elevator Pitch", "Theme", "Aesthetic", "Core Mechanic", "Finish Setup"]
+  cardTitles = [
+    "Game Title",
+    "Game Logo",
+    "Company Name",
+    "Company Logo",
+    "Game Tags",
+    "Game Platforms",
+    "Elevator Pitch",
+    "Theme",
+    "Aesthetic",
+    "Core Mechanic",
+    "Finish Setup",
+  ];
 
   cardsData = {
     gameTitle: "",
@@ -24,8 +35,8 @@ export class GddSetupLayoutComponent {
     elevatorPitch: "",
     theme: "",
     aesthetic: [],
-    coreMechanic: ""
-  }
+    coreMechanic: "",
+  };
 
   routesIndex = 0;
   routesQuantity = this.routes.length;
@@ -46,55 +57,45 @@ export class GddSetupLayoutComponent {
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("bg-background");
 
-    sessionStorage.setItem('currentSetup', JSON.stringify(this.cardsData));
+    sessionStorage.setItem("currentSetup", JSON.stringify(this.cardsData));
   }
 
-  changePath(){
-    this.router.navigate([this.path], {relativeTo: this.route});
+  changePath() {
+    this.router.navigate([this.path], { relativeTo: this.route });
     this.currentTitle = this.cardTitles[this.routesIndex];
 
-    if (this.routesIndex == 0){
+    if (this.routesIndex == 0) {
       this.showLeftArrow = false;
     } else {
       this.showLeftArrow = true;
     }
 
-    if(this.routesIndex == this.routesQuantity - 1){
+    if (this.routesIndex == this.routesQuantity - 1) {
       this.showRightArrow = false;
     } else {
       this.showRightArrow = true;
     }
   }
 
-  previousPage(){
-
-    if(this.routesIndex > 0){
+  previousPage() {
+    if (this.routesIndex > 0) {
       this.routesIndex--;
     }
 
     this.path = this.routes[this.routesIndex].path;
     this.changePath();
-
   }
 
-  nextPage(){
-
-    if(this.routesIndex < this.routesQuantity - 1){
+  nextPage() {
+    if (this.routesIndex < this.routesQuantity - 1) {
       this.routesIndex++;
     }
 
     this.path = this.routes[this.routesIndex].path;
     this.changePath();
-
   }
 
-  async backHome(){
-
-
-
-
-
-
+  async backHome() {
     let { isConfirmed } = await Swal.fire({
       title: "Setup has not been completed",
       html: "<div>Are you sure you want to leave the setup?<br/>All progress will be lost.</div>",
@@ -114,6 +115,6 @@ export class GddSetupLayoutComponent {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("bg-background");
 
-    sessionStorage.removeItem('currentSetup');
+    sessionStorage.removeItem("currentSetup");
   }
 }

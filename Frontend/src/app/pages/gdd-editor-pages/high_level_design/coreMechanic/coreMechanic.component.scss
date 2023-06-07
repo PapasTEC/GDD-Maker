@@ -1,9 +1,3 @@
-
-
-
-
-
-
 $svg-height: var(--svg-height);
 $text-box-height: var(--text-box-height);
 $empty-box-height: var(--empty-box-height);
@@ -28,7 +22,6 @@ h1 {
   --primary-color: #17415b;
   --text-box-width: 70%;
   --box-border: max(4.25px, 0.425vh);
-
 }
 
 @media screen and (max-width: 1200px) {
@@ -58,15 +51,6 @@ h1 {
   }
 }
 
-
-
-
-
-
-
-
-
-
 @media screen and (max-width: 650px) {
   div.diagram-screen {
     --svg-height: max(500px, 50vh);
@@ -92,8 +76,6 @@ h1 {
 }
 
 .diagram {
-
-
   display: flex;
   grid-template-columns: 800px 600px;
   width: 80%;
@@ -143,5 +125,5 @@ h1 {
   z-index: 500000;
   margin-right: 2.5rem !important;
   margin-bottom: 1rem;
-  transform: scale(.8);
+  transform: scale(0.8);
 }

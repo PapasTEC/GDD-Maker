@@ -1,4 +1,7 @@
-<div class="bodyClass scrollBar" [ngClass]="isBlocked ? 'disabled-component' : ''">
+<div
+  class="bodyClass scrollBar"
+  [ngClass]="isBlocked ? 'disabled-component' : ''"
+>
   <div class="innerBodyClass">
     <div class="textContainer">
       <span class="titleText"> GAME DESIGN DOCUMENT </span>
@@ -25,9 +28,6 @@
         <input
           type="file"
           accept="image/*"
-
-
-
           style="
             position: absolute;
             opacity: 0;
@@ -61,7 +61,7 @@
         id="comp"
         #comp
         [(ngModel)]="companyName"
-        class="vditor-reset  documentCoverTextAreas horizontalText scrollBar"
+        class="vditor-reset documentCoverTextAreas horizontalText scrollBar"
         (input)="growShrink($event, companyName)"
         (keydown)="onChangeBlock($event)"
         (contextmenu)="onChangeBlock($event)"
@@ -74,7 +74,6 @@
         <input
           type="file"
           accept="image/*"
-
           style="
             position: absolute;
             opacity: 0;
@@ -111,7 +110,7 @@
             rows="1"
             id="el"
             #el
-            class="vditor-reset  documentCoverTextAreasAuthors horizontalText scrollBar"
+            class="vditor-reset documentCoverTextAreasAuthors horizontalText scrollBar"
             [value]="author.name"
             (input)="updateTXT($event, el, i)"
             (keydown)="onChangeBlock($event)"
@@ -121,7 +120,12 @@
           ></textarea>
         </div>
         <div class="delCont">
-          <button #trash type="button" class="btn btnCover trashButton" (click)="removeAuthor(i)">
+          <button
+            #trash
+            type="button"
+            class="btn btnCover trashButton"
+            (click)="removeAuthor(i)"
+          >
             <fa-icon [icon]="trashIcon"></fa-icon>
           </button>
         </div>
@@ -145,10 +149,10 @@
   </div>
 </div>
 <div class="editing-box" *ngIf="isUserEditing">
-<img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
-<span class="editing-box__user">{{ userBlocking?.name }}</span>
-<span class="editing-box__text"
-  ><span *ngIf="usersBlocking?.name[-1].lower() != 's'">'s</span>
-  editing</span
->
+  <img class="editing-box__icon" [src]="userBlocking?.image" alt="user" />
+  <span class="editing-box__user">{{ userBlocking?.name }}</span>
+  <span class="editing-box__text"
+    ><span *ngIf="usersBlocking?.name[-1].lower() != 's'">'s</span>
+    editing</span
+  >
 </div>

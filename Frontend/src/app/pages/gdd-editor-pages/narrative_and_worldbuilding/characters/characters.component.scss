@@ -52,11 +52,10 @@ $cardSeparation: 1.5%;
 
 $photoDim: 10vmax;
 $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
-.characterPhoto{
+.characterPhoto {
   position: relative;
 
   transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-
 
   /* padding-top: 0.56%; */
   /* height: fit-content; */
@@ -68,24 +67,22 @@ $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
 
   border: none;
 
-  input{
-      cursor: pointer;
+  input {
+    cursor: pointer;
   }
 
-  &:hover{
-      scale: 1.01;
-      background-color: rgb(238, 235, 235);
-      box-shadow: $shadow;
-
+  &:hover {
+    scale: 1.01;
+    background-color: rgb(238, 235, 235);
+    box-shadow: $shadow;
   }
 
-  svg{
-      transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  svg {
+    transition: scale 0.3s ease, background-color 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
-
-
-    border: solid 0.5vh #000000;
+  border: solid 0.5vh #000000;
 }
 
 .cCard {
@@ -298,8 +295,6 @@ $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
   }
 }
 
-
-
 .activeSubMenu {
   display: flex;
 }
@@ -484,8 +479,6 @@ $fontColor: #ffffff;
     border: 5px $borderState #00c3ff;
     align-items: center;
     justify-content: center;
-
-
   }
 
   .bioDivider {
@@ -532,11 +525,11 @@ $fontColor: #ffffff;
     "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
 }
 
-.centerVert{
-    align-content: center;
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
+.centerVert {
+  align-content: center;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .characterCardBottom {
@@ -547,7 +540,6 @@ $fontColor: #ffffff;
   border: 5px $borderState #ff0000;
 
   justify-content: space-evenly;
-
 
   .bottomDivider {
     width: 100%;
@@ -650,12 +642,10 @@ $topH: 30%;
   }
 }
 
-
-
-.trashButton{
-    position: absolute;
-    top: 2%;
-    right: 1%;
+.trashButton {
+  position: absolute;
+  top: 2%;
+  right: 1%;
 }
 
 .example-handle {
@@ -677,5 +667,5 @@ $topH: 30%;
   z-index: 500000;
   margin-right: 2.5rem !important;
   margin-bottom: 1rem;
-  transform: scale(.8);
+  transform: scale(0.8);
 }

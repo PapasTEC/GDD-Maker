@@ -27,31 +27,22 @@ export class DocumentGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
     try {
-
-
       if (route.queryParams.pjt) {
-
-
-
-
-
-        const data: any = await this.documentService.getUsers(route.queryParams.pjt).toPromise();
-
-
-
+        const data: any = await this.documentService
+          .getUsers(route.queryParams.pjt)
+          .toPromise();
 
         if (data?.error) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(["/dashboard"]);
           return false;
         }
 
         return true;
       }
     } catch (error) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(["/dashboard"]);
       return false;
     }
-
 
     return true;
   }
@@ -65,83 +56,16 @@ export class DocumentGuard implements CanActivate, CanActivateChild {
     | boolean
     | UrlTree {
     return this.canAccessDocument(route, state);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
 
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ):
-  | Observable<boolean | UrlTree>
-  | Promise<boolean | UrlTree>
-  | boolean
-  | UrlTree {
-
-
-
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     return this.canAccessDocument(childRoute, state);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

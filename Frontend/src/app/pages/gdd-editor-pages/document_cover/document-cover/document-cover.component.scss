@@ -1,238 +1,220 @@
-.bodyClass{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-y: auto;
+.bodyClass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
 
-
-    border: none 1px rgb(0, 0, 0);
-
-
+  border: none 1px rgb(0, 0, 0);
 }
 
-.innerBodyClass{
+.innerBodyClass {
   display: flex;
   flex-direction: column;
   position: relative;
   align-items: center;
   width: 60%;
   height: 100%;
-
 }
 
 @media (max-width: 600px) {
-    .innerBodyClass{
-        width: 100%;
-    }
+  .innerBodyClass {
+    width: 100%;
+  }
 }
-
 
 $textContainerHeight: 10%;
 $fontSize: 2vmax;
 
+.textContainer {
+  height: 100%;
+  width: 100%;
 
+  display: flex;
 
-.textContainer{
+  align-items: center;
+  justify-content: center;
 
-    height: 100%;
-    width: 100%;
+  border: none 1px chocolate;
 
-    display: flex;
+  padding: 1vmax 0;
 
-    align-items: center;
-    justify-content: center;
-
-    border: none 1px chocolate;
-
-    padding:1vmax 0;
-
-
-    .titleText{
-        font-size: calc($fontSize*1.5);
-        font-weight: 7000;
-        text-align: center;
-        padding: 0 0.8rem;
-        color:black;
-        border-left: solid 1vw #16425b;
-    }
-
-    .intermediateText{
-        font-size: calc($fontSize * 0.5);
-        font-weight: 7000;
-        text-align: center;
-        margin-top: 3vh;
-        color:black;
-    }
-
-}
-
-.textDel{
-    display: flex;
-    flex-direction: row;
-}
-
-.delCont{
-    position: relative;
-    width: 10%;
-}
-
-.textAreaContainerCover, .imageContainer{
-    padding: 0;
-
-    height: max-content;
-    width: 75%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding:1% 0;
-
-
-}
-
-.documentCoverTextAreas, .documentCoverTextAreasAuthors {
-    background-color: #ebe9e9 !important;
-    padding: 0 !important;
+  .titleText {
+    font-size: calc($fontSize * 1.5);
+    font-weight: 7000;
     text-align: center;
-    line-height: 1.5 !important;
-    border: none;
-    font-size: calc($fontSize * 0.7);
-    overflow:auto !important;
-    white-space: pre-wrap;
-    width: 100%;
-    outline: none;
-    resize: none;
-    line-height: 1;
+    padding: 0 0.8rem;
+    color: black;
+    border-left: solid 1vw #16425b;
   }
 
-  .documentCoverTextAreasAuthors{
+  .intermediateText {
     font-size: calc($fontSize * 0.5);
-    margin-bottom: 1vh;
+    font-weight: 7000;
+    text-align: center;
+    margin-top: 3vh;
+    color: black;
+  }
+}
+
+.textDel {
+  display: flex;
+  flex-direction: row;
+}
+
+.delCont {
+  position: relative;
+  width: 10%;
+}
+
+.textAreaContainerCover,
+.imageContainer {
+  padding: 0;
+
+  height: max-content;
+  width: 75%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 1% 0;
+}
+
+.documentCoverTextAreas,
+.documentCoverTextAreasAuthors {
+  background-color: #ebe9e9 !important;
+  padding: 0 !important;
+  text-align: center;
+  line-height: 1.5 !important;
+  border: none;
+  font-size: calc($fontSize * 0.7);
+  overflow: auto !important;
+  white-space: pre-wrap;
+  width: 100%;
+  outline: none;
+  resize: none;
+  line-height: 1;
+}
+
+.documentCoverTextAreasAuthors {
+  font-size: calc($fontSize * 0.5);
+  margin-bottom: 1vh;
+}
+
+$photoDim: 4vmax;
+$shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
+.coverPhoto {
+  position: relative;
+
+  transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+
+  /* padding-top: 0.56%; */
+  /* height: fit-content; */
+
+  width: fit-content;
+  height: $photoDim;
+  box-sizing: content-box;
+
+  padding: $photoDim;
+
+  border: none;
+
+  &:hover {
+    scale: 1.01;
+    background-color: rgb(238, 235, 235);
+    box-shadow: $shadow;
   }
 
-  $photoDim: 4vmax;
-  $shadow: 0.75vh 0.75vh 10px rgba(0, 0, 2, 0.4);
-  .coverPhoto{
-    position: relative;
+  input {
+    cursor: pointer;
+  }
 
-    transition: scale 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  svg {
+    transition: scale 0s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 
-
-    /* padding-top: 0.56%; */
-    /* height: fit-content; */
-
-    width: fit-content;
+    display: block;
+    width: calc($photoDim * 2);
     height: $photoDim;
-    box-sizing: content-box;
-
-    padding: $photoDim;
-
-    border: none;
-
-    &:hover{
-        scale: 1.01;
-        background-color: rgb(238, 235, 235);
-        box-shadow: $shadow;
-
-    }
-
-    input{
-      cursor: pointer;
-    }
-
-    svg{
-      transition: scale 0s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-
-      display: block;
-      width: calc($photoDim*2);
-      height: $photoDim;
-    }
-
-
-
+  }
 }
 
-.authorsContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 45%;
-    height: 100%;
-    padding:1% 0;
-    margin: 0;
-    border: none 1px chocolate;
+.authorsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 45%;
+  height: 100%;
+  padding: 1% 0;
+  margin: 0;
+  border: none 1px chocolate;
 }
 
-.author{
-    padding: 1%;
-    border: none 1px rgb(0, 255, 98);
-    width: 100% !important;
-    display: flex;
-    height: fit-content;
-    justify-content: center;
+.author {
+  padding: 1%;
+  border: none 1px rgb(0, 255, 98);
+  width: 100% !important;
+  display: flex;
+  height: fit-content;
+  justify-content: center;
 }
 
 .addButtonContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnCover {
+  position: relative;
+
+  height: calc($fontSize * 1);
+  width: calc($fontSize * 1);
+  padding: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 3vh;
+
+  border: solid 2px #16425b;
+
+  &:hover {
+    color: #ffffff;
+    background-color: #16425b;
+  }
+
+  &:not(hover) {
+    color: black;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  fa-icon {
     position: relative;
-    width: 100%;
+    fill: #ffffff;
+    font-size: calc($fontSize * 0.5);
     display: flex;
-    justify-content: center;
-    align-items: center;
-
-
   }
+}
 
+.trashButton {
+  border: none;
+  margin-left: 2%;
+}
 
-  .btnCover {
-    position: relative;
-
-    height: calc($fontSize * 1);
-    width: calc($fontSize * 1);
-    padding: 0;
-
+.appearOnlyOnHover {
+  &:hover {
     display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin-bottom: 3vh;
-
-    border: solid 2px #16425b;
-
-    &:hover {
-      color: #ffffff;
-      background-color: #16425b;
-    }
-
-    &:not(hover) {
-      color: black;
-      background-color: transparent;
-      box-shadow: none;
-    }
-
-    fa-icon {
-      position: relative;
-      fill: #ffffff;
-      font-size: calc($fontSize * 0.5);
-      display: flex;
-    }
   }
 
-  .trashButton{
-    border: none;
-    margin-left: 2%;
+  &:not(hover) {
+    display: none;
   }
-
-  .appearOnlyOnHover {
-    &:hover {
-      display: flex;
-    }
-
-    &:not(hover) {
-      display: none;
-    }
-  }
+}
 
 .editing-box {
   position: absolute;
@@ -240,5 +222,5 @@ $fontSize: 2vmax;
   right: 0;
   border: 1.5px solid #16425b;
   z-index: 500000;
-  margin-right: 1.25rem
+  margin-right: 1.25rem;
 }

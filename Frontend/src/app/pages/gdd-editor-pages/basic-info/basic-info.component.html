@@ -10,15 +10,38 @@
           <div class="cardHeader">
             <div class="title">
               <span> Elevator Pitch </span>
-              <div class="editing-box elevatorPitch" *ngIf="isUserEditing.elevatorPitch">
-                <img class="editing-box__icon" [src]="userBlocking.elevatorPitch?.image" alt="user" />
-                <span class="editing-box__user">{{ userBlocking.elevatorPitch?.name }}</span>
-                <span class="editing-box__text"
-                  >
-                  <span *ngIf="userBlocking.elevatorPitch.name.toLowerCase().endsWith('s')">' </span>
-                  <span *ngIf="!userBlocking.elevatorPitch.name.toLowerCase().endsWith('s')">'s </span>
-                   editing</span>
-                </div>
+              <div
+                class="editing-box elevatorPitch"
+                *ngIf="isUserEditing.elevatorPitch"
+              >
+                <img
+                  class="editing-box__icon"
+                  [src]="userBlocking.elevatorPitch?.image"
+                  alt="user"
+                />
+                <span class="editing-box__user">{{
+                  userBlocking.elevatorPitch?.name
+                }}</span>
+                <span class="editing-box__text">
+                  <span
+                    *ngIf="
+                      userBlocking.elevatorPitch.name
+                        .toLowerCase()
+                        .endsWith('s')
+                    "
+                    >'
+                  </span>
+                  <span
+                    *ngIf="
+                      !userBlocking.elevatorPitch.name
+                        .toLowerCase()
+                        .endsWith('s')
+                    "
+                    >'s
+                  </span>
+                  editing</span
+                >
+              </div>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -51,14 +74,30 @@
             <div class="title">
               <span> Tagline </span>
               <div class="editing-box tagline" *ngIf="isUserEditing.tagline">
-                <img class="editing-box__icon" [src]="userBlocking.tagline?.image" alt="user" />
-                <span class="editing-box__user">{{ userBlocking.tagline?.name }}</span>
-                <span class="editing-box__text"
-                  >
-                  <span *ngIf="userBlocking.tagline.name.toLowerCase().endsWith('s')">' </span>
-                  <span *ngIf="!userBlocking.tagline.name.toLowerCase().endsWith('s')">'s </span>
-                   editing</span>
-                </div>
+                <img
+                  class="editing-box__icon"
+                  [src]="userBlocking.tagline?.image"
+                  alt="user"
+                />
+                <span class="editing-box__user">{{
+                  userBlocking.tagline?.name
+                }}</span>
+                <span class="editing-box__text">
+                  <span
+                    *ngIf="
+                      userBlocking.tagline.name.toLowerCase().endsWith('s')
+                    "
+                    >'
+                  </span>
+                  <span
+                    *ngIf="
+                      !userBlocking.tagline.name.toLowerCase().endsWith('s')
+                    "
+                    >'s
+                  </span>
+                  editing</span
+                >
+              </div>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -91,14 +130,28 @@
             <div class="title">
               <span> Genres </span>
               <div class="editing-box genres" *ngIf="isUserEditing.genres">
-                <img class="editing-box__icon" [src]="userBlocking.genres?.image" alt="user" />
-                <span class="editing-box__user">{{ userBlocking.genres?.name }}</span>
-                <span class="editing-box__text"
-                  >
-                  <span *ngIf="userBlocking.genres.name.toLowerCase().endsWith('s')">' </span>
-                  <span *ngIf="!userBlocking.genres.name.toLowerCase().endsWith('s')">'s </span>
-                   editing</span>
-                </div>
+                <img
+                  class="editing-box__icon"
+                  [src]="userBlocking.genres?.image"
+                  alt="user"
+                />
+                <span class="editing-box__user">{{
+                  userBlocking.genres?.name
+                }}</span>
+                <span class="editing-box__text">
+                  <span
+                    *ngIf="userBlocking.genres.name.toLowerCase().endsWith('s')"
+                    >'
+                  </span>
+                  <span
+                    *ngIf="
+                      !userBlocking.genres.name.toLowerCase().endsWith('s')
+                    "
+                    >'s
+                  </span>
+                  editing</span
+                >
+              </div>
             </div>
           </div>
           <div class="horizontalLine"></div>
@@ -193,14 +246,26 @@
             <div class="title">
               <span> Tags </span>
               <div class="editing-box tags" *ngIf="isUserEditing.tags">
-                <img class="editing-box__icon" [src]="userBlocking.tags?.image" alt="user" />
-                <span class="editing-box__user">{{ userBlocking.tags?.name }}</span>
-                <span class="editing-box__text"
-                  >
-                  <span *ngIf="userBlocking.tags.name.toLowerCase().endsWith('s')">' </span>
-                  <span *ngIf="!userBlocking.tags.name.toLowerCase().endsWith('s')">'s </span>
-                   editing</span>
-                </div>
+                <img
+                  class="editing-box__icon"
+                  [src]="userBlocking.tags?.image"
+                  alt="user"
+                />
+                <span class="editing-box__user">{{
+                  userBlocking.tags?.name
+                }}</span>
+                <span class="editing-box__text">
+                  <span
+                    *ngIf="userBlocking.tags.name.toLowerCase().endsWith('s')"
+                    >'
+                  </span>
+                  <span
+                    *ngIf="!userBlocking.tags.name.toLowerCase().endsWith('s')"
+                    >'s
+                  </span>
+                  editing</span
+                >
+              </div>
             </div>
           </div>
           <div class="horizontalLine"></div>

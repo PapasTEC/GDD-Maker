@@ -78,8 +78,10 @@ export class TechnicalInfoComponent {
   public canBeEdited(part: string): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isUserEditing[part] = userEditing[part] && userEditing[part].email !== this.localUser;
-    this.isBlocked[part] = this.isUserEditing[part] || this.editingDocumentService.read_only;
+    this.isUserEditing[part] =
+      userEditing[part] && userEditing[part].email !== this.localUser;
+    this.isBlocked[part] =
+      this.isUserEditing[part] || this.editingDocumentService.read_only;
     if (this.isUserEditing[part]) {
       this.userBlocking[part] = userEditing[part];
     }
@@ -106,7 +108,6 @@ export class TechnicalInfoComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -115,31 +116,28 @@ export class TechnicalInfoComponent {
         this.canBeEdited("platforms");
         this.canBeEdited("generalData");
 
-
-
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
 
-
         const userEditing =
-        this.editingDocumentService.userEditingByComponent[this.subSection];
+          this.editingDocumentService.userEditingByComponent[this.subSection];
 
         if (userEditing.platforms?.email !== this.localUser) {
-          this.techInfo.platforms = this.documentSubSection.subSectionContent.platforms;
+          this.techInfo.platforms =
+            this.documentSubSection.subSectionContent.platforms;
         }
         if (userEditing.generalData?.email !== this.localUser) {
-          this.techInfo.ageClassification = this.documentSubSection.subSectionContent.ageClassification;
-          this.techInfo.targetAudience = this.documentSubSection.subSectionContent.targetAudience;
-          this.techInfo.releaseDate = this.documentSubSection.subSectionContent.releaseDate;
+          this.techInfo.ageClassification =
+            this.documentSubSection.subSectionContent.ageClassification;
+          this.techInfo.targetAudience =
+            this.documentSubSection.subSectionContent.targetAudience;
+          this.techInfo.releaseDate =
+            this.documentSubSection.subSectionContent.releaseDate;
           this.techInfo.price = this.documentSubSection.subSectionContent.price;
         }
-
-
-
-
       });
 
     this.editingDocumentService.document$
@@ -158,12 +156,9 @@ export class TechnicalInfoComponent {
         this.documentSubSection = document;
         this.techInfo = document.subSectionContent;
 
-
-
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
         }, 1000);
-
       });
   }
 
@@ -173,7 +168,8 @@ export class TechnicalInfoComponent {
 
     this.isUserEditing.platforms =
       userEditing.platforms && userEditing.platforms.email !== this.localUser;
-    this.isBlocked.platforms = this.isUserEditing.platforms || this.editingDocumentService.read_only;
+    this.isBlocked.platforms =
+      this.isUserEditing.platforms || this.editingDocumentService.read_only;
     if (this.isUserEditing.platforms) {
       this.userBlocking.platforms = userEditing.platforms;
     }
@@ -181,7 +177,8 @@ export class TechnicalInfoComponent {
     this.isUserEditing.generalData =
       userEditing.generalData &&
       userEditing.generalData.email !== this.localUser;
-    this.isBlocked.generalData = this.isUserEditing.generalData || this.editingDocumentService.read_only;
+    this.isBlocked.generalData =
+      this.isUserEditing.generalData || this.editingDocumentService.read_only;
     if (this.isUserEditing.generalData) {
       this.userBlocking.generalData = userEditing.generalData;
     }
@@ -193,7 +190,6 @@ export class TechnicalInfoComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-
   }
 
   onPlatformsChange(event: KeyboardEvent): void {
@@ -209,7 +205,6 @@ export class TechnicalInfoComponent {
   }
 
   updateDocument(part: string) {
-
     this.myInput = true;
 
     this.documentSubSection.subSectionContent = this.techInfo;
@@ -238,7 +233,6 @@ export class TechnicalInfoComponent {
   }
 
   updateGeneralData(event: KeyboardEvent) {
-
     if (!this.canBeEdited("generalData")) {
       event.preventDefault();
       return;

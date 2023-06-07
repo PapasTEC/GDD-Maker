@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 // regular style toast
-@import 'ngx-toastr/toastr';
+@import "ngx-toastr/toastr";
 
 // bootstrap style toast
 // or import a bootstrap 4 alert styled design (SASS ONLY)
@@ -127,7 +127,7 @@ $scrollbar-width: max(10px, 0.5vw);
   display: flex;
   align-items: center;
   font-size: 1.2rem;
-  padding: .3rem .5rem;
+  padding: 0.3rem 0.5rem;
   color: #16425b !important;
   background-color: white;
   margin-right: 2rem;
@@ -140,7 +140,7 @@ $scrollbar-width: max(10px, 0.5vw);
     border-radius: 50%;
     width: 1.75em;
     height: 1.75em;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 
   &__user {
@@ -149,7 +149,7 @@ $scrollbar-width: max(10px, 0.5vw);
 }
 
 .editing-box.sm {
-  transform: scale(.7);
+  transform: scale(0.7);
 }
 
 .disabled-component {

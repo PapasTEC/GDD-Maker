@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ShareDocumentComponent } from './share-document.component';
+import { ShareDocumentComponent } from "./share-document.component";
 
-describe('ShareDocumentComponent', () => {
+describe("ShareDocumentComponent", () => {
   let component: ShareDocumentComponent;
   let fixture: ComponentFixture<ShareDocumentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShareDocumentComponent ]
-    })
-    .compileComponents();
+      declarations: [ShareDocumentComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ShareDocumentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

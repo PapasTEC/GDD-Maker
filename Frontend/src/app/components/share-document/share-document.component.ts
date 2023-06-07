@@ -4,7 +4,7 @@ import { TokenService } from "src/app/services/token.service";
 import { ToastrService } from "ngx-toastr";
 import { ChangeDetectorRef } from "@angular/core";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
-import { Clipboard } from '@angular/cdk/clipboard';
+import { Clipboard } from "@angular/cdk/clipboard";
 
 @Component({
   selector: "app-share-document",
@@ -34,24 +34,16 @@ export class ShareDocumentComponent implements OnInit {
     private editingDocumentService: EditingDocumentService,
     private clipboard: Clipboard
   ) {}
-  currentUrl : string = "";
+  currentUrl: string = "";
   readonlyURL: string = "";
   codeReadOnly: string = "";
-  documentCode : any;
+  documentCode: any;
 
   ngOnInit() {
     this.documentService.getUsers(this.documentId).subscribe((data: any) => {
       this.usersObj = data;
 
       this.tokenService.decodeToken().subscribe((data: any) => {
-        console.log(`${JSON.stringify(data.decoded)}`);
-        this.currentUserEmail = data.decoded.email;
-        console.log(
-          "this.currentUserEmail",
-          this.currentUserEmail,
-          "this.usersObj.owner",
-          this.usersObj.owner
-        );
         if (this.currentUserEmail === this.usersObj.owner.email) {
           this.isOwner = true;
         }
@@ -59,23 +51,31 @@ export class ShareDocumentComponent implements OnInit {
     });
 
     this.editingDocumentService.onlineUsers$.subscribe((onlineUsers) => {
-
       this.usersInDocumentObj = onlineUsers;
       this.usersInDocument = onlineUsers.map((user) => user.email);
     });
 
-    this.currentUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + window.location.pathname + window.location.search + window.location.hash;
+    this.currentUrl =
+      window.location.protocol +
+      "//" +
+      window.location.hostname +
+      ":" +
+      window.location.port +
+      window.location.pathname +
+      window.location.search +
+      window.location.hash;
 
     this.documentCode = this.editingDocumentService.document$;
 
-    this.readonlyURL = this.currentUrl + "&readOnly=" + this.documentCode.source._value.codeReadOnly;
+    this.readonlyURL =
+      this.currentUrl +
+      "&readOnly=" +
+      this.documentCode.source._value.codeReadOnly;
   }
 
   closeShareDocumentModal() {
-
     this.updateShowShareDocument.emit(false);
   }
-
 
   copyToClipboard() {
     this.clipboard.copy(this.readonlyURL);
@@ -83,12 +83,10 @@ export class ShareDocumentComponent implements OnInit {
   }
 
   updateInput(event: any) {
-
     this.inputEmail = event.target.value;
   }
 
   inviteUser() {
-
     if (!this.inputEmail.match(/^\S+@\S+\.\S+$/)) {
       this.toastr.error("Invalid email");
       return;
@@ -96,13 +94,11 @@ export class ShareDocumentComponent implements OnInit {
     this.documentService
       .inviteUser(this.documentId, this.inputEmail)
       .subscribe((data: any) => {
-
         if (data.success) {
           this.toastr.success(data.message);
           this.usersObj = data.users;
           this.inputEmail = "";
         } else {
-
           if (data.error) {
             this.toastr.error(data.error);
           } else {
@@ -113,13 +109,10 @@ export class ShareDocumentComponent implements OnInit {
   }
 
   removeUser(email: any) {
-
     let message: string = "";
     this.documentService
       .removeUser(this.documentId, email)
       .subscribe((data: any) => {
-
-
         let success = false;
         message = data.message;
         if (data.users) {
@@ -134,6 +127,5 @@ export class ShareDocumentComponent implements OnInit {
       });
 
     this.changeDetectorRefs.detectChanges();
-
   }
 }

@@ -1,26 +1,28 @@
 <div class="bodyClass">
-    <div class="contentContainer" style="height: 100%;">
-        <div class="col">
-            <div class="row ">
-                <span class="subtitle">The setup is ready. Make sure everything you entered is correct</span>
-            </div>
-            <div class="row">
-                <span class="subtitle">Please press the button to finish</span>
-            </div>
-            <div class="row">
-                <button (click)="finishSetup()" type="button" class="btn btn-icon-only">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <span>Upload</span>
-                </button>
-            </div>
-            <div style="height: 3vh;"></div>
-        </div>
+  <div class="contentContainer" style="height: 100%">
+    <div class="col">
+      <div class="row">
+        <span class="subtitle"
+          >The setup is ready. Make sure everything you entered is correct</span
+        >
+      </div>
+      <div class="row">
+        <span class="subtitle">Please press the button to finish</span>
+      </div>
+      <div class="row">
+        <button (click)="finishSetup()" type="button" class="btn btn-icon-only">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span>Upload</span>
+        </button>
+      </div>
+      <div style="height: 3vh"></div>
     </div>
+  </div>
 </div>
 
 <div class="loading-screen" *ngIf="status !== 'creating'">
   <div class="loading-screen__container">
-    <ng-container  *ngIf="status === 'saving'">
+    <ng-container *ngIf="status === 'saving'">
       <div class="lds-ring">
         <div></div>
         <div></div>

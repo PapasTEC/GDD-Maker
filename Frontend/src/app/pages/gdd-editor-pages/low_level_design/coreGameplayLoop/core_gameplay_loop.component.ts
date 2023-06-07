@@ -15,17 +15,17 @@ import { TokenService } from "src/app/services/token.service";
   encapsulation: ViewEncapsulation.None,
 })
 export class CoreGameplayLoopComponent {
-    /* Collaborative Editing */
-    isBlocked: boolean = false;
-    isUserEditing: boolean = false;
+  /* Collaborative Editing */
+  isBlocked: boolean = false;
+  isUserEditing: boolean = false;
 
-    userBlocking: any = null;
+  userBlocking: any = null;
 
-    localUser = null;
-    decodeToken: any;
-    updateSocket: any;
-    myInput: boolean = false;
-    updateBlockedInterval: any = null;
+  localUser = null;
+  decodeToken: any;
+  updateSocket: any;
+  myInput: boolean = false;
+  updateBlockedInterval: any = null;
 
   constructor(
     private editingDocumentService: EditingDocumentService,
@@ -56,12 +56,12 @@ export class CoreGameplayLoopComponent {
     );
   }
 
-
   public canBeEdited(): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
-    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    this.isBlocked =
+      this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
@@ -69,24 +69,6 @@ export class CoreGameplayLoopComponent {
   }
 
   ngOnInit() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /* NEW - COLLABORATIVE */
     this.decodeToken = this.tokenService
       .decodeToken()
@@ -100,7 +82,6 @@ export class CoreGameplayLoopComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -108,18 +89,14 @@ export class CoreGameplayLoopComponent {
 
         this.canBeEdited();
 
-
-
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
 
-        this.coreGameplayLoopContent = this.documentSubSection.subSectionContent;
-
-
-
+        this.coreGameplayLoopContent =
+          this.documentSubSection.subSectionContent;
       });
 
     this.editingDocumentService.document$
@@ -137,9 +114,8 @@ export class CoreGameplayLoopComponent {
       .subscribe((document) => {
         this.documentSubSection = document;
 
-        this.coreGameplayLoopContent = this.documentSubSection.subSectionContent;
-
-
+        this.coreGameplayLoopContent =
+          this.documentSubSection.subSectionContent;
 
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
@@ -157,9 +133,7 @@ export class CoreGameplayLoopComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-
   }
-
 
   onValueChange(event: Event, name: string): void {
     if (!this.canBeEdited()) {

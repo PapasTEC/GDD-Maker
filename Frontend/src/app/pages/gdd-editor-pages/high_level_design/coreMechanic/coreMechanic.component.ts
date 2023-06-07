@@ -60,7 +60,8 @@ export class CoreMechanicComponent {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
     this.isUserEditing = userEditing && userEditing?.email !== this.localUser;
-    this.isBlocked = this.isUserEditing || this.editingDocumentService.read_only;
+    this.isBlocked =
+      this.isUserEditing || this.editingDocumentService.read_only;
     if (this.isUserEditing) {
       this.userBlocking = userEditing;
     }
@@ -81,15 +82,12 @@ export class CoreMechanicComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-
         if (this.myInput) {
           this.myInput = false;
           return;
         }
 
         this.canBeEdited();
-
-
 
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
@@ -109,10 +107,6 @@ export class CoreMechanicComponent {
         this.vditor4.setValue(
           this.documentSubSection.subSectionContent["coreMechanic"]
         );
-
-
-
-
       });
 
     this.editingDocumentService.document$
@@ -168,8 +162,6 @@ export class CoreMechanicComponent {
           )
         );
 
-
-
         this.updateBlockedInterval = setInterval(() => {
           this.updateIsBlocked1s();
         }, 1000);
@@ -182,7 +174,6 @@ export class CoreMechanicComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-
   }
 
   updateIsBlocked1s() {
@@ -212,7 +203,6 @@ export class CoreMechanicComponent {
       },
       after: () => {},
       input: (value: string) => {
-
         this.coreMechanicContent[index] = value;
 
         this.updateDocument(this.coreMechanicContent);

@@ -20,7 +20,6 @@ export class EditingDocumentService {
   public read_only = null;
 
   documentSections: any = [
-
     ["Basic Information"],
     ["Technical Information"],
     ["Theme", "Aesthetic", "Core Mechanic"],
@@ -34,37 +33,7 @@ export class EditingDocumentService {
     ["Game References"],
   ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   userEditingByComponent: any = {
-
-
-
-
-
     "Document Cover": null,
     "Basic Information": {
       elevatorPitch: null,
@@ -99,8 +68,6 @@ export class EditingDocumentService {
 
   partsTimers: any = new Map();
 
-
-
   localUser = {
     email: "",
     name: "",
@@ -113,21 +80,13 @@ export class EditingDocumentService {
   private countdownSeconds: number = 4;
 
   constructor() {
-
-    this.socket = io('http://129.159.124.235:3080');
-    this.socket.on('connect', () => {
+    this.socket = io("http://129.159.124.235:3080");
+    this.socket.on("connect", () => {
       this.isConnected = true;
-
     });
 
     this.socket.on("sync-data", ({ secId, subSecId, content, part }) => {
-
       const document = this.document.getValue();
-
-
-
-
-
 
       if (part) {
         let subParts = {
@@ -147,15 +106,7 @@ export class EditingDocumentService {
           },
         };
 
-
-
-
-
-
-
-
         if (Object.hasOwn(subParts, content.subSectionTitle)) {
-
           for (let subPart of subParts[content.subSectionTitle][part]) {
             document.documentContent[secId].subSections[
               subSecId
@@ -175,23 +126,15 @@ export class EditingDocumentService {
       );
       document.socketSubSection = this.documentSections[secId][subSecId];
       this.document.next(document);
-
-
     });
 
     this.socket.on("sync-data-front-page", ({ content }) => {
-
       const document = this.document.getValue();
       document.frontPage = content;
       this.document.next(document);
     });
 
     this.socket.on("user-Editing", ({ content, user, part }) => {
-
-
-
-
-
       if (user == null) {
         if (part != null) {
           this.userEditingByComponent[content][part] = null;
@@ -220,11 +163,9 @@ export class EditingDocumentService {
           image: null,
         };
       }
-      console.log("UserEditingByComponent", this.userEditingByComponent); //console.log(`List of user editing: ${JSON.stringify(this.userEditingByComponent)}`)
     });
 
     this.socket.on("update-online-users", (onlineUsers) => {
-
       this.onlineUsers.next(onlineUsers);
     });
   }
@@ -242,8 +183,6 @@ export class EditingDocumentService {
   }
 
   updateUserEditing(userEditing: string, part?: string) {
-
-
     this.socket.emit("edit-User", {
       documentId: this.documentId,
       content: userEditing,
@@ -283,8 +222,6 @@ export class EditingDocumentService {
   }
 
   joinDocument() {
-
-
     this.socket.emit("join-document", this.documentId, this.localUser);
   }
 
@@ -317,7 +254,6 @@ export class EditingDocumentService {
     content: any,
     part?: string
   ) {
-
     this.updateUserEditing(subSection, part || null);
 
     const document = this.document.getValue();
@@ -354,14 +290,9 @@ export class EditingDocumentService {
 
   updateDocumentSocket() {
     return this.document$;
-
-
-
-
   }
 
   ngOnDestroy() {
-
     this.socket.disconnect();
   }
 

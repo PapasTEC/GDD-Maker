@@ -92,6 +92,7 @@ export class DocumentCoverComponent {
       this.myInput = true;
     }
     this.frontPage.lastUpdated = new Date().toISOString();
+    this.frontPage.companyName = this.cover.CompanyName;
     this.frontPage.documentTitle = this.cover.GameName;
     this.frontPage.documentLogo = this.cover.GameLogo;
     this.frontPage.companyLogo = this.cover.CompanyLogo;

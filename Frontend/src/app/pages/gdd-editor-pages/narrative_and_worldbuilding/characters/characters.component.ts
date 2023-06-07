@@ -2,11 +2,11 @@ import { Component, ViewEncapsulation, AfterViewChecked } from "@angular/core";
 import { faTrash, faAdd, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { EditingDocumentService } from "src/app/services/editing-document.service";
 import { DocumentService } from "src/app/services/document.service";
-import { filter, map, take } from "rxjs/operators";
-import { ICharacterCard } from "./characterCard";
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { FinishSetupComponent } from "src/app/pages/gdd-setup-pages/finish-setup/finish-setup.component";
-import { ChangeDetectorRef } from "@angular/core";
+import { filter, find, map, take } from "rxjs/operators";
+import { ICharacterCard } from './characterCard';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { FinishSetupComponent } from 'src/app/pages/gdd-setup-pages/finish-setup/finish-setup.component';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { ActivatedRoute } from "@angular/router";
 import { TokenService } from "src/app/services/token.service";
@@ -110,16 +110,12 @@ export class CharactersComponent {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(
-      this.charactersInDocument,
-      event.previousIndex,
-      event.currentIndex
-    );
-    this.interchangeElements(
-      this.imagesInfo,
-      event.previousIndex,
-      event.currentIndex
-    );
+    this.dropIt = true;
+    moveItemInArray(this.charactersInDocument, event.previousIndex, event.currentIndex);
+    this.interchangeElements(this.imagesInfo, event.previousIndex, event.currentIndex);
+    
+    this.updateDocument(this.charactersInDocument);
+
   }
 
   getSectionAndSubSection(route: ActivatedRoute) {
@@ -129,7 +125,8 @@ export class CharactersComponent {
     });
   }
 
-  images = [];
+  images = []
+  dropIt;
 
   public loadImage = (src) =>
     new Promise((resolve, reject) => {
@@ -142,15 +139,76 @@ export class CharactersComponent {
       img.src = src;
     });
 
-  async reloadImages(oldImages?: any) {
-    this.images = this.documentSubSection.subSectionContent.characters.map(
-      (character) => {
-        return character.image;
+  findFirstDifferenceIndexJSON(list1, list2) {
+    let indices = [];
+    const minLength = Math.min(list1.length, list2.length);
+    for (let i = 0; i < minLength; i++) {
+      if (JSON.stringify(list1[i]) != JSON.stringify(list2[i])) {
+        indices.push(i);
       }
-    );
+    }
+    if (list1.length != list2.length) {
+      indices.push(minLength);
+    }
+    return indices // If no difference is found
+  }
+  
 
+  async reloadImages2(ind, oldImages?: any){
+
+    this.images = this.charactersInDocument.map((character) => {
+      return character.image;
+    });
+
+
+
+
+    
+
+    let loadedImages = await Promise.all(this.images.map(this.loadImage))
+    loadedImages.forEach((img: any, i: number) => {
+      if(ind.includes(i) && this.images[i] !== oldImages[i]){
+        if (!img) {
+          return null;
+        }
+        let aspectRatio = img.width / img.height;
+
+        let w;
+        let h;
+
+        if(aspectRatio > 1){
+          w = "10vmax";
+          h = "calc(10vmax * " + (1/aspectRatio) + ")"
+        }else{
+          w = "calc(10vmax * " + (aspectRatio) + ")"
+          h = "10vmax";
+        }
+
+        let info = {}
+        info["width"] = w;
+        info["height"] = h;
+
+        this.imagesInfo[i] = info;
+      }else{
+        this.imagesInfo[i] = this.imagesInfo[i];
+
+      }
+      
+    });
+
+    console.log("this.imagesInfo", this.imagesInfo)
+
+  }
+
+  async reloadImages(oldImages?: any){
+
+    this.images = this.charactersInDocument.map((character) => {
+      return character.image;
+    });
+
+    
     this.imagesInfo = [];
-    let loadedImages = await Promise.all(this.images.map(this.loadImage));
+    let loadedImages = await Promise.all(this.images.map(this.loadImage))
     loadedImages.forEach((img: any, i: number) => {
       if (!img) {
         return null;
@@ -176,7 +234,49 @@ export class CharactersComponent {
     });
   }
 
-  ngOnInit() {
+  areObjectListsEqual(list1, list2) {
+    if (list1.length !== list2.length) {
+      return false;
+    }
+  
+    const sortedList1 = this.sortObjectList(list1);
+    const sortedList2 = this.sortObjectList(list2);
+  
+    for (let i = 0; i < sortedList1.length; i++) {
+      if (!this.isObjectEqual(sortedList1[i], sortedList2[i])) {
+        return false;
+      }
+    }
+  
+    return true;
+  }
+
+  isObjectEqual(obj1, obj2) {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+  
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+  
+    for (let key of keys1) {
+      if (obj1[key] !== obj2[key]) {
+        return false;
+      }
+    }
+  
+    return true;
+  }
+  
+  sortObjectList(list) {
+    return list.slice().sort((obj1, obj2) => {
+      const string1 = JSON.stringify(obj1);
+      const string2 = JSON.stringify(obj2);
+      return string1.localeCompare(string2);
+    });
+  }
+
+  ngOnInit(){
     this.notLoadedComps = true;
     this.getSectionAndSubSection(this.activatedRoute);
 
@@ -213,6 +313,8 @@ export class CharactersComponent {
         this.canBeEdited();
         this.notLoadedComps = true;
         let oldImages = this.images;
+        let oldChars = [...this.charactersInDocument];
+
 
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
@@ -220,21 +322,59 @@ export class CharactersComponent {
             (subsection) => subsection.subSectionTitle === this.subSection
           );
 
-        /* *********** */
+              /* *********** */
+        this.charactersInDocument = this.documentSubSection.subSectionContent.characters;
+        
+        
+        this.images = this.charactersInDocument.map((character) => {
+          return character.image;
+        });
 
-        this.charactersInDocument =
-          this.documentSubSection.subSectionContent.characters;
 
-        await this.reloadImages(oldImages);
-        for (let i = 0; i < this.charactersInDocument.length; i++) {
-          if (this.charactersInDocument[i]["image"] !== "") {
-            this.updateLogo(
-              i.toString(),
-              this.charactersInDocument[i]["image"]
-            );
+        if(this.charactersInDocument.length === oldChars.length){
+        
+          let index;
+
+
+          if(oldImages){
+            index = this.findFirstDifferenceIndexJSON(this.charactersInDocument, oldChars);
           }
+
+          console.log("IND", index)
+
+          this.charactersInDocument = oldChars;
+
+          console.log("CANT", index.length)
+
+          index.forEach((i) => {
+            let el = this.documentSubSection.subSectionContent.characters[i];
+
+            for (const key in el) {
+              if (key !== 'image') {
+                this.charactersInDocument[i][key] = el[key];
+              }
+            }
+
+            if(this.images[i] !== oldImages[i] || index.length === 2){
+              console.log("CANT IN")
+              this.charactersInDocument[i]= this.documentSubSection.subSectionContent.characters[i];
+            }
+            
+
+          });
+          
+          await this.reloadImages2(index, oldImages);
+        }else{
+          this.charactersInDocument = this.documentSubSection.subSectionContent.characters;
+          await this.reloadImages(oldImages);
         }
-      });
+
+
+        
+
+        
+        
+    });
 
     this.editingDocumentService.document$
       .pipe(
@@ -414,10 +554,24 @@ export class CharactersComponent {
     return;
   }
 
+  // function to detect if string has spaces, if so, replace them with underscores
+  replaceSpacesWithUnderscores(string: string) {
+    if (string.includes(" ")) {
+      string = string.replace(/ /g, "_");
+    }
+    return string;
+  }
+
   getNewImageName(file: File) {
     let fixName: string;
+    
+    // assign current date as name and append original image type
+    fixName = this.replaceSpacesWithUnderscores(file.name);
+    if(this.hasNonAsciiCharacters(fixName)){
+      fixName = `${Date.now()}.${file.name.split(".").pop()}`;
+    }
 
-    return file.name;
+    return fixName;
   }
 
   private async updateLogo(id: string, image) {
@@ -441,7 +595,8 @@ export class CharactersComponent {
 
     if (file) {
       let imageName = this.getNewImageName(file);
-      let imagePath = `uploads/${this.documentId}/${imageName}`;
+      let imagePath = `http://localhost:3080/uploads/${this.documentId}/${imageName}`;
+
 
       this.notLoadedComps = true;
       this.charactersInDocument[parseInt(id)][field] = imagePath;
@@ -461,6 +616,17 @@ export class CharactersComponent {
       setTimeout(() => {
         this.cdr.detectChanges();
       }, 10);
+
+      this.images  = this.charactersInDocument.map((character) => {
+        return character.image;
+      });
+
+      
+
+
+
+
+      
     }
   }
 

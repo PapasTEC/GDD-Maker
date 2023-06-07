@@ -412,7 +412,7 @@ export class DocumentCoverComponent {
         resolve(image);
       };
       image.onerror = () => {
-        reject(alert("Could not load image"));
+        reject();
       };
     });
 

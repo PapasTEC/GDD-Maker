@@ -135,6 +135,8 @@ export class AestheticsComponent {
         this.aestheticsInDocument =
           this.documentSubSection.subSectionContent.aesthetics;
 
+        console.log("AID", this.aestheticsInDocument)
+
         this.cardsInDocument = this.aestheticsInDocument.length;
 
         this.updateBlockedInterval = setInterval(() => {

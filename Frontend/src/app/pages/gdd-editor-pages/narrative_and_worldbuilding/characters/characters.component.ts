@@ -196,7 +196,6 @@ export class CharactersComponent {
       
     });
 
-    console.log("this.imagesInfo", this.imagesInfo)
 
   }
 
@@ -340,11 +339,7 @@ export class CharactersComponent {
             index = this.findFirstDifferenceIndexJSON(this.charactersInDocument, oldChars);
           }
 
-          console.log("IND", index)
-
           this.charactersInDocument = oldChars;
-
-          console.log("CANT", index.length)
 
           index.forEach((i) => {
             let el = this.documentSubSection.subSectionContent.characters[i];
@@ -356,7 +351,6 @@ export class CharactersComponent {
             }
 
             if(this.images[i] !== oldImages[i] || index.length === 2){
-              console.log("CANT IN")
               this.charactersInDocument[i]= this.documentSubSection.subSectionContent.characters[i];
             }
             

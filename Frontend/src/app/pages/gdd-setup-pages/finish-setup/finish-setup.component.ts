@@ -123,6 +123,21 @@ export class FinishSetupComponent {
         "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
       let myCompanyLogo =
         "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+      console.log("currentSetup.gameTitle", currentSetup.gameTitle);
+      console.log("currentSetup.companyName", currentSetup.companyName);
+      console.log("currentSetup.aesthetic[0]", currentSetup.aesthetic[0]);
+      if (currentSetup.gameTitle === "" || currentSetup.companyName === "" || currentSetup.aesthetic[0] === undefined) {
+        this.status = "creating";
+        this.toastr.error(
+          "Error adding document. Make sure you have filled all the required fields",
+          "",
+          {
+            timeOut: 30000,
+            closeButton: true,
+          }
+        );
+        return;
+      }
       const document = {
         owner: user.email,
         invited: [],

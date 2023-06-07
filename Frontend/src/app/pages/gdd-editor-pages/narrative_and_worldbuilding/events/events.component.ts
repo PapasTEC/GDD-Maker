@@ -332,12 +332,14 @@ export class EventsComponent {
 
     this.interactiveElement = element;
 
+    let initialZoom = 1.5;
+
     if (!this.elements.includes(element.id)) {
       this.interactiveElements.push(element.id)
-      element.style.scale = "1";
+      element.style.scale = initialZoom.toString();
       this.elements.push(this.interactiveElement.id)
       this.elementsPositions.push({ lastXTranslation: 0, lastYTranslation: 0 })
-      this.elementsZooms.push({ lastZoom: 1 })
+      this.elementsZooms.push({ lastZoom: initialZoom })
     }
 
   }

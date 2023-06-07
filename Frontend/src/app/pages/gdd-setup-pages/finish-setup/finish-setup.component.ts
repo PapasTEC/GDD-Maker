@@ -194,7 +194,7 @@ export class FinishSetupComponent {
                 subSectionContent: {
                   aesthetics: [
                     {
-                      name: this.aesthetics[currentSetup.aesthetic[0]],
+                      name: this.aesthetics[currentSetup.aesthetic[0]]? this.aesthetics[currentSetup.aesthetic[0]]:"Sensation",
                       content: "",
                     },
                   ],

@@ -1,18 +1,16 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'app-document-access-denied',
-  templateUrl: './document-access-denied.component.html',
-  styleUrls: ['./document-access-denied.component.scss']
+  selector: "app-document-access-denied",
+  templateUrl: "./document-access-denied.component.html",
+  styleUrls: ["./document-access-denied.component.scss"],
 })
 export class DocumentAccessDeniedComponent {
   documentId: string;
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router) {
-      this.route = route;
-    }
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.route = route;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -27,4 +25,3 @@ export class DocumentAccessDeniedComponent {
     this.router.navigate(["/dashboard"]);
   }
 }
-

@@ -158,8 +158,10 @@ export class DetailCoreMechanicComponent {
   public canBeEdited(part: string): boolean {
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
-    this.isUserEditing[part] = userEditing[part] && userEditing[part].email !== this.localUser;
-    this.isBlocked[part] = this.isUserEditing[part] || this.editingDocumentService.read_only;
+    this.isUserEditing[part] =
+      userEditing[part] && userEditing[part].email !== this.localUser;
+    this.isBlocked[part] =
+      this.isUserEditing[part] || this.editingDocumentService.read_only;
     if (this.isUserEditing[part]) {
       this.userBlocking[part] = userEditing[part];
     }
@@ -168,32 +170,6 @@ export class DetailCoreMechanicComponent {
 
   ngOnInit() {
     this.getSectionAndSubSection(this.route);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     if (this.editingDocumentService.read_only) {
       this.isBlocked = {
@@ -214,7 +190,6 @@ export class DetailCoreMechanicComponent {
       .updateDocumentSocket()
       .pipe(filter((document) => document.socketSubSection === this.subSection))
       .subscribe((document) => {
-
         if (this.myInput) {
           this.myInput = false;
           return;
@@ -224,15 +199,11 @@ export class DetailCoreMechanicComponent {
         this.canBeEdited("decisions");
         this.canBeEdited("goals");
 
-
-
         this.documentSubSection = document.documentContent
           .find((section) => section.sectionTitle === this.section)
           .subSections.find(
             (subsection) => subsection.subSectionTitle === this.subSection
           );
-
-
 
         const userEditing =
           this.editingDocumentService.userEditingByComponent[this.subSection];
@@ -258,8 +229,6 @@ export class DetailCoreMechanicComponent {
           this.details.global =
             this.documentSubSection.subSectionContent.global;
         }
-
-
 
         const textareas = document.getElementsByClassName("resize-ta");
         for (let i = 0; i < textareas.length; i++) {
@@ -307,8 +276,6 @@ export class DetailCoreMechanicComponent {
             this.resetAreasSize(textarea, this.details[this.detailsIds[i]]);
           }
         }
-
-
       });
 
     this.updateBlockedInterval = setInterval(() => {
@@ -317,13 +284,11 @@ export class DetailCoreMechanicComponent {
   }
 
   updateIsBlocked1s() {
-
     const userEditing =
       this.editingDocumentService.userEditingByComponent[this.subSection];
 
     for (const key in this.isUserEditing) {
       if (this.isUserEditing.hasOwnProperty(key)) {
-
         console.log(
           this.isBlocked[key],
           userEditing[key],
@@ -331,7 +296,8 @@ export class DetailCoreMechanicComponent {
         );
         this.isUserEditing[key] =
           userEditing[key] && userEditing[key]?.email !== this.localUser;
-        this.isBlocked[key] = this.isUserEditing[key] || this.editingDocumentService.read_only;
+        this.isBlocked[key] =
+          this.isUserEditing[key] || this.editingDocumentService.read_only;
         if (this.isUserEditing[key]) {
           this.userBlocking[key] = userEditing[key];
         }
@@ -345,7 +311,6 @@ export class DetailCoreMechanicComponent {
     }
     if (this.decodeToken) this.decodeToken.unsubscribe();
     if (this.updateSocket) this.updateSocket.unsubscribe();
-
   }
 
   onChangeBlock(event: any, part: string) {

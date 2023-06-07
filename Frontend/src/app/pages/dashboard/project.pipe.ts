@@ -1,7 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Project } from './dashboard.component';
+import { Pipe, PipeTransform } from "@angular/core";
+import { Project } from "./dashboard.component";
 
-@Pipe({ name: 'project' })
+@Pipe({ name: "project" })
 export class CountryPipe implements PipeTransform {
   transform(values: Project[], filter: string): Project[] {
     if (!filter || filter.length === 0) {
@@ -13,16 +13,16 @@ export class CountryPipe implements PipeTransform {
     }
 
     return values.filter((value: Project) => {
-        const nameFound =
-            value.documentTitle.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-        const lastUpdatedFound =
-            value.lastUpdated.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-        const ownerFound =
-            value.owner.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      const nameFound =
+        value.documentTitle.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      const lastUpdatedFound =
+        value.lastUpdated.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+      const ownerFound =
+        value.owner.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
 
-        if (nameFound || lastUpdatedFound || ownerFound) {
-            return value;
-        }
+      if (nameFound || lastUpdatedFound || ownerFound) {
+        return value;
+      }
     });
   }
 }

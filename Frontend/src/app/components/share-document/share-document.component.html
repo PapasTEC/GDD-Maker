@@ -14,7 +14,11 @@
     <div class="share-container__dialog__users" *ngIf="usersObj?.owner">
       <div class="share-container__dialog__users__user">
         <img
-          [src]="usersObj.owner.image ? usersObj.owner.image : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+          [src]="
+            usersObj.owner.image
+              ? usersObj.owner.image
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+          "
           class="share-container__dialog__users__user__img"
           alt="user image"
         />
@@ -22,9 +26,16 @@
           <div class="share-container__dialog__users__user__name-email">
             <div
               class="share-container__dialog__users__user__name-status"
-              [ngClass]="{'status--online': usersInDocument?.includes(usersObj.owner.email), 'status--offline': !usersInDocument?.includes(usersObj.owner.email)}"
+              [ngClass]="{
+                'status--online': usersInDocument?.includes(
+                  usersObj.owner.email
+                ),
+                'status--offline': !usersInDocument?.includes(
+                  usersObj.owner.email
+                )
+              }"
             ></div>
-            {{usersObj.owner.email}}
+            {{ usersObj.owner.email }}
           </div>
           <div class="share-container__dialog__users__user__name-role">
             (Owner)
@@ -34,18 +45,24 @@
       <ng-container *ngFor="let user of usersObj?.invited">
         <div class="share-container__dialog__users__user">
           <img
-            [src]="user.image ? user.image : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+            [src]="
+              user.image
+                ? user.image
+                : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+            "
             class="share-container__dialog__users__user__img"
             alt="user image"
           />
           <div class="share-container__dialog__users__user__name">
-
             <div class="share-container__dialog__users__user__name-email">
               <div
-              class="share-container__dialog__users__user__name-status status--offline"
-              [ngClass]="{'status--online': usersInDocument?.includes(user.email), 'status--offline': !usersInDocument?.includes(user.email)}"
-            ></div>
-              {{user.email}}
+                class="share-container__dialog__users__user__name-status status--offline"
+                [ngClass]="{
+                  'status--online': usersInDocument?.includes(user.email),
+                  'status--offline': !usersInDocument?.includes(user.email)
+                }"
+              ></div>
+              {{ user.email }}
             </div>
             <div class="share-container__dialog__users__user__name-role">
               (Invited)
@@ -70,24 +87,37 @@
       </div>
       <div>Loading users...</div>
     </div> -->
-    <app-loading-section [message]="'Loading users...'" *ngIf="!usersObj?.owner"></app-loading-section>
+    <app-loading-section
+      [message]="'Loading users...'"
+      *ngIf="!usersObj?.owner"
+    ></app-loading-section>
     <div class="share-container__dialog__br"></div>
     <div class="share-container__dialog__box">
       <div class="share-container__dialog__box__title">
         Invite people to collaborate
       </div>
       <div class="share-container__dialog__box__input">
-        <input type="text" placeholder="john@example.com" [(ngModel)]="inputEmail" type="email" />
-        <button class="btn btn-sm btn-primary" (click)="inviteUser()"
-        >Invite</button>
+        <input
+          type="text"
+          placeholder="john@example.com"
+          [(ngModel)]="inputEmail"
+          type="email"
+        />
+        <button class="btn btn-sm btn-primary" (click)="inviteUser()">
+          Invite
+        </button>
       </div>
-      <div class="share-container__dialog__box__title" style="margin-top:1.5em">
+      <div
+        class="share-container__dialog__box__title"
+        style="margin-top: 1.5em"
+      >
         Or share for read-only viewing
       </div>
       <div class="share-container__dialog__box__input">
-        <div>{{readonlyURL}}</div>
-        <button class="btn btn-sm btn-primary" (click)="copyToClipboard()"
-        >Copy</button>
+        <div>{{ readonlyURL }}</div>
+        <button class="btn btn-sm btn-primary" (click)="copyToClipboard()">
+          Copy
+        </button>
       </div>
     </div>
   </div>

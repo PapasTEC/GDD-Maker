@@ -52,15 +52,35 @@ async function sendEmail(to, code, type, msgContent) {
         <table cellpadding="0" cellspacing="0" border="0" width="90%" align="center" bgcolor="#f7fafc">
           <tr>
             <td style="padding: 30px 0; text-align: center;">
-              <h1 style="color: #16425B; font-size: 36px; margin: 0;">${msg[0]}</h1>
+              <h1 style="color: #16425B; font-size: 36px; margin: 0;">${
+                msg[0]
+              }</h1>
             </td>
           </tr>
           <tr>
-            <td style="padding: ${type === "invite" ? "20px" : "40px"}; text-align: center;">
-            ${msg.length > 1 ? `<p style="color: #16425B; font-size: 18px;">${msg[1]}</p>` : ""}
-            ${msg.length > 2 ? `<p style="color: #16425B; font-size: 16px;">${msg[2]}</p>` : ""}
-            ${msg.length > 3 ? `<p style="color: #16425B; font-size: 18px;">${msg[3]}</p>` : ""}
-            ${msg.length > 4 ? `<p style="color: #16425B; font-size: 16px;">${msg[4]}</p>` : ""}
+            <td style="padding: ${
+              type === "invite" ? "20px" : "40px"
+            }; text-align: center;">
+            ${
+              msg.length > 1
+                ? `<p style="color: #16425B; font-size: 18px;">${msg[1]}</p>`
+                : ""
+            }
+            ${
+              msg.length > 2
+                ? `<p style="color: #16425B; font-size: 16px;">${msg[2]}</p>`
+                : ""
+            }
+            ${
+              msg.length > 3
+                ? `<p style="color: #16425B; font-size: 18px;">${msg[3]}</p>`
+                : ""
+            }
+            ${
+              msg.length > 4
+                ? `<p style="color: #16425B; font-size: 16px;">${msg[4]}</p>`
+                : ""
+            }
             </td>
           </tr>
         </table>
@@ -72,9 +92,7 @@ async function sendEmail(to, code, type, msgContent) {
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-
     } else {
-
     }
   });
 }

@@ -31,7 +31,6 @@ interface SectionSubsectionPath {
   selector: "app-editor-layout",
   templateUrl: "./editor-layout.component.html",
   styleUrls: ["./editor-layout.component.scss"],
-
 })
 export class EditorLayoutComponent implements OnInit {
   documentTitle = "";
@@ -56,9 +55,6 @@ export class EditorLayoutComponent implements OnInit {
   workspace: HTMLElement;
   hideSideBarButton: HTMLElement;
 
-
-
-
   firstChange = true;
 
   onlineUsers: any[] = [];
@@ -67,8 +63,6 @@ export class EditorLayoutComponent implements OnInit {
   notAuthUser = false;
 
   documentCodeRead: string = "";
-
-
 
   sectionsSubSectionsPath: SectionSubsectionPath[] = EditorLayoutRoutes.map(
     (route) => {
@@ -114,22 +108,13 @@ export class EditorLayoutComponent implements OnInit {
     private tokenService: TokenService,
     private toastr: ToastrService
   ) {
-
     this.route = route;
 
     this.editingDocumentService.connectSocket();
-
-
-
-
-
-
-
   }
 
   @HostListener("window:keydown.alt.o", ["$event"])
   openSidebar() {
-
     if (this.workspace.classList.contains("sidebarHide")) {
       this.workspace.classList.replace("sidebarHide", "sidebarShow");
       this.hideSideBarButton.classList.add("flipHorizontal");
@@ -140,11 +125,9 @@ export class EditorLayoutComponent implements OnInit {
         this.toggleKeepSidebarOpen();
       }
     }
-
   }
 
   keepSidebarClosed() {
-
     if (!this.pinned) {
       this.workspace.classList.replace("sidebarShow", "sidebarHide");
       this.hideSideBarButton.classList.remove("flipHorizontal");
@@ -153,7 +136,6 @@ export class EditorLayoutComponent implements OnInit {
 
   @HostListener("window:keydown.alt.c", ["$event"])
   closeSidebar() {
-
     if (document.getElementById("pin").classList.contains("pinned")) {
       this.toggleKeepSidebarOpen();
     }
@@ -203,16 +185,13 @@ export class EditorLayoutComponent implements OnInit {
 
   startAutoSaveTimer() {
     this.autoSaveTimer = setInterval(() => {
-
       if (this.isDocumentEdited) {
         if (this.saveDocument()) {
           this.isDocumentEdited = false;
         } else {
-
           this.toastr.error("Error auto-updating document");
         }
       }
-
     }, this.autoSaveIntervalInMinutes * 60 * 1000);
   }
 
@@ -223,9 +202,6 @@ export class EditorLayoutComponent implements OnInit {
 
   async returnDashboard() {
     if (this.isDocumentEdited) {
-
-
-
       const { isConfirmed } = await Swal.fire({
         title: "You have unsaved changes.",
         text: "Do you want to leave?",
@@ -249,10 +225,8 @@ export class EditorLayoutComponent implements OnInit {
       this.documentService
         .updateDocument(this.documentId, this.document)
         .subscribe((res) => {
-
           resolve(true);
           (err) => {
-
             reject(false);
           };
         });
@@ -260,7 +234,6 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   manualSave() {
-
     if (this.isDocumentEdited) {
       if (this.saveDocument()) {
         this.isDocumentEdited = false;
@@ -268,7 +241,6 @@ export class EditorLayoutComponent implements OnInit {
         this.resetAutoSaveTimer();
         this.changeButtonText();
       } else {
-
         this.toastr.error("Error updating document");
       }
     } else {
@@ -311,7 +283,6 @@ export class EditorLayoutComponent implements OnInit {
         timeOut: 500,
       });
     }
-
   }
 
   changeSection(
@@ -320,17 +291,13 @@ export class EditorLayoutComponent implements OnInit {
     currentContentIndex: number,
     toContentIndex: number
   ) {
-
     var links = document.getElementsByTagName("a");
 
     for (let i = 0; i < links.length; i++) {
-
       if (links[i].className == "active") {
-
         links[i].className = "nActive";
       }
       if (i == toContentIndex) {
-
         links[i].className = "active";
       }
     }
@@ -338,10 +305,6 @@ export class EditorLayoutComponent implements OnInit {
     if (currentSubsection.section === newSection.section) {
       return;
     }
-
-
-
-
 
     var dropdown = document.getElementsByClassName("dropdown-btn");
 
@@ -352,7 +315,6 @@ export class EditorLayoutComponent implements OnInit {
         dropdown[i].classList.toggle("active");
         var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
 
-
         dropdownContent.classList.remove("showDropdown");
         dropdownContent.classList.add("hideDropdown");
 
@@ -360,11 +322,9 @@ export class EditorLayoutComponent implements OnInit {
         dropdownContent.style.display = "none";
       }
 
-
       if (thisSectionTitle === newSection.section) {
         dropdown[i].classList.toggle("active");
         var dropdownContent = dropdown[i].nextElementSibling as HTMLElement;
-
 
         dropdownContent.classList.remove("hideDropdown");
         dropdownContent.classList.add("showDropdown");
@@ -395,7 +355,7 @@ export class EditorLayoutComponent implements OnInit {
 
       this.switchSection(previousSubsection.subSection);
       this.router.navigate(["/editor/" + previousSubsection.path], {
-        queryParams: this.queryParams
+        queryParams: this.queryParams,
       });
 
       this.changeSection(
@@ -406,9 +366,6 @@ export class EditorLayoutComponent implements OnInit {
       );
     }
   }
-
-
-
 
   // alt + down arrow
   @HostListener("window:keydown.alt.arrowdown", ["$event"])
@@ -429,7 +386,7 @@ export class EditorLayoutComponent implements OnInit {
 
       this.switchSection(nextSubsection.subSection);
       this.router.navigate(["/editor/" + nextSubsection.path], {
-        queryParams: this.queryParams
+        queryParams: this.queryParams,
       });
 
       this.changeSection(
@@ -444,20 +401,14 @@ export class EditorLayoutComponent implements OnInit {
   // alt + Esc to go to the dashboard
   @HostListener("window:keydown.alt.d", ["$event"])
   goToDashboard(event: KeyboardEvent) {
-    if(!this.editingDocumentService.read_only) {
+    if (!this.editingDocumentService.read_only) {
       event.preventDefault();
       this.returnDashboard();
     }
   }
 
-
-
-
-
   setDocumentData() {
     this.documentService.getDocument(this.documentId).subscribe((data) => {
-
-      
       const document = data;
       this.route.queryParams.subscribe((params) => {
         if (params.readOnly && params.readOnly !== document.codeReadOnly) {
@@ -475,18 +426,9 @@ export class EditorLayoutComponent implements OnInit {
       this.documentTitle = document["frontPage"]["documentTitle"];
       this.document = document;
     });
-
-
-
-
-
-
   }
 
   ngOnInit() {
-
-
-
     this.route.queryParams.subscribe((params) => {
       if (!params.pjt) {
         this.router.navigate(["/dashboard"]);
@@ -496,10 +438,13 @@ export class EditorLayoutComponent implements OnInit {
         this.isReadOnly = true;
 
         this.editingDocumentService.setReadOnly(params.readOnly);
-        this.queryParams = { pjt: this.documentId, readOnly: this.editingDocumentService.read_only }
+        this.queryParams = {
+          pjt: this.documentId,
+          readOnly: this.editingDocumentService.read_only,
+        };
       } else {
         this.isReadOnly = false;
-        this.queryParams = { pjt: this.documentId }
+        this.queryParams = { pjt: this.documentId };
       }
 
       this.setDocumentData();
@@ -507,77 +452,80 @@ export class EditorLayoutComponent implements OnInit {
         let localUser = data.decoded;
         this.notAuthUser = localUser.email === "";
 
-
         localStorage.setItem("readOnly", this.isReadOnly.toString());
 
-        this.documentService.getUsers(this.documentId).subscribe((documentUsers) => {
-          if (documentUsers.error) {
-            this.router.navigate(["/notFound"], {
-              queryParams: this.queryParams,
-            });
-            return;
-          }
-          console.log("documentUsers", documentUsers)
-          console.log(documentUsers.invited.findIndex(user => user.email === localUser.email))
-          console.log(documentUsers.invited.find(user => user.email === localUser))
-
-          if (!params.readOnly) {
-            if (documentUsers.owner.email !== localUser.email && documentUsers.invited.findIndex(user => user.email === localUser.email) == -1) {
-              this.router.navigate(["/accessDenied"], {
+        this.documentService
+          .getUsers(this.documentId)
+          .subscribe((documentUsers) => {
+            if (documentUsers.error) {
+              this.router.navigate(["/notFound"], {
                 queryParams: this.queryParams,
               });
               return;
             }
-          }
-
-
-          localUser.image = localStorage.getItem("ImageUser");
-
-          this.editingDocumentService.setUserData(localUser, this.documentId);
-
-          this.editingDocumentService.joinDocument();
-          console.log(
-            "************************** FINAL1 **************************"
-          );
-          
-
-
-          this.updateLastManualSaveTime();
-          this.startAutoSaveTimer();
-
-          this.editingDocumentService.document$
-            .pipe(filter((document) => document !== null))
-            .subscribe((document) => {
-              if (this.firstChange) {
-                this.firstChange = false;
-              } else {
-
-
-                this.isDocumentEdited = true;
-                this.document = document;
-              }
-            });
-
-          this.editingDocumentService.onlineUsers$.subscribe((onlineUsers) => {
-            this.onlineUsers = onlineUsers;
+            console.log("documentUsers", documentUsers);
             console.log(
-              "----------------- Updated online users -----------------"
+              documentUsers.invited.findIndex(
+                (user) => user.email === localUser.email
+              )
+            );
+            console.log(
+              documentUsers.invited.find((user) => user.email === localUser)
             );
 
+            if (!params.readOnly) {
+              if (
+                documentUsers.owner.email !== localUser.email &&
+                documentUsers.invited.findIndex(
+                  (user) => user.email === localUser.email
+                ) == -1
+              ) {
+                this.router.navigate(["/accessDenied"], {
+                  queryParams: this.queryParams,
+                });
+                return;
+              }
+            }
+
+            localUser.image = localStorage.getItem("ImageUser");
+
+            this.editingDocumentService.setUserData(localUser, this.documentId);
+
+            this.editingDocumentService.joinDocument();
+            console.log(
+              "************************** FINAL1 **************************"
+            );
+
+            this.updateLastManualSaveTime();
+            this.startAutoSaveTimer();
+
+            this.editingDocumentService.document$
+              .pipe(filter((document) => document !== null))
+              .subscribe((document) => {
+                if (this.firstChange) {
+                  this.firstChange = false;
+                } else {
+                  this.isDocumentEdited = true;
+                  this.document = document;
+                }
+              });
+
+            this.editingDocumentService.onlineUsers$.subscribe(
+              (onlineUsers) => {
+                this.onlineUsers = onlineUsers;
+                console.log(
+                  "----------------- Updated online users -----------------"
+                );
+              }
+            );
+
+            var body = document.getElementsByTagName("body")[0];
+            body.classList.add("bg-background");
+
+            console.log(
+              "************************** FINAL3 **************************"
+            );
           });
-
-
-
-
-
-
-          var body = document.getElementsByTagName("body")[0];
-          body.classList.add("bg-background");
-
-          console.log(
-            "************************** FINAL3 **************************"
-          );
-        });
       });
     });
   }
@@ -589,8 +537,6 @@ export class EditorLayoutComponent implements OnInit {
     )[0] as HTMLElement;
     coverLink.classList.remove("nActive");
     coverLink.classList.add("active");
-
-
 
     this.router.navigate(["./cover"], {
       relativeTo: this.route,
@@ -606,8 +552,6 @@ export class EditorLayoutComponent implements OnInit {
     this.workspace = document.getElementById("workspace");
     this.hideSideBarButton = document.getElementById("showHideSBButton");
 
-
-
     this.workspace.addEventListener("click", (ev) => {
       const targ = ev.target as HTMLElement;
       if (!targ.classList.contains("open-sidebar-button")) {
@@ -620,7 +564,6 @@ export class EditorLayoutComponent implements OnInit {
     let singleSections = Array.from(singleSection).filter((el) => {
       return el.id === "singleSec";
     });
-
 
     var i;
     for (i = 0; i < dropdown.length; i++) {
@@ -635,7 +578,6 @@ export class EditorLayoutComponent implements OnInit {
     var links = document.getElementsByTagName("a");
     for (i = 0; i < links.length; i++) {
       links[i].addEventListener("click", function () {
-
         if (this.className == "nActive") {
           var otherLinks = document.getElementsByClassName("active");
           for (var j = 0; j < otherLinks.length; j++) {
@@ -648,7 +590,6 @@ export class EditorLayoutComponent implements OnInit {
   }
 
   showHideDropDown(ddElement: any, show: boolean) {
-
     if (show) {
       ddElement.classList.remove("hideDropdown");
       ddElement.classList.add("showDropdown");
@@ -670,8 +611,6 @@ export class EditorLayoutComponent implements OnInit {
     const sh = this.showHideDropDown.bind(this);
 
     el.addEventListener("click", function () {
-
-
       let caret = this.children[1] as HTMLElement;
 
       var otherDropdowns = document.getElementsByClassName("dropdown-btn");
@@ -788,6 +727,5 @@ export class EditorLayoutComponent implements OnInit {
     this.editingDocumentService.setReadOnly(null);
 
     this.editingDocumentService.disconnectSocket();
-
   }
 }

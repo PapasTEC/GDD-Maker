@@ -1,15 +1,9 @@
 const express = require("express");
 
-
-
-
-
-
-
 const http = require("http");
 const { instrument } = require("@socket.io/admin-ui");
 const { Server, Socket } = require("socket.io");
-const documentController = require('./controllers/DocumentController');
+const documentController = require("./controllers/DocumentController");
 
 const morgan = require("morgan");
 const path = require("path");
@@ -43,10 +37,7 @@ let onlineUsersInDocuments = new Map();
 let onlineUsers = new Map();
 
 io.on("connection", (socket) => {
-
-
   socket.on("disconnect", () => {
-
     if (onlineUsers.has(socket.id)) {
       let { documentId, email } = onlineUsers.get(socket.id);
       let users = onlineUsersInDocuments.get(documentId);
@@ -69,20 +60,14 @@ io.on("connection", (socket) => {
       onlineUsersInDocuments.set(documentId, [{ email, name, image }]);
     }
 
-
     io.sockets
       .in(documentId)
       .emit("update-online-users", onlineUsersInDocuments.get(documentId));
 
     onlineUsers.set(socket.id, { documentId, email });
-
-
-
-
   });
 
   socket.on("leave-document", (documentId, email) => {
-
     if (onlineUsersInDocuments.has(documentId)) {
       let users = onlineUsersInDocuments.get(documentId);
       users = users.filter((user) => user.email !== email);
@@ -97,31 +82,33 @@ io.on("connection", (socket) => {
     onlineUsers.delete(socket.id);
   });
 
-  socket.on("edit-document", async ({ documentId, secId, subSecId, content, sectionTitle, subSectionTitle, part }) => {
-    socket.broadcast
-      .to(documentId)
-      .emit("sync-data", { secId, subSecId, content, part });
+  socket.on(
+    "edit-document",
+    async ({
+      documentId,
+      secId,
+      subSecId,
+      content,
+      sectionTitle,
+      subSectionTitle,
+      part,
+    }) => {
+      socket.broadcast
+        .to(documentId)
+        .emit("sync-data", { secId, subSecId, content, part });
+    }
+  );
 
-
-  });
-
-  socket.on('edit-document-front-page', async ({ documentId, content }) => {
-    socket.broadcast
-      .to(documentId)
-      .emit("sync-data-front-page", { content });
-
+  socket.on("edit-document-front-page", async ({ documentId, content }) => {
+    socket.broadcast.to(documentId).emit("sync-data-front-page", { content });
   });
 
   socket.on("edit-User", ({ documentId, content, user, part }) => {
-
     socket.broadcast
       .to(documentId)
       .emit("user-Editing", { content, user, part });
   });
 });
-
-
-
 
 let PORT = process.env.PORT || port;
 server.listen(PORT, async () => {
@@ -144,11 +131,7 @@ app.use("/api/documents", require("./routes/DocumentRoutes"));
 app.use("/api/token", require("./routes/TokenRoute"));
 app.use("/api/images", require("./routes/ImageRoutes"));
 
-
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-
-
-
 
 app.use("/api/test", express.static("src"));
 

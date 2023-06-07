@@ -110,7 +110,6 @@ $resizeFont: max(1.5vw, 1.5vh);
   }
 }
 
-
 $resizeFont: min(clamp(0.6em, 1.1vw, 3em), clamp(0.6em, 1.1vh, 3em));
 
 .platformCanvas {
@@ -225,7 +224,6 @@ $size: min(clamp(20%, 10vw, 50%), clamp(20%, 10vh, 50%));
   }
 }
 
-
 .otherDetailsContent {
   width: 100%;
   display: flex;
@@ -318,7 +316,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .editing-box {
   background-color: #f4f3f6;
-  font-size: max(.8vw, .8vh);
+  font-size: max(0.8vw, 0.8vh);
   position: initial;
 }
 

@@ -1,6 +1,6 @@
 $r: 15px;
 
-$primaryAppColor: #16425B;
+$primaryAppColor: #16425b;
 $primaryAppColorLight: #66819c;
 
 $primaryTextColor: #000000;
@@ -17,7 +17,7 @@ $icon-container-size: min(2vh, 2vw);
 
 $buttonTransition: 0.3s ease color, 0.3s ease background-color;
 
-$resizeFontSize:clamp(1.2rem, 1.5vh, 2rem);
+$resizeFontSize: clamp(1.2rem, 1.5vh, 2rem);
 
 $resizeTitleFont: calc($resizeFontSize * 1.75);
 
@@ -36,7 +36,6 @@ body {
   height: 92%;
   width: 100%;
   overflow: hidden;
-
 }
 
 .subSectionTitleShowedInEditor {
@@ -66,26 +65,22 @@ body {
 .littleTextFont {
   font-size: $inner-font-size;
   font-weight: 400;
-  margin-left: .4vw;
+  margin-left: 0.4vw;
 }
 
-.pinIcon{
+.pinIcon {
   font-size: calc($middle-font-size * 1.2);
   transition: $buttonTransition;
   position: relative;
 }
 
-.pinned{
+.pinned {
   color: $primaryAppColor;
-
 }
 
-.unpinned{
+.unpinned {
   color: $primaryAppColorLight;
-
 }
-
-
 
 img {
   color: $primaryTextColor;
@@ -105,8 +100,6 @@ img {
   padding: 1%;
 }
 
-
-
 .save-button {
   position: relative;
   z-index: 100;
@@ -117,18 +110,16 @@ img {
 
   font-size: min(1.8vh, 1.8vw);
   line-height: 200%;
-  border-radius: .8vh;
+  border-radius: 0.8vh;
 
   color: #f6f3f3;
   background-color: $primaryAppColor;
 
   cursor: pointer;
 
-  span{
+  span {
     font-size: calc(3.5vw * 0.25);
   }
-
-
 }
 
 .save-button:hover {
@@ -169,8 +160,6 @@ img {
 
       display: flex;
       justify-content: center;
-
-
     }
 
     .exit-button {
@@ -187,7 +176,8 @@ img {
 
   .icon-container:hover {
     .exit-button {
-      filter: invert(38%) sepia(99%) saturate(3773%) hue-rotate(329deg) brightness(98%) contrast(97%);
+      filter: invert(38%) sepia(99%) saturate(3773%) hue-rotate(329deg)
+        brightness(98%) contrast(97%);
     }
   }
 
@@ -201,9 +191,7 @@ img {
   }
 }
 
-
 .editor-container-Class {
-
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -211,17 +199,9 @@ img {
   position: relative;
   overflow: hidden;
 
-
-
   box-shadow: 0 0.2vw 20px rgba(0, 0, 0, 0.2);
 
-
-
-
-
   border-radius: 5px;
-
-
 }
 
 .markdown-wrapper {
@@ -231,7 +211,6 @@ img {
   width: 100%;
   border: blue $borderState;
 }
-
 
 .hide-toolbar {
   transform: rotate(-90deg);
@@ -250,7 +229,8 @@ img {
 
   border: slateblue $borderState;
 
-  filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
+  filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg)
+    brightness(107%) contrast(99%);
 }
 
 .hide-toolbar:hover {
@@ -262,7 +242,6 @@ img {
 }
 $leftBarAnimation: 0.5s width;
 .workspace-class {
-
   transition: 0.5s;
   padding: 1%;
   height: 100%;
@@ -288,9 +267,8 @@ $leftBarAnimation: 0.5s width;
 
     cursor: pointer;
 
-
-
-    filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg) brightness(107%) contrast(99%);
+    filter: invert(67%) sepia(17%) saturate(11%) hue-rotate(314deg)
+      brightness(107%) contrast(99%);
   }
 
   .open-sidebar-button:hover {
@@ -300,11 +278,9 @@ $leftBarAnimation: 0.5s width;
 
 $sideBarDefaultBGColor: #f4f3f6;
 
-$leftModuleDefaultWidth: clamp(20%, 10vw ,35%);
+$leftModuleDefaultWidth: clamp(20%, 10vw, 35%);
 
 $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
-
-
 
 .leftModuleClass {
   padding: 0px 0px 0px 0px;
@@ -326,10 +302,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 
   border: black $borderState;
 
-
-
   font-size: $resizeFontSize;
-
 }
 
 .sidebarShow {
@@ -369,7 +342,6 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 }
 
 .leftModuleTopClass {
-
   margin: 0px 0px 0px 0px;
   height: 8%;
   width: 100%;
@@ -377,8 +349,6 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   flex-direction: row;
   padding: 0 6%;
   align-items: center;
-
-
 
   position: relative;
   overflow: hidden;
@@ -420,7 +390,7 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   .icon-container {
     cursor: pointer;
 
-    border: saddlebrown $borderState;;
+    border: saddlebrown $borderState;
 
     img {
       height: 2.5vh;
@@ -429,14 +399,13 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   }
 }
 
-.ribbon{
+.ribbon {
   background-color: $primaryAppColor;
-  border: solid 0.2rem #bdbdbd ;
+  border: solid 0.2rem #bdbdbd;
 }
 .leftModuleBottomClass {
   height: 100%;
   width: 100%;
-
 
   display: flex;
   flex-direction: column;
@@ -445,14 +414,11 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   overflow: hidden;
   background-color: inherit;
 
-
   border: #d15706 $borderState;
 }
 
 .layoutTextContainer {
   width: 100%;
-
-
 
   margin-top: 3%;
   padding-left: max(16px, 6%);
@@ -465,17 +431,11 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 
   flex-direction: column;
 
-
   justify-content: center;
-
-
 
   position: relative;
   overflow: hidden;
-
 }
-
-
 
 .layoutText {
   font-family: "Roboto", sans-serif;
@@ -500,12 +460,10 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   display: flex;
   flex-direction: column;
 
-  overflow-y:scroll;
+  overflow-y: scroll;
 
   border: greenyellow $borderState;
 }
-
-
 
 @keyframes slideaway {
   from {
@@ -526,10 +484,9 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
   position: relative;
   height: fit-content;
   width: 100%;
-
 }
 
-.botx{
+.botx {
   position: relative;
   display: flex;
   height: 100%;
@@ -538,9 +495,6 @@ $workspaceShrinkedWidth: calc(100% - #{$leftModuleDefaultWidth});
 
 /* Sidebar links */
 $layoutTransitionTime: 0.3s ease color, 0.3s ease background-color;
-
-
-
 
 .sidebar a,
 .dropdown-btn {
@@ -566,16 +520,11 @@ $layoutTransitionTime: 0.3s ease color, 0.3s ease background-color;
   i {
     margin-left: auto;
   }
-
 }
-
 
 .flipHorizontal {
   transform: rotate(180deg);
 }
-
-
-
 
 $layoutDefaultBGColor: #e1e1e1;
 $layoutSubsectionDefaultBGColor: #ece8e8;
@@ -593,43 +542,37 @@ $layoutHoverFontColor: #000000;
   text-align: left;
 }
 
-.subSectionCont{
+.subSectionCont {
   position: relative;
   z-index: 5;
 }
 
-.sidebar a{
+.sidebar a {
   transition: $layoutTransitionTime;
   position: sticky;
-
-
 }
-
 
 .sidebar a.active {
   background-color: $layoutActiveSectionColor;
   color: $layoutActiveSectionFontColor;
   transition: none;
-
 }
 
-.sidebar a.nActive, .dropdown-btn, .noSubSections {
+.sidebar a.nActive,
+.dropdown-btn,
+.noSubSections {
   background-color: $layoutDefaultBGColor;
   color: $layoutDefaultSectionColor;
   transition: none;
-
 }
 
 $sectionDefaultPadding: 1vw;
 
-.sidebar a:hover:not(.active), .dropdown-btn:hover {
+.sidebar a:hover:not(.active),
+.dropdown-btn:hover {
   background-color: $layoutHoverBGColor;
   color: $layoutDefaultSectionColor;
   transition: $layoutTransitionTime;
-
-
-
-
 }
 
 .dropdown-container {
@@ -640,7 +583,7 @@ $sectionDefaultPadding: 1vw;
   transition: height 0.3s ease-in-out;
 }
 
-.xBot{
+.xBot {
   position: relative;
   z-index: 5;
   background-color: inherit;
@@ -650,7 +593,6 @@ $sectionDefaultPadding: 1vw;
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: auto;
-
 }
 
 .hideDropdown {
@@ -663,13 +605,11 @@ $sectionDefaultPadding: 1vw;
   display: block;
 }
 
-.flip{
+.flip {
   transform: rotate(180deg);
 }
 
-
-
-.dropdown-container a.nActive{
+.dropdown-container a.nActive {
   background-color: $layoutSubsectionDefaultBGColor;
 
   position: relative;
@@ -677,7 +617,6 @@ $sectionDefaultPadding: 1vw;
   span {
     padding-left: $sectionDefaultPadding;
   }
-
 }
 
 .noSubSections.active:hover {
@@ -696,12 +635,10 @@ $sectionDefaultPadding: 1vw;
   span {
     padding-left: calc($sectionDefaultPadding * 2);
   }
-
 }
 
 .fa-caret-down {
   float: right;
-
 
   width: fit-content;
   transition: $rotatingArrowsTransition;
@@ -756,7 +693,6 @@ $sectionDefaultPadding: 1vw;
   transition: 200ms;
 }
 
-
 $percentageOfScreenBeyond4k: 1.3;
 $percentageOfScreen4k: 1.2;
 $percentageOfScreen2k: 1.1;
@@ -764,8 +700,7 @@ $percentageOfScreen1080: 0.9;
 $percentageOfScreen720: 0.7;
 
 @media screen and (max-width: 500px) {
-
-  .leftModuleClass{
+  .leftModuleClass {
     font-size: calc($resizeFontSize * 0.3);
   }
 
@@ -775,14 +710,11 @@ $percentageOfScreen720: 0.7;
 
   .dropdown-container {
     font-size: calc($resizeFontSize * 0.3 * 0.8);
-
   }
-
 }
 
 @media screen and (min-width: 500px) and (max-width: 769px) {
-
-  .leftModuleClass{
+  .leftModuleClass {
     font-size: calc($resizeFontSize * $percentageOfScreen720);
   }
 
@@ -792,14 +724,12 @@ $percentageOfScreen720: 0.7;
 
   .dropdown-container {
     font-size: calc($resizeFontSize * $percentageOfScreen720 * 0.8);
-
   }
-
 }
 
 @media screen and (min-width: 769px) and (max-width: 1200px) {
-  .leftModuleClass{
-    font-size: calc($resizeFontSize * ($percentageOfScreen1080 - 0.1) );
+  .leftModuleClass {
+    font-size: calc($resizeFontSize * ($percentageOfScreen1080 - 0.1));
   }
 
   .layoutText {
@@ -807,13 +737,12 @@ $percentageOfScreen720: 0.7;
   }
 
   .dropdown-container {
-    font-size: calc($resizeFontSize * ($percentageOfScreen1080 - 0.1)  * 0.8);
-
+    font-size: calc($resizeFontSize * ($percentageOfScreen1080 - 0.1) * 0.8);
   }
 }
 
 @media screen and (min-width: 1200px) and (max-width: 1921px) {
-  .leftModuleClass{
+  .leftModuleClass {
     font-size: calc($resizeFontSize * $percentageOfScreen1080);
   }
 
@@ -823,12 +752,11 @@ $percentageOfScreen720: 0.7;
 
   .dropdown-container {
     font-size: calc($resizeFontSize * $percentageOfScreen1080 * 0.8);
-
   }
 }
 
 @media screen and (min-width: 1921px) and (max-width: 2561px) {
-  .leftModuleClass{
+  .leftModuleClass {
     font-size: calc($resizeFontSize * $percentageOfScreen2k);
   }
 
@@ -842,7 +770,7 @@ $percentageOfScreen720: 0.7;
 }
 
 @media screen and (min-width: 2561px) and (max-width: 3161px) {
-  .leftModuleClass{
+  .leftModuleClass {
     font-size: calc($resizeFontSize * $percentageOfScreen4k);
   }
 
@@ -856,7 +784,7 @@ $percentageOfScreen720: 0.7;
 }
 
 @media screen and (min-width: 3161px) {
-  .leftModuleClass{
+  .leftModuleClass {
     font-size: calc($resizeFontSize * $percentageOfScreenBeyond4k);
   }
 

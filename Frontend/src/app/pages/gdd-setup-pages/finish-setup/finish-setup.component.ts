@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { DocumentService } from "../../../services/document.service";
-import { UserService } from 'src/app/services/user.service';
-import { TokenService } from 'src/app/services/token.service';
+import { UserService } from "src/app/services/user.service";
+import { TokenService } from "src/app/services/token.service";
 import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-finish-setup",
@@ -11,10 +11,15 @@ import { ToastrService } from "ngx-toastr";
 })
 export class FinishSetupComponent {
   tempImage: string;
-  status: string = 'creating';
+  status: string = "creating";
   documentId: string;
-  constructor(private tokenService: TokenService,private documentService: DocumentService, private userService: UserService,
-    private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private tokenService: TokenService,
+    private documentService: DocumentService,
+    private userService: UserService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
   platforms = [
     "Android",
     "iOS",
@@ -39,7 +44,8 @@ export class FinishSetupComponent {
     "Submission",
   ];
   generateCode() {
-    const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const charset =
+      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let result = "";
     let length = 12;
     for (let i = 0; i < length; i++) {
@@ -51,38 +57,36 @@ export class FinishSetupComponent {
     const nonAsciiRegex = /[^\x00-\x7F]/;
     return nonAsciiRegex.test(string);
   }
-async saveImageInServer(file, fixName, documentId) {
+  async saveImageInServer(file, fixName, documentId) {
     const formData = new FormData();
     formData.append("image", file, fixName);
     await new Promise((resolve, reject) => {
-      this.documentService
-        .uploadImage(documentId, fixName, formData)
-        .subscribe(
-          (res) => {},
-          (err) => {
-            if (err.status === 200) {
-              resolve(err);
-            } else {
-              reject(err);
-            }
+      this.documentService.uploadImage(documentId, fixName, formData).subscribe(
+        (res) => {},
+        (err) => {
+          if (err.status === 200) {
+            resolve(err);
+          } else {
+            reject(err);
           }
-        );
+        }
+      );
     });
     return;
   }
   base64ToFile(base64String, fileName) {
-    const byteString = atob(base64String.split(',')[1]);
+    const byteString = atob(base64String.split(",")[1]);
     const ab = new ArrayBuffer(byteString.length);
     const ia = new Uint8Array(ab);
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    const blob = new Blob([ab], { type: 'image/png' });
-    return new File([blob], fileName, { type: 'image/png' });
+    const blob = new Blob([ab], { type: "image/png" });
+    return new File([blob], fileName, { type: "image/png" });
   }
   genNewImageName() {
     let fixName: string;
-    fixName = Date.now().toString()
+    fixName = Date.now().toString();
     return fixName;
   }
   getNewImageName(fileName: string) {
@@ -97,22 +101,28 @@ async saveImageInServer(file, fixName, documentId) {
   async saveLogoToServer(sessionStLogoName, sessionStLogoURL, docID) {
     let newName = this.getNewImageName(sessionStLogoName);
     let newPath = `uploads/${docID}/${newName}`;
-    let file = await this.urlToFile(sessionStLogoURL, newName, this.getMimeTypeFromFileName(newName))
+    let file = await this.urlToFile(
+      sessionStLogoURL,
+      newName,
+      this.getMimeTypeFromFileName(newName)
+    );
     await this.saveImageInServer(file, newName, docID);
-    return newPath
+    return newPath;
   }
   async finishSetup() {
-    this.status = 'saving';
+    this.status = "saving";
     let user;
     this.tokenService.decodeToken().subscribe(async (data: any) => {
       user = data.decoded;
-      user.image = localStorage.getItem('ImageUser');
-      let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
-      const myPlatforms = currentSetup.gamePlatforms.map(platform => {
+      user.image = localStorage.getItem("ImageUser");
+      let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
+      const myPlatforms = currentSetup.gamePlatforms.map((platform) => {
         return this.platforms[platform];
       });
-      let myGameLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
-      let myCompanyLogo = "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+      let myGameLogo =
+        "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
+      let myCompanyLogo =
+        "https://www.freeiconspng.com/uploads/no-image-icon-11.PNG";
       const document = {
         owner: user.email,
         invited: [],
@@ -123,202 +133,238 @@ async saveImageInServer(file, fixName, documentId) {
           companyName: currentSetup.companyName,
           companyLogo: myCompanyLogo,
           collaborators: [user.name],
-          lastUpdated: new Date()
+          lastUpdated: new Date(),
         },
         documentContent: [
           {
-          sectionTitle: "Basic Information",
-          subSections: [{
-            subSectionTitle: "Basic Information",
-            subSectionContent: {
-              elevatorPitch: currentSetup.elevatorPitch,
-              tagline: "",
-              genres: [],
-              tags: currentSetup.gameTags,
-            }
-          }]
-        }, {
-          sectionTitle: "Technical Information",
-          subSections: [{
-            subSectionTitle: "Technical Information",
-            subSectionContent: {
-              platforms: currentSetup.gamePlatforms,
-              ageClassification : "",
-              targetAudience: "",
-              releaseDate: "",
-              price: "",
-            }
-          }]
-        }, {
-          sectionTitle: "High Level Design",
-          subSections: [{
-            subSectionTitle: "Theme",
-            subSectionContent: {
-              text: currentSetup.theme
-            }
-          }, {
-            subSectionTitle: "Aesthetic",
-            subSectionContent: {
-              aesthetics: [{name:this.aesthetics[currentSetup.aesthetic[0]], content:""}]
-            }
-          }, {
-            subSectionTitle: "Core Mechanic",
-            subSectionContent: {
-              "coreMechanic": currentSetup.coreMechanic,
-              "secondary": "",
-              "progression": "",
-              "metaphore": ""
-            }
-          }]
-        },
-        {
-          sectionTitle: "Low Level Design",
-          subSections: [{
-            subSectionTitle: "Detail of the Core Mechanic",
-            subSectionContent: {
-              tokens : "",
-              resources : "",
-              additionalElements : "",
-              decisions : "",
-              intermediate : "",
-              local : "",
-              global : ""
-            }
+            sectionTitle: "Basic Information",
+            subSections: [
+              {
+                subSectionTitle: "Basic Information",
+                subSectionContent: {
+                  elevatorPitch: currentSetup.elevatorPitch,
+                  tagline: "",
+                  genres: [],
+                  tags: currentSetup.gameTags,
+                },
+              },
+            ],
           },
           {
-            subSectionTitle: "Detail of the Secondary Mechanic",
-            subSectionContent: {
-              text: ""
-            }
+            sectionTitle: "Technical Information",
+            subSections: [
+              {
+                subSectionTitle: "Technical Information",
+                subSectionContent: {
+                  platforms: currentSetup.gamePlatforms,
+                  ageClassification: "",
+                  targetAudience: "",
+                  releaseDate: "",
+                  price: "",
+                },
+              },
+            ],
           },
           {
-            subSectionTitle: "Core Gameplay Loop",
-            subSectionContent: {
-              first: "",
-              second: "",
-              third: "",
-              fourth: "",
-            }
-          }
-        ]
-        },
-        {
-          sectionTitle: "Narrative and Worldbuilding",
-          subSections: [{
-            subSectionTitle: "Setting",
-            subSectionContent: {
-              text: ""
-            }
-          },{
-            subSectionTitle: "Characters",
-            subSectionContent: {
-              characters: []
-            }
+            sectionTitle: "High Level Design",
+            subSections: [
+              {
+                subSectionTitle: "Theme",
+                subSectionContent: {
+                  text: currentSetup.theme,
+                },
+              },
+              {
+                subSectionTitle: "Aesthetic",
+                subSectionContent: {
+                  aesthetics: [
+                    {
+                      name: this.aesthetics[currentSetup.aesthetic[0]],
+                      content: "",
+                    },
+                  ],
+                },
+              },
+              {
+                subSectionTitle: "Core Mechanic",
+                subSectionContent: {
+                  coreMechanic: currentSetup.coreMechanic,
+                  secondary: "",
+                  progression: "",
+                  metaphore: "",
+                },
+              },
+            ],
           },
           {
-            subSectionTitle: "Events",
-            subSectionContent: {
-              events: []
-            }
-          }]
-        },
-        {
-          sectionTitle: "Look and Feel",
-          subSections: [{
-            subSectionTitle: "Visual Style",
-            subSectionContent: {
-              text: ""
-            }
-          },{
-            subSectionTitle: "User Interface",
-            subSectionContent: {
-              text: ""
-            }
+            sectionTitle: "Low Level Design",
+            subSections: [
+              {
+                subSectionTitle: "Detail of the Core Mechanic",
+                subSectionContent: {
+                  tokens: "",
+                  resources: "",
+                  additionalElements: "",
+                  decisions: "",
+                  intermediate: "",
+                  local: "",
+                  global: "",
+                },
+              },
+              {
+                subSectionTitle: "Detail of the Secondary Mechanic",
+                subSectionContent: {
+                  text: "",
+                },
+              },
+              {
+                subSectionTitle: "Core Gameplay Loop",
+                subSectionContent: {
+                  first: "",
+                  second: "",
+                  third: "",
+                  fourth: "",
+                },
+              },
+            ],
           },
           {
-            subSectionTitle: "Music and Sound",
-            subSectionContent: {
-              text: ""
-            }
-          }]
-        },
-        {
-          sectionTitle: "Game References",
-          subSections: [{
-            subSectionTitle: "Game References",
-            subSectionContent: {
-              text: ""
-            }
-          }]
-        },
-      ]
-      }
+            sectionTitle: "Narrative and Worldbuilding",
+            subSections: [
+              {
+                subSectionTitle: "Setting",
+                subSectionContent: {
+                  text: "",
+                },
+              },
+              {
+                subSectionTitle: "Characters",
+                subSectionContent: {
+                  characters: [],
+                },
+              },
+              {
+                subSectionTitle: "Events",
+                subSectionContent: {
+                  events: [],
+                },
+              },
+            ],
+          },
+          {
+            sectionTitle: "Look and Feel",
+            subSections: [
+              {
+                subSectionTitle: "Visual Style",
+                subSectionContent: {
+                  text: "",
+                },
+              },
+              {
+                subSectionTitle: "User Interface",
+                subSectionContent: {
+                  text: "",
+                },
+              },
+              {
+                subSectionTitle: "Music and Sound",
+                subSectionContent: {
+                  text: "",
+                },
+              },
+            ],
+          },
+          {
+            sectionTitle: "Game References",
+            subSections: [
+              {
+                subSectionTitle: "Game References",
+                subSectionContent: {
+                  text: "",
+                },
+              },
+            ],
+          },
+        ],
+      };
       this.documentService.addDocument(document).subscribe(
         async (res: any) => {
           if (res?.error) {
-            this.status = 'creating';
-            this.toastr.error("Error adding document. Make sure you have filled all the fields", "", {
-              timeOut: 30000,
-              closeButton: true,
-            });
+            this.status = "creating";
+            this.toastr.error(
+              "Error adding document. Make sure you have filled all the fields",
+              "",
+              {
+                timeOut: 30000,
+                closeButton: true,
+              }
+            );
             return;
           }
-          this.documentId = res['id'];
+          this.documentId = res["id"];
           // alert("Document added successfully!");
-          this.userService.addOwnProject(user.email, res['id']).subscribe(
-            async _ => {
-              this.status = 'success';
+          this.userService
+            .addOwnProject(user.email, res["id"])
+            .subscribe(async (_) => {
+              this.status = "success";
               if (currentSetup.gameLogo !== "") {
-                myGameLogo = await this.saveLogoToServer(currentSetup.gameLogoName, currentSetup.gameLogo, this.documentId);
+                myGameLogo = await this.saveLogoToServer(
+                  currentSetup.gameLogoName,
+                  currentSetup.gameLogo,
+                  this.documentId
+                );
               }
               if (currentSetup.companyLogo !== "") {
-                myCompanyLogo = await this.saveLogoToServer(currentSetup.companyLogoName, currentSetup.companyLogo, this.documentId);
+                myCompanyLogo = await this.saveLogoToServer(
+                  currentSetup.companyLogoName,
+                  currentSetup.companyLogo,
+                  this.documentId
+                );
               }
               document.frontPage.documentLogo = myGameLogo;
               document.frontPage.companyLogo = myCompanyLogo;
-              this.documentService.updateDocument(this.documentId, document).subscribe(
-                res3 => {
-                }
-              );
+              this.documentService
+                .updateDocument(this.documentId, document)
+                .subscribe((res3) => {});
               setTimeout(() => {
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(["/dashboard"]);
               }, 2000);
-              err2 => {
-                this.status = 'creating';
+              (err2) => {
+                this.status = "creating";
                 this.toastr.error("Error adding document to user", "", {
                   timeOut: 10000,
                   closeButton: true,
                 });
-              }
+              };
             });
         },
-        err => {
-          this.status = 'creating';
+        (err) => {
+          this.status = "creating";
           this.toastr.error("Error adding document", "", {
             timeOut: 10000,
             closeButton: true,
           });
         }
       );
-      });
+    });
   }
   async urlToFile(url, filename, mimeType) {
     return await fetch(url)
-      .then(response => response.blob())
-      .then(blob => new File([blob], filename, { type: mimeType }));
+      .then((response) => response.blob())
+      .then((blob) => new File([blob], filename, { type: mimeType }));
   }
   getMimeTypeFromFileName(fileName) {
-    const extension = fileName.split('.').pop().toLowerCase();
+    const extension = fileName.split(".").pop().toLowerCase();
     switch (extension) {
-      case 'jpg':
-      case 'jpeg':
-        return 'image/jpeg';
-      case 'png':
-        return 'image/png';
-      case 'gif':
-        return 'image/gif';
+      case "jpg":
+      case "jpeg":
+        return "image/jpeg";
+      case "png":
+        return "image/png";
+      case "gif":
+        return "image/gif";
       default:
-        return '';
+        return "";
     }
   }
   public async convertTempUrlToBase64(url: any) {
@@ -337,7 +383,7 @@ async saveImageInServer(file, fixName, documentId) {
     });
     return new Promise<string>((resolve, reject) => {
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         const aspect = img.width / img.height;
         if (img.width > img.height) {
           height = width / aspect;

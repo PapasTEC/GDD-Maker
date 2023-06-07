@@ -1,4 +1,4 @@
 export interface card {
-    name: String,
-    content: String
-  };
+  name: String;
+  content: String;
+}

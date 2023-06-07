@@ -45,11 +45,9 @@ export class RegisterComponent implements OnInit {
       const email = this.registerForm.value.email;
       this.userService.checkUserExists(email).subscribe((response) => {
         if (response) {
-
           this.toastr.error("This email is already register");
           return;
         } else {
-
           this.submit();
         }
       });
@@ -59,9 +57,7 @@ export class RegisterComponent implements OnInit {
   submit() {
     try {
       const newUser = this.registerForm.value;
-      this.http.post("/api/users/add/", newUser).subscribe((response) => {
-
-      });
+      this.http.post("/api/users/add/", newUser).subscribe((response) => {});
       this.toastr.success("Your account has been created successfully", "", {
         timeOut: 800,
       });

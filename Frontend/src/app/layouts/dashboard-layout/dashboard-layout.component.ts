@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-dashboard-layout',
-  templateUrl: './dashboard-layout.component.html',
-  styleUrls: ['./dashboard-layout.component.scss']
+  selector: "app-dashboard-layout",
+  templateUrl: "./dashboard-layout.component.html",
+  styleUrls: ["./dashboard-layout.component.scss"],
 })
 export class DashboardLayoutComponent implements OnInit, OnDestroy {
   test: Date = new Date();
   public isCollapsed = true;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     var html = document.getElementsByTagName("html")[0];
@@ -21,8 +21,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
     footer.classList.add("bg-background");
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
-   });
-
+    });
   }
   ngOnDestroy() {
     var html = document.getElementsByTagName("html")[0];

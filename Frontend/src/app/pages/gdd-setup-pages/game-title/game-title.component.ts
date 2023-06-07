@@ -1,24 +1,24 @@
-import { Component, Input } from '@angular/core';
-import { Route, ActivatedRoute } from '@angular/router';
+import { Component, Input } from "@angular/core";
+import { Route, ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-game-title',
-  templateUrl: './game-title.component.html',
-  styleUrls: ['./game-title.component.scss', '../setupStyles.scss']
+  selector: "app-game-title",
+  templateUrl: "./game-title.component.html",
+  styleUrls: ["./game-title.component.scss", "../setupStyles.scss"],
 })
-
 export class GameTitleComponent {
-
   currentTextInBox: string;
   routeUsingComponent: string;
   textBoxDefault: string;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.data.subscribe(_value => this.routeUsingComponent = _value.type);
+    this.route.data.subscribe(
+      (_value) => (this.routeUsingComponent = _value.type)
+    );
     this.textBoxDefault = this.setSubtitle(this.routeUsingComponent);
-    if (sessionStorage.getItem('currentSetup') !== null) {
+    if (sessionStorage.getItem("currentSetup") !== null) {
       this.getSessionStorageContent(this.routeUsingComponent);
     }
   }
@@ -34,7 +34,7 @@ export class GameTitleComponent {
   }
 
   private getSessionStorageContent(route: string): void {
-    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+    let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
     if (route === "game") {
       this.currentTextInBox = currentSetup.gameTitle;
     } else if (route === "company") {
@@ -45,7 +45,7 @@ export class GameTitleComponent {
   }
 
   private setSessionStorageContent(route: string): void {
-    let currentSetup = JSON.parse(sessionStorage.getItem('currentSetup'));
+    let currentSetup = JSON.parse(sessionStorage.getItem("currentSetup"));
     if (route === "game") {
       currentSetup.gameTitle = this.currentTextInBox;
     } else if (route === "company") {
@@ -53,14 +53,13 @@ export class GameTitleComponent {
     } else if (route === "core") {
       currentSetup.coreMechanic = this.currentTextInBox;
     }
-    sessionStorage.setItem('currentSetup', JSON.stringify(currentSetup));
+    sessionStorage.setItem("currentSetup", JSON.stringify(currentSetup));
   }
 
   public onTextChange(text: string): void {
     this.currentTextInBox = text;
-    if (sessionStorage.getItem('currentSetup') !== null) {
+    if (sessionStorage.getItem("currentSetup") !== null) {
       this.setSessionStorageContent(this.routeUsingComponent);
     }
   }
-
 }

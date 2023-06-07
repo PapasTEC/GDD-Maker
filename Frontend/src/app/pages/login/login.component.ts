@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.provideCode();
           return;
         } else {
-
           this.tostr.error("This email is not registered");
           return;
         }
@@ -66,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   provideCode() {
     this.codeForm.patchValue({
-      code: ""
+      code: "",
     });
     this.codeSubmitted = false;
     this.codeForm.reset();
@@ -74,12 +73,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     const email = this.emailForm.value.email;
     this.userService.provideCodeUser(email).subscribe((response) => {
       if (response) {
-
-
         this.tostr.success("Code sent to your email");
         return;
       } else {
-
         this.tostr.error("Error sending code");
         return;
       }
@@ -102,14 +98,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.codeForm.valid) {
       const email = this.emailForm.value.email;
       const code = this.codeForm.value.code;
-      this.userService.login(email, code).subscribe((response) => {
-
-        if (response.token) {
-
-
-
-
-          localStorage.setItem("ImageUser", response.image);
+      this.userService.login(email, code).subscribe(
+        (response) => {
+          if (response.token) {
+            localStorage.setItem("ImageUser", response.image);
 
             localStorage.setItem("ImageUser", response.image);
 
@@ -126,16 +118,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             }, 900);
             return;
           } else {
-
             this.tostr.error("Wrong code");
             return;
           }
         },
 
         (error) => {
-
           if (error.status == 500) {
-
             this.tostr.error("Wrong code");
           }
         }

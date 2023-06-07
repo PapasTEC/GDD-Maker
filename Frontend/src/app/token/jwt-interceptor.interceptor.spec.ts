@@ -1,16 +1,18 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { JwtInterceptorInterceptor } from './jwt-interceptor.interceptor';
+import { JwtInterceptorInterceptor } from "./jwt-interceptor.interceptor";
 
-describe('JwtInterceptorInterceptor', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    providers: [
+describe("JwtInterceptorInterceptor", () => {
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      providers: [JwtInterceptorInterceptor],
+    })
+  );
+
+  it("should be created", () => {
+    const interceptor: JwtInterceptorInterceptor = TestBed.inject(
       JwtInterceptorInterceptor
-      ]
-  }));
-
-  it('should be created', () => {
-    const interceptor: JwtInterceptorInterceptor = TestBed.inject(JwtInterceptorInterceptor);
+    );
     expect(interceptor).toBeTruthy();
   });
 });

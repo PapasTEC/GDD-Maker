@@ -6,14 +6,23 @@
   <link rel="stylesheet" href="editor-layout.component.scss" />
 </head>
 
-<div class="header bg-gradient-tertiary" style="height: 19vh;"></div>
+<div class="header bg-gradient-tertiary" style="height: 19vh"></div>
 
 <div class="bodyContainer header-margin">
   <div id="editor-container" class="editor-container-Class">
-    <div id="sidebar" class="leftModuleClass " tabindex="0" (click)="keepSidebarOpen()">
+    <div
+      id="sidebar"
+      class="leftModuleClass"
+      tabindex="0"
+      (click)="keepSidebarOpen()"
+    >
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
-          <div class="icon-container" *ngIf="!isReadOnly || !notAuthUser" (click)="returnDashboard() ">
+          <div
+            class="icon-container"
+            *ngIf="!isReadOnly || !notAuthUser"
+            (click)="returnDashboard()"
+          >
             <div>
               <img
                 class="exit-button"
@@ -38,31 +47,49 @@
       </div>
       <div id="sidebar-bottom" class="leftModuleBottomClass">
         <div id="layout-text" class="layoutTextContainer ribbon">
-          <div class="layoutText"  ><span>{{this.documentTitle}}</span></div>
+          <div class="layoutText">
+            <span>{{ this.documentTitle }}</span>
+          </div>
         </div>
         <div id="layout-container" class="layoutContainerClass scrollBar">
-
           <div class="sidebar">
-            <div class="subSectionCont" *ngFor="let sec of documentLayout; index as i">
-              <div *ngIf="sec.subSections.length !== 0;else alt">
+            <div
+              class="subSectionCont"
+              *ngFor="let sec of documentLayout; index as i"
+            >
+              <div *ngIf="sec.subSections.length !== 0; else alt">
                 <button class="dropdown-btn">
-                  <span>{{sec.section}}</span>
-                  <i class="fa fa-caret-down "></i>
+                  <span>{{ sec.section }}</span>
+                  <i class="fa fa-caret-down"></i>
                 </button>
-                <div class="dropdown-container hideDropdown" style="display:none; height: 0px;" >
-                  <a  class="nActive" (click)="switchSection(subSec)" [routerLink]="[sec.paths[j]]" queryParamsHandling="merge" *ngFor="let subSec of sec.subSections; index as j"><span>{{subSec}}</span></a>
+                <div
+                  class="dropdown-container hideDropdown"
+                  style="display: none; height: 0px"
+                >
+                  <a
+                    class="nActive"
+                    (click)="switchSection(subSec)"
+                    [routerLink]="[sec.paths[j]]"
+                    queryParamsHandling="merge"
+                    *ngFor="let subSec of sec.subSections; index as j"
+                    ><span>{{ subSec }}</span></a
+                  >
                 </div>
               </div>
               <ng-template #alt>
-                <a id="singleSec" class="nActive" (click)="switchSection(sec.section)" [routerLink]="[sec.paths[0]]" queryParamsHandling="merge"><span>{{sec.section}}</span></a>
+                <a
+                  id="singleSec"
+                  class="nActive"
+                  (click)="switchSection(sec.section)"
+                  [routerLink]="[sec.paths[0]]"
+                  queryParamsHandling="merge"
+                  ><span>{{ sec.section }}</span></a
+                >
               </ng-template>
             </div>
           </div>
-          <div class="xBot">
-
-          </div>
+          <div class="xBot"></div>
         </div>
-
       </div>
       <div id="sidebar-top" class="leftModuleTopClass">
         <div id="backbutton-container" class="backButtonContainerClass">
@@ -74,29 +101,40 @@
               alt="share"
             />
           </div> -->
-          <div class="icon-container" [style.cursor]="isReadOnly ? 'default' : 'inherit'" >
+          <div
+            class="icon-container"
+            [style.cursor]="isReadOnly ? 'default' : 'inherit'"
+          >
             <div>
-              <a class="save-button" (click)="manualSave()" *ngIf="!isReadOnly"><span>{{this.saveButtonText}}</span></a>
+              <a class="save-button" (click)="manualSave()" *ngIf="!isReadOnly"
+                ><span>{{ this.saveButtonText }}</span></a
+              >
             </div>
             <div>
-              <span class="littleTextFont" >Last Updated: {{this.lastManualSaveTimeInMinutes}}m ago</span>
+              <span class="littleTextFont"
+                >Last Updated: {{ this.lastManualSaveTimeInMinutes }}m ago</span
+              >
             </div>
           </div>
         </div>
         <div id="share-export-buttons" class="pinButtonContainerClass">
           <div class="icon-container" (click)="toggleKeepSidebarOpen()">
-              <fa-icon id="pin" [icon]="pinIcon" class="pinIcon unpinned"></fa-icon>
+            <fa-icon
+              id="pin"
+              [icon]="pinIcon"
+              class="pinIcon unpinned"
+            ></fa-icon>
           </div>
         </div>
       </div>
     </div>
     <div id="workspace" class="workspace-class sidebarHide">
       <div class="subSectionTitleShowedInEditor">
-        <span> {{currentTitle}} </span>
+        <span> {{ currentTitle }} </span>
       </div>
       <div class="outlet">
         <router-outlet></router-outlet>
-    </div>
+      </div>
       <img
         id="showHideSBButton"
         (click)="openSidebar()"
@@ -110,6 +148,13 @@
 
 <!-- when showShareDocument is true, show app-share-document -->
 
-<app-share-document *ngIf="showShareDocument" [documentId]="documentId" (updateShowShareDocument)="showShareDocument = $event"></app-share-document>
+<app-share-document
+  *ngIf="showShareDocument"
+  [documentId]="documentId"
+  (updateShowShareDocument)="showShareDocument = $event"
+></app-share-document>
 
-<app-loading-screen *ngIf="!document" [message]="'Loading Document'"></app-loading-screen>
+<app-loading-screen
+  *ngIf="!document"
+  [message]="'Loading Document'"
+></app-loading-screen>

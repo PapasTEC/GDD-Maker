@@ -14,14 +14,33 @@
           <div class="cardHeader">
             <div class="title">
               <span> Platforms </span>
-              <div class="editing-box platforms" *ngIf="isUserEditing.platforms">
-              <img class="editing-box__icon" [src]="userBlocking.platforms?.image" alt="user" />
-              <span class="editing-box__user">{{ userBlocking.platforms?.name }}</span>
-              <span class="editing-box__text"
+              <div
+                class="editing-box platforms"
+                *ngIf="isUserEditing.platforms"
+              >
+                <img
+                  class="editing-box__icon"
+                  [src]="userBlocking.platforms?.image"
+                  alt="user"
+                />
+                <span class="editing-box__user">{{
+                  userBlocking.platforms?.name
+                }}</span>
+                <span class="editing-box__text">
+                  <span
+                    *ngIf="
+                      userBlocking.platforms.name.toLowerCase().endsWith('s')
+                    "
+                    >'
+                  </span>
+                  <span
+                    *ngIf="
+                      !userBlocking.platforms.name.toLowerCase().endsWith('s')
+                    "
+                    >'s
+                  </span>
+                  editing</span
                 >
-                <span *ngIf="userBlocking.platforms.name.toLowerCase().endsWith('s')">' </span>
-                <span *ngIf="!userBlocking.platforms.name.toLowerCase().endsWith('s')">'s </span>
-                 editing</span>
               </div>
             </div>
           </div>
@@ -113,13 +132,29 @@
         <div class="cardBody">
           <div class="cardHeader">
             <div class="editing-box details" *ngIf="isUserEditing.generalData">
-              <img class="editing-box__icon" [src]="userBlocking.generalData?.image" alt="user" />
-              <span class="editing-box__user">{{ userBlocking.generalData?.name }}</span>
-              <span class="editing-box__text"
-                >
-                <span *ngIf="userBlocking.generalData.name.toLowerCase().endsWith('s')">' </span>
-                <span *ngIf="!userBlocking.generalData.name.toLowerCase().endsWith('s')">'s </span>
-                 editing</span>
+              <img
+                class="editing-box__icon"
+                [src]="userBlocking.generalData?.image"
+                alt="user"
+              />
+              <span class="editing-box__user">{{
+                userBlocking.generalData?.name
+              }}</span>
+              <span class="editing-box__text">
+                <span
+                  *ngIf="
+                    userBlocking.generalData.name.toLowerCase().endsWith('s')
+                  "
+                  >'
+                </span>
+                <span
+                  *ngIf="
+                    !userBlocking.generalData.name.toLowerCase().endsWith('s')
+                  "
+                  >'s
+                </span>
+                editing</span
+              >
             </div>
           </div>
           <div class="techInfoCardContent">
@@ -149,7 +184,7 @@
                       (keydown)="onChangeBlock($event, 'generalData')"
                       (contextmenu)="onChangeBlock($event, 'generalData')"
                       (paste)="onChangeBlock($event, 'generalData')"
-                                        />
+                    />
                   </div>
                   <div class="otherDetailsRow">
                     <input

@@ -46,7 +46,6 @@ $text-box-width: 300px;
     resize: none;
     outline: none;
 
-
     &::placeholder {
       color: rgba(255, 255, 255, 0.61);
     }
@@ -68,20 +67,17 @@ $text-box-width: 300px;
 
 .left-arrow,
 .right-arrow {
-
   height: 35%;
   width: auto;
 
-
-
   justify-self: right;
-  filter: brightness(0) saturate(100%) invert(17%) sepia(10%) saturate(6128%) hue-rotate(169deg) brightness(98%) contrast(85%);;
+  filter: brightness(0) saturate(100%) invert(17%) sepia(10%) saturate(6128%)
+    hue-rotate(169deg) brightness(98%) contrast(85%);
 }
 
 .A1L {
   margin-bottom: 20px;
   grid-area: A1L;
-
 
   align-self: end;
   justify-self: right;
@@ -103,12 +99,10 @@ $text-box-width: 300px;
   grid-area: A2L;
   margin-bottom: 150px;
   margin-right: 10px;
-
 }
 .A2R {
   margin-top: 20px;
   grid-area: A2R;
   justify-self: left;
   margin-left: 10px;
-
 }

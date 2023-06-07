@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { GameLogoComponent } from './game-logo.component';
+import { GameLogoComponent } from "./game-logo.component";
 
-describe('GameLogoComponent', () => {
+describe("GameLogoComponent", () => {
   let component: GameLogoComponent;
   let fixture: ComponentFixture<GameLogoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GameLogoComponent ]
-    })
-    .compileComponents();
+      declarations: [GameLogoComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GameLogoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

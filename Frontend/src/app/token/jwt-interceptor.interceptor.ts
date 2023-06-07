@@ -37,7 +37,7 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`,
         },
       });
-    } else{
+    } else {
       this.route.queryParams.subscribe((params) => {
         if (params.pjt && params.readOnly) {
           newRequest = request.clone({
@@ -48,7 +48,6 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
         }
       });
     }
-    
 
     return next.handle(newRequest).pipe(
       /*
@@ -62,11 +61,9 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
       Error 401: Unauthorized
       */
       catchError((error: HttpErrorResponse) => {
-
         if (error.status === 200) {
           return throwError(error);
         }
-
 
         if (error.status === 400) {
           this.toastr.error(
@@ -199,7 +196,6 @@ export class JwtInterceptorInterceptor implements HttpInterceptor {
             "The server is currently unavailable. Please try again later."
           );
         } else if (error.status === 504) {
-
           this.toastr.error(
             "The server is currently unavailable. Please try again later."
           );

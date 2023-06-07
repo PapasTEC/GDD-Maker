@@ -595,7 +595,7 @@ export class CharactersComponent {
 
     if (file) {
       let imageName = this.getNewImageName(file);
-      let imagePath = `http://localhost:3080/uploads/${this.documentId}/${imageName}`;
+      let imagePath = `uploads/${this.documentId}/${imageName}`;
 
 
       this.notLoadedComps = true;

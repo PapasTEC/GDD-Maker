@@ -10,6 +10,7 @@ export class GameTitleComponent {
   currentTextInBox: string;
   routeUsingComponent: string;
   textBoxDefault: string;
+  required: boolean = false;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -25,8 +26,10 @@ export class GameTitleComponent {
 
   private setSubtitle(route: string): string {
     if (route === "game") {
+      this.required = true;
       return "Please enter the name of your game";
     } else if (route === "company") {
+      this.required = true;
       return "Please enter the name of your company";
     } else if (route === "core") {
       return "Please enter your core mechanic";

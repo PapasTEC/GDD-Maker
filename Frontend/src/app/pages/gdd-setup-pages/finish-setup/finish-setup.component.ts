@@ -292,7 +292,7 @@ export class FinishSetupComponent {
           if (res?.error) {
             this.status = "creating";
             this.toastr.error(
-              "Error adding document. Make sure you have filled all the fields",
+              "Error adding document. Make sure you have filled all the required fields",
               "",
               {
                 timeOut: 30000,
@@ -302,7 +302,6 @@ export class FinishSetupComponent {
             return;
           }
           this.documentId = res["id"];
-          // alert("Document added successfully!");
           this.userService
             .addOwnProject(user.email, res["id"])
             .subscribe(async (_) => {

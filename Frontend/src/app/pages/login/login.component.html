@@ -94,9 +94,18 @@
               <input
                 class="form-control"
                 formControlName="code"
-                [type]="showPassword ? 'text' : 'password'"
+                type="text"
                 required
                 autocomplete="nope"
+                [ngStyle]="
+                  !showPassword
+                    ? {
+                        '-webkit-text-security': 'disc',
+                        '-moz-text-security': 'disc',
+                        'text-security': 'disc'
+                      }
+                    : null
+                "
               />
               <div
                 *ngIf="
@@ -133,7 +142,7 @@
                   Sign in
                 </button>
               </div>
-            </div>            
+            </div>
           </div>
         </form>
       </div>

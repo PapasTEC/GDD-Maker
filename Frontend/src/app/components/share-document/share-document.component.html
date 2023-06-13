@@ -78,12 +78,21 @@
         </div>
       </ng-container>
     </div>
+    <!-- <div class="share-container__dialog__users__loading" *ngIf="!usersObj?.owner">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div>Loading users...</div>
+    </div> -->
     <app-loading-section
       [message]="'Loading users...'"
       *ngIf="!usersObj?.owner"
     ></app-loading-section>
     <div class="share-container__dialog__br"></div>
-    <div *ngIf="isOwner" class="share-container__dialog__box">
+    <div class="share-container__dialog__box">
       <div class="share-container__dialog__box__title">
         Invite people to collaborate
       </div>
